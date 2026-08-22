@@ -24,6 +24,7 @@ import {
   kitAddress,
   kitBio,
   kitEmail,
+  kitFreshaLink,
   kitPhone,
   kitSecret,
   listAffiliatePrograms,
@@ -33,7 +34,16 @@ import {
   type AffiliateDefaults,
   type AffiliateProgram,
 } from "./lib/affiliates";
-import { CRM_STAGES, crmStageCounts, listCrmContacts, updateCrmContact, type CrmStage } from "./lib/crm";
+import {
+  CRM_STAGES,
+  crmContactsToCsv,
+  crmFilterOptions,
+  crmStageCounts,
+  exportCrmContacts,
+  listCrmContacts,
+  updateCrmContact,
+  type CrmStage,
+} from "./lib/crm";
 
 type AppEnv = { Bindings: Env };
 
@@ -410,33 +420,65 @@ export function adminApp() {
     const city = (c.req.query("city") ?? "").trim();
     const stage = (c.req.query("stage") ?? "").trim();
     const q = (c.req.query("q") ?? "").trim();
-    const [contacts, counts] = await Promise.all([
-      listCrmContacts(c.env.DB, { country, city, stage, q }),
+    const hasPhone = c.req.query("has_phone") === "1";
+    const hasEmail = c.req.query("has_email") === "1";
+    const filters = { country, city, stage, q, hasPhone, hasEmail };
+    const [contacts, counts, options, defaults] = await Promise.all([
+      listCrmContacts(c.env.DB, filters),
       crmStageCounts(c.env.DB),
+      crmFilterOptions(c.env.DB),
+      getAffiliateDefaults(c.env.DB),
     ]);
+    const freshaLink = kitFreshaLink(defaults);
     const stageOptions = (value: string) =>
       CRM_STAGES.map((s) => `<option value="${escapeAttr(s)}" ${value === s ? "selected" : ""}>${escapeHtml(s)}</option>`).join("");
+    const countryOpts = options.countries
+      .map((code) => `<option value="${escapeAttr(code)}" ${country === code ? "selected" : ""}>${escapeHtml(COUNTRY_LABELS[code] ?? code)}</option>`)
+      .join("");
+    const cityOpts = options.cities
+      .filter((row) => !country || row.country_code === country)
+      .map(
+        (row) =>
+          `<option value="${escapeAttr(row.city_slug)}" ${city === row.city_slug ? "selected" : ""}>${escapeHtml(row.country_code)}/${escapeHtml(row.city_slug)}</option>`
+      )
+      .join("");
+    const exportUrl = (() => {
+      const u = new URL(c.req.url);
+      u.pathname = "/admin/crm/export.csv";
+      return u.toString();
+    })();
     const body = `
       <h1>Outreach CRM</h1>
-      <p>Real, unclaimed listings scraped from OpenStreetMap, tracked here so you know who's been reached and who hasn't. This table only tracks status — it does not send email or SMS. Sending needs a real provider and a compliance decision (consent, opt-out, CAN-SPAM/TCPA/PECR/GDPR depending on the country) that hasn't been made yet.</p>
+      <p>Real, unclaimed listings scraped from OpenStreetMap, tracked here so you know who's been reached and who hasn't. This table only tracks status — it does not send email or SMS itself.</p>
+      <p class="small">DND/DNC registers (AU Do Not Call, US National DNC, UK TPS) only cover phone calls — they don't cover email or SMS. Sending commercial email/SMS in AU/US/UK/DE all separately require consent or an existing-customer relationship (Spam Act, CAN-SPAM/TCPA, PECR, UWG+GDPR) — a scraped OSM contact hasn't given that. Screen calls against DND; that alone doesn't clear email/SMS.</p>
       <p class="small">${CRM_STAGES.map((s) => `${escapeHtml(s)}: ${escapeHtml(String(counts[s] ?? 0))}`).join(" · ")}</p>
       <form method="get" class="hero-search">
-        <input name="country" value="${escapeAttr(country)}" placeholder="country">
-        <input name="city" value="${escapeAttr(city)}" placeholder="city slug">
+        <select name="country"><option value="">Any country</option>${countryOpts}</select>
+        <select name="city"><option value="">Any city</option>${cityOpts}</select>
         <select name="stage"><option value="">Any stage</option>${stageOptions(stage)}</select>
         <input name="q" value="${escapeAttr(q)}" placeholder="search name/email/phone">
+        <label class="check"><input type="checkbox" name="has_phone" value="1" ${hasPhone ? "checked" : ""}> has phone</label>
+        <label class="check"><input type="checkbox" name="has_email" value="1" ${hasEmail ? "checked" : ""}> has email</label>
         <button class="btn btn-primary" type="submit">Filter</button>
+        <a class="btn btn-secondary" href="${escapeAttr(exportUrl)}">Download CSV (this filter)</a>
       </form>
-      <table class="admin-table"><thead><tr><th>Business</th><th>City</th><th>Phone</th><th>Email</th><th>Stage</th><th>Notes</th><th></th></tr></thead><tbody>
+      ${!freshaLink ? `<p class="small">No Fresha referral link saved yet — add yours on <a href="/admin/affiliates">the affiliates page</a> once you have one, and it'll show per-contact here.</p>` : ""}
+      <table class="admin-table"><thead><tr><th>Business</th><th>City</th><th>Phone</th><th>Email</th><th>Fresha</th><th>Stage</th><th>Notes</th><th></th></tr></thead><tbody>
         ${
           contacts
             .map((contact) => {
               const formId = `crm-${contact.id}`;
+              const freshaCell = contact.fresha_url
+                ? `<a href="${escapeAttr(contact.fresha_url)}" target="_blank" rel="noopener noreferrer">already on Fresha</a>`
+                : freshaLink
+                  ? `<a href="${escapeAttr(freshaLink)}" target="_blank" rel="noopener noreferrer">your referral link</a>`
+                  : "—";
               return `<tr>
                 <td>${escapeHtml(contact.business_name)}${contact.website ? ` · <a href="${escapeAttr(contact.website)}" target="_blank" rel="noopener noreferrer">site</a>` : ""}</td>
                 <td>${escapeHtml(contact.country_code)}/${escapeHtml(contact.city_slug)}</td>
                 <td>${escapeHtml(contact.phone ?? "—")}</td>
                 <td>${escapeHtml(contact.email ?? "—")}</td>
+                <td>${freshaCell}</td>
                 <td><select name="stage" form="${escapeAttr(formId)}">${stageOptions(contact.stage)}</select></td>
                 <td><input name="notes" form="${escapeAttr(formId)}" value="${escapeAttr(contact.notes ?? "")}" placeholder="notes"></td>
                 <td>
@@ -446,10 +488,28 @@ export function adminApp() {
                 </td>
               </tr>`;
             })
-            .join("") || `<tr><td colspan="7">No contacts match this filter.</td></tr>`
+            .join("") || `<tr><td colspan="8">No contacts match this filter.</td></tr>`
         }
       </tbody></table>`;
     return html(adminChrome("Outreach CRM", body, c.req.query("saved") === "1" ? "Contact updated." : ""));
+  });
+
+  admin.get("/crm/export.csv", async (c) => {
+    const country = (c.req.query("country") ?? "").trim();
+    const city = (c.req.query("city") ?? "").trim();
+    const stage = (c.req.query("stage") ?? "").trim();
+    const q = (c.req.query("q") ?? "").trim();
+    const hasPhone = c.req.query("has_phone") === "1";
+    const hasEmail = c.req.query("has_email") === "1";
+    const contacts = await exportCrmContacts(c.env.DB, { country, city, stage, q, hasPhone, hasEmail });
+    const csv = crmContactsToCsv(contacts);
+    return new Response(csv, {
+      headers: {
+        "content-type": "text/csv; charset=utf-8",
+        "content-disposition": `attachment; filename="crm-contacts.csv"`,
+        "cache-control": "no-store",
+      },
+    });
   });
 
   admin.post("/crm/:id", async (c) => {
@@ -487,6 +547,7 @@ export function adminApp() {
           <div><label>Preferred signup password</label><input name="login_secret" type="password" autocomplete="new-password" placeholder="${escapeAttr(defaults.login_secret ? "Leave blank to keep the saved password" : "Choose a password you only use for partner dashboards")}"></div>
           <div><label>Phone</label><input name="phone" value="${escapeAttr(defaults.phone ?? "")}"></div>
           <div><label>Address (city/suburb level is fine)</label><input name="address" value="${escapeAttr(defaults.address ?? "")}"></div>
+          <div><label>Fresha referral link</label><input name="fresha_referral_link" value="${escapeAttr(defaults.fresha_referral_link ?? "")}" placeholder="from your Fresha for Business dashboard, once you have one"></div>
         </div>
         <div><label>Business bio (for "describe your business" fields)</label><textarea name="bio" rows="3">${escapeHtml(defaults.bio ?? "")}</textarea></div>
         <div><label>Notes</label><textarea name="notes" rows="3">${escapeHtml(defaults.notes ?? "")}</textarea></div>
@@ -522,6 +583,7 @@ export function adminApp() {
       phone: text("phone") || null,
       address: text("address") || null,
       bio: text("bio") || null,
+      fresha_referral_link: text("fresha_referral_link") || null,
     });
     return c.redirect("/admin/affiliates?defaults=1", 303);
   });

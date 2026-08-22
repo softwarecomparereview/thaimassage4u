@@ -24,6 +24,7 @@ export type AffiliateDefaults = {
   phone: string | null;
   address: string | null;
   bio: string | null;
+  fresha_referral_link: string | null;
 };
 
 export const FALLBACK_DEFAULTS: AffiliateDefaults = {
@@ -37,6 +38,7 @@ export const FALLBACK_DEFAULTS: AffiliateDefaults = {
   phone: null,
   address: null,
   bio: null,
+  fresha_referral_link: null,
 };
 
 export const COUNTRY_LABELS: Record<string, string> = {
@@ -66,8 +68,8 @@ export async function saveAffiliateDefaults(
   const secret = blankToNull(draft.login_secret) ?? (keepSecretIfBlank ? existing.login_secret : null);
   await db
     .prepare(
-      `INSERT INTO affiliate_defaults (id, company_name, contact_email, login_email, login_secret, website, notes, phone, address, bio, updated_at)
-       VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+      `INSERT INTO affiliate_defaults (id, company_name, contact_email, login_email, login_secret, website, notes, phone, address, bio, fresha_referral_link, updated_at)
+       VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
        ON CONFLICT(id) DO UPDATE SET
          company_name = excluded.company_name,
          contact_email = excluded.contact_email,
@@ -78,6 +80,7 @@ export async function saveAffiliateDefaults(
          phone = excluded.phone,
          address = excluded.address,
          bio = excluded.bio,
+         fresha_referral_link = excluded.fresha_referral_link,
          updated_at = datetime('now')`
     )
     .bind(
@@ -89,7 +92,8 @@ export async function saveAffiliateDefaults(
       blankToNull(draft.notes),
       blankToNull(draft.phone),
       blankToNull(draft.address),
-      blankToNull(draft.bio)
+      blankToNull(draft.bio),
+      blankToNull(draft.fresha_referral_link)
     )
     .run();
 }
@@ -198,4 +202,8 @@ export function kitAddress(defaults: AffiliateDefaults): string {
 
 export function kitBio(defaults: AffiliateDefaults): string {
   return defaults.bio || "";
+}
+
+export function kitFreshaLink(defaults: AffiliateDefaults): string {
+  return defaults.fresha_referral_link || "";
 }
