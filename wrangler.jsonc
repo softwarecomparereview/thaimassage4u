@@ -78,7 +78,7 @@
     "binding": "BROWSER"
   },
   "triggers": {
-    "crons": ["15 */6 * * *"]
+    "crons": ["15 */6 * * *", "20 6 * * *"]
   },
   "migrations": [
     {

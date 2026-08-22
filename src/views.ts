@@ -1,6 +1,8 @@
 import { escapeAttr, escapeHtml } from "./lib/escape";
 import { layout, money, notice, type PageMeta } from "./lib/html";
 import type { City, Country, KeywordStat, Listing } from "./lib/db";
+import type { SerpPlan } from "./lib/serp";
+import { resolveTheme } from "./lib/themes";
 
 type Shell = {
   env: Env;
@@ -8,8 +10,14 @@ type Shell = {
   geo?: string | null;
 };
 
-function page(shell: Shell, meta: PageMeta, body: string) {
-  return layout(shell.env, meta, body, { countries: shell.countries, geo: shell.geo });
+function page(
+  shell: Shell,
+  meta: PageMeta,
+  body: string,
+  place?: { country?: string | null; city?: string | null }
+) {
+  const theme = resolveTheme(place?.country, place?.city);
+  return layout(shell.env, meta, body, { countries: shell.countries, geo: shell.geo, theme });
 }
 
 function countryCard(country: Country, listingCount: number) {
@@ -136,18 +144,24 @@ export function renderHome(
         },
       ],
     },
-    body
+    body,
+    { country: shell.geo }
   );
 }
 
 function listingCard(listing: Listing): string {
   const href = `/${listing.country_code}/${listing.city_slug}/${listing.slug}`;
-  const badge = listing.premium >= 2 ? "Sponsored" : listing.premium === 1 ? "Featured" : listing.claimed ? "Claimed" : "Unclaimed";
+  const badge = listing.premium >= 2 ? "Sponsored" : listing.premium === 1 ? "Featured" : listing.source === "places" ? "Google Places" : listing.claimed ? "Claimed" : "Unclaimed";
+  const rating =
+    listing.rating != null
+      ? `<p class="small">${escapeHtml(listing.rating.toFixed(1))}★${listing.review_count ? ` · ${escapeHtml(String(listing.review_count))} reviews` : ""}</p>`
+      : "";
   return `<article class="card listing-card">
-    <img src="${escapeAttr(listing.image_url ?? "/images/room.svg")}" alt="" width="640" height="360" loading="lazy">
+    <img src="${escapeAttr(listing.image_url ?? "/images/room.svg")}" alt="${escapeAttr(listing.name)}" width="640" height="360" loading="lazy">
     <p class="badge">${escapeHtml(badge)}</p>
     <h3><a href="${escapeAttr(href)}">${escapeHtml(listing.name)}</a></h3>
     <p>${escapeHtml(listing.suburb ?? listing.city_slug)} · ${escapeHtml(listing.services.replaceAll(",", " · "))}</p>
+    ${rating}
     <div class="price"><span>${escapeHtml(listing.city_slug.replaceAll("-", " "))}</span><span>${escapeHtml(money(listing.price_from, listing.currency))}</span></div>
   </article>`;
 }
@@ -203,7 +217,8 @@ export function renderCountry(shell: Shell, country: Country, cities: City[], ke
         },
       ],
     },
-    body
+    body,
+    { country: country.code }
   );
 }
 
@@ -223,28 +238,35 @@ function keywordBlock(keywords: KeywordStat[]): string {
   </div></section>`;
 }
 
-export function renderCity(shell: Shell, country: Country, city: City, listings: Listing[]) {
-  const h1 = `Thai massage in ${city.name}, ${country.name}`;
+export function renderCity(shell: Shell, country: Country, city: City, listings: Listing[], serp: SerpPlan | null) {
+  const h1 = serp?.h1 || `Thai massage in ${city.name}, ${country.name}`;
+  const lead = serp?.description || city.intro;
+  const related = (serp?.related ?? []).map((query) => `<a class="city-chip" href="/search?q=${escapeAttr(query)}">${escapeHtml(query)}</a>`).join("");
+  const paa = (serp?.peopleAlsoAsk ?? [])
+    .map((item) => `<div class="faq-item"><h3>${escapeHtml(item.question)}</h3><p>${escapeHtml(item.answer || "See listings below for local studios.")}</p></div>`)
+    .join("");
   const body = `
   <section class="page-hero">
     <div class="container page-title">
       <h1>${escapeHtml(h1)}</h1>
-      <p class="lead">${escapeHtml(city.intro)}</p>
-      <p class="small">${escapeHtml(String(listings.length))} listings · modelled demand ${escapeHtml(String(city.monthly_searches.toLocaleString("en")))} monthly searches · ${escapeHtml(city.region ?? "")}</p>
+      <p class="lead">${escapeHtml(lead)}</p>
+      <p class="small">${escapeHtml(String(listings.length))} listings · modelled demand ${escapeHtml(String(city.monthly_searches.toLocaleString("en")))} monthly searches${serp ? ` · SERP refreshed ${escapeHtml(serp.capturedAt.slice(0, 10))} for “${escapeHtml(serp.query)}”` : ""} · ${escapeHtml(city.region ?? "")}</p>
       <a class="btn btn-primary" href="/pricing">Sponsor ${escapeHtml(city.name)}</a>
     </div>
   </section>
   <section>
     <div class="container">
-      <div class="cards">${listings.map(listingCard).join("") || "<p>No listings yet. Browser Run can seed this city from OpenStreetMap.</p>"}</div>
+      <div class="cards">${listings.map(listingCard).join("") || "<p>No listings yet. Run Places enrichment to pull live studios.</p>"}</div>
     </div>
-  </section>`;
+  </section>
+  ${related ? `<section class="alt-bg"><div class="container"><h2>People also search today</h2><div class="city-chip-row">${related}</div></div></section>` : ""}
+  ${paa ? `<section><div class="container"><h2>Questions from today's SERP</h2><div class="faq-list">${paa}</div></div></section>` : ""}`;
 
   return page(
     shell,
     {
-      title: `${h1} | Best Studios & Spas`,
-      description: `Compare Thai massage studios in ${city.name}. See featured listings, claim an unclaimed storefront, or advertise on this high-intent city page.`,
+      title: serp?.title || `${h1} | Best Studios & Spas`,
+      description: serp?.description || `Compare Thai massage studios in ${city.name}. See featured listings, claim an unclaimed storefront, or advertise on this high-intent city page.`,
       path: `/${country.code}/${city.slug}`,
       locale: country.locale,
       breadcrumbs: [
@@ -265,7 +287,8 @@ export function renderCity(shell: Shell, country: Country, city: City, listings:
         },
       ],
     },
-    body
+    body,
+    { country: country.code, city: city.slug }
   );
 }
 
@@ -279,6 +302,7 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
         <h1>${escapeHtml(listing.name)} — Thai massage in ${escapeHtml(city.name)}</h1>
         <img class="listing-hero" src="${escapeAttr(listing.image_url ?? "/images/room.svg")}" alt="${escapeAttr(listing.name)}" width="1200" height="640">
         <p>${escapeHtml(listing.description)}</p>
+        ${listing.rating != null ? `<p><strong>${escapeHtml(listing.rating.toFixed(1))}★</strong>${listing.review_count ? ` from ${escapeHtml(String(listing.review_count))} Google reviews` : ""}</p>` : ""}
         <ul class="checklist">
           ${listing.services.split(",").map((service) => `<li>${escapeHtml(service.trim())}</li>`).join("")}
           <li>${escapeHtml(listing.address ?? `${city.name}, ${country.name}`)}</li>
@@ -286,6 +310,7 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
         </ul>
         <div class="hero-actions">
           ${listing.phone ? `<a class="btn btn-primary" href="tel:${escapeAttr(listing.phone)}">Call ${escapeHtml(listing.phone)}</a>` : ""}
+          ${listing.maps_url ? `<a class="btn btn-outline" href="${escapeAttr(listing.maps_url)}" rel="nofollow noopener" target="_blank">Open in Google Maps</a>` : ""}
           ${listing.claimed ? "" : `<a class="btn btn-secondary" href="/claim/${escapeAttr(listing.slug)}">Claim this listing</a>`}
           <a class="btn btn-outline" href="/${escapeAttr(country.code)}/${escapeAttr(city.slug)}">More in ${escapeHtml(city.name)}</a>
         </div>
@@ -340,7 +365,8 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
         },
       ],
     },
-    body
+    body,
+    { country: country.code, city: city.slug }
   );
 }
 
@@ -480,7 +506,8 @@ export function renderFaq(shell: Shell) {
   const faqs = [
     ["Why add Germany as the fourth country?", "Berlin Thai-massage keyword variants are publicly documented at 16,400 + 14,300 + 7,400 + 5,000 monthly searches. That city cluster outpaces modelled volumes for other candidate fourth countries such as Canada or New Zealand."],
     ["Are unclaimed listings official business pages?", "No. Seeded and OpenStreetMap-derived rows are directory placeholders. Owners must claim a listing before booking buttons or verified phones go live."],
-    ["How do you scrape new cities?", "A Cloudflare Browser Run job opens allowlisted public pages (OpenStreetMap search and Wikipedia) and writes structured results into D1. Google, Yelp and login walls are not targeted."],
+    ["How do you scrape new cities?", "Google Places (official API) supplies live studios, ratings and photos. Browser Run only opens the spa’s own website or allowlisted OSM/Wikipedia pages to make thumbnails. Google Search/Maps HTML is not scraped."],
+    ["Do pages change with daily SERP data?", "Yes. A 06:20 UTC cron pulls SerpAPI snapshots into D1. City titles, H1s, People-also-ask blocks and related-search chips rewrite from the latest snapshot."],
     ["Can I buy the domain only?", "Yes. Use the for-sale form. Offers for the name, the listings database, or both are considered."],
   ];
   const body = `<section class="page-hero"><div class="container page-title"><h1>Directory FAQ</h1><p class="lead">SEO, listings and the sale process.</p></div></section>

@@ -46,8 +46,8 @@ p{margin-bottom:1.25rem;line-height:1.7}
 .content-container{width:min(var(--content-max), calc(100% - 2rem)); margin:0 auto}
 
 .topbar{
-  background:linear-gradient(135deg, #2d2520 0%, #1a1511 100%);
-  color:#fff;
+  background:var(--topbar-bg, linear-gradient(135deg, #2d2520 0%, #1a1511 100%));
+  color:var(--topbar-fg, #fff);
   font-size:0.875rem;
   border-bottom:1px solid rgba(255,255,255,0.1)
 }
@@ -59,7 +59,7 @@ p{margin-bottom:1.25rem;line-height:1.7}
   padding:0.875rem 0;
   flex-wrap:wrap
 }
-.topbar a{color:#e5c9a8;font-weight:500}
+.topbar a{color:var(--topbar-link, #e5c9a8);font-weight:500}
 .topbar a:hover{color:#fff}
 
 header{
@@ -67,7 +67,8 @@ header{
   top:0;
   z-index:1000;
   backdrop-filter:saturate(180%) blur(20px);
-  background:rgba(255,252,247,0.95);
+  background:var(--header-bg, rgba(255,252,247,0.95));
+  color:var(--header-fg, inherit);
   border-bottom:1px solid var(--line);
   box-shadow:0 1px 3px rgba(0,0,0,0.05)
 }
@@ -470,6 +471,9 @@ section.alt-bg{background:var(--bg-soft)}
   padding:3rem 0 2rem;
   background:linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 100%)
 }
+.page-hero:has(.page-title){
+  box-shadow:inset 0 6px 0 var(--brand)
+}
 .breadcrumbs{
   font-size:0.875rem;
   color:var(--muted);
@@ -732,7 +736,7 @@ footer{
   clip:rect(0,0,0,0)
 }
 .sale-ribbon{
-  background:linear-gradient(90deg, #2d5f54, #c8956e);
+  background:linear-gradient(90deg, var(--accent), var(--brand));
   color:#fff;
   font-weight:700
 }
@@ -746,7 +750,7 @@ footer{
 }
 .sale-ribbon strong{
   background:#fff;
-  color:#2d5f54;
+  color:var(--accent);
   border-radius:999px;
   padding:0.25rem 0.75rem;
   font-size:0.85rem
@@ -775,7 +779,7 @@ footer{
 .hero-search input{flex:1}
 .hero-image-local{
   background:
-    linear-gradient(180deg, rgba(43,36,29,0.08) 0%, rgba(43,36,29,0.28) 100%),
+    var(--hero-wash, linear-gradient(180deg, rgba(43,36,29,0.08) 0%, rgba(43,36,29,0.28) 100%)),
     url('/images/hero-homepage.png') center/cover
 }
 .city-chip-row{

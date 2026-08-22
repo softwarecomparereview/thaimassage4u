@@ -1,6 +1,7 @@
 import { env, SELF } from "cloudflare:test";
 import { describe, expect, it, beforeAll } from "vitest";
 import { parseOsmNames, wikiIntroFromMarkdown } from "../src/scrape";
+import { cityThemeKeys, resolveTheme } from "../src/lib/themes";
 
 describe("directory SEO app", () => {
   beforeAll(async () => {
@@ -35,6 +36,80 @@ describe("directory SEO app", () => {
     expect(text).toContain("<h1>Thai massage in Berlin, Germany</h1>");
     expect(text).toContain("Lotus River Thai Massage");
     expect(text).toContain("43");
+  });
+
+  it("stacks a country look-and-feel layer under a city overlay", async () => {
+    const countryOnly = resolveTheme("de");
+    expect(countryOnly.className).toBe("theme-base theme-de");
+    expect(countryOnly.city).toBeNull();
+    const stacked = resolveTheme("de", "berlin");
+    expect(stacked.className).toBe("theme-base theme-de theme-de-berlin");
+    expect(stacked.country?.label).toBe("Germany");
+    expect(stacked.city?.label).toBe("Berlin");
+    expect(cityThemeKeys()).toContain("uk-manchester");
+    expect(cityThemeKeys()).toContain("us-los-angeles");
+
+    const germany = await SELF.fetch("https://thaimassageforu.com/de");
+    const germanyHtml = await germany.text();
+    expect(germanyHtml).toContain('class="theme-base theme-de"');
+    expect(germanyHtml).toContain("Thai-Massage in Deutschland");
+    expect(germanyHtml).toContain("Open a city to stack a local look");
+    expect(germanyHtml).not.toContain("theme-de-berlin");
+
+    const berlin = await SELF.fetch("https://thaimassageforu.com/de/berlin");
+    const berlinHtml = await berlin.text();
+    expect(berlinHtml).toContain("theme-de");
+    expect(berlinHtml).toContain("theme-de-berlin");
+    expect(berlinHtml).toContain("Kiez by Kiez");
+    expect(berlinHtml).toContain("/themes.css");
+  });
+
+  it("protects admin and lets a password create a listing", async () => {
+    const locked = await SELF.fetch("https://thaimassageforu.com/admin", { redirect: "manual" });
+    expect(locked.status).toBe(302);
+    expect(locked.headers.get("location")).toBe("/admin/login");
+
+    const denied = await SELF.fetch("https://thaimassageforu.com/admin/login", {
+      method: "POST",
+      redirect: "manual",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ password: "wrong" }),
+    });
+    expect(denied.status).toBe(303);
+    expect(denied.headers.get("location")).toBe("/admin/login?err=1");
+
+    const login = await SELF.fetch("https://thaimassageforu.com/admin/login", {
+      method: "POST",
+      redirect: "manual",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ password: "test-admin" }),
+    });
+    expect(login.status).toBe(303);
+    const cookie = login.headers.get("set-cookie");
+    expect(cookie).toContain("tmfu_admin=");
+    const session = cookie?.split(";")[0] ?? "";
+
+    const created = await SELF.fetch("https://thaimassageforu.com/admin/listings", {
+      method: "POST",
+      redirect: "manual",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        cookie: session,
+      },
+      body: new URLSearchParams({
+        name: "Prenzlauer Berg Sala",
+        slug: "prenzlauer-berg-sala",
+        country_code: "de",
+        city_slug: "berlin",
+        services: "Traditional Thai, Oil",
+        description: "Admin-created Berlin studio.",
+      }),
+    });
+    expect(created.status).toBe(303);
+    const row = await env.DB.prepare("SELECT name FROM listings WHERE slug = ?")
+      .bind("prenzlauer-berg-sala")
+      .first<{ name: string }>();
+    expect(row?.name).toBe("Prenzlauer Berg Sala");
   });
 
   it("stores a for-sale offer in D1", async () => {

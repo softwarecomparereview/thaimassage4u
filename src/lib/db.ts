@@ -45,6 +45,11 @@ export type Listing = {
   image_url: string | null;
   source: string;
   source_url: string | null;
+  place_id?: string | null;
+  rating?: number | null;
+  review_count?: number | null;
+  maps_url?: string | null;
+  photo_name?: string | null;
 };
 
 export type KeywordStat = {
@@ -89,7 +94,7 @@ export async function listListings(
 ): Promise<Listing[]> {
   const { results } = await db
     .prepare(
-      "SELECT * FROM listings WHERE country_code = ? AND city_slug = ? ORDER BY premium DESC, claimed DESC, name ASC"
+      "SELECT * FROM listings WHERE country_code = ? AND city_slug = ? ORDER BY CASE source WHEN 'places' THEN 0 ELSE 1 END, premium DESC, rating DESC, claimed DESC, name ASC"
     )
     .bind(countryCode, citySlug)
     .all<Listing>();
@@ -98,6 +103,138 @@ export async function listListings(
 
 export async function getListing(db: D1Database, slug: string): Promise<Listing | null> {
   return db.prepare("SELECT * FROM listings WHERE slug = ?").bind(slug).first<Listing>();
+}
+
+export async function getListingById(db: D1Database, id: number): Promise<Listing | null> {
+  return db.prepare("SELECT * FROM listings WHERE id = ?").bind(id).first<Listing>();
+}
+
+export async function listAdminListings(
+  db: D1Database,
+  filters: { country?: string; city?: string; q?: string }
+): Promise<Listing[]> {
+  const clauses = [];
+  const binds: Array<string> = [];
+  if (filters.country) {
+    clauses.push("country_code = ?");
+    binds.push(filters.country);
+  }
+  if (filters.city) {
+    clauses.push("city_slug = ?");
+    binds.push(filters.city);
+  }
+  if (filters.q) {
+    clauses.push("(name LIKE ? OR slug LIKE ? OR address LIKE ?)");
+    const like = `%${filters.q}%`;
+    binds.push(like, like, like);
+  }
+  const where = clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
+  const { results } = await db
+    .prepare(`SELECT * FROM listings ${where} ORDER BY id DESC LIMIT 200`)
+    .bind(...binds)
+    .all<Listing>();
+  return results;
+}
+
+export type ListingDraft = {
+  slug: string;
+  name: string;
+  country_code: string;
+  city_slug: string;
+  suburb: string | null;
+  address: string | null;
+  phone: string | null;
+  email: string | null;
+  website: string | null;
+  services: string;
+  description: string;
+  price_from: number | null;
+  currency: string | null;
+  premium: number;
+  claimed: number;
+  hours: string | null;
+  image_url: string | null;
+};
+
+export async function createListing(db: D1Database, draft: ListingDraft): Promise<void> {
+  await db
+    .prepare(
+      `INSERT INTO listings
+        (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, price_from, currency, premium, claimed, hours, image_url, source)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'admin')`
+    )
+    .bind(
+      draft.slug,
+      draft.name,
+      draft.country_code,
+      draft.city_slug,
+      draft.suburb,
+      draft.address,
+      draft.phone,
+      draft.email,
+      draft.website,
+      draft.services,
+      draft.description,
+      draft.price_from,
+      draft.currency,
+      draft.premium,
+      draft.claimed,
+      draft.hours,
+      draft.image_url
+    )
+    .run();
+}
+
+export async function updateListing(db: D1Database, id: number, draft: ListingDraft): Promise<void> {
+  await db
+    .prepare(
+      `UPDATE listings SET
+        slug = ?, name = ?, country_code = ?, city_slug = ?, suburb = ?, address = ?, phone = ?, email = ?, website = ?,
+        services = ?, description = ?, price_from = ?, currency = ?, premium = ?, claimed = ?, hours = ?, image_url = ?
+       WHERE id = ?`
+    )
+    .bind(
+      draft.slug,
+      draft.name,
+      draft.country_code,
+      draft.city_slug,
+      draft.suburb,
+      draft.address,
+      draft.phone,
+      draft.email,
+      draft.website,
+      draft.services,
+      draft.description,
+      draft.price_from,
+      draft.currency,
+      draft.premium,
+      draft.claimed,
+      draft.hours,
+      draft.image_url,
+      id
+    )
+    .run();
+}
+
+export async function deleteListing(db: D1Database, id: number): Promise<void> {
+  await db.prepare("DELETE FROM listings WHERE id = ?").bind(id).run();
+}
+
+export async function adminInbox(db: D1Database) {
+  const [offers, claims, offerCount, claimCount, listingCount] = await Promise.all([
+    db.prepare("SELECT id, name, email, offer_amount, currency, status, created_at FROM sale_offers ORDER BY created_at DESC LIMIT 12").all(),
+    db.prepare("SELECT id, listing_id, name, email, status, created_at FROM claims ORDER BY created_at DESC LIMIT 12").all(),
+    db.prepare("SELECT COUNT(*) AS n FROM sale_offers").first<{ n: number }>(),
+    db.prepare("SELECT COUNT(*) AS n FROM claims").first<{ n: number }>(),
+    db.prepare("SELECT COUNT(*) AS n FROM listings").first<{ n: number }>(),
+  ]);
+  return {
+    offers: offers.results,
+    claims: claims.results,
+    offerCount: offerCount?.n ?? 0,
+    claimCount: claimCount?.n ?? 0,
+    listingCount: listingCount?.n ?? 0,
+  };
 }
 
 export async function countListings(db: D1Database, countryCode?: string): Promise<number> {

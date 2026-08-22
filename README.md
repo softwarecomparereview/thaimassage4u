@@ -42,10 +42,30 @@ Clean country folders keep one .com authority:
 | Workflows | sale-offer intake |
 | Browser Run | scrape allowlisted OSM + Wikipedia pages |
 | Analytics Engine | path events |
-| Cron | enqueue city scrapes every 6 hours |
+| Cron | 6-hourly Places/OSM refresh + daily 06:20 UTC SERP rewrite |
 | Observability | logs + traces |
 
-Browser Run only hits `openstreetmap.org` and `en.wikipedia.org`. It does **not** scrape Google or login-walled directories. Map-derived names are attributed ODbL.
+Live studios come from the **Google Places API** (not Maps HTML). Thumbnails prefer Place photos, then the spa website `og:image`, then a Browser Run screenshot of that website. Daily **SerpAPI** snapshots rewrite city titles, H1s, FAQs and related-search chips.
+
+## Country + city look-and-feel
+
+Each public page stacks CSS layers on `<body>`:
+
+1. `theme-base` — shared spa chrome
+2. `theme-us` / `theme-uk` / `theme-au` / `theme-de` — country palette, type and hero wash
+3. `theme-de-berlin` (and one class per city) — local overlay on top of the country tokens
+
+`/de` shows the German layer only. `/de/berlin` keeps that layer and adds Berlin U-Bahn yellow on top. Copy for both layers is in `src/lib/themes.ts`; colours live in `public/themes.css`.
+
+Password-protected CMS: `/admin` (set `ADMIN_PASSWORD`). It edits D1 listings without moving the site to WordPress or Webflow.
+
+Set secrets before production enrich/SERP jobs:
+
+```bash
+npx wrangler secret put GOOGLE_PLACES_API_KEY
+npx wrangler secret put SERPAPI_KEY
+npx wrangler secret put ADMIN_SCRAPE_KEY
+```
 
 ## Local
 
@@ -56,7 +76,7 @@ npm test
 npm run dev
 ```
 
-Open `http://localhost:8787`. For Browser Run locally you need `wrangler dev --remote` (or `"remote": true` on the browser binding) plus an account.
+Open `http://localhost:8787`. Put `ADMIN_PASSWORD=dev-admin` in `.dev.vars` to use `/admin` locally. For Browser Run you need `wrangler dev --remote` (or `"remote": true` on the browser binding) plus an account.
 
 Admin scrape (after `wrangler secret put ADMIN_SCRAPE_KEY`):
 
@@ -72,7 +92,10 @@ Create the D1 database, KV namespace, R2 bucket and queue, put their IDs in `wra
 ```bash
 npx wrangler d1 migrations apply thaimassageforu --remote
 npx wrangler d1 execute thaimassageforu --remote --file=./seed/seed.sql
+npx wrangler secret put ADMIN_PASSWORD
 npx wrangler secret put ADMIN_SCRAPE_KEY
+npx wrangler secret put GOOGLE_PLACES_API_KEY
+npx wrangler secret put SERPAPI_KEY
 npx wrangler deploy
 ```
 

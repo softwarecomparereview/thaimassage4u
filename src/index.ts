@@ -29,13 +29,21 @@ import {
   renderSale,
   renderSearch,
 } from "./views";
-import { enqueueCityScrapes, scrapeCityDirectory, type LeadMessage } from "./scrape";
+import { enqueueCityScrapes, scrapeCityDirectory } from "./scrape";
+import type { LeadMessage } from "./lib/messages";
+import { enqueueCityEnrichment, enrichCityFromPlaces } from "./lib/enrich";
+import { enqueueDailySerp, latestSerpPlan, refreshCitySerp } from "./lib/serp";
+import { adminAuthorized } from "./lib/secrets";
+import { thumbnailListing } from "./lib/thumbnails";
+import { adminApp } from "./admin";
 
 export { FormLimiter, SaleOfferWorkflow };
 
 type AppEnv = { Bindings: Env };
 
-const STATIC_PREFIX = /^\/(styles\.css|app\.js|images\/|favicon\.ico)/;
+const STATIC_PREFIX = /^\/(styles\.css|themes\.css|app\.js|images\/|favicon\.ico)/;
+const SCRAPE_CRON = "15 */6 * * *";
+const SERP_CRON = "20 6 * * *";
 const COUNTRY_CODES = new Set(["us", "uk", "au", "de"]);
 
 const app = new Hono<AppEnv>();
@@ -166,8 +174,10 @@ app.get("/blog", async (c) => html(renderBlog(await shell(c.env, c.req.raw))));
 app.get("/privacy", async (c) => html(renderLegal(await shell(c.env, c.req.raw), "privacy")));
 app.get("/terms", async (c) => html(renderLegal(await shell(c.env, c.req.raw), "terms")));
 
+app.route("/admin", adminApp());
+
 app.get("/robots.txt", (c) =>
-  c.text(`User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /claim\nSitemap: ${c.env.SITE_URL}/sitemap.xml\n`)
+  c.text(`User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /admin\nDisallow: /claim\nSitemap: ${c.env.SITE_URL}/sitemap.xml\n`)
 );
 
 app.get("/sitemap.xml", async (c) => {
@@ -265,17 +275,34 @@ app.post("/api/contact", async (c) => {
   return redirect("/contact?sent=1", 303);
 });
 
+app.get("/media/*", async (c) => {
+  const key = new URL(c.req.url).pathname.replace(/^\/media\//, "");
+  if (!key || key.includes("..")) return c.notFound();
+  const object = await c.env.MEDIA.get(key);
+  if (!object) return c.notFound();
+  const headers = new Headers();
+  headers.set("cache-control", "public, max-age=86400");
+  object.writeHttpMetadata(headers);
+  headers.set("etag", object.httpEtag);
+  return new Response(object.body, { headers });
+});
+
 app.post("/api/scrape/:country/:city", async (c) => {
-  const key = c.req.header("x-admin-key") ?? "";
-  const expected = "ADMIN_SCRAPE_KEY" in c.env ? String((c.env as Env & { ADMIN_SCRAPE_KEY?: string }).ADMIN_SCRAPE_KEY ?? "") : "";
-  if (!expected || !key) return c.json({ error: "unauthorized" }, 401);
-  const a = new TextEncoder().encode(key);
-  const b = new TextEncoder().encode(expected);
-  if (a.byteLength !== b.byteLength || !crypto.subtle.timingSafeEqual(a, b)) {
-    return c.json({ error: "unauthorized" }, 401);
-  }
+  if (!adminAuthorized(c.env, c.req.header("x-admin-key"))) return c.json({ error: "unauthorized" }, 401);
   const result = await scrapeCityDirectory(c.env, c.req.param("country"), c.req.param("city"));
   return c.json({ ok: true, ...result });
+});
+
+app.post("/api/enrich/:country/:city", async (c) => {
+  if (!adminAuthorized(c.env, c.req.header("x-admin-key"))) return c.json({ error: "unauthorized" }, 401);
+  const result = await enrichCityFromPlaces(c.env, c.req.param("country"), c.req.param("city"));
+  return c.json({ ok: true, ...result });
+});
+
+app.post("/api/serp/:country/:city", async (c) => {
+  if (!adminAuthorized(c.env, c.req.header("x-admin-key"))) return c.json({ error: "unauthorized" }, 401);
+  const plan = await refreshCitySerp(c.env, c.req.param("country"), c.req.param("city"));
+  return c.json({ ok: true, plan });
 });
 
 app.get("/:country", async (c) => {
@@ -297,7 +324,8 @@ app.get("/:country/:city", async (c) => {
   const city = country ? await getCity(c.env.DB, country.code, c.req.param("city")) : null;
   if (!country || !city) return html(renderNotFound(await shell(c.env, c.req.raw)), 404);
   const listings = await listListings(c.env.DB, country.code, city.slug);
-  return html(renderCity(await shell(c.env, c.req.raw), country, city, listings));
+  const serp = await latestSerpPlan(c.env.DB, country.code, city.slug);
+  return html(renderCity(await shell(c.env, c.req.raw), country, city, listings, serp));
 });
 
 app.get("/:country/:city/:slug", async (c) => {
@@ -322,7 +350,14 @@ export default {
       try {
         if (body.kind === "scrape-city") {
           await scrapeCityDirectory(env, body.countryCode, body.citySlug);
-        } else {
+        } else if (body.kind === "enrich-city") {
+          await enrichCityFromPlaces(env, body.countryCode, body.citySlug);
+        } else if (body.kind === "serp-city") {
+          await refreshCitySerp(env, body.countryCode, body.citySlug);
+        } else if (body.kind === "thumbnail") {
+          const listing = await getListing(env.DB, body.slug);
+          if (listing) await thumbnailListing(env, listing);
+        } else if (body.kind === "offer" || body.kind === "claim" || body.kind === "contact") {
           await env.MEDIA.put(`leads/${body.kind}/${body.id}.json`, JSON.stringify(body), {
             httpMetadata: { contentType: "application/json" },
           });
@@ -335,13 +370,21 @@ export default {
     }
   },
 
-  async scheduled(_event, env, ctx) {
+  async scheduled(controller, env, ctx) {
     ctx.waitUntil(
       (async () => {
         await env.CACHE.delete("sitemap");
         await env.CACHE.delete("page:/");
-        const queued = await enqueueCityScrapes(env);
-        console.log(JSON.stringify({ event: "scheduled-scrape-enqueued", queued }));
+        if (controller.cron === SERP_CRON) {
+          const queued = await enqueueDailySerp(env);
+          console.log(JSON.stringify({ event: "scheduled-serp-enqueued", queued }));
+          return;
+        }
+        if (controller.cron === SCRAPE_CRON) {
+          const scraped = await enqueueCityScrapes(env);
+          const enriched = await enqueueCityEnrichment(env);
+          console.log(JSON.stringify({ event: "scheduled-scrape-enqueued", scraped, enriched }));
+        }
       })()
     );
   },

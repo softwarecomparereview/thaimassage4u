@@ -1,5 +1,6 @@
 import { escapeAttr, escapeHtml, jsonLd } from "./escape";
 import type { Country } from "./db";
+import { resolveTheme, themeBand, type ResolvedTheme } from "./themes";
 
 export type PageMeta = {
   title: string;
@@ -20,13 +21,19 @@ export function absolute(siteUrl: string, path: string): string {
   return new URL(path, siteUrl.endsWith("/") ? siteUrl : `${siteUrl}/`).toString();
 }
 
-export function layout(env: Env, meta: PageMeta, body: string, options?: { countries?: Country[]; geo?: string | null }) {
+export function layout(
+  env: Env,
+  meta: PageMeta,
+  body: string,
+  options?: { countries?: Country[]; geo?: string | null; theme?: ResolvedTheme }
+) {
   const siteUrl = env.SITE_URL;
   const canonical = absolute(siteUrl, meta.canonical ?? meta.path);
   const image = absolute(siteUrl, meta.image ?? "/images/hero-homepage.png");
   const locale = meta.locale ?? "en";
   const countries = options?.countries ?? [];
   const geo = options?.geo;
+  const theme = options?.theme ?? resolveTheme();
 
   const crumbs = (meta.breadcrumbs ?? []).map((crumb, index) => ({
     "@type": "ListItem",
@@ -102,9 +109,10 @@ ${hreflang}
 <meta name="twitter:image" content="${escapeAttr(image)}">
 <link rel="icon" href="/images/hero.svg">
 <link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/themes.css">
 <script type="application/ld+json">${jsonLd({ "@context": "https://schema.org", "@graph": graph })}</script>
 </head>
-<body>
+<body class="${escapeAttr(theme.className)}">
 <a class="skip-link" href="#content">Skip to content</a>
 <div class="sale-ribbon">
   <a href="/for-sale">
@@ -119,6 +127,7 @@ ${hreflang}
     <div>${geo ? `Suggested for you: <a href="/${escapeAttr(geo.toLowerCase())}">${escapeHtml(geo)}</a> · ` : ""}<a href="mailto:${escapeAttr(env.CONTACT_EMAIL)}">${escapeHtml(env.CONTACT_EMAIL)}</a></div>
   </div>
 </div>
+${themeBand(theme)}
 <header>
   <div class="container nav">
     <a class="brand" href="/" aria-label="${escapeAttr(SITE)} home">

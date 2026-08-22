@@ -1,11 +1,10 @@
 import { slugify } from "./lib/escape";
 import { getCity, listCities, type City } from "./lib/db";
+import type { LeadMessage } from "./lib/messages";
+
+export type { LeadMessage };
 
 const ALLOWED_HOSTS = new Set(["www.openstreetmap.org", "openstreetmap.org", "en.wikipedia.org"]);
-
-export type LeadMessage =
-  | { kind: "offer" | "claim" | "contact"; id: string }
-  | { kind: "scrape-city"; countryCode: string; citySlug: string };
 
 type ScrapeElement = {
   selector: string;
