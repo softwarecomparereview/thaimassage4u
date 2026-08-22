@@ -176,6 +176,25 @@ for (const [country, citySlug, cityName] of cities) {
   }
 }
 
+// Two failure modes the raw per-listing best-match loop can't see on its own:
+// (1) a generic listing name ("Massage", "Massage Therapy") has no distinctive
+//     token to match on, so it can land on an unrelated business purely via
+//     shared category words; (2) several unrelated listings can each score their
+//     own best match against the *same* Fresha profile (also usually a generic
+//     name on the Fresha side) — real businesses don't share a Fresha profile, so
+//     that's a tell the "match" is just category-word overlap, not the business.
+const GENERIC_LISTING_NAMES = new Set(['massage', 'massage therapy', 'spa', 'day spa', 'therapy', 'wellness', 'body massage']);
+const claimCounts = new Map();
+for (const row of report.matched) claimCounts.set(row.fresha_url, (claimCounts.get(row.fresha_url) || 0) + 1);
+const stillMatched = [];
+for (const row of report.matched) {
+  const isGeneric = GENERIC_LISTING_NAMES.has(norm(row.name));
+  const sharedUrl = claimCounts.get(row.fresha_url) > 1;
+  if (isGeneric || sharedUrl) report.review.push({ ...row, demoted_reason: isGeneric ? 'generic-listing-name' : 'fresha-url-claimed-by-multiple-listings' });
+  else stillMatched.push(row);
+}
+report.matched = stillMatched;
+
 mkdirSync('data', { recursive: true });
 writeFileSync('data/fresha-links.json', JSON.stringify(report, null, 2));
 const updates = report.matched.map((m) => `UPDATE listings SET fresha_url=${sql(m.fresha_url)}, fresha_match_score=${m.score}, fresha_verified_at=datetime('now') WHERE id=${Number(m.id)};`);
