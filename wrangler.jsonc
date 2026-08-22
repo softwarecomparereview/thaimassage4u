@@ -46,7 +46,8 @@
   ],
   "routes": [
     { "pattern": "thaimassageforu.com", "custom_domain": true },
-    { "pattern": "www.thaimassageforu.com", "custom_domain": true }
+    { "pattern": "www.thaimassageforu.com", "custom_domain": true },
+    { "pattern": "videos.thaimassageforu.com", "custom_domain": true }
   ],
   "queues": {
     "producers": [
