@@ -14,6 +14,7 @@ import {
 } from "./lib/db";
 import { escapeAttr, escapeHtml, slugify } from "./lib/escape";
 import { adminPassword, clearSessionCookie, createSessionCookie, hasValidSession, passwordsMatch } from "./lib/session";
+import { cacheDelete } from "./lib/storage";
 
 type AppEnv = { Bindings: Env };
 
@@ -64,9 +65,7 @@ function html(body: string, status = 200, headers?: HeadersInit) {
 }
 
 async function bustCache(env: Env, country?: string) {
-  await env.CACHE.delete("page:/");
-  await env.CACHE.delete("sitemap");
-  if (country) await env.CACHE.delete(`page:/${country}`);
+  await cacheDelete(env, "page:/", "sitemap", ...(country ? [`page:/${country}`] : []));
 }
 
 function draftFrom(form: FormData): ListingDraft {

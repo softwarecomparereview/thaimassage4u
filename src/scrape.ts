@@ -1,6 +1,7 @@
 import { slugify } from "./lib/escape";
 import { getCity, listCities, type City } from "./lib/db";
 import type { LeadMessage } from "./lib/messages";
+import { cacheDelete } from "./lib/storage";
 
 export type { LeadMessage };
 
@@ -136,10 +137,7 @@ export async function scrapeCityDirectory(env: Env, countryCode: string, citySlu
       .bind("done", inserted, jobId)
       .run();
 
-    await env.CACHE.delete(`page:/${countryCode}`);
-    await env.CACHE.delete(`page:/${countryCode}/${citySlug}`);
-    await env.CACHE.delete("page:/");
-    await env.CACHE.delete("sitemap");
+    await cacheDelete(env, `page:/${countryCode}`, `page:/${countryCode}/${citySlug}`, "page:/", "sitemap");
 
     return { names: inserted, wiki: wikiUpdated };
   } catch (error) {

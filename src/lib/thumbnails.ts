@@ -1,6 +1,7 @@
 import { envSecret } from "./secrets";
 import { fetchPlacePhoto } from "./places";
 import type { Listing } from "./db";
+import { mediaPut } from "./storage";
 
 const BLOCKED_THUMB_HOSTS = new Set([
   "google.com",
@@ -56,7 +57,7 @@ export async function putListingThumb(
   type: string
 ): Promise<string> {
   const key = `listings/${slug}.${extFor(type)}`;
-  await env.MEDIA.put(key, bytes, { httpMetadata: { contentType: type } });
+  await mediaPut(env, key, bytes, { httpMetadata: { contentType: type } });
   const path = `/media/${key}`;
   await env.DB.prepare("UPDATE listings SET image_url = ? WHERE slug = ?").bind(path, slug).run();
   return path;

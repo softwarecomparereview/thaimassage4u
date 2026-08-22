@@ -28,14 +28,14 @@
     {
       "binding": "DB",
       "database_name": "thaimassageforu",
-      "database_id": "00000000-0000-0000-0000-000000000d01",
+      "database_id": "c5b8920a-cfaf-4cd7-9656-f36f65260aed",
       "migrations_dir": "migrations"
     }
   ],
   "kv_namespaces": [
     {
       "binding": "CACHE",
-      "id": "00000000000000000000000000000001"
+      "id": "a2fcf46a261644bcbf746dc29df06c74"
     }
   ],
   "r2_buckets": [
@@ -43,6 +43,10 @@
       "binding": "MEDIA",
       "bucket_name": "thaimassageforu-media"
     }
+  ],
+  "routes": [
+    { "pattern": "thaimassageforu.com", "custom_domain": true },
+    { "pattern": "www.thaimassageforu.com", "custom_domain": true }
   ],
   "queues": {
     "producers": [

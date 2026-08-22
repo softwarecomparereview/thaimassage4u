@@ -1,4 +1,5 @@
 import { WorkflowEntrypoint, type WorkflowEvent, type WorkflowStep } from "cloudflare:workers";
+import { mediaPut } from "./lib/storage";
 
 export type OfferPayload = { offerId: string };
 
@@ -9,7 +10,7 @@ export class SaleOfferWorkflow extends WorkflowEntrypoint<Env, OfferPayload> {
     await step.do("archive-offer-to-r2", async () => {
       const row = await this.env.DB.prepare("SELECT * FROM sale_offers WHERE id = ?").bind(offerId).first();
       if (!row) return { skipped: true };
-      await this.env.MEDIA.put(`offers/${offerId}.json`, JSON.stringify(row), {
+      await mediaPut(this.env, `offers/${offerId}.json`, JSON.stringify(row), {
         httpMetadata: { contentType: "application/json" },
       });
       return { archived: true };
