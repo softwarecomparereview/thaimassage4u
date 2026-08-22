@@ -130,7 +130,7 @@ INSERT INTO listings (slug, name, country_code, city_slug, suburb, address, phon
   '/images/partners/betty.jpg',
   'editor'
 );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'brooklyn-heights-day-spa-new-york',
       'Brooklyn Heights Day Spa',
       'us',
@@ -138,6 +138,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '150 Remsen Street, New York',
       '+1-917-622-6330',
+      NULL,
       'https://www.brooklynheightsdayspa.com',
       'Massage, Relaxation',
       'Brooklyn Heights Day Spa — a massage studio mapped in New York near 150 Remsen Street. Their site is www.brooklynheightsdayspa.com. Posted hours: Mo-Su 10:30-21:00.',
@@ -145,11 +146,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:30-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2494202869',
       'node/2494202869'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'knead-new-york',
       'Knead',
       'us',
@@ -157,6 +159,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '135 Prospect Park Southwest, New York',
       '+1-212-748-9888',
+      NULL,
       'https://kneadmt.com',
       'Massage, Relaxation',
       'Knead is a massage studio in New York, on 135 Prospect Park Southwest. Their site is kneadmt.com. Hours aren''t posted, so check before you go.',
@@ -164,11 +167,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://kneadmt.com/wp-content/uploads/sites/5/2024/02/knead-meta.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/2562041496',
       'node/2562041496'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'solle-spa-new-york',
       'Solle Spa',
       'us',
@@ -176,6 +180,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '4 West 33rd Street, New York',
       '+1-212-564-2100',
+      NULL,
       'https://sollespa.com',
       'Massage, Relaxation',
       'Tucked into New York on 4 West 33rd Street, Solle Spa runs as an independent massage studio. Posted hours: Mo-Sa 10:00-02:00, Su 11:00-01:00. Their site is sollespa.com.',
@@ -183,11 +188,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-02:00, Su 11:00-01:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2709306702',
       'node/2709306702'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'nyc-thai-wellness-center-new-york',
       'NYC Thai Wellness Center',
       'us',
@@ -195,6 +201,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '32 East 37th Street, New York',
       '+1-917-856-5165',
+      NULL,
       'https://nycthaiwellness.com',
       'Traditional Thai, Relaxation',
       'Locals in New York know NYC Thai Wellness Center as a neighbourhood massage studio off 32 East 37th Street. Hours aren''t posted, so check before you go. Their site is nycthaiwellness.com.',
@@ -202,11 +209,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2710867088',
       'node/2710867088'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ocean-spa-new-york',
       'Ocean Spa',
       'us',
@@ -214,6 +222,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '234B 5th Avenue, New York',
       '+1-929-337-8528',
+      NULL,
       'http://qipavilion.wixsite.com/home',
       'Massage, Relaxation',
       'Tucked into New York on 234B 5th Avenue, Ocean Spa runs as an independent massage studio. Posted hours: Mo-Su 09:45-23:00. Their site is qipavilion.wixsite.com/home.',
@@ -221,11 +230,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 09:45-23:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5600963732',
       'node/5600963732'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'renew-regal-spa-new-york',
       'Renew Regal Spa',
       'us',
@@ -233,6 +243,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '259 Canal Street, New York',
       '+1-212-775-0588',
+      NULL,
       'https://renewregalspa.com',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Renew Regal Spa, a massage studio in New York (259 Canal Street). Posted hours: Mo-Su 10:00-24:00. Their site is renewregalspa.com.',
@@ -240,11 +251,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-24:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6538310256',
       'node/6538310256'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'apple-healing-relaxation-new-york',
       'Apple Healing & Relaxation',
       'us',
@@ -252,6 +264,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '31-14 Broadway, Astoria',
       '+1-718-278-1089',
+      NULL,
       'http://applehealingspa.com',
       'Massage, Relaxation',
       'Apple Healing & Relaxation operates out of 31-14 Broadway, New York. Their site is applehealingspa.com. Posted hours: 10:00-23:00.',
@@ -259,11 +272,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-23:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6928306438',
       'node/6928306438'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'staten-island-massage-wellness-new-york',
       'Staten Island Massage & Wellness',
       'us',
@@ -271,6 +285,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '1332 Forest Avenue, Staten Island',
       '+1-718-556-1332',
+      NULL,
       'https://simassageandwellness.com',
       'Massage, Relaxation',
       'Staten Island Massage & Wellness — a massage studio mapped in New York near 1332 Forest Avenue. Their site is simassageandwellness.com. Posted hours: Mo-Su 09:00-22:00.',
@@ -278,11 +293,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 09:00-22:00',
+      'https://static.wixstatic.com/media/b0c20a_bc438aa6a6644bfebdef8046d0652892.jpg/v1/fill/w_2500,h_3333,al_c/b0c20a_bc438aa6a6644bfebdef8046d0652892.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/11293310013',
       'node/11293310013'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'long-teng-massage-new-york',
       'Long Teng Massage',
       'us',
@@ -290,6 +306,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '239 West 105th Street, New York',
       '+1 212 932 0888',
+      NULL,
       'https://www.longtengusainc.com',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Long Teng Massage, a massage studio in New York (239 West 105th Street). Posted hours: Mo-Su 10:30-22:00. Their site is www.longtengusainc.com.',
@@ -297,11 +314,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:30-22:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11414262371',
       'node/11414262371'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'long-teng-body-work-new-york',
       'Long Teng Body Work',
       'us',
@@ -309,6 +327,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '943 Amsterdam Avenue, New York',
       '+1-212-866-0927',
+      NULL,
       'https://www.longtengusainc.com',
       'Massage, Relaxation',
       'Long Teng Body Work operates out of 943 Amsterdam Avenue, New York. Their site is www.longtengusainc.com. Hours aren''t posted, so check before you go.',
@@ -316,11 +335,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11447975607',
       'node/11447975607'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ila-only-spa-new-york',
       'ila Only Spa',
       'us',
@@ -328,6 +348,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '455 Madison Avenue, New York',
       '+1 212-303-7777',
+      'info@ilaspanyc.com',
       'https://www.ilaspanyc.com/',
       'Massage, Relaxation',
       'Locals in New York know ila Only Spa as a neighbourhood massage studio off 455 Madison Avenue. Posted hours: Mo-Su 09:00-20:00. Their site is www.ilaspanyc.com.',
@@ -335,11 +356,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 09:00-20:00',
+      'https://www.ilaspanyc.com/wp-content/uploads/2025/07/ila-spa-nyc.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13082025011',
       'node/13082025011'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'diamondback-massage-therapy-new-york',
       'Diamondback Massage Therapy',
       'us',
@@ -347,6 +369,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '217 Belleville Avenue, Belleville',
       '+1 973-528-2000',
+      NULL,
       'https://www.diamondbackmassagetherapy.com/',
       'Massage, Relaxation',
       'Diamondback Massage Therapy — a massage studio mapped in New York near 217 Belleville Avenue. Their site is www.diamondbackmassagetherapy.com. Hours aren''t posted, so check before you go.',
@@ -354,11 +377,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13100867506',
       'node/13100867506'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'fishion-wellness-center-new-york',
       'Fishion Wellness Center',
       'us',
@@ -366,6 +390,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '83 Mott Street, New York',
       '+1-212-966-8771',
+      NULL,
       'https://fishionnyc.com/',
       'Massage, Relaxation',
       'Fishion Wellness Center — a massage studio mapped in New York near 83 Mott Street. Their site is fishionnyc.com. Posted hours: Mo-Su 11:00-19:00.',
@@ -373,11 +398,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 11:00-19:00',
+      'http://fishionnyc.com/cdn/shop/files/Fishion_Logo.png?height=628&pad_color=ffffff&v=1755458647&width=1200',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13195739701',
       'node/13195739701'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'dumbo-wellness-new-york',
       'Dumbo Wellness',
       'us',
@@ -385,6 +411,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '53 Bridge Street, New York',
       '+1-646-221-5800',
+      NULL,
       'https://dumbowellness.com',
       'Massage, Relaxation',
       'Dumbo Wellness is a massage studio in New York, on 53 Bridge Street. Their site is dumbowellness.com. Hours aren''t posted, so check before you go.',
@@ -392,11 +419,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'http://static1.squarespace.com/static/527bf7c4e4b0233cbd8b2fa8/t/5bb668d11905f4571f4e8fb9/1538681042409/SocialGraphic_Arch_F1%403x-8.png?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13296626421',
       'node/13296626421'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'renewing-spa-ii-new-york',
       'Renewing Spa II',
       'us',
@@ -404,6 +432,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '677 Amsterdam Avenue, New York',
       '+1-646-682-9444',
+      NULL,
       'https://renewingspa2.onbuildhealth.com',
       'Massage, Relaxation',
       'Renewing Spa II operates out of 677 Amsterdam Avenue, New York. Their site is renewingspa2.onbuildhealth.com. Posted hours: Mo-Su 10:30-22:00.',
@@ -411,11 +440,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:30-22:00',
+      'https://renewingspa2.onbuildhealth.com/wp-content/uploads/2024/02/Logo-1.webp',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13352095797',
       'node/13352095797'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'melt-feathers-spa-new-york',
       'Melt Feathers Spa',
       'us',
@@ -423,6 +453,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '243 West 99th Street, New York',
       '+1-212-222-2231',
+      NULL,
       'https://www.meltfeathersspa.com',
       'Massage, Relaxation',
       'Melt Feathers Spa is a massage studio in New York, on 243 West 99th Street. Their site is www.meltfeathersspa.com. Hours aren''t posted, so check before you go.',
@@ -430,11 +461,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://www.meltfeathersspa.com/uploads/1/1/9/0/119084611/melt-feathers-spa-logo-03.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13874602997',
       'node/13874602997'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'prospect-heights-wellness-new-york',
       'Prospect Heights Wellness',
       'us',
@@ -442,6 +474,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       '550 Vanderbilt Avenue, New York',
       '+1-551-262-3777',
+      NULL,
       'https://www.prospectheightsspa.com/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Prospect Heights Wellness, a massage studio in New York (550 Vanderbilt Avenue). Posted hours: Mo-Su 10:30-22:00. Their site is www.prospectheightsspa.com.',
@@ -449,17 +482,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:30-22:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13988708620',
       'node/13988708620'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'enelra-therapeutic-massage-new-york',
       'Enelra Therapeutic Massage',
       'us',
       'new-york',
       'New York',
       '27-10 Astoria Boulevard, Astoria',
+      NULL,
       NULL,
       'https://enelratherapeuticmassage.com',
       'Massage, Relaxation',
@@ -468,11 +503,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2846908945',
       'node/2846908945'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'melt-massage-bodywork-new-york',
       'Melt Massage & Bodywork',
       'us',
@@ -480,6 +516,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       NULL,
       '+1-646-450-6358',
+      NULL,
       'https://www.meltmassagenyc.com',
       'Massage, Relaxation',
       'Tucked into New York, Melt Massage & Bodywork runs as an independent massage studio. Hours aren''t posted, so check before you go. Their site is www.meltmassagenyc.com.',
@@ -487,11 +524,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'http://static1.squarespace.com/static/5a85bb6a010027d35779414b/t/5ae7285603ce64d372036378/1525098584986/new.png?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/3154284866',
       'node/3154284866'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'brooklyn-net-wellness-new-york',
       'Brooklyn Net Wellness',
       'us',
@@ -499,6 +537,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       NULL,
       '+1-347-689-4988',
+      NULL,
       'http://brooklynnetwellness1.com',
       'Massage, Relaxation',
       'Locals in New York know Brooklyn Net Wellness as a neighbourhood massage studio. Hours aren''t posted, so check before you go. Their site is brooklynnetwellness1.com.',
@@ -506,11 +545,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5319102855',
       'node/5319102855'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'no-2-spa-new-york',
       'No. 2 Spa',
       'us',
@@ -518,6 +558,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       NULL,
       '+1-347-599-1181',
+      NULL,
       'https://bookformassage.com',
       'Massage, Relaxation',
       'Tucked into New York, No. 2 Spa runs as an independent massage studio. Posted hours: Mo-Su 10:30-20:30. Their site is bookformassage.com.',
@@ -525,11 +566,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:30-20:30',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5333315836',
       'node/5333315836'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'flow-day-spa-new-york',
       'Flow Day Spa',
       'us',
@@ -537,6 +579,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       NULL,
       '+1-212-201-0005',
+      NULL,
       'https://www.flowdayspa.com',
       'Massage, Relaxation',
       'Locals in New York know Flow Day Spa as a neighbourhood massage studio. Hours aren''t posted, so check before you go. Their site is www.flowdayspa.com.',
@@ -544,11 +587,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'http://static1.squarespace.com/static/678757c734d1b51aa397d146/t/678d91793cc2be47292100ec/1780951620807/flow+logo.png?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/5676615650',
       'node/5676615650'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'jin-yu-spa-wellness-new-york',
       'Jin Yu Spa & Wellness',
       'us',
@@ -556,6 +600,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       NULL,
       '+1-917-607-4123',
+      NULL,
       'https://jinyuspa.nyc',
       'Massage, Relaxation',
       'Jin Yu Spa & Wellness — a massage studio mapped in New York. Their site is jinyuspa.nyc. Posted hours: Mo-Su 10:00-22:30.',
@@ -563,11 +608,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-22:30',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6376760975',
       'node/6376760975'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'garden-retreat-spa-new-york',
       'Garden Retreat Spa',
       'us',
@@ -575,6 +621,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'New York',
       NULL,
       '+1 212 696 0207',
+      NULL,
       'https://www.gardenretreatspa.com/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Garden Retreat Spa, a massage studio in New York. Hours aren''t posted, so check before you go. Their site is www.gardenretreatspa.com.',
@@ -582,11 +629,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://gardenretreatspa.com/wp-content/uploads/2024/10/GardenSpaHome-1440w.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/7415393496',
       'node/7415393496'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-envy-los-angeles',
       'Massage Envy',
       'us',
@@ -594,6 +642,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '1136 Fair Oaks Avenue, South Pasadena',
       '+1 626-403-6000',
+      NULL,
       'https://locations.massageenvy.com/california/south-pasadena/1136-fair-oaks-avenue.html',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Massage Envy, a massage studio in Los Angeles (1136 Fair Oaks Avenue). Posted hours: 08:00-22:00. Their site is locations.massageenvy.com/california/south-pasadena/1136-fair-oaks-avenue.html.',
@@ -601,11 +650,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '08:00-22:00',
+      'https://llp-assets.meetsoci.com/live/assets/massageenvy/images/MElogo220.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/598728041',
       'node/598728041'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'happy-feet-massage-los-angeles',
       'Happy Feet Massage',
       'us',
@@ -613,6 +663,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '257 East Colorado Boulevard, Pasadena',
       '+1-626-796-9986',
+      NULL,
       'https://www.happyfeetmassage.com/',
       'Massage, Relaxation',
       'Happy Feet Massage — a massage studio mapped in Los Angeles near 257 East Colorado Boulevard. Their site is www.happyfeetmassage.com. Posted hours: Mo-Sa 10:00-22:00;Su 11:00-21:00.',
@@ -620,11 +671,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-22:00;Su 11:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3180241464',
       'node/3180241464'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'tranquility-body-spa-los-angeles',
       'Tranquility Body Spa',
       'us',
@@ -632,6 +684,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '9925 Venice Boulevard, Los Angeles',
       '+1-310-842-9561',
+      NULL,
       'http://www.tranquilitybodyspa.com',
       'Massage, Relaxation',
       'Tucked into Los Angeles on 9925 Venice Boulevard, Tranquility Body Spa runs as an independent massage studio. Posted hours: Mo-Su 10:00-20:30. Their site is www.tranquilitybodyspa.com.',
@@ -639,11 +692,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:30',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3961992385',
       'node/3961992385'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'unity-holistic-los-angeles',
       'Unity Holistic',
       'us',
@@ -651,6 +705,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '8805 Santa Monica Boulevard, West Hollywood',
       '+1-310-855-7546',
+      NULL,
       'http://unity-holistic.com',
       'Massage, Relaxation',
       'Locals in Los Angeles know Unity Holistic as a neighbourhood massage studio off 8805 Santa Monica Boulevard. Posted hours: Tu,We 11:00-22:00; Th,Fr 11:00-19:00; Sa 10:00-17:00. Their site is unity-holistic.com.',
@@ -658,11 +713,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu,We 11:00-22:00; Th,Fr 11:00-19:00; Sa 10:00-17:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5211100922',
       'node/5211100922'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sparadise-los-angeles',
       'Sparadise',
       'us',
@@ -670,6 +726,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '8505 Santa Monica Boulevard, West Hollywood',
       '+1-323-646-9988',
+      NULL,
       'https://sparadiseweho.com/',
       'Massage, Relaxation',
       'Sparadise operates out of 8505 Santa Monica Boulevard, Los Angeles. Their site is sparadiseweho.com. Posted hours: Mo-Su 10:00-21:30.',
@@ -677,11 +734,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-21:30',
+      'https://img1.wsimg.com/isteam/getty/2018578391',
       'openstreetmap',
       'https://www.openstreetmap.org/node/5247316839',
       'node/5247316839'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-salt-studio-los-angeles',
       'The Salt Studio',
       'us',
@@ -689,6 +747,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '1380 East Walnut Street, Pasadena',
       '+1-626-765-6180',
+      'hello@saltstudiopasadena.com',
       'https://www.saltstudiopasadena.com/',
       'Massage, Relaxation',
       'Tucked into Los Angeles on 1380 East Walnut Street, The Salt Studio runs as an independent massage studio. Posted hours: Mo off; Tu-Th,Sa-Su 10:00-17:00; Fr 10:00-19:00. Their site is www.saltstudiopasadena.com.',
@@ -696,11 +755,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo off; Tu-Th,Sa-Su 10:00-17:00; Fr 10:00-19:00',
+      'http://static1.squarespace.com/static/6571b4bb19551c1a99271219/t/66b557e512dda2680e048598/1723160549946/new+salt+rev-01.png?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/5777659639',
       'node/5777659639'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-in-la-los-angeles',
       'Massage in LA',
       'us',
@@ -708,6 +768,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '998 Robertson Boulevard, Los Angeles',
       '+1-310-500-7079',
+      NULL,
       'https://massageinla.com/',
       'Massage, Relaxation',
       'Massage in LA — a massage studio mapped in Los Angeles near 998 Robertson Boulevard. Their site is massageinla.com. Hours aren''t posted, so check before you go.',
@@ -715,11 +776,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/7241158810',
       'node/7241158810'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'la-bodywork-los-angeles',
       'LA Bodywork',
       'us',
@@ -727,6 +789,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '12723 Ventura Boulevard, Studio City',
       '+1 424-390-1568',
+      NULL,
       'https://www.labodywork.com/',
       'Massage, Relaxation',
       'LA Bodywork — a massage studio mapped in Los Angeles near 12723 Ventura Boulevard. Their site is www.labodywork.com. Posted hours: Mo-We,Fr 09:00-18:30; Th 09:00-19:00; Sa 09:00-17:00; Su closed.',
@@ -734,11 +797,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-We,Fr 09:00-18:30; Th 09:00-19:00; Sa 09:00-17:00; Su closed',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11350396222',
       'node/11350396222'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'nuch-royal-thai-spa-los-angeles',
       'Nuch Royal Thai Spa',
       'us',
@@ -746,6 +810,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '5300 Hollywood Boulevard, Thai Town',
       '+1 323-461-4400',
+      NULL,
       'https://nuadroyalthaispala.com/',
       'Traditional Thai, Relaxation',
       'Locals in Los Angeles know Nuch Royal Thai Spa as a neighbourhood massage studio off 5300 Hollywood Boulevard. Posted hours: 10:00-21:00. Their site is nuadroyalthaispala.com.',
@@ -753,11 +818,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11757296400',
       'node/11757296400'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'natures-moon-los-angeles',
       'Natures Moon',
       'us',
@@ -765,6 +831,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '539 North Glenoaks Boulevard, Burbank',
       '+1-323-800-8314',
+      NULL,
       'https://www.naturesmoonspa.com/',
       'Massage, Relaxation',
       'Locals in Los Angeles know Natures Moon as a neighbourhood massage studio off 539 North Glenoaks Boulevard. Posted hours: Mo-Su 10:00-21:00. Their site is www.naturesmoonspa.com.',
@@ -772,11 +839,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-21:00',
+      'https://ik.imagekit.io/cknqogxbx/qqmamibet/asset/bannerv042-qqmamibet-slot-gacor-gampang-menang.webp?updatedAt=1780398421947',
       'openstreetmap',
       'https://www.openstreetmap.org/node/11779108956',
       'node/11779108956'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chaba-los-angeles',
       'Chaba',
       'us',
@@ -784,6 +852,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '1212 North San Fernando Boulevard, Los Angeles',
       '+1 818-557-6261',
+      NULL,
       'https://www.chabamassage.com/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Chaba, a massage studio in Los Angeles (1212 North San Fernando Boulevard). Posted hours: Mo-Su 10:00-20:00. Their site is www.chabamassage.com.',
@@ -791,11 +860,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12190163902',
       'node/12190163902'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ace-skincare-massage-spa-los-angeles',
       'Ace Skincare Massage Spa',
       'us',
@@ -803,6 +873,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '1381 East Las Tunas Drive, San Gabriel',
       '+1 626-615-3404; +1 626-699-0621',
+      NULL,
       'https://www.acespaca.com/',
       'Massage, Relaxation',
       'Ace Skincare Massage Spa operates out of 1381 East Las Tunas Drive, Los Angeles. Their site is www.acespaca.com. Posted hours: 10:00-21:00.',
@@ -810,11 +881,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13342642454',
       'node/13342642454'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'cai-xiang-ge-los-angeles',
       'Cai Xiang Ge',
       'us',
@@ -822,6 +894,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '301 West Valley Boulevard, San Gabriel',
       '+1 626-726-5998',
+      NULL,
       'https://xianggellc.wixsite.com/cai-xiang-ge-hair',
       'Massage, Relaxation',
       'Locals in Los Angeles know Cai Xiang Ge as a neighbourhood massage studio off 301 West Valley Boulevard. Posted hours: Mo-Th,Su 10:00-21:00; Fr-Sa 10:00-22:00. Their site is xianggellc.wixsite.com/cai-xiang-ge-hair.',
@@ -829,11 +902,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Th,Su 10:00-21:00; Fr-Sa 10:00-22:00',
+      'https://static.wixstatic.com/media/fa23d5_d87bd268d82a40af9c87ac9bac4f9b57%7Emv2.png/v1/fit/w_2500,h_1330,al_c/fa23d5_d87bd268d82a40af9c87ac9bac4f9b57%7Emv2.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13422173060',
       'node/13422173060'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'dream-spa-massage-los-angeles',
       'Dream Spa Massage',
       'us',
@@ -841,6 +915,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '2044 East Colorado Boulevard, Pasadena',
       '+1 626-795-9710',
+      NULL,
       'https://www.dreamspamassage-pasadena.com/',
       'Massage, Relaxation',
       'Dream Spa Massage — a massage studio mapped in Los Angeles near 2044 East Colorado Boulevard. Their site is www.dreamspamassage-pasadena.com. Posted hours: 10:00-22:00.',
@@ -848,11 +923,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-22:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13423830086',
       'node/13423830086'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'dream-spa-los-angeles',
       'Dream Spa',
       'us',
@@ -860,6 +936,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '1023 South Baldwin Avenue, Arcadia',
       '+1 626-447-0256',
+      NULL,
       'https://www.dreamspa-la.com/',
       'Massage, Relaxation',
       'Dream Spa is a massage studio in Los Angeles, on 1023 South Baldwin Avenue. Their site is www.dreamspa-la.com. Posted hours: 10:00-21:00.',
@@ -867,11 +944,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13440140327',
       'node/13440140327'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'lymphatic-by-siane-los-angeles',
       'Lymphatic by Siane',
       'us',
@@ -879,6 +957,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '8418 West 3rd Street, Los Angeles',
       '+1-310-916-5228',
+      'beautybysiane@gmail.com',
       'https://www.lymphaticbysiane.com',
       'Massage, Relaxation',
       'Lymphatic by Siane is a massage studio in Los Angeles, on 8418 West 3rd Street. Their site is www.lymphaticbysiane.com. Posted hours: Mo-Th 08:00-22:00; Fr 08:00-21:00; Sa 08:00-19:00; Su 09:00-19:00.',
@@ -886,11 +965,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Th 08:00-22:00; Fr 08:00-21:00; Sa 08:00-19:00; Su 09:00-19:00',
+      'https://static.wixstatic.com/media/9dffb6_fa853ecfe65d449a820d0587ae2ccf29~mv2.jpg/v1/fill/w_2500,h_2500,al_c/9dffb6_fa853ecfe65d449a820d0587ae2ccf29~mv2.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13541154772',
       'node/13541154772'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-body-crafter-by-nadia-inglewood-los-angeles',
       'The Body Crafter by Nadia Inglewood',
       'us',
@@ -898,6 +978,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '740 Centinela Avenue, Inglewood',
       '+1-424-241-2806',
+      'thebodycrafter@gmail.com',
       'https://the-body-crafter-by-nadia.square.site',
       'Massage, Relaxation',
       'Tucked into Los Angeles on 740 Centinela Avenue, The Body Crafter by Nadia Inglewood runs as an independent massage studio. Posted hours: Mo 10:00-16:00; Tu 10:00-17:00; We-Th 10:00-18:00; Fr 09:00-17:00; Sa 09:00-15:00. Their site is the-body-crafter-by-nadia.square.site.',
@@ -905,11 +986,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo 10:00-16:00; Tu 10:00-17:00; We-Th 10:00-18:00; Fr 09:00-17:00; Sa 09:00-15:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13667407539',
       'node/13667407539'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'wadee-spa-los-angeles',
       'Wadee Spa',
       'us',
@@ -917,6 +999,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Los Angeles',
       '637 South Fairfax Avenue, Los Angeles',
       '+1 323-938-0985',
+      NULL,
       'https://www.wadeespa.com/',
       'Massage, Relaxation',
       'Tucked into Los Angeles on 637 South Fairfax Avenue, Wadee Spa runs as an independent massage studio. Posted hours: 10:00-22:00. Their site is www.wadeespa.com.',
@@ -924,17 +1007,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-22:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13933202262',
       'node/13933202262'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'mend-acupuncture-los-angeles',
       'Mend Acupuncture',
       'us',
       'los-angeles',
       'Los Angeles',
       '2016 Hillhurst Avenue, Los Angeles',
+      NULL,
       NULL,
       'http://www.mendfamilyacupunture.com',
       'Massage, Relaxation',
@@ -943,17 +1028,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10720193408',
       'node/10720193408'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'bluff-technique-healing-center-los-angeles',
       'Bluff Technique Healing Center',
       'us',
       'los-angeles',
       'Los Angeles',
       '1385 Westwood Boulevard, Los Angeles',
+      NULL,
       NULL,
       'https://www.jimmybluff.com/',
       'Massage, Relaxation',
@@ -962,11 +1049,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13670102828',
       'node/13670102828'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'la-chiropractic-los-angeles',
       'LA Chiropractic',
       'us',
@@ -975,17 +1063,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '9225 Venice Boulevard, Los Angeles',
       '+1 562-262-2225',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'LA Chiropractic operates out of 9225 Venice Boulevard, Los Angeles. Call ahead on +1 562-262-2225. Hours aren''t posted, so check before you go.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3961992045',
       'node/3961992045'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'golden-ocean-chinese-foot-massage-los-angeles',
       'Golden Ocean Chinese Foot Massage',
       'us',
@@ -994,17 +1084,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '8602A West Sunset Boulevard, West Hollywood',
       '+1-310-652-8886',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Golden Ocean Chinese Foot Massage operates out of 8602A West Sunset Boulevard, Los Angeles. Call ahead on +1-310-652-8886. Posted hours: Mo-Su 10:30-22:30.',
       'USD',
       0,
       0,
       'Mo-Su 10:30-22:30',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5133454767',
       'node/5133454767'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'le-fox-massage-los-angeles',
       'Le Fox Massage',
       'us',
@@ -1013,17 +1105,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '8545 Santa Monica Boulevard, West Hollywood',
       '+1-626-657-4772',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Los Angeles know Le Fox Massage as a neighbourhood massage studio off 8545 Santa Monica Boulevard. Hours aren''t posted, so check before you go. Call ahead on +1-626-657-4772.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5247316857',
       'node/5247316857'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'robust-massage-los-angeles',
       'Robust Massage',
       'us',
@@ -1032,17 +1126,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '8450 Santa Monica Boulevard, West Hollywood',
       '+1-323-848-8161',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Robust Massage — a massage studio mapped in Los Angeles near 8450 Santa Monica Boulevard. Call ahead on +1-323-848-8161. Hours aren''t posted, so check before you go.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5316959268',
       'node/5316959268'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'solux-med-spa-chicago',
       'SOLUX Med Spa',
       'us',
@@ -1050,6 +1146,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Chicago',
       '777 North Green Street, Chicago',
       '+1-312-755-0088',
+      NULL,
       'https://www.soluxmedspa.com/',
       'Spa treatments, Wellness',
       'SOLUX Med Spa — a spa mapped in Chicago near 777 North Green Street. Their site is www.soluxmedspa.com. Posted hours: Tu-Fr 10:00-17:00; Sa-Su 10:00-14:00.',
@@ -1057,11 +1154,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu-Fr 10:00-17:00; Sa-Su 10:00-14:00',
+      'https://static.wixstatic.com/media/9706b7_236ec7e1511040d694eaa768396adf3d%7Emv2.png/v1/fit/w_2500,h_1330,al_c/9706b7_236ec7e1511040d694eaa768396adf3d%7Emv2.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/5427952840',
       'node/5427952840'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'bettye-o-day-spa-chicago',
       'Bettye O Day Spa',
       'us',
@@ -1069,6 +1167,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Chicago',
       '1424 East 53rd Street, Chicago',
       '+1 773 752 3600',
+      NULL,
       'https://www.bettyeodayspa.com/',
       'Massage, Relaxation',
       'Bettye O Day Spa — a massage studio mapped in Chicago near 1424 East 53rd Street. Their site is www.bettyeodayspa.com. Posted hours: Tu, Th, Fr 10:30-16:30; Sa 10:30-15:30.',
@@ -1076,11 +1175,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu, Th, Fr 10:30-16:30; Sa 10:30-15:30',
+      'https://bettyeodayspa.com/assets/About.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/10964750205',
       'node/10964750205'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-evolved-chicago',
       'Massage Evolved',
       'us',
@@ -1088,6 +1188,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Chicago',
       '118 North Clinton Street, Chicago',
       '+1-312-818-1901',
+      'info@massageevolved.com',
       'https://www.massageevolved.com/',
       'Massage, Relaxation',
       'Massage Evolved — a massage studio mapped in Chicago near 118 North Clinton Street. Their site is www.massageevolved.com. Posted hours: Mo-Fr 10:00-19:00; Sa-Su 10:00-17:00.',
@@ -1095,11 +1196,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-19:00; Sa-Su 10:00-17:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12018702019',
       'node/12018702019'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'house-of-hands-chicago',
       'House of Hands',
       'us',
@@ -1107,6 +1209,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Chicago',
       '4500, #3 South Cottage Grove Avenue, Chicago',
       '+1 708-294-2662',
+      'houseofhandsmassage@gmail.com',
       'https://www.chicagoswedishmassage.com/',
       'Massage, Relaxation',
       'Tucked into Chicago on 4500, #3 South Cottage Grove Avenue, House of Hands runs as an independent massage studio. Posted hours: Mo-Tu 07:00-14:00, 19:00-21:00; Th-Fr 16:00-21:00; Sa 08:00-20:00. Their site is www.chicagoswedishmassage.com.',
@@ -1114,11 +1217,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Tu 07:00-14:00, 19:00-21:00; Th-Fr 16:00-21:00; Sa 08:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12241472606',
       'node/12241472606'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'elements-massage-chicago',
       'Elements Massage',
       'us',
@@ -1126,6 +1230,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Chicago',
       '1160 South Michigan Avenue, Chicago',
       '+1 312-436-2408',
+      NULL,
       'https://elementsmassage.com/south-loop',
       'Massage, Relaxation',
       'Tucked into Chicago on 1160 South Michigan Avenue, Elements Massage runs as an independent massage studio. Hours aren''t posted, so check before you go. Their site is elementsmassage.com/south-loop.',
@@ -1133,17 +1238,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://dlg7f659mb7jz.cloudfront.net/files/corp/img/logo-nopadding-tri-color-logo2.svg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13293612478',
       'node/13293612478'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'lincoln-park-massage-spa-chicago',
       'Lincoln Park Massage Spa',
       'us',
       'chicago',
       'Chicago',
       '630 West Webster Avenue, Chicago',
+      NULL,
       NULL,
       'https://www.lincolnparkmassage.com/',
       'Massage, Relaxation',
@@ -1152,17 +1259,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'http://static1.squarespace.com/static/550b0962e4b0147d03eda02e/t/550b0ebee4b0a6795c1ebe35/1426788031971/vector+logoWHITE-01.png?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/9929776595',
       'node/9929776595'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'spa-social-chicago',
       'Spa Social',
       'us',
       'chicago',
       'Chicago',
       '1855 West Chicago Avenue, Chicago',
+      NULL,
       NULL,
       'https://www.spasocialside.com/',
       'Spa treatments, Wellness',
@@ -1171,17 +1280,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9962776686',
       'node/9962776686'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'broadway-massage-chicago',
       'Broadway Massage',
       'us',
       'chicago',
       'Chicago',
       '4125 North Broadway, Chicago',
+      NULL,
       NULL,
       'https://broadwaymassage.wixsite.com/bestspa',
       'Massage, Relaxation',
@@ -1190,11 +1301,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11234516058',
       'node/11234516058'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'lovey-nail-chicago',
       'Lovey Nail',
       'us',
@@ -1203,17 +1315,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '953 Howard Street, Evanston',
       '+1-847-491-9557',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Lovey Nail, a massage studio in Chicago (953 Howard Street). Posted hours: Mo-Sa 10:00-18:00. Call ahead on +1-847-491-9557.',
       'USD',
       0,
       0,
       'Mo-Sa 10:00-18:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2294092498',
       'node/2294092498'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'agora-spa-chicago',
       'Agora Spa',
       'us',
@@ -1222,17 +1336,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '501 Main Street, Evanston',
       NULL,
       NULL,
+      NULL,
       'Spa treatments, Wellness',
       'Sourced from OpenStreetMap: Agora Spa, a spa in Chicago (501 Main Street). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/1855119998',
       'node/1855119998'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'mama-patricia-hair-inc-chicago',
       'Mama Patricia Hair Inc',
       'us',
@@ -1241,17 +1357,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '743 Howard Street, Evanston',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Mama Patricia Hair Inc, a massage studio in Chicago (743 Howard Street). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2294092241',
       'node/2294092241'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'foot-smile-spa-chicago',
       'Foot Smile Spa',
       'us',
@@ -1260,17 +1378,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '1513 West Fullerton Avenue, Chicago',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Chicago know Foot Smile Spa as a neighbourhood massage studio off 1513 West Fullerton Avenue. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2361072401',
       'node/2361072401'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-envy-chicago',
       'Massage Envy',
       'us',
@@ -1279,17 +1399,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '7341 Lake Street, River Forest',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Massage Envy, a massage studio in Chicago (7341 Lake Street). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/7986874123',
       'node/7986874123'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'boon-thai-spa-chicago',
       'BOON Thai Spa',
       'us',
@@ -1298,17 +1420,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       NULL,
       '+1 773-812-6666',
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Tucked into Chicago, BOON Thai Spa runs as an independent massage studio. Hours aren''t posted, so check before you go. Call ahead on +1 773-812-6666.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11191199752',
       'node/11191199752'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'pink-spa-chicago',
       'Pink Spa',
       'us',
@@ -1317,17 +1441,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '3748 North Ashland Avenue, Chicago',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Pink Spa operates out of 3748 North Ashland Avenue, Chicago. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12309643601',
       'node/12309643601'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'golden-dream-spa-chicago',
       'Golden Dream Spa',
       'us',
@@ -1336,17 +1462,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       NULL,
       '+13129180665',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Golden Dream Spa operates out of Chicago. Call ahead on +13129180665. Hours aren''t posted, so check before you go.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12918234313',
       'node/12918234313'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'natural-resistance-spa-chicago',
       'Natural Resistance Spa',
       'us',
@@ -1355,17 +1483,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '2109 West Touhy Avenue, Chicago',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Chicago know Natural Resistance Spa as a neighbourhood massage studio off 2109 West Touhy Avenue. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13627182912',
       'node/13627182912'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'relax-spa-chicago',
       'Relax Spa',
       'us',
@@ -1374,17 +1504,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '327 West Howard Street, Chicago',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Relax Spa operates out of 327 West Howard Street, Chicago. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/14086222703',
       'node/14086222703'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sunny-spa-massage-chicago',
       'Sunny Spa Massage',
       'us',
@@ -1393,22 +1525,25 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '1053 Madison Street, Oak Park',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Sunny Spa Massage, a massage studio in Chicago (1053 Madison Street). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/1018415916',
       'way/1018415916'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'kingston-reflexology-chicago',
       'Kingston Reflexology',
       'us',
       'chicago',
       'Chicago',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -1418,16 +1553,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4089091897',
       'node/4089091897'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'renew-foot-massage-chicago',
       'Renew Foot Massage',
       'us',
       'chicago',
       'Chicago',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -1437,16 +1574,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4993722826',
       'node/4993722826'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'hand-and-stone-chicago',
       'Hand And Stone',
       'us',
       'chicago',
       'Chicago',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -1456,16 +1595,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10575253308',
       'node/10575253308'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-now-chicago',
       'The Now',
       'us',
       'chicago',
       'Chicago',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -1475,16 +1616,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11165334405',
       'node/11165334405'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'tokyo-spa-chicago',
       'Tokyo Spa',
       'us',
       'chicago',
       'Chicago',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -1494,11 +1637,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11390364473',
       'node/11390364473'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'spa-e-miami',
       'Spa E',
       'us',
@@ -1506,6 +1650,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Miami',
       '630 Lincoln Road, Miami Beach',
       '+1 305 534 3223',
+      NULL,
       'http://spaemiami.com',
       'Massage, Relaxation',
       'Locals in Miami know Spa E as a neighbourhood massage studio off 630 Lincoln Road. Posted hours: Mo-Su 10:00-20:00. Their site is spaemiami.com.',
@@ -1513,11 +1658,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4110202338',
       'node/4110202338'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'assian-massage-miami',
       'Assian Massage',
       'us',
@@ -1525,6 +1671,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Miami',
       '8746 Southwest 72nd Street, Miami',
       '+1 321-376-6188',
+      NULL,
       'http://asian-massage.icu/',
       'Massage, Relaxation',
       'Locals in Miami know Assian Massage as a neighbourhood massage studio off 8746 Southwest 72nd Street. Posted hours: Mo-Su 09:00-23:30. Their site is asian-massage.icu.',
@@ -1532,11 +1679,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 09:00-23:30',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6028465378',
       'node/6028465378'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'miami-massage-therapy-miami',
       'Miami Massage Therapy',
       'us',
@@ -1544,6 +1692,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Miami',
       '900 6th Street, Miami Beach',
       '+1 786-399-0048',
+      NULL,
       'https://www.miamimassagetherapy.com/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Miami Massage Therapy, a massage studio in Miami (900 6th Street). Posted hours: Mo-Su 06:00-24:00. Their site is www.miamimassagetherapy.com.',
@@ -1551,11 +1700,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 06:00-24:00',
+      'https://ektmvpymaoy.exactdn.com/storage/2015/08/Couples-Massage-Miami-Beach-1.gif?strip=all',
       'openstreetmap',
       'https://www.openstreetmap.org/node/6076482041',
       'node/6076482041'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'my-massage-haven-miami',
       'My Massage Haven',
       'us',
@@ -1563,6 +1713,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Miami',
       '7746 North Kendall Drive, Miami',
       '+1 305-342-6475',
+      NULL,
       'https://www.mymassagehaven.com',
       'Massage, Relaxation',
       'Tucked into Miami on 7746 North Kendall Drive, My Massage Haven runs as an independent massage studio. Posted hours: Mo-Sa 10:00-21:00; Su 10:00-18:00. Their site is www.mymassagehaven.com.',
@@ -1570,11 +1721,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-21:00; Su 10:00-18:00',
+      'https://mymassagehaven.com/wp-content/uploads/2024/11/home-2-4-30x38.webp',
       'openstreetmap',
       'https://www.openstreetmap.org/node/10291477425',
       'node/10291477425'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'miami-beach-deep-tissue-massages-by-joshua-miami',
       'Miami Beach Deep Tissue Massages By Joshua',
       'us',
@@ -1582,6 +1734,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Miami',
       '1125 5th Street, Miami Beach',
       '+1-347-848-9169',
+      'marmogains@gmail.com',
       'https://www.miamibeachsportsmassage.com',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Miami Beach Deep Tissue Massages By Joshua, a massage studio in Miami (1125 5th Street). Posted hours: Mo-Su 08:00-23:00. Their site is www.miamibeachsportsmassage.com.',
@@ -1589,11 +1742,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 08:00-23:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13571533797',
       'node/13571533797'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'mare-head-spa-system-miami',
       'MaRe Head Spa System',
       'us',
@@ -1601,6 +1755,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Miami',
       '2 Aragon Avenue, Miami',
       '+1-305-915-0530',
+      'info@mareheadspa.com',
       'https://www.mareheadspa.com',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: MaRe Head Spa System, a massage studio in Miami (2 Aragon Avenue). Posted hours: Mo-Sa 09:00-18:00. Their site is www.mareheadspa.com.',
@@ -1608,11 +1763,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 09:00-18:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13737266042',
       'node/13737266042'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ondara-spa-miami',
       'Ondara Spa',
       'us',
@@ -1621,17 +1777,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '4041 Collins Avenue, Miami Beach',
       '+1 786-605-4010',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Ondara Spa, a massage studio in Miami (4041 Collins Avenue). Posted hours: Mo-Su 08:30-18:00. Call ahead on +1 786-605-4010.',
       'USD',
       0,
       0,
       'Mo-Su 08:30-18:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12946603814',
       'node/12946603814'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'clean-start-total-body-cleansing-miami',
       'Clean Start Total Body Cleansing',
       'us',
@@ -1640,17 +1798,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '6901 Biscayne Boulevard, Miami',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Tucked into Miami on 6901 Biscayne Boulevard, Clean Start Total Body Cleansing runs as an independent massage studio. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3180220428',
       'node/3180220428'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-envy-miami',
       'Massage Envy',
       'us',
@@ -1659,17 +1819,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '767 17th Street, Miami',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Miami know Massage Envy as a neighbourhood massage studio off 767 17th Street. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5629495622',
       'node/5629495622'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'heavenly-organic-spa-miami',
       'Heavenly Organic Spa',
       'us',
@@ -1678,17 +1840,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '1683 Northeast 123rd Street, North Miami',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Heavenly Organic Spa is a massage studio in Miami, on 1683 Northeast 123rd Street. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6028053078',
       'node/6028053078'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'keystone-eye-center-miami',
       'Keystone Eye Center',
       'us',
@@ -1697,22 +1861,25 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '12563 Biscayne Boulevard, North Miami',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Miami know Keystone Eye Center as a neighbourhood massage studio off 12563 Biscayne Boulevard. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9335252341',
       'node/9335252341'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'xpress-spa-miami',
       'Xpress Spa',
       'us',
       'miami',
       'Miami',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -1722,16 +1889,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5903100428',
       'node/5903100428'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'natura-sugaring-melt-laser-spa-miami',
       'Natura Sugaring Melt & Laser Spa',
       'us',
       'miami',
       'Miami',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -1741,16 +1910,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12197880112',
       'node/12197880112'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'elements-massage-miami',
       'Elements Massage',
       'us',
       'miami',
       'Miami',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -1760,16 +1931,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13296663205',
       'node/13296663205'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'jollivandare-miami',
       'Jollivandare',
       'us',
       'miami',
       'Miami',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -1779,11 +1952,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/1305650160',
       'way/1305650160'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'san-francisco-massage-supply-san-francisco',
       'San Francisco Massage Supply',
       'us',
@@ -1791,6 +1965,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'San Francisco',
       '365 10th Street, San Francisco',
       '+1-415-255-4693',
+      NULL,
       'http://www.sfmassagesupply.com/',
       'Massage, Relaxation',
       'Tucked into San Francisco on 365 10th Street, San Francisco Massage Supply runs as an independent massage studio. Posted hours: Mo-Fr 09:00-19:00; Sa,Su 12:00-19:00. Their site is www.sfmassagesupply.com.',
@@ -1798,11 +1973,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 09:00-19:00; Sa,Su 12:00-19:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2583371986',
       'node/2583371986'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'delightful-foot-massage-san-francisco',
       'Delightful Foot Massage',
       'us',
@@ -1810,6 +1986,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'San Francisco',
       '1747 Polk Street, San Francisco',
       '+1 415-673-1068',
+      NULL,
       'http://www.sfdelightful.com',
       'Massage, Relaxation',
       'Delightful Foot Massage is a massage studio in San Francisco, on 1747 Polk Street. Their site is www.sfdelightful.com. Hours aren''t posted, so check before you go.',
@@ -1817,11 +1994,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2880791443',
       'node/2880791443'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'suchada-san-francisco',
       'Suchada',
       'us',
@@ -1829,6 +2007,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'San Francisco',
       '2 Division Street, San Francisco',
       '+1-415-252-5020',
+      NULL,
       'https://www.suchadathaimassage.com/',
       'Massage, Relaxation',
       'Tucked into San Francisco on 2 Division Street, Suchada runs as an independent massage studio. Hours aren''t posted, so check before you go. Their site is www.suchadathaimassage.com.',
@@ -1836,11 +2015,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'http://static1.squarespace.com/static/5d2ac3f73b8049000152bdf3/t/646de5a03ab86607734b894e/1684923817529/_83A0201.jpg?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/3577586293',
       'node/3577586293'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'enchanted-massage-san-francisco',
       'Enchanted Massage',
       'us',
@@ -1848,6 +2028,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'San Francisco',
       '944 Irving Street, San Francisco',
       '+1-415-941-4228',
+      NULL,
       'https://www.enchantedsf.com/',
       'Massage, Relaxation',
       'Enchanted Massage — a massage studio mapped in San Francisco near 944 Irving Street. Their site is www.enchantedsf.com. Posted hours: Mo-Su 10:00-21:00.',
@@ -1855,11 +2036,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-21:00',
+      'https://static.wixstatic.com/media/2d0e1d_7e4707692c6e4049bcf8b21fc8a8fae6%7Emv2.png/v1/fit/w_2500,h_1330,al_c/2d0e1d_7e4707692c6e4049bcf8b21fc8a8fae6%7Emv2.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/3686450978',
       'node/3686450978'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'balance-thai-massage-san-francisco',
       'Balance Thai Massage',
       'us',
@@ -1867,6 +2049,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'San Francisco',
       '5754 Geary Boulevard, San Francisco',
       '+1 415-831-1111',
+      NULL,
       'https://www.balancethaimassage.com',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Balance Thai Massage, a massage studio in San Francisco (5754 Geary Boulevard). Hours aren''t posted, so check before you go. Their site is www.balancethaimassage.com.',
@@ -1874,11 +2057,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://static.wixstatic.com/media/228550_69118a22ae83472a9ee737c487e4e0e5~mv2.jpg/v1/fill/w_724,h_483,al_c/228550_69118a22ae83472a9ee737c487e4e0e5~mv2.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/6632478627',
       'node/6632478627'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'qua-spa-san-francisco',
       'Qua Spa',
       'us',
@@ -1886,6 +2070,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'San Francisco',
       '1162 Mission Street, San Francisco',
       '+1-415-598-8686',
+      NULL,
       'https://quaspa.com/',
       'Spa treatments, Wellness',
       'Qua Spa operates out of 1162 Mission Street, San Francisco. Their site is quaspa.com. Posted hours: Tu-Su 10:00-19:00.',
@@ -1893,11 +2078,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu-Su 10:00-19:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6911383911',
       'node/6911383911'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'siam-orchid-san-francisco',
       'Siam Orchid',
       'us',
@@ -1905,6 +2091,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'San Francisco',
       '518 Taylor Street, San Francisco',
       '+1 415 6368405',
+      'siamorchid.sf@gmail.com',
       'https://www.siamorchidsf.com/',
       'Massage, Relaxation',
       'Siam Orchid operates out of 518 Taylor Street, San Francisco. Their site is www.siamorchidsf.com. Posted hours: Mo-Su 10:00-21:00.',
@@ -1912,11 +2099,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-21:00',
+      'https://static.wixstatic.com/media/228a5a_bc0435d2a4f8412b899c621dfb8f7177%7Emv2.png/v1/fit/w_2500,h_1330,al_c/228a5a_bc0435d2a4f8412b899c621dfb8f7177%7Emv2.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/9659739774',
       'node/9659739774'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'anjalee-san-francisco',
       'Anjalee',
       'us',
@@ -1924,6 +2112,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'San Francisco',
       '1617 Polk Street, San Francisco',
       '+1 415-351-1900',
+      NULL,
       'https://www.anjaleethaimassage.com/',
       'Massage, Relaxation',
       'Anjalee — a massage studio mapped in San Francisco near 1617 Polk Street. Their site is www.anjaleethaimassage.com. Hours aren''t posted, so check before you go.',
@@ -1931,11 +2120,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10553806553',
       'node/10553806553'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thy-spa-san-francisco',
       'Thy Spa',
       'us',
@@ -1943,6 +2133,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'San Francisco',
       '255 King Street, San Francisco',
       '+1 415 649 3999',
+      NULL,
       'https://us.thyspa.com/',
       'Massage, Relaxation',
       'Thy Spa is a massage studio in San Francisco, on 255 King Street. Their site is us.thyspa.com. Posted hours: Mo-Su 10:00-21:00.',
@@ -1950,11 +2141,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10780794747',
       'node/10780794747'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'unwind-bodywork-massage-san-francisco',
       'Unwind Bodywork & Massage',
       'us',
@@ -1962,6 +2154,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'San Francisco',
       '870 Market Street, San Francisco',
       '+1-415-429-5151',
+      'unwindbodyworkinfo@gmail.com',
       'https://www.unwindbodyworkandmassage.com',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Unwind Bodywork & Massage, a massage studio in San Francisco (870 Market Street). Posted hours: Mo-Su 11:00-20:00. Their site is www.unwindbodyworkandmassage.com.',
@@ -1969,17 +2162,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 11:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13881307785',
       'node/13881307785'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'arun-san-francisco',
       'Arun',
       'us',
       'san-francisco',
       'San Francisco',
       '1211 Church Street, San Francisco',
+      NULL,
       NULL,
       'https://www.arunwellnesssf.com/',
       'Massage, Relaxation',
@@ -1988,17 +2183,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2786114656',
       'node/2786114656'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'glow-yoga-wellness-san-francisco',
       'Glow Yoga & Wellness',
       'us',
       'san-francisco',
       'San Francisco',
       '1548 Stockton Street, San Francisco',
+      NULL,
       NULL,
       'https://www.glowyogasf.com/',
       'Spa treatments, Wellness',
@@ -2007,11 +2204,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3702219080',
       'node/3702219080'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'therapeia-massage-san-francisco',
       'Therapeia Massage',
       'us',
@@ -2019,6 +2217,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'San Francisco',
       NULL,
       '+1 415 885 4450',
+      NULL,
       'www.theplaceformassage.com',
       'Massage, Relaxation',
       'Therapeia Massage operates out of San Francisco. Their site is www.theplaceformassage.com. Hours aren''t posted, so check before you go.',
@@ -2026,17 +2225,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6693680674',
       'node/6693680674'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-lab-san-francisco',
       'Massage Lab',
       'us',
       'san-francisco',
       'San Francisco',
       '2973 16th Street, San Francisco',
+      NULL,
       NULL,
       'https://massagelabsf.com',
       'Massage, Relaxation',
@@ -2045,17 +2246,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'http://static1.squarespace.com/static/5a53e5f6aeb625417243b291/t/5a5d01c6085229750fd1ddfe/1516044743870/MassageLabLogoRGB.png?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/11799118247',
       'node/11799118247'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'celtica-wellness-sanctuary-san-francisco',
       'Celtica Wellness Sanctuary',
       'us',
       'san-francisco',
       'San Francisco',
       '590 Bosworth Street, San Francisco',
+      NULL,
       NULL,
       'https://www.celticawellness.com/',
       'Massage, Relaxation',
@@ -2064,11 +2267,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13910324254',
       'node/13910324254'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'devie-spa-massage-san-francisco',
       'Devie Spa & Massage',
       'us',
@@ -2077,17 +2281,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '1429 Polk Street, San Francisco',
       '+1 415 345 8788',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Devie Spa & Massage — a massage studio mapped in San Francisco near 1429 Polk Street. Call ahead on +1 415 345 8788. Hours aren''t posted, so check before you go.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2509914560',
       'node/2509914560'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'u-feet-massage-san-francisco',
       'U-Feet Massage',
       'us',
@@ -2096,17 +2302,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '1117 Irving Street, San Francisco',
       '+1-415-504-6618',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'U-Feet Massage operates out of 1117 Irving Street, San Francisco. Call ahead on +1-415-504-6618. Posted hours: 11:30-21:00.',
       'USD',
       0,
       0,
       '11:30-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3679639687',
       'node/3679639687'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'asian-palace-spa-san-francisco',
       'Asian Palace Spa',
       'us',
@@ -2115,17 +2323,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '704 Kearny Street, San Francisco',
       '+1 415 4779988',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Asian Palace Spa is a massage studio in San Francisco, on 704 Kearny Street. Call ahead on +1 415 4779988. Hours aren''t posted, so check before you go.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4122562012',
       'node/4122562012'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'shiatsu-massage-san-francisco',
       'Shiatsu Massage',
       'us',
@@ -2134,17 +2344,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '3735 Balboa Street, San Francisco',
       '+1 415-379-9739',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Shiatsu Massage operates out of 3735 Balboa Street, San Francisco. Call ahead on +1 415-379-9739. Posted hours: 10:00-20:30.',
       'USD',
       0,
       0,
       '10:00-20:30',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4349255906',
       'node/4349255906'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'jenny-beauty-world-san-francisco',
       'Jenny Beauty World',
       'us',
@@ -2153,17 +2365,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '3202 Balboa Street, San Francisco',
       '+1-415-668-7027',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Jenny Beauty World is a massage studio in San Francisco, on 3202 Balboa Street. Call ahead on +1-415-668-7027. Hours aren''t posted, so check before you go.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4349256219',
       'node/4349256219'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'yellow-orchid-spa-san-francisco',
       'Yellow Orchid Spa',
       'us',
@@ -2172,17 +2386,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '323 Kearny Street, San Francisco',
       '+1 415 9899633',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Yellow Orchid Spa operates out of 323 Kearny Street, San Francisco. Call ahead on +1 415 9899633. Hours aren''t posted, so check before you go.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4625131491',
       'node/4625131491'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-san-francisco',
       'Massage',
       'us',
@@ -2191,17 +2407,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '3430 Geary Boulevard, San Francisco',
       '+1 415 387 1328',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Massage — a massage studio mapped in San Francisco near 3430 Geary Boulevard. Call ahead on +1 415 387 1328. Posted hours: 10:00-21:00.',
       'USD',
       0,
       0,
       '10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6373068180',
       'node/6373068180'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sweet-smile-massage-san-francisco',
       'Sweet & Smile Massage',
       'us',
@@ -2210,17 +2428,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '1443B Noriega Street, San Francisco',
       '+1 415 213 5469',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Tucked into San Francisco on 1443B Noriega Street, Sweet & Smile Massage runs as an independent massage studio. Hours aren''t posted, so check before you go. Call ahead on +1 415 213 5469.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6502703600',
       'node/6502703600'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-enchanting-place-san-francisco',
       'The Enchanting Place',
       'us',
@@ -2229,17 +2449,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '311 4th Avenue, San Francisco',
       '+1 415 876 6373',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Tucked into San Francisco on 311 4th Avenue, The Enchanting Place runs as an independent massage studio. Posted hours: 11:00-21:00. Call ahead on +1 415 876 6373.',
       'USD',
       0,
       0,
       '11:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6791676308',
       'node/6791676308'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thai-massage-pro-las-vegas',
       'Thai Massage Pro',
       'us',
@@ -2247,6 +2469,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Las Vegas',
       '4500 East Sunset Road, Henderson',
       '+1 702-333-0548',
+      NULL,
       'https://www.thaimassagepro.vegas/',
       'Traditional Thai, Relaxation',
       'Thai Massage Pro is a massage studio in Las Vegas, on 4500 East Sunset Road. Their site is www.thaimassagepro.vegas. Hours aren''t posted, so check before you go.',
@@ -2254,11 +2477,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'http://static1.squarespace.com/static/5a37f0c1d74cffbd7ec199d0/t/5a4533a9e2c483752e369c1d/1514484649562/FB-f-Logo__blue_72.png?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/10743719814',
       'node/10743719814'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ju-ju-massage-foot-spa-las-vegas',
       'Ju Ju Massage & Foot Spa',
       'us',
@@ -2266,6 +2490,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Las Vegas',
       '4660 West Sunset Road, Henderson',
       '+1 702-665-4417',
+      NULL,
       'http://jujumassagefootspa.top/',
       'Massage, Relaxation',
       'Tucked into Las Vegas on 4660 West Sunset Road, Ju Ju Massage & Foot Spa runs as an independent massage studio. Hours aren''t posted, so check before you go. Their site is jujumassagefootspa.top.',
@@ -2273,11 +2498,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10743719843',
       'node/10743719843'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'yes-spa-las-vegas',
       'Yes Spa',
       'us',
@@ -2285,6 +2511,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Las Vegas',
       '953 East Sahara Avenue, Las Vegas',
       '+1 725-310-0779',
+      NULL,
       'https://yesspa4.wordpress.com/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Yes Spa, a massage studio in Las Vegas (953 East Sahara Avenue). Posted hours: 24/7. Their site is yesspa4.wordpress.com.',
@@ -2292,11 +2519,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '24/7',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13338981405',
       'node/13338981405'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'plush-royalty-massage-spa-las-vegas',
       'Plush Royalty Massage & Spa',
       'us',
@@ -2304,6 +2532,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Las Vegas',
       '5710 Simmons Street, North Las Vegas',
       '+1-916-546-9087',
+      'plushroyaltymassage@gmail.com',
       'https://plushroyaltymassagespa.weebly.com',
       'Spa treatments, Wellness',
       'Plush Royalty Massage & Spa operates out of 5710 Simmons Street, Las Vegas. Their site is plushroyaltymassagespa.weebly.com. Posted hours: Tu 10:00-19:00; We 08:00-19:00.',
@@ -2311,11 +2540,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu 10:00-19:00; We 08:00-19:00',
+      'http://plushroyaltymassagespa.weebly.com/uploads/1/0/1/6/101696372/published/2.jpg?1489042319',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13997023299',
       'node/13997023299'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'relax-thai-massage-studio-las-vegas',
       'Relax Thai Massage Studio',
       'us',
@@ -2323,6 +2553,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Las Vegas',
       '8751 West Charleston Boulevard, Las Vegas',
       '+17028637026',
+      'contact@relaxthaimassage.care',
       'https://relaxthaimassage.care/',
       'Traditional Thai, Relaxation',
       'Relax Thai Massage Studio is a massage studio in Las Vegas, on 8751 West Charleston Boulevard. Their site is relaxthaimassage.care. Posted hours: Mo-Su 10:30-21:30.',
@@ -2330,11 +2561,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:30-21:30',
+      'https://lh3.googleusercontent.com/sitesv/AG8ngQWFzyGtJIpwHsXVHU5oX7Z_I6nW0bVU2_el_vK3AYxnZz_kHc9vHmQcWQ69P7zYHYkYCwbRFgVHtJQxr5UTKzAPZVdn5LG0x-2aD0a2TaLR1uibTM-4xaZaLCs7WdHFNQrZLpl9B4-d8H0ZWC6qZvwMzTzkR0bd6NYQftmEsC8lOpyGfqrUNkgs0YLRrq8=w16383',
       'openstreetmap',
       'https://www.openstreetmap.org/way/1220083345',
       'way/1220083345'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'trinity-massage-las-vegas',
       'Trinity Massage',
       'us',
@@ -2343,17 +2575,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '4130 West Sunset Road, Henderson',
       '+1-725-250-3051',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Trinity Massage, a massage studio in Las Vegas (4130 West Sunset Road). Hours aren''t posted, so check before you go. Call ahead on +1-725-250-3051.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12898494861',
       'node/12898494861'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'neko-massage-studio-las-vegas',
       'Neko Massage Studio',
       'us',
@@ -2362,17 +2596,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '124 South 6th Street, Las Vegas',
       '+1 702-768-5450',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Neko Massage Studio is a massage studio in Las Vegas, on 124 South 6th Street. Call ahead on +1 702-768-5450. Posted hours: 10:00-21:00.',
       'USD',
       0,
       0,
       '10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/1380168240',
       'way/1380168240'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'breathe-oxygen-bar-las-vegas',
       'Breathe Oxygen Bar',
       'us',
@@ -2381,17 +2617,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '3717 South Las Vegas Boulevard, Paradise',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Tucked into Las Vegas on 3717 South Las Vegas Boulevard, Breathe Oxygen Bar runs as an independent massage studio. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11666646031',
       'node/11666646031'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thai-spa-las-vegas',
       'Thai Spa',
       'us',
@@ -2400,17 +2638,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '7365 West Sahara Avenue, Las Vegas',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Thai Spa, a massage studio in Las Vegas (7365 West Sahara Avenue). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13256713578',
       'node/13256713578'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'lavender-massage-las-vegas',
       'Lavender Massage',
       'us',
@@ -2419,17 +2659,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '7380 South Eastern Avenue, Las Vegas',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Lavender Massage is a massage studio in Las Vegas, on 7380 South Eastern Avenue. No phone or website is on file yet — a good candidate to claim. Posted hours: Mo-Sa 09:30-19:00.',
       'USD',
       0,
       0,
       'Mo-Sa 09:30-19:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/14016644753',
       'node/14016644753'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'meridian-massage-las-vegas',
       'Meridian Massage',
       'us',
@@ -2438,17 +2680,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '6834 West Charleston Boulevard, Las Vegas',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Las Vegas know Meridian Massage as a neighbourhood massage studio off 6834 West Charleston Boulevard. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/440814717',
       'way/440814717'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sam-s-spa-las-vegas',
       'Sam''s Spa',
       'us',
@@ -2457,22 +2701,25 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '6340 West Charleston Boulevard, Las Vegas',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sam''s Spa is a massage studio in Las Vegas, on 6340 West Charleston Boulevard. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'USD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/1363944084',
       'way/1363944084'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-chiroport-las-vegas',
       'The Chiroport',
       'us',
       'las-vegas',
       'Las Vegas',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -2482,16 +2729,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2432755923',
       'node/2432755923'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'xpresspa-las-vegas',
       'XpresSpa',
       'us',
       'las-vegas',
       'Las Vegas',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -2501,16 +2750,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5741952034',
       'node/5741952034'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'shiki-spa-las-vegas',
       'Shiki Spa',
       'us',
       'las-vegas',
       'Las Vegas',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -2520,16 +2771,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11510205661',
       'node/11510205661'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'biby-spa-las-vegas',
       'Biby Spa',
       'us',
       'las-vegas',
       'Las Vegas',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -2539,16 +2792,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11510294060',
       'node/11510294060'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'spring-spa-las-vegas',
       'Spring Spa',
       'us',
       'las-vegas',
       'Las Vegas',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -2558,16 +2813,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11510304069',
       'node/11510304069'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-professional-for-health-las-vegas',
       'Massage Professional For Health',
       'us',
       'las-vegas',
       'Las Vegas',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -2577,11 +2834,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13064740138',
       'node/13064740138'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'om-health-and-beauty-london',
       'OM Health and Beauty',
       'uk',
@@ -2589,6 +2847,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '343 Green Lanes, London',
       '+44 7512 343562',
+      NULL,
       'https://omhealthandbeauty.com/',
       'Massage, Relaxation',
       'OM Health and Beauty — a massage studio mapped in London near 343 Green Lanes. Their site is omhealthandbeauty.com. Hours aren''t posted, so check before you go.',
@@ -2596,11 +2855,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2323732985',
       'node/2323732985'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'walk-in-backrub-london',
       'Walk-in Backrub',
       'uk',
@@ -2608,6 +2868,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '11 Charlotte Place, London',
       '+44 20 7436 9876',
+      NULL,
       'https://www.walkinbackrub.co.uk/Charlotte-Place-Walk-in-Backrub/I23.htm',
       'Massage, Relaxation',
       'Walk-in Backrub operates out of 11 Charlotte Place, London. Their site is www.walkinbackrub.co.uk/Charlotte-Place-Walk-in-Backrub/I23.htm. Posted hours: Mo-Fr 10:30-19:00; Sa-Su 12:00-18:00.',
@@ -2615,11 +2876,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:30-19:00; Sa-Su 12:00-18:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3520755722',
       'node/3520755722'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'integrated-body-dynamic-london',
       'Integrated Body Dynamic',
       'uk',
@@ -2627,6 +2889,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '17 Ferme Park Road, London',
       '+44 20 8347 0888',
+      NULL,
       'https://www.integratedbodydynamics.co.uk/',
       'Massage, Relaxation',
       'Tucked into London on 17 Ferme Park Road, Integrated Body Dynamic runs as an independent massage studio. Posted hours: Mo-Su 09:00-21:00. Their site is www.integratedbodydynamics.co.uk.',
@@ -2634,11 +2897,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 09:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3900663906',
       'node/3900663906'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'monsoon-thai-massage-london',
       'Monsoon Thai Massage',
       'uk',
@@ -2646,6 +2910,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '459 Norwood Road, London',
       '+44 20 3340 3960',
+      'info@monsoontherapy.com',
       'https://www.monsoontherapy.com/',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Monsoon Thai Massage, a massage studio in London (459 Norwood Road). Posted hours: Mo-Su 10:00-20:00. Their site is www.monsoontherapy.com.',
@@ -2653,11 +2918,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5143011737',
       'node/5143011737'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'siam-body-and-soul-london',
       'Siam Body and Soul',
       'uk',
@@ -2665,6 +2931,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '33 Chalton Street, London',
       '+44 20 7388 5734',
+      NULL,
       'https://www.siambodysoul.com/',
       'Massage, Relaxation',
       'Siam Body and Soul is a massage studio in London, on 33 Chalton Street. Their site is www.siambodysoul.com. Posted hours: Mo-Su 11:00-21:00.',
@@ -2672,11 +2939,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 11:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6148560685',
       'node/6148560685'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'marylebone-thai-spa-london',
       'Marylebone Thai Spa',
       'uk',
@@ -2684,6 +2952,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '58a Paddington Street, London',
       '+44 20 7935 2117',
+      'info@marylebonethaispa.co.uk',
       'https://www.marylebonethaispa.co.uk/',
       'Traditional Thai, Relaxation',
       'Marylebone Thai Spa operates out of 58a Paddington Street, London. Their site is www.marylebonethaispa.co.uk. Posted hours: Mo-Su 11:00-22:00.',
@@ -2691,11 +2960,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 11:00-22:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6321245769',
       'node/6321245769'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'masaj-london',
       'Masaj',
       'uk',
@@ -2703,6 +2973,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '34a Paddington Street, London',
       '+44 20 4586 1140',
+      'marylebone@masasj.me',
       'https://www.masaj.me/massage-marylebone',
       'Massage, Relaxation',
       'Locals in London know Masaj as a neighbourhood massage studio off 34a Paddington Street. Posted hours: Mo-Su 08:00-21:30. Their site is www.masaj.me/massage-marylebone.',
@@ -2710,11 +2981,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 08:00-21:30',
+      'http://static1.squarespace.com/static/5eaea4dd12b1694232f42b4b/t/675c1c7641da82701e292a74/1775144860308/MASAJ+Marylebone+%E2%93%92Amy+Hunter+Photography+18+%283%29-min.jpg?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/6336543639',
       'node/6336543639'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'lili-massage-london',
       'LiLi Massage',
       'uk',
@@ -2722,6 +2994,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '320 Old Brompton Road, London',
       '+44 20 7835 2188',
+      NULL,
       'http://www.chinese-medical-london.co.uk/',
       'Massage, Relaxation',
       'Tucked into London on 320 Old Brompton Road, LiLi Massage runs as an independent massage studio. Hours aren''t posted, so check before you go. Their site is www.chinese-medical-london.co.uk.',
@@ -2729,11 +3002,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/7767462471',
       'node/7767462471'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'harmony-massage-acupuncture-london',
       'Harmony Massage & Acupuncture',
       'uk',
@@ -2741,6 +3015,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '167 Earl''s Court Road, London',
       '+44 20 7244 6488',
+      NULL,
       'http://www.orientalnaturalhealth.co.uk',
       'Massage, Relaxation',
       'Locals in London know Harmony Massage & Acupuncture as a neighbourhood massage studio off 167 Earl''s Court Road. Hours aren''t posted, so check before you go. Their site is www.orientalnaturalhealth.co.uk.',
@@ -2748,11 +3023,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/7804509140',
       'node/7804509140'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'balance-chinese-massage-london',
       'Balance Chinese Massage',
       'uk',
@@ -2760,6 +3036,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '44-46 Kenway Road, London',
       '+44 20 3302 8112',
+      NULL,
       'https://balance-spa.co.uk',
       'Massage, Relaxation',
       'Tucked into London on 44-46 Kenway Road, Balance Chinese Massage runs as an independent massage studio. Posted hours: Mo-Su 10:30-21:00. Their site is balance-spa.co.uk.',
@@ -2767,11 +3044,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:30-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/7805825278',
       'node/7805825278'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-healthy-glow-london',
       'The Healthy Glow',
       'uk',
@@ -2779,6 +3057,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '24a Earl''s Court Gardens, London',
       '+44 20 7373 8887',
+      NULL,
       'http://www.thehealthyglow.co.uk/',
       'Massage, Relaxation',
       'The Healthy Glow is a massage studio in London, on 24a Earl''s Court Gardens. Their site is www.thehealthyglow.co.uk. Hours aren''t posted, so check before you go.',
@@ -2786,11 +3065,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/7816705765',
       'node/7816705765'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thai-therapy-london',
       'Thai Therapy',
       'uk',
@@ -2798,6 +3078,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '26 Beauchamp Place, London',
       '+44 20 7589 3709',
+      NULL,
       'https://www.thaitherapy.com',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Thai Therapy, a massage studio in London (26 Beauchamp Place). Hours aren''t posted, so check before you go. Their site is www.thaitherapy.com.',
@@ -2805,11 +3086,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/8023891749',
       'node/8023891749'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'oblique-house-of-aesthetics-london',
       'oblique: House of Aesthetics',
       'uk',
@@ -2817,6 +3099,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '89 Old Brompton Road, London',
       '+44 7367 652 555',
+      NULL,
       'https://obliquebeauty.uk/locations/oblique-house-of-aesthetics',
       'Massage, Relaxation',
       'Tucked into London on 89 Old Brompton Road, oblique: House of Aesthetics runs as an independent massage studio. Posted hours: Mo-Su 10:00-21:00. Their site is obliquebeauty.uk/locations/oblique-house-of-aesthetics.',
@@ -2824,11 +3107,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/8106721280',
       'node/8106721280'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chorfaa-london',
       'Chorfaa',
       'uk',
@@ -2836,6 +3120,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '18 Northfield Avenue, London',
       '+44 20 8930 6375',
+      NULL,
       'https://www.chorfaacentre.co.uk/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Chorfaa, a massage studio in London (18 Northfield Avenue). Hours aren''t posted, so check before you go. Their site is www.chorfaacentre.co.uk.',
@@ -2843,11 +3128,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/8702886388',
       'node/8702886388'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'd-j-beauty-and-thai-spa-london',
       'D&J Beauty and Thai Spa',
       'uk',
@@ -2855,6 +3141,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       'High Street, London',
       '+44 20 3659 8400',
+      NULL,
       'https://www.d-j-beauty.co.uk',
       'Traditional Thai, Relaxation',
       'D&J Beauty and Thai Spa — a massage studio mapped in London near High Street. Their site is www.d-j-beauty.co.uk. Hours aren''t posted, so check before you go.',
@@ -2862,11 +3149,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10159908746',
       'node/10159908746'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ruean-siam-london',
       'Ruean Siam',
       'uk',
@@ -2874,6 +3162,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '193 Trafalgar Road, London',
       '+44 20 3971 8078',
+      'info@rueansiamsauna.com',
       'https://rueansiamsauna.com',
       'Massage, Relaxation',
       'Tucked into London on 193 Trafalgar Road, Ruean Siam runs as an independent massage studio. Hours aren''t posted, so check before you go. Their site is rueansiamsauna.com.',
@@ -2881,11 +3170,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10253349499',
       'node/10253349499'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'jolly-good-time-massage-london',
       'Jolly Good Time Massage',
       'uk',
@@ -2893,6 +3183,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '165 Trafalgar Road, London',
       '+44 77 0994 6910',
+      'info@jollygoodtime.co.uk',
       'https://www.jollygoodtime.co.uk/',
       'Massage, Relaxation',
       'Jolly Good Time Massage — a massage studio mapped in London near 165 Trafalgar Road. Their site is www.jollygoodtime.co.uk. Hours aren''t posted, so check before you go.',
@@ -2900,11 +3191,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10253439649',
       'node/10253439649'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-in-fulham-london',
       'Massage in Fulham',
       'uk',
@@ -2912,6 +3204,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '137 Dawes Road, London',
       '+447709 034636',
+      'sylwia.milan@yahoo.com',
       'https://massage-in-fulham.mytreatwell.co.uk/',
       'Massage, Relaxation',
       'Massage in Fulham — a massage studio mapped in London near 137 Dawes Road. Their site is massage-in-fulham.mytreatwell.co.uk. Posted hours: Mo-We 10:00-21:00; Fr-Sa 10:00-21:00; Su 11:00-21:00.',
@@ -2919,11 +3212,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-We 10:00-21:00; Fr-Sa 10:00-21:00; Su 11:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11225953307',
       'node/11225953307'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'prime-tantric-massage-london',
       'Prime Tantric Massage',
       'uk',
@@ -2931,6 +3225,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '127-129 Cleveland Street, London',
       '+44 7367628358',
+      NULL,
       'https://www.prime-tantric-massage.co.uk/tantric-massages-london/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Prime Tantric Massage, a massage studio in London (127-129 Cleveland Street). Posted hours: Mo-Su 10:00-22:00. Their site is www.prime-tantric-massage.co.uk/tantric-massages-london.',
@@ -2938,11 +3233,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-22:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11502825867',
       'node/11502825867'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thai-haven-london',
       'Thai Haven',
       'uk',
@@ -2950,6 +3246,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '102 Mill Lane, London',
       '+44 2074 439721',
+      'bliss@thaihaven.co.uk',
       'https://www.thaihaven.co.uk',
       'Traditional Thai, Relaxation',
       'Locals in London know Thai Haven as a neighbourhood massage studio off 102 Mill Lane. Posted hours: Mo-Su 10:30-19:30. Their site is www.thaihaven.co.uk.',
@@ -2957,11 +3254,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:30-19:30',
+      'https://thaihaven.co.uk/images/og-image.webp',
       'openstreetmap',
       'https://www.openstreetmap.org/node/11516700977',
       'node/11516700977'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'my-massage-london-london',
       'My Massage London',
       'uk',
@@ -2969,6 +3267,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '12 Bittacy Hill, London',
       '+44 20 8343 0222',
+      NULL,
       'https://mymassagelondon.com1',
       'Massage, Relaxation',
       'My Massage London operates out of 12 Bittacy Hill, London. Their site is mymassagelondon.com1. Hours aren''t posted, so check before you go.',
@@ -2976,11 +3275,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11947939036',
       'node/11947939036'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massaggi-london',
       'Massaggi',
       'uk',
@@ -2988,6 +3288,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '112 Marylebone High Street, London',
       '+44 20 7226 4502',
+      NULL,
       'https://www.massaggi.co.uk/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Massaggi, a massage studio in London (112 Marylebone High Street). Posted hours: "by appointment". Their site is www.massaggi.co.uk.',
@@ -2995,11 +3296,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '"by appointment"',
+      'https://www.massaggi.co.uk/wp-content/uploads/2020/03/home-magrin.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/12993375450',
       'node/12993375450'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'asiatic-thai-massage-london',
       'Asiatic Thai Massage',
       'uk',
@@ -3007,6 +3309,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '262 Upper Street, London',
       '+44 20 7288 8702',
+      NULL,
       'https://asiaticthaimassage.co.uk/',
       'Traditional Thai, Relaxation',
       'Tucked into London on 262 Upper Street, Asiatic Thai Massage runs as an independent massage studio. Posted hours: "by appointment". Their site is asiaticthaimassage.co.uk.',
@@ -3014,11 +3317,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '"by appointment"',
+      'https://asiaticthaimassage.co.uk/wp-content/uploads/2026/05/Group-427319621a-1.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13605024017',
       'node/13605024017'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'baipho-thai-remedy-london',
       'Baipho Thai Remedy',
       'uk',
@@ -3026,6 +3330,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'London',
       '615 Fulham Road, London',
       '+44 20 7385 7438',
+      NULL,
       'https://baipho.co.uk/',
       'Traditional Thai, Relaxation',
       'Baipho Thai Remedy — a massage studio mapped in London near 615 Fulham Road. Their site is baipho.co.uk. Posted hours: Mo-Su 10:00-22:00.',
@@ -3033,11 +3338,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-22:00',
+      'https://baipho.co.uk/wp-content/uploads/elementor/thumbs/front-view-physiotherapist-massaging-man-s-back-r1apr6g2e6tet5xisv77jlxz0gz1mdqcahv9ie1gag.webp',
       'openstreetmap',
       'https://www.openstreetmap.org/node/14064431856',
       'node/14064431856'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ladybirds-massage-parlour-manchester',
       'Ladybirds Massage Parlour',
       'uk',
@@ -3045,6 +3351,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Manchester',
       '309b Palatine Road, Manchester',
       '+44 161 945 1962',
+      'enquiries@ladybirdsweb.co.uk',
       'https://ladybirdsweb.co.uk/',
       'Massage, Relaxation',
       'Ladybirds Massage Parlour — a massage studio mapped in Manchester near 309b Palatine Road. Their site is ladybirdsweb.co.uk. Hours aren''t posted, so check before you go.',
@@ -3052,11 +3359,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6206582837',
       'node/6206582837'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'po-thong-thai-therapy-manchester',
       'Po Thong Thai Therapy',
       'uk',
@@ -3064,6 +3372,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Manchester',
       '80 Cross Street, Sale',
       '+44 161 286 6702',
+      NULL,
       'https://www.pothongthaitherapy.co.uk/',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Po Thong Thai Therapy, a massage studio in Manchester (80 Cross Street). Hours aren''t posted, so check before you go. Their site is www.pothongthaitherapy.co.uk.',
@@ -3071,11 +3380,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10045867096',
       'node/10045867096'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'jutharat-thai-massage-manchester',
       'Jutharat thai massage',
       'uk',
@@ -3083,6 +3393,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Manchester',
       '285 Oldham Road, Manchester',
       '+44 7542 666449',
+      NULL,
       'https://www.jutharat.co.uk/',
       'Traditional Thai, Relaxation',
       'Jutharat thai massage is a massage studio in Manchester, on 285 Oldham Road. Their site is www.jutharat.co.uk. Posted hours: Mo-Su 10:00-20:00, 20:30-21:00.',
@@ -3090,11 +3401,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:00, 20:30-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13061862686',
       'node/13061862686'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'nam-tip-thai-massage-manchester',
       'Nam Tip Thai Massage',
       'uk',
@@ -3102,6 +3414,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Manchester',
       '1274 Ashton Old Road, Manchester',
       '+44 161 370 0990',
+      NULL,
       'https://www.namtipthaimassage.co.uk',
       'Traditional Thai, Relaxation',
       'Nam Tip Thai Massage — a massage studio mapped in Manchester near 1274 Ashton Old Road. Their site is www.namtipthaimassage.co.uk. Posted hours: Mo-Su 10:00-20:00.',
@@ -3109,11 +3422,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/1277645892',
       'way/1277645892'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-one-thai-massage-manchester',
       'The One Thai Massage',
       'uk',
@@ -3122,17 +3436,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '75 Bridge Street, Manchester',
       '+44 161 834 7846',
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Tucked into Manchester on 75 Bridge Street, The One Thai Massage runs as an independent massage studio. Hours aren''t posted, so check before you go. Call ahead on +44 161 834 7846.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6343468251',
       'node/6343468251'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'red-moon-manchester',
       'Red Moon',
       'uk',
@@ -3141,17 +3457,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '93A Princess Street, Manchester',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Manchester know Red Moon as a neighbourhood massage studio off 93A Princess Street. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2692887710',
       'node/2692887710'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'bunya-thai-massage-manchester',
       'Bunya Thai Massage',
       'uk',
@@ -3160,17 +3478,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '182 Manchester Road, Oldham',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Bunya Thai Massage is a massage studio in Manchester, on 182 Manchester Road. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3078272761',
       'node/3078272761'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'napa-beauty-skin-care-manchester',
       'Napa Beauty & Skin Care',
       'uk',
@@ -3179,17 +3499,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '41 Faulkner Street, Manchester',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Napa Beauty & Skin Care operates out of 41 Faulkner Street, Manchester. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3635450506',
       'node/3635450506'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ratree-thai-massage-manchester',
       'Ratree Thai Massage',
       'uk',
@@ -3198,17 +3520,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '44 George Street, Manchester',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Ratree Thai Massage, a massage studio in Manchester (44 George Street). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3675002427',
       'node/3675002427'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'budhsarakam-thai-massage-manchester',
       'Budhsarakam Thai Massage',
       'uk',
@@ -3217,17 +3541,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '76 Portland Street, Manchester',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Budhsarakam Thai Massage, a massage studio in Manchester (76 Portland Street). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3678736585',
       'node/3678736585'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'natural-health-spa-manchester',
       'Natural Health Spa',
       'uk',
@@ -3236,17 +3562,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '55 Wellington Road South, Stockport',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Tucked into Manchester on 55 Wellington Road South, Natural Health Spa runs as an independent massage studio. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3741042538',
       'node/3741042538'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       '1910-manchester',
       '1910',
       'uk',
@@ -3255,17 +3583,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Stamford New Road, Altrincham',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       '1910 is a massage studio in Manchester, on Stamford New Road. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5092133858',
       'node/5092133858'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'delucia-holistics-manchester',
       'Delucia Holistics',
       'uk',
@@ -3274,17 +3604,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '71 Lever Street, Manchester',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Delucia Holistics — a massage studio mapped in Manchester near 71 Lever Street. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6358776585',
       'node/6358776585'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sarasin-massage-spa-manchester',
       'Sarasin Massage & Spa',
       'uk',
@@ -3293,17 +3625,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '4 Bradley Street, Manchester',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sarasin Massage & Spa operates out of 4 Bradley Street, Manchester. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6358776588',
       'node/6358776588'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'cherrys-massage-manchester',
       'Cherrys Massage',
       'uk',
@@ -3312,17 +3646,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '16 Little Lever Street, Manchester',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Cherrys Massage is a massage studio in Manchester, on 16 Little Lever Street. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6369083795',
       'node/6369083795'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'bali-health-lounge-manchester',
       'Bali Health Lounge',
       'uk',
@@ -3331,17 +3667,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '48 George Street, Manchester',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Bali Health Lounge is a massage studio in Manchester, on 48 George Street. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6535193764',
       'node/6535193764'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'siamease-thai-massage-spa-manchester',
       'Siamease Thai Massage & Spa',
       'uk',
@@ -3350,17 +3688,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '48 Faulkner Street, Manchester',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Siamease Thai Massage & Spa operates out of 48 Faulkner Street, Manchester. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6565132934',
       'node/6565132934'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'happy-spa-manchester',
       'Happy Spa',
       'uk',
@@ -3369,17 +3709,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '95 Castle Street, Stockport',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Tucked into Manchester on 95 Castle Street, Happy Spa runs as an independent massage studio. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/8665022357',
       'node/8665022357'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'paka-thai-spa-massage-manchester',
       'Paka Thai Spa Massage',
       'uk',
@@ -3388,17 +3730,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '106 Higher Hillgate, Stockport',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Locals in Manchester know Paka Thai Spa Massage as a neighbourhood massage studio off 106 Higher Hillgate. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9257974416',
       'node/9257974416'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'jasmine-massage-manchester',
       'Jasmine Massage',
       'uk',
@@ -3407,17 +3751,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '95 Buxton Road, Stockport',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Tucked into Manchester on 95 Buxton Road, Jasmine Massage runs as an independent massage studio. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9589555217',
       'node/9589555217'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'town-girls-massage-parlour-manchester',
       'Town Girls Massage Parlour',
       'uk',
@@ -3426,17 +3772,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '21-23 Carnarvon Street, Manchester',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Town Girls Massage Parlour is a massage studio in Manchester, on 21-23 Carnarvon Street. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9630524120',
       'node/9630524120'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chok-dee-thai-manchester',
       'Chok Dee Thai',
       'uk',
@@ -3445,17 +3793,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '6 Park Place, Manchester',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Chok Dee Thai, a massage studio in Manchester (6 Park Place). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9637725093',
       'node/9637725093'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'tasha-health-massage-manchester',
       'Tasha Health Massage',
       'uk',
@@ -3464,17 +3814,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '24 Blackfriars Street, Salford',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Tasha Health Massage is a massage studio in Manchester, on 24 Blackfriars Street. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9666265801',
       'node/9666265801'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thai-spa-massage-manchester',
       'Thai Spa Massage',
       'uk',
@@ -3483,17 +3835,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '127 Oxford Road, Manchester',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Thai Spa Massage — a massage studio mapped in Manchester near 127 Oxford Road. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9888006346',
       'node/9888006346'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'therapy-health-birmingham',
       'Therapy Health',
       'uk',
@@ -3501,6 +3855,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Birmingham',
       '506 Bearwood Road, Birmingham',
       '+44 7389 026826',
+      NULL,
       'https://www.fresha.com/lvp/therapy-health-bearwood-road-Bolgaa',
       'Massage, Relaxation',
       'Therapy Health is a massage studio in Birmingham, on 506 Bearwood Road. Their site is www.fresha.com/lvp/therapy-health-bearwood-road-Bolgaa. Hours aren''t posted, so check before you go.',
@@ -3508,11 +3863,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12768502481',
       'node/12768502481'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'moon-thai-birmingham',
       'Moon Thai',
       'uk',
@@ -3520,6 +3876,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Birmingham',
       '3 Three Shires Oak Road, Birmingham',
       '+44 121 274 8072',
+      NULL,
       'https://www.moonthai.co.uk/',
       'Traditional Thai, Relaxation',
       'Moon Thai operates out of 3 Three Shires Oak Road, Birmingham. Their site is www.moonthai.co.uk. Hours aren''t posted, so check before you go.',
@@ -3527,11 +3884,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12768502494',
       'node/12768502494'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'natural-therapy-birmingham',
       'Natural Therapy',
       'uk',
@@ -3539,6 +3897,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Birmingham',
       '117 Poplar Road, Birmingham',
       '+44 7399 201413',
+      NULL,
       'https://www.naturaltherapybirmingham.co.uk/',
       'Massage, Relaxation',
       'Tucked into Birmingham on 117 Poplar Road, Natural Therapy runs as an independent massage studio. Hours aren''t posted, so check before you go. Their site is www.naturaltherapybirmingham.co.uk.',
@@ -3546,11 +3905,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12771226411',
       'node/12771226411'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'natural-health-solutions-birmingham',
       'Natural Health Solutions',
       'uk',
@@ -3558,6 +3918,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Birmingham',
       'Tollgate Shopping Centre, Birmingham',
       '+44 7306 312229',
+      NULL,
       'https://naturalhealthsolutions.co.uk',
       'Massage, Relaxation',
       'Natural Health Solutions operates out of Tollgate Shopping Centre, Birmingham. Their site is naturalhealthsolutions.co.uk. Hours aren''t posted, so check before you go.',
@@ -3565,11 +3926,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12801282996',
       'node/12801282996'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-recovery-room-birmingham',
       'The Recovery Room',
       'uk',
@@ -3577,6 +3939,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Birmingham',
       '2 Snow Hill Queensway, Birmingham',
       '+44 7713248755',
+      'feelgood@therecoveryroom.org.uk',
       'https://therecoveryroom.org.uk',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: The Recovery Room, a massage studio in Birmingham (2 Snow Hill Queensway). Hours aren''t posted, so check before you go. Their site is therecoveryroom.org.uk.',
@@ -3584,11 +3947,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'http://therecoveryroom.org.uk/cdn/shop/files/Expert_Massage_6_2d3c2cc9-1566-43a0-9403-4962863d1f4d.jpg?v=1779104815',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13993835251',
       'node/13993835251'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ayur-villa-birmingham',
       'Ayur Villa',
       'uk',
@@ -3596,6 +3960,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Birmingham',
       NULL,
       '+44 121 706 5566',
+      'info@ayurvilla.co.uk',
       'https://www.ayurvilla.co.uk/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Ayur Villa, a massage studio in Birmingham. Posted hours: Mo-Su 10:00-22:00. Their site is www.ayurvilla.co.uk.',
@@ -3603,17 +3968,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-22:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11114637005',
       'node/11114637005'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'nukai-thai-massage-birmingham',
       'Nukai Thai Massage',
       'uk',
       'birmingham',
       'Birmingham',
       '2288B Coventry Road, Birmingham',
+      NULL,
       NULL,
       'https://nukai.co.uk/',
       'Traditional Thai, Relaxation',
@@ -3622,17 +3989,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/14076984624',
       'node/14076984624'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ayur-wellness-and-pain-centre-birmingham',
       'Ayur Wellness and Pain Centre',
       'uk',
       'birmingham',
       'Birmingham',
       '1 High Street, Birmingham',
+      NULL,
       NULL,
       'https://www.ayurnilayam.co.uk/',
       'Massage, Relaxation',
@@ -3641,11 +4010,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://static.wixstatic.com/media/4ce639_bf47d450d1734506a2dcd21527c7927d%7Emv2.png/v1/fit/w_2500,h_1330,al_c/4ce639_bf47d450d1734506a2dcd21527c7927d%7Emv2.png',
       'openstreetmap',
       'https://www.openstreetmap.org/way/1366551788',
       'way/1366551788'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'kittys-massage-parlour-birmingham',
       'Kittys Massage Parlour',
       'uk',
@@ -3654,22 +4024,25 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '1572 Pershore Road, Birmingham',
       '+44 121 459 4248',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Kittys Massage Parlour operates out of 1572 Pershore Road, Birmingham. Call ahead on +44 121 459 4248. Posted hours: Mo-Su 11:00-21:30.',
       'GBP',
       0,
       0,
       'Mo-Su 11:00-21:30',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12113463343',
       'node/12113463343'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'christa-harmony-birmingham',
       'Christa Harmony',
       'uk',
       'birmingham',
       'Birmingham',
+      NULL,
       NULL,
       NULL,
       'https://www.treatwell.co.uk/place/christa-harmony/',
@@ -3679,11 +4052,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://cdn1.treatwell.net/images/view/v2.i13315121.w720.h480.x53599788/',
       'openstreetmap',
       'https://www.openstreetmap.org/node/12777336440',
       'node/12777336440'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'jen-s-salon-inside-sandwell-gym-birmingham',
       'Jen''s Salon (inside Sandwell Gym)',
       'uk',
@@ -3692,17 +4066,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'High Street, Birmingham',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Jen''s Salon (inside Sandwell Gym) is a massage studio in Birmingham, on High Street. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12650313534',
       'node/12650313534'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'rainbow-thai-spa-birmingham',
       'Rainbow Thai Spa',
       'uk',
@@ -3711,17 +4087,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '183 Gravelly Lane, Birmingham',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Locals in Birmingham know Rainbow Thai Spa as a neighbourhood massage studio off 183 Gravelly Lane. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/140654936',
       'way/140654936'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sb-wellness-sports-massage-therapy-birmingham',
       'SB Wellness Sports Massage & Therapy',
       'uk',
@@ -3730,22 +4108,25 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '216e Great Bridge Street, Birmingham',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'SB Wellness Sports Massage & Therapy is a massage studio in Birmingham, on 216e Great Bridge Street. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/1349271793',
       'way/1349271793'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'garden-of-eden-birmingham',
       'Garden of Eden',
       'uk',
       'birmingham',
       'Birmingham',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -3755,16 +4136,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/858122277',
       'node/858122277'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'amala-birmingham',
       'Amala',
       'uk',
       'birmingham',
       'Birmingham',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -3774,16 +4157,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2587329549',
       'node/2587329549'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-club-spa-birmingham',
       'The Club & Spa',
       'uk',
       'birmingham',
       'Birmingham',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -3793,16 +4178,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2587329575',
       'node/2587329575'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'lily-may-wellbeing-birmingham',
       'Lily May Wellbeing',
       'uk',
       'birmingham',
       'Birmingham',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -3812,16 +4199,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2995130225',
       'node/2995130225'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'consol-birmingham',
       'Consol',
       'uk',
       'birmingham',
       'Birmingham',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -3831,16 +4220,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3165712568',
       'node/3165712568'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'gala-thai-therapy-spa-birmingham',
       'Gala Thai Therapy & Spa',
       'uk',
       'birmingham',
       'Birmingham',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -3850,16 +4241,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9664015192',
       'node/9664015192'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'mali-thai-traditional-therapies-birmingham',
       'Mali Thai Traditional Therapies',
       'uk',
       'birmingham',
       'Birmingham',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -3869,16 +4262,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/1278270214',
       'way/1278270214'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-health-studio-birmingham',
       'The Health Studio',
       'uk',
       'birmingham',
       'Birmingham',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -3888,16 +4283,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/1287684675',
       'way/1287684675'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'physio-massage-therapy-made-by-beata-birmingham',
       'Physio Massage Therapy - Made By Beata',
       'uk',
       'birmingham',
       'Birmingham',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -3907,11 +4304,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/1320388467',
       'way/1320388467'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'revitalize-edinburgh',
       'Revitalize',
       'uk',
@@ -3919,6 +4317,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Edinburgh',
       '66 Ratcliffe Terrace, Edinburgh',
       '+44 131 668 3311',
+      NULL,
       'https://revitalizeedinburgh.co.uk/',
       'Massage, Relaxation',
       'Locals in Edinburgh know Revitalize as a neighbourhood massage studio off 66 Ratcliffe Terrace. Hours aren''t posted, so check before you go. Their site is revitalizeedinburgh.co.uk.',
@@ -3926,11 +4325,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/1435322494',
       'node/1435322494'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'lila-thai-massage-edinburgh',
       'Lila Thai Massage',
       'uk',
@@ -3938,6 +4338,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Edinburgh',
       '339 Leith Walk, Edinburgh',
       '+44 7880 924140',
+      NULL,
       'https://www.lilathaimassage.co.uk/',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Lila Thai Massage, a massage studio in Edinburgh (339 Leith Walk). Posted hours: "Booking by appointment only". Their site is www.lilathaimassage.co.uk.',
@@ -3945,11 +4346,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '"Booking by appointment only"',
+      'https://www.lilathaimassage.co.uk/s/misc/logo.png?t=1782359313',
       'openstreetmap',
       'https://www.openstreetmap.org/node/2992761179',
       'node/2992761179'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chinese-doctor-edinburgh',
       'Chinese Doctor',
       'uk',
@@ -3957,6 +4359,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Edinburgh',
       '126 Morningside Road, Edinburgh',
       '+44 131 452 8778',
+      NULL,
       'http://www.chinesemedicinedoctor.co.uk/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Chinese Doctor, a massage studio in Edinburgh (126 Morningside Road). Hours aren''t posted, so check before you go. Their site is www.chinesemedicinedoctor.co.uk.',
@@ -3964,11 +4367,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3016829966',
       'node/3016829966'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'foot-massage-spa-edinburgh',
       'Foot Massage Spa',
       'uk',
@@ -3976,6 +4380,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Edinburgh',
       '69 Haymarket Terrace, Edinburgh',
       '+44 131 385 9080',
+      NULL,
       'https://footmassagespa.co.uk/',
       'Massage, Relaxation',
       'Foot Massage Spa — a massage studio mapped in Edinburgh near 69 Haymarket Terrace. Their site is footmassagespa.co.uk. Posted hours: Mo-Sa 10:00-20:00.',
@@ -3983,11 +4388,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3349693117',
       'node/3349693117'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'knotstressed-therapies-edinburgh',
       'KnotStressed Therapies',
       'uk',
@@ -3995,6 +4401,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Edinburgh',
       '40-42 Montrose Terrace, Edinburgh',
       '+44 7540 809944',
+      'relax@knotstressed.com',
       'https://knotstressed.com/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: KnotStressed Therapies, a massage studio in Edinburgh (40-42 Montrose Terrace). Hours aren''t posted, so check before you go. Their site is knotstressed.com.',
@@ -4002,11 +4409,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'http://static1.squarespace.com/static/5b75fbc25cfd79e5c86f68c3/t/5b92940ef950b7bef27a837c/1536332816453/KST+Logo+800pxl.png?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/3431424595',
       'node/3431424595'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'health-for-life-edinburgh',
       'Health for Life',
       'uk',
@@ -4014,6 +4422,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Edinburgh',
       '56 Montrose Terrace, Edinburgh',
       '+44 131 477 1728',
+      NULL,
       'https://www.edinburgh-chiropractor.co.uk/',
       'Massage, Relaxation',
       'Locals in Edinburgh know Health for Life as a neighbourhood massage studio off 56 Montrose Terrace. Hours aren''t posted, so check before you go. Their site is www.edinburgh-chiropractor.co.uk.',
@@ -4021,11 +4430,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://doc.vortala.com/childsites/uploads/773/files/chiropractor-edinburgh.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/3434614677',
       'node/3434614677'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'udon-thai-massage-edinburgh',
       'Udon Thai Massage',
       'uk',
@@ -4033,6 +4443,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Edinburgh',
       '70 Montrose Terrace, Edinburgh',
       '+44 131 661 7514',
+      'udonthaimassage@hotmail.com',
       'https://www.udonthaispaandtherapy.com/contact',
       'Traditional Thai, Relaxation',
       'Locals in Edinburgh know Udon Thai Massage as a neighbourhood massage studio off 70 Montrose Terrace. Hours aren''t posted, so check before you go. Their site is www.udonthaispaandtherapy.com/contact.',
@@ -4040,11 +4451,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://static.wixstatic.com/media/5368c8_0515717fece84625a927fbb99e106ac9%7Emv2.webp/v1/fit/w_2500,h_1330,al_c/5368c8_0515717fece84625a927fbb99e106ac9%7Emv2.webp',
       'openstreetmap',
       'https://www.openstreetmap.org/node/3434615478',
       'node/3434615478'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'lomi-lomi-massage-edinburgh',
       'Lomi Lomi Massage',
       'uk',
@@ -4052,6 +4464,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Edinburgh',
       '154 Ferry Road, Edinburgh',
       '+44 751 058 4403',
+      NULL,
       'https://www.lomilomimassageedinburgh.com/',
       'Massage, Relaxation',
       'Lomi Lomi Massage — a massage studio mapped in Edinburgh near 154 Ferry Road. Their site is www.lomilomimassageedinburgh.com. Hours aren''t posted, so check before you go.',
@@ -4059,11 +4472,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://static.wixstatic.com/media/2d800d_236ebc23041043eaad03b95f3be87bd1%7Emv2_d_3688_2512_s_4_2.jpg/v1/fit/w_2500,h_1330,al_c/2d800d_236ebc23041043eaad03b95f3be87bd1%7Emv2_d_3688_2512_s_4_2.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/3974215867',
       'node/3974215867'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'jonathon-martin-massage-therapy-edinburgh',
       'Jonathon Martin Massage Therapy',
       'uk',
@@ -4071,6 +4485,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Edinburgh',
       '3 Bangor Road, Edinburgh',
       '+44 792 026 2585',
+      NULL,
       'https://jmmassagetherapy.co.uk/',
       'Massage, Relaxation',
       'Jonathon Martin Massage Therapy is a massage studio in Edinburgh, on 3 Bangor Road. Their site is jmmassagetherapy.co.uk. Posted hours: "by appointment".',
@@ -4078,11 +4493,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '"by appointment"',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4196873995',
       'node/4196873995'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'blackhall-therapy-centre-edinburgh',
       'Blackhall Therapy Centre',
       'uk',
@@ -4090,6 +4506,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Edinburgh',
       '5 Marischal Place, Edinburgh',
       '+44 789 454 1393',
+      'blackhalltherapy@hotmail.co.uk',
       'http://www.blackhalltherapy.co.uk/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Blackhall Therapy Centre, a massage studio in Edinburgh (5 Marischal Place). Hours aren''t posted, so check before you go. Their site is www.blackhalltherapy.co.uk.',
@@ -4097,11 +4514,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4275332101',
       'node/4275332101'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'edinburgh-thai-edinburgh',
       'Edinburgh Thai',
       'uk',
@@ -4109,6 +4527,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Edinburgh',
       '24 Home Street, Edinburgh',
       '+44 131 2597556',
+      NULL,
       'https://edinburghthaibeautyspa.co.uk/',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Edinburgh Thai, a massage studio in Edinburgh (24 Home Street). Hours aren''t posted, so check before you go. Their site is edinburghthaibeautyspa.co.uk.',
@@ -4116,11 +4535,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://img1.wsimg.com/isteam/stock/11884',
       'openstreetmap',
       'https://www.openstreetmap.org/node/4680650784',
       'node/4680650784'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'active-health-edinburgh',
       'Active Health',
       'uk',
@@ -4128,6 +4548,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Edinburgh',
       '2 Polwarth Gardens, Edinburgh',
       '+44 131 229 4987',
+      'info@active-h.co.uk',
       'https://activehealthedinburgh.co.uk/',
       'Massage, Relaxation',
       'Active Health is a massage studio in Edinburgh, on 2 Polwarth Gardens. Their site is activehealthedinburgh.co.uk. Hours aren''t posted, so check before you go.',
@@ -4135,11 +4556,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4930663257',
       'node/4930663257'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-shore-clinic-edinburgh',
       'The Shore Clinic',
       'uk',
@@ -4147,6 +4569,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Edinburgh',
       '59 Henderson Street, Edinburgh',
       '+44 131 281 9380',
+      NULL,
       'https://www.theshoreclinic.co.uk/',
       'Massage, Relaxation',
       'Locals in Edinburgh know The Shore Clinic as a neighbourhood massage studio off 59 Henderson Street. Posted hours: Mo-Fr 09:00-20:00; Sa-Su 10:00-20:00. Their site is www.theshoreclinic.co.uk.',
@@ -4154,17 +4577,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 09:00-20:00; Sa-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5868634738',
       'node/5868634738'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'castle-thai-spa-edinburgh',
       'Castle Thai Spa',
       'uk',
       'edinburgh',
       'Edinburgh',
       '9A Castle Street, Edinburgh',
+      NULL,
       NULL,
       'https://www.castlethaispa.com/',
       'Traditional Thai, Relaxation',
@@ -4173,17 +4598,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://castlethai.castlethaispa.com/wp-content/uploads/2023/04/massage-in-edinburgh.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/3172191592',
       'node/3172191592'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'jasmine-thai-herbal-spa-edinburgh',
       'Jasmine Thai Herbal & Spa',
       'uk',
       'edinburgh',
       'Edinburgh',
       '50 Haymarket Terrace, Edinburgh',
+      NULL,
       NULL,
       'http://www.whiteorchardspa.co.uk/',
       'Traditional Thai, Relaxation',
@@ -4192,17 +4619,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3349693098',
       'node/3349693098'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sabai-body-massage-edinburgh',
       'Sabai Body Massage',
       'uk',
       'edinburgh',
       'Edinburgh',
       '64 Corstorphine Road, Edinburgh',
+      NULL,
       NULL,
       'https://www.sabaibodymassage.co.uk/',
       'Massage, Relaxation',
@@ -4211,17 +4640,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3457588696',
       'node/3457588696'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'matcha-mind-edinburgh',
       'Matcha Mind',
       'uk',
       'edinburgh',
       'Edinburgh',
       '19 Brighton Place, Edinburgh',
+      NULL,
       NULL,
       'https://www.matchamind.co.uk/contact',
       'Massage, Relaxation',
@@ -4230,17 +4661,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4170056603',
       'node/4170056603'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'true-thai-massage-beauty-therapies-edinburgh',
       'True Thai Massage & Beauty Therapies',
       'uk',
       'edinburgh',
       'Edinburgh',
       '55 Causewayside, Edinburgh',
+      NULL,
       NULL,
       'https://www.truethaiedinburgh.co.uk/',
       'Traditional Thai, Relaxation',
@@ -4249,17 +4682,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-19:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4888540494',
       'node/4888540494'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'head-spa-retreat-edinburgh',
       'Head Spa Retreat',
       'uk',
       'edinburgh',
       'Edinburgh',
       '25 London Road, Edinburgh',
+      NULL,
       NULL,
       'https://headsparetreat.co.uk/',
       'Massage, Relaxation',
@@ -4268,17 +4703,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://img1.wsimg.com/isteam/getty/2232921065',
       'openstreetmap',
       'https://www.openstreetmap.org/node/9160565624',
       'node/9160565624'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'blue-morpho-edinburgh',
       'Blue Morpho',
       'uk',
       'edinburgh',
       'Edinburgh',
       '36A Broughton Street, Edinburgh',
+      NULL,
       NULL,
       'https://bluemorphoedinburgh.com/',
       'Massage, Relaxation',
@@ -4287,16 +4724,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13188503762',
       'node/13188503762'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'meadows-retreat-edinburgh',
       'Meadows Retreat',
       'uk',
       'edinburgh',
       'Edinburgh',
+      NULL,
       NULL,
       NULL,
       'https://meadowsretreat.co.uk/',
@@ -4306,16 +4745,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2774790571',
       'node/2774790571'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'noble-centre-edinburgh',
       'Noble Centre',
       'uk',
       'edinburgh',
       'Edinburgh',
+      NULL,
       NULL,
       NULL,
       'http://www.noblecentre.org',
@@ -4325,11 +4766,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3128086557',
       'node/3128086557'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'meadowbank-clinic-edinburgh',
       'Meadowbank Clinic',
       'uk',
@@ -4338,22 +4780,25 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '3 Meadowbank Terrace, Edinburgh',
       '+44 131 661 7275',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Meadowbank Clinic, a massage studio in Edinburgh (3 Meadowbank Terrace). Posted hours: Mo-Fr 09:00-21:00. Call ahead on +44 131 661 7275.',
       'GBP',
       0,
       0,
       'Mo-Fr 09:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3361837662',
       'node/3361837662'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'mind-body-thai-spa-edinburgh',
       'Mind & Body Thai Spa',
       'uk',
       'edinburgh',
       'Edinburgh',
+      NULL,
       NULL,
       NULL,
       'https://mindandbodyspa.co.uk/',
@@ -4363,11 +4808,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3966744417',
       'node/3966744417'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-massage-specialist-glasgow',
       'The Massage Specialist',
       'uk',
@@ -4375,6 +4821,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Glasgow',
       '34 West George Street, Glasgow',
       NULL,
+      'trevor@themassagespecialist.com',
       'https://www.themassagespecialist.com',
       'Massage, Relaxation',
       'The Massage Specialist — a massage studio mapped in Glasgow near 34 West George Street. Their site is www.themassagespecialist.com. Posted hours: Mo-Fr 09:00-19:00.',
@@ -4382,17 +4829,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 09:00-19:00',
+      'https://themassagerebel.com/wp-content/uploads/2022/10/DSCF0262-vingette-edited.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/6574305907',
       'node/6574305907'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'lan-thai-massage-wellness-glasgow',
       'Lan Thai Massage & Wellness',
       'uk',
       'glasgow',
       'Glasgow',
       '12 Chancellor Street, Glasgow',
+      NULL,
       NULL,
       'https://www.lanthai-massage.co.uk/',
       'Traditional Thai, Relaxation',
@@ -4401,16 +4850,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://static.wixstatic.com/media/522672_be5d7d7ead284e30b1211105af5c5fe6%7Emv2.webp/v1/fit/w_2500,h_1330,al_c/522672_be5d7d7ead284e30b1211105af5c5fe6%7Emv2.webp',
       'openstreetmap',
       'https://www.openstreetmap.org/node/12374149727',
       'node/12374149727'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thai-ann-massage-therapy-glasgow',
       'Thai Ann Massage Therapy',
       'uk',
       'glasgow',
       'Glasgow',
+      NULL,
       NULL,
       NULL,
       'https://thaiann.com',
@@ -4420,11 +4871,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-19:00',
+      'https://www.dotgo.uk/img/examples/thaiann.com.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13204953179',
       'node/13204953179'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'nim-thai-massage-glasgow',
       'Nim Thai Massage',
       'uk',
@@ -4433,17 +4885,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '451 Duke Street, Glasgow',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Nim Thai Massage operates out of 451 Duke Street, Glasgow. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/1637944176',
       'node/1637944176'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'aga-glasgow',
       'AGA',
       'uk',
@@ -4452,17 +4906,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '130 Great Western Road, Glasgow',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'AGA — a massage studio mapped in Glasgow near 130 Great Western Road. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11981009760',
       'node/11981009760'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'gravitas-glasgow',
       'Gravitas',
       'uk',
@@ -4471,17 +4927,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '134 Sword Street, Glasgow',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Glasgow know Gravitas as a neighbourhood massage studio off 134 Sword Street. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12882215428',
       'node/12882215428'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'tippy-thai-massage-glasgow',
       'Tippy Thai Massage',
       'uk',
@@ -4490,22 +4948,25 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       NULL,
       '+44 1414051352',
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Tippy Thai Massage operates out of Glasgow. Call ahead on +44 1414051352. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/14087321248',
       'node/14087321248'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'be-healthy-glasgow',
       'Be Healthy',
       'uk',
       'glasgow',
       'Glasgow',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -4515,16 +4976,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6056122713',
       'node/6056122713'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'first-physio-glasgow-glasgow',
       'First Physio Glasgow',
       'uk',
       'glasgow',
       'Glasgow',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -4534,16 +4997,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/7254993123',
       'node/7254993123'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'posturehub-glasgow',
       'PostureHub',
       'uk',
       'glasgow',
       'Glasgow',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -4553,11 +5018,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13650074914',
       'node/13650074914'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'bristol-thai-spa-bristol',
       'Bristol Thai Spa',
       'uk',
@@ -4565,6 +5031,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Bristol',
       '199 Two Mile Hill Road, Bristol',
       '+44 7379 194545',
+      NULL,
       'https://www.bristolthaispa.co.uk/',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Bristol Thai Spa, a massage studio in Bristol (199 Two Mile Hill Road). Hours aren''t posted, so check before you go. Their site is www.bristolthaispa.co.uk.',
@@ -4572,11 +5039,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/8489204687',
       'node/8489204687'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'therapy-centre-bristol',
       'Therapy Centre',
       'uk',
@@ -4584,6 +5052,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Bristol',
       '12 Kinsale Road, Bristol',
       '+44 7779 234144',
+      NULL,
       'https://kinsaletherapycentre.co.uk/',
       'Massage, Relaxation',
       'Therapy Centre — a massage studio mapped in Bristol near 12 Kinsale Road. Their site is kinsaletherapycentre.co.uk. Hours aren''t posted, so check before you go.',
@@ -4591,11 +5060,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/813481429',
       'way/813481429'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-massage-club-bristol',
       'The Massage Club',
       'uk',
@@ -4604,17 +5074,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '57 Stokes Croft, Bristol',
       '+44 117 9245357',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'The Massage Club is a massage studio in Bristol, on 57 Stokes Croft. Call ahead on +44 117 9245357. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/108832778',
       'way/108832778'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thai-sabai-massage-bristol',
       'Thai Sabai massage',
       'uk',
@@ -4623,17 +5095,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '12 North View, Bristol',
       '+44 117 973 2233',
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Thai Sabai massage is a massage studio in Bristol, on 12 North View. Call ahead on +44 117 973 2233. Posted hours: Mo-Fr 09:00-18:00; Sa 09:00-17:00.',
       'GBP',
       0,
       0,
       'Mo-Fr 09:00-18:00; Sa 09:00-17:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/257123412',
       'way/257123412'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chinese-meridian-massage-bristol',
       'Chinese Meridian Massage',
       'uk',
@@ -4642,17 +5116,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'High Street, Bristol',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Bristol know Chinese Meridian Massage as a neighbourhood massage studio off High Street. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13278634602',
       'node/13278634602'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ramphai-bristol',
       'Ramphai',
       'uk',
@@ -4661,17 +5137,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'High Street, Bristol',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Bristol know Ramphai as a neighbourhood massage studio off High Street. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/14070681835',
       'node/14070681835'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-big-stretch-bristol',
       'The Big Stretch',
       'uk',
@@ -4680,17 +5158,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Willway Yard, Bristol',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'The Big Stretch is a massage studio in Bristol, on Willway Yard. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/14095306042',
       'node/14095306042'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ellen-massage-therapies-bristol',
       'Ellen Massage Therapies',
       'uk',
@@ -4698,6 +5178,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Bristol',
       'Willway Yard, Bristol',
       NULL,
+      'Ellen.m.hodgson@gmail.com',
       NULL,
       'Massage, Relaxation',
       'Locals in Bristol know Ellen Massage Therapies as a neighbourhood massage studio off Willway Yard. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
@@ -4705,11 +5186,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/14095306045',
       'node/14095306045'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'pink-lotus-thai-massage-bristol',
       'Pink Lotus Thai Massage',
       'uk',
@@ -4718,17 +5200,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '106 High Street, Bristol',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Pink Lotus Thai Massage, a massage studio in Bristol (106 High Street). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/66840023',
       'way/66840023'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'dim-siam-bristol',
       'Dim Siam',
       'uk',
@@ -4737,17 +5221,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '7 Denmark Street, Bristol',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Dim Siam, a massage studio in Bristol (7 Denmark Street). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/289453732',
       'way/289453732'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chinese-health-spa-bristol',
       'Chinese health spa',
       'uk',
@@ -4756,17 +5242,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '45 West Street, Bristol',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Bristol know Chinese health spa as a neighbourhood massage studio off 45 West Street. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/289801671',
       'way/289801671'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-swallows-bristol',
       'The Swallows',
       'uk',
@@ -4775,17 +5263,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Lawrence Hill, Bristol',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'The Swallows is a massage studio in Bristol, on Lawrence Hill. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/291257184',
       'way/291257184'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thai-thai-massage-bristol',
       'Thai Thai Massage',
       'uk',
@@ -4794,17 +5284,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '8 Filton Road, Bristol',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Thai Thai Massage, a massage studio in Bristol (8 Filton Road). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/293919445',
       'way/293919445'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-at-60-west-street-bristol',
       'Massage at 60 West Street',
       'uk',
@@ -4813,17 +5305,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '60 West Street, Bristol',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Massage at 60 West Street is a massage studio in Bristol, on 60 West Street. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/377388325',
       'way/377388325'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'royal-thai-therapy-bristol',
       'Royal Thai Therapy',
       'uk',
@@ -4832,17 +5326,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '52 Staple Hill Road, Bristol',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Royal Thai Therapy, a massage studio in Bristol (52 Staple Hill Road). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/398970964',
       'way/398970964'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'l-f-beauty-massage-bristol',
       'L&F Beauty Massage',
       'uk',
@@ -4851,17 +5347,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Fishponds Road, Bristol',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Tucked into Bristol on Fishponds Road, L&F Beauty Massage runs as an independent massage studio. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/398985590',
       'way/398985590'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'central-massage-bristol',
       'Central Massage',
       'uk',
@@ -4870,17 +5368,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '54 Old Market Street, Bristol',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Central Massage, a massage studio in Bristol (54 Old Market Street). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/403192923',
       'way/403192923'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'phaya-thai-therapy-bristol',
       'Phaya Thai Therapy',
       'uk',
@@ -4889,17 +5389,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '51 Sandy Park Road, Bristol',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Phaya Thai Therapy operates out of 51 Sandy Park Road, Bristol. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/405875144',
       'way/405875144'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'diamonds-bristol',
       'Diamonds',
       'uk',
@@ -4908,17 +5410,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '363 Bath Road, Bristol',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Diamonds, a massage studio in Bristol (363 Bath Road). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/499147244',
       'way/499147244'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'bath-road-massage-bristol',
       'Bath Road Massage',
       'uk',
@@ -4927,17 +5431,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '387 Bath Road, Bristol',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Bath Road Massage is a massage studio in Bristol, on 387 Bath Road. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/499161068',
       'way/499161068'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'songkran-thai-massage-bristol',
       'Songkran Thai Massage',
       'uk',
@@ -4946,22 +5452,25 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '63 East Street, Bristol',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Songkran Thai Massage, a massage studio in Bristol (63 East Street). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'GBP',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/1274733431',
       'way/1274733431'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chiangmai-thai-massage-bristol',
       'Chiangmai Thai massage',
       'uk',
       'bristol',
       'Bristol',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -4971,16 +5480,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13175129936',
       'node/13175129936'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'new-leaf-changes-bristol',
       'New Leaf Changes',
       'uk',
       'bristol',
       'Bristol',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -4990,16 +5501,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/398988650',
       'way/398988650'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'elmgrove-studios-bristol',
       'Elmgrove Studios',
       'uk',
       'bristol',
       'Bristol',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -5009,11 +5522,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/631308038',
       'way/631308038'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'vigorous-thai-massage-melbourne',
       'Vigorous Thai Massage',
       'au',
@@ -5021,6 +5535,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '227 Smith Street, Melbourne',
       '+61 3 9486 0779',
+      NULL,
       'https://www.vigorousthai.com.au/',
       'Traditional Thai, Relaxation',
       'Vigorous Thai Massage — a massage studio mapped in Melbourne near 227 Smith Street. Their site is www.vigorousthai.com.au. Posted hours: Mo-Fr 10:30-22:00; Sa 11:00-22:00; Su 11:00-20:30.',
@@ -5028,11 +5543,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:30-22:00; Sa 11:00-22:00; Su 11:00-20:30',
+      'https://d2xixumzp4hmga.cloudfront.net/dc212ebbc6eb0fdceef04e6cfe9ed94e_c66a2b43ae.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/1077951289',
       'node/1077951289'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'motion-myotherapy-northcote-remedial-massage-melborune-melbourne',
       'Motion Myotherapy Northcote Remedial Massage Melborune',
       'au',
@@ -5040,6 +5556,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '486 High Street, Melbourne',
       '+61 3 9114 2890',
+      'motionmyotherapy@mail.com',
       'https://www.motionmyotherapy.com/',
       'Massage, Relaxation',
       'Tucked into Melbourne on 486 High Street, Motion Myotherapy Northcote Remedial Massage Melborune runs as an independent massage studio. Posted hours: Mo-Fr 09:00-21:00; Sa-Su 09:00-18:00. Their site is www.motionmyotherapy.com.',
@@ -5047,11 +5564,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 09:00-21:00; Sa-Su 09:00-18:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5110148970',
       'node/5110148970'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'divine-massage-melbourne',
       'Divine Massage',
       'au',
@@ -5059,6 +5577,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '482 Neerim Road, Melbourne',
       '+61 423 715 475',
+      NULL,
       'https://divinemassage.com.au/',
       'Massage, Relaxation',
       'Divine Massage — a massage studio mapped in Melbourne near 482 Neerim Road. Their site is divinemassage.com.au. Posted hours: Mo-Su 10:00-20:00.',
@@ -5066,11 +5585,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5263277028',
       'node/5263277028'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'nature-thai-massage-melbourne',
       'Nature Thai Massage',
       'au',
@@ -5078,6 +5598,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '1132 Burke Road, Melbourne',
       '+61 3 9859 6330',
+      NULL,
       'https://naturethaimassage.com.au/',
       'Traditional Thai, Relaxation',
       'Locals in Melbourne know Nature Thai Massage as a neighbourhood massage studio off 1132 Burke Road. Posted hours: Mo-Fr 10:00-20:00; Sa,Su 10:30-20:00. Their site is naturethaimassage.com.au.',
@@ -5085,11 +5606,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-20:00; Sa,Su 10:30-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5289217081',
       'node/5289217081'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'mym-fit-melbourne',
       'Mym fit',
       'au',
@@ -5097,6 +5619,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '12-16 Parker Street, Melbourne',
       '+61 3 8090 9616',
+      'info@mymfit.com.au',
       'https://www.mymfit.com.au/',
       'Massage, Relaxation',
       'Tucked into Melbourne on 12-16 Parker Street, Mym fit runs as an independent massage studio. Hours aren''t posted, so check before you go. Their site is www.mymfit.com.au.',
@@ -5104,11 +5627,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5616945537',
       'node/5616945537'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'maskey-massage-melbourne',
       'Maskey Massage',
       'au',
@@ -5116,6 +5640,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '423 Melbourne Road, Melbourne',
       '+61 434 414 910',
+      NULL,
       'https://www.maskeymassage.com.au',
       'Massage, Relaxation',
       'Maskey Massage operates out of 423 Melbourne Road, Melbourne. Their site is www.maskeymassage.com.au. Hours aren''t posted, so check before you go.',
@@ -5123,11 +5648,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5632469020',
       'node/5632469020'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'brunswick-chiropractic-melbourne',
       'Brunswick Chiropractic',
       'au',
@@ -5135,6 +5661,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '178-180 Sydney Road, Melbourne',
       '+61 3 9388 1233',
+      NULL,
       'https://www.brunswickchiro.com.au/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Brunswick Chiropractic, a massage studio in Melbourne (178-180 Sydney Road). Hours aren''t posted, so check before you go. Their site is www.brunswickchiro.com.au.',
@@ -5142,11 +5669,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6117174577',
       'node/6117174577'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thai-philosophy-melbourne',
       'Thai Philosophy',
       'au',
@@ -5154,6 +5682,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '78 Edwardes Street, Melbourne',
       '+61 3 9041 6860',
+      NULL,
       'http://thaiphilosophy.com.au/',
       'Traditional Thai, Relaxation',
       'Thai Philosophy — a massage studio mapped in Melbourne near 78 Edwardes Street. Their site is thaiphilosophy.com.au. Hours aren''t posted, so check before you go.',
@@ -5161,11 +5690,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'http://static1.squarespace.com/static/532965abe4b0cc77fe82d3fa/t/5e212612bb909c4a01b4e112/1579230741193/THA_Logo-02.png?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/7089882854',
       'node/7089882854'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'naturally-u-body-soul-melbourne',
       'Naturally U Body & Soul',
       'au',
@@ -5173,6 +5703,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '138 Coppin Street, Melbourne',
       '+61 3 9429 0290',
+      NULL,
       'https://www.naturallyu.com.au/',
       'Massage, Relaxation',
       'Naturally U Body & Soul operates out of 138 Coppin Street, Melbourne. Their site is www.naturallyu.com.au. Hours aren''t posted, so check before you go.',
@@ -5180,11 +5711,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9650445946',
       'node/9650445946'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'aroma-thai-massage-skin-care-melbourne',
       'Aroma Thai Massage & Skin Care',
       'au',
@@ -5192,6 +5724,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '427 Brunswick Street, Melbourne',
       '+61 3 9417 6735',
+      NULL,
       'http://www aromathai.com.au',
       'Traditional Thai, Relaxation',
       'Aroma Thai Massage & Skin Care is a massage studio in Melbourne, on 427 Brunswick Street. Their site is www aromathai.com.au. Posted hours: Mo-Su 10:00-21:00.',
@@ -5199,11 +5732,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9774365417',
       'node/9774365417'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'good-sense-massage-melbourne',
       'Good Sense Massage',
       'au',
@@ -5211,6 +5745,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '7 Charles Street, Melbourne',
       '+61 466 267 489',
+      'gsm@mailbox.org',
       'https://goodsensemassage.com.au',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Good Sense Massage, a massage studio in Melbourne (7 Charles Street). Posted hours: Mo-Su 09:00-21:00. Their site is goodsensemassage.com.au.',
@@ -5218,11 +5753,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 09:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9922367199',
       'node/9922367199'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'master-massage-and-spa-melbourne',
       'Master Massage And Spa',
       'au',
@@ -5230,6 +5766,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '235A Whitehorse Road, Melbourne',
       '+61 3 9193 5354',
+      'mastermassagespa@gmail.com',
       'https://masterthaimassagespa.com.au/',
       'Massage, Relaxation',
       'Master Massage And Spa is a massage studio in Melbourne, on 235A Whitehorse Road. Their site is masterthaimassagespa.com.au. Posted hours: Mo-Su 10:00-20:00; PH off.',
@@ -5237,11 +5774,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:00; PH off',
+      'http://static1.squarespace.com/static/6702aa259fbcef5ab5e88cda/t/67b187b973072c5492bb998f/1779188286424/Logo_Master_Spa_03_Green-Landscape.png?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/11507880673',
       'node/11507880673'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thai-take-care-melbourne',
       'Thai Take Care',
       'au',
@@ -5249,6 +5787,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '250 Smith Street, Melbourne',
       '+61 3 9078 9799',
+      NULL,
       'https://thaitakecare.com.au/',
       'Traditional Thai, Relaxation',
       'Thai Take Care is a massage studio in Melbourne, on 250 Smith Street. Their site is thaitakecare.com.au. Hours aren''t posted, so check before you go.',
@@ -5256,11 +5795,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/291407937',
       'way/291407937'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'nefertitti-massage-katie-shisha-melbourne',
       'Nefertitti Massage & Katie Shisha',
       'au',
@@ -5268,6 +5808,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '783 High Street, Melbourne',
       '+61 3 9480 5422',
+      NULL,
       'https://shisha-bar-katies-shisha.business.site/',
       'Massage, Relaxation',
       'Tucked into Melbourne on 783 High Street, Nefertitti Massage & Katie Shisha runs as an independent massage studio. Posted hours: Mo-Su 11:00-21:00. Their site is shisha-bar-katies-shisha.business.site.',
@@ -5275,11 +5816,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 11:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/617277675',
       'way/617277675'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'milk-honey-remedial-massage-melbourne',
       'Milk & Honey Remedial Massage',
       'au',
@@ -5287,6 +5829,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '295 Victoria Street, Melbourne',
       '+61 3 9939 6617',
+      'info@milkandhoneymassage.com.au',
       'https://milkandhoneymassage.com.au/',
       'Massage, Relaxation',
       'Milk & Honey Remedial Massage — a massage studio mapped in Melbourne near 295 Victoria Street. Their site is milkandhoneymassage.com.au. Posted hours: Mo-Th 10:00-21:00; Fr 10:00-19:00; Sa 09:00-17:00; Su 10:00-18:00.',
@@ -5294,11 +5837,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Th 10:00-21:00; Fr 10:00-19:00; Sa 09:00-17:00; Su 10:00-18:00',
+      'http://static1.squarespace.com/static/69b689b1a2adc22bfd1b608d/t/6a43a02bb4458b5035b0857b/1774849110133/0E2A0336-Edit_Web.jpg?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/way/837477473',
       'way/837477473'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'wandee-thai-massage-melbourne',
       'Wandee Thai Massage',
       'au',
@@ -5306,6 +5850,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       '40 Smith Street, Melbourne',
       '+61 3 9416 1254',
+      NULL,
       'http://www.wandeethaimassage.com',
       'Traditional Thai, Relaxation',
       'Wandee Thai Massage operates out of 40 Smith Street, Melbourne. Their site is www.wandeethaimassage.com. Hours aren''t posted, so check before you go.',
@@ -5313,17 +5858,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/966904283',
       'way/966904283'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'hawaii-massage-melbourne',
       'Hawaii Massage',
       'au',
       'melbourne',
       'Melbourne',
       '387 Bourke Street, Melbourne',
+      NULL,
       NULL,
       'https://www.hawaiimassage.com.au/',
       'Massage, Relaxation',
@@ -5332,17 +5879,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/612721728',
       'node/612721728'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'pegasus-massage-therapy-melbourne',
       'Pegasus Massage Therapy',
       'au',
       'melbourne',
       'Melbourne',
       '17 Sydney Road, Melbourne',
+      NULL,
       NULL,
       'https://pegasusmassage.com.au/',
       'Massage, Relaxation',
@@ -5351,17 +5900,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/1135359610',
       'node/1135359610'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'shen-medicine-melbourne',
       'Shen Medicine',
       'au',
       'melbourne',
       'Melbourne',
       '163 Bay Street, Melbourne',
+      NULL,
       NULL,
       'https://www.shenchinesemedicine.com.au/',
       'Massage, Relaxation',
@@ -5370,17 +5921,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/1418952913',
       'node/1418952913'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'olarn-montra-thai-massage-day-spa-melbourne',
       'Olarn Montra - Thai Massage & Day Spa',
       'au',
       'melbourne',
       'Melbourne',
       '222A Bay Street, Melbourne',
+      NULL,
       NULL,
       'http://www.olarnmontra.com/',
       'Traditional Thai, Relaxation',
@@ -5389,17 +5942,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/1605859957',
       'node/1605859957'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'impact-massage-melbourne',
       'Impact Massage',
       'au',
       'melbourne',
       'Melbourne',
       '132 Johnston Street, Melbourne',
+      NULL,
       NULL,
       'http://www.impactmassage.com.au',
       'Massage, Relaxation',
@@ -5408,17 +5963,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2144681861',
       'node/2144681861'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'body-active-therapies-melbourne',
       'Body Active Therapies',
       'au',
       'melbourne',
       'Melbourne',
       '246 Bridge Road, Melbourne',
+      NULL,
       NULL,
       'https://www.bodyactivetherapies.com.au/',
       'Massage, Relaxation',
@@ -5427,11 +5984,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3508072908',
       'node/3508072908'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ton-pho-thai-massage-melbourne',
       'Ton Pho Thai Massage',
       'au',
@@ -5439,6 +5997,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Melbourne',
       NULL,
       '+61 3 9484 3889',
+      NULL,
       'https://tonphothaimassage.com.au/',
       'Traditional Thai, Relaxation',
       'Locals in Melbourne know Ton Pho Thai Massage as a neighbourhood massage studio. Posted hours: Mo-Su 10:00-21:00. Their site is tonphothaimassage.com.au.',
@@ -5446,17 +6005,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-21:00',
+      'https://tonphothaimassage.com.au/icon.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/6017200130',
       'node/6017200130'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'pure-indulgence-massage-melbourne',
       'Pure Indulgence Massage',
       'au',
       'melbourne',
       'Melbourne',
       '355 High Street, Melbourne',
+      NULL,
       NULL,
       'https://pureindulgencemassage.com.au/',
       'Massage, Relaxation',
@@ -5465,11 +6026,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6744765523',
       'node/6744765523'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-beautique-sydney',
       'Massage Beautique',
       'au',
@@ -5477,6 +6039,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '400 Oxford Street, Sydney',
       '+61 452 553 415',
+      NULL,
       'https://massagebeautique.com.au/',
       'Massage, Relaxation',
       'Massage Beautique — a massage studio mapped in Sydney near 400 Oxford Street. Their site is massagebeautique.com.au. Posted hours: Mo-Fr 10:30-19:00.',
@@ -5484,11 +6047,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:30-19:00',
+      'https://img1.wsimg.com/isteam/ip/34273f7a-5011-46b1-9cd4-99420d7c1bba/FC72159F-1472-49EE-995F-7F23EB0429B7.jpeg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/4359563136',
       'node/4359563136'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'cheerfully-touch-thai-massage-sydney',
       'Cheerfully Touch Thai Massage',
       'au',
@@ -5496,6 +6060,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '297 Bexley Road, Sydney',
       '+61 2 8540 7949',
+      NULL,
       'https://www.cheerfully.com.au',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Cheerfully Touch Thai Massage, a massage studio in Sydney (297 Bexley Road). Posted hours: 10:00-22:00. Their site is www.cheerfully.com.au.',
@@ -5503,11 +6068,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-22:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4641067825',
       'node/4641067825'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'blissrising-sydney',
       'Blissrising',
       'au',
@@ -5515,6 +6081,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '127 Cook Road, Sydney',
       '+61 447 577 525',
+      'taranga.blissrising@gmail.com',
       'https://www.blissrising.com/',
       'Massage, Relaxation',
       'Tucked into Sydney on 127 Cook Road, Blissrising runs as an independent massage studio. Posted hours: Mo-Su 10:00-19:00. Their site is www.blissrising.com.',
@@ -5522,11 +6089,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-19:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4903863796',
       'node/4903863796'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'hanzon-fitness-massage-sydney',
       'Hanzon Fitness & Massage',
       'au',
@@ -5534,6 +6102,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '646 Pittwater Road, Sydney',
       '+61 419 466 025',
+      NULL,
       'https://www.hanzonmassage.com.au/',
       'Massage, Relaxation',
       'Tucked into Sydney on 646 Pittwater Road, Hanzon Fitness & Massage runs as an independent massage studio. Hours aren''t posted, so check before you go. Their site is www.hanzonmassage.com.au.',
@@ -5541,11 +6110,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9009385609',
       'node/9009385609'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'kingsgrove-thai-massage-and-wellness-sydney',
       'Kingsgrove Thai Massage and Wellness',
       'au',
@@ -5553,6 +6123,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '274 Kingsgrove Road, Sydney',
       '+61 2 9554 4526',
+      'kingsgrovethaimassage@gmail.com',
       'https://www.kingsgrovethaimassage.com.au',
       'Traditional Thai, Relaxation',
       'Locals in Sydney know Kingsgrove Thai Massage and Wellness as a neighbourhood massage studio off 274 Kingsgrove Road. Posted hours: 10:00-21:00. Their site is www.kingsgrovethaimassage.com.au.',
@@ -5560,11 +6131,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9868175026',
       'node/9868175026'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-therapies-enishi-sydney',
       'Massage Therapies Enishi',
       'au',
@@ -5572,6 +6144,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '177 Glenayr Avenue, Sydney',
       '+61 402 929 892',
+      NULL,
       'https://www.enishi.com.au',
       'Massage, Relaxation',
       'Massage Therapies Enishi operates out of 177 Glenayr Avenue, Sydney. Their site is www.enishi.com.au. Posted hours: Mo-Su 10:00-20:00.',
@@ -5579,11 +6152,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11101469587',
       'node/11101469587'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'keep-in-touch-therapy-sydney',
       'Keep in Touch Therapy',
       'au',
@@ -5591,6 +6165,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '38 Roslyn Gardens, Sydney',
       '+61 466 580 332',
+      NULL,
       'https://www.keepintouchtherapy.com/',
       'Massage, Relaxation',
       'Keep in Touch Therapy operates out of 38 Roslyn Gardens, Sydney. Their site is www.keepintouchtherapy.com. Hours aren''t posted, so check before you go.',
@@ -5598,11 +6173,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11158252482',
       'node/11158252482'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'eastwood-massage-centre-sydney',
       'Eastwood Massage Centre',
       'au',
@@ -5610,6 +6186,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '37 Railway Parade, Sydney',
       '+61 413 281 498',
+      NULL,
       'https://eastwoodmassagecentre.com.au/',
       'Massage, Relaxation',
       'Locals in Sydney know Eastwood Massage Centre as a neighbourhood massage studio off 37 Railway Parade. Posted hours: Mo-Su 10:00-19:30. Their site is eastwoodmassagecentre.com.au.',
@@ -5617,11 +6194,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-19:30',
+      'https://eastwoodmassagecentre.com.au/wp-content/uploads/eastwood-massage-building10.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/11951928147',
       'node/11951928147'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'my-thai-remedial-massage-sydney',
       'MY THAI Remedial Massage',
       'au',
@@ -5629,6 +6207,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '17A Regent Street, Sydney',
       '+61 2 9553 8385',
+      'kogarah@rtma.com.au',
       'https://rtma.com.au',
       'Traditional Thai, Relaxation',
       'MY THAI Remedial Massage operates out of 17A Regent Street, Sydney. Their site is rtma.com.au. Posted hours: Mo-Su 10:00-21:00.',
@@ -5636,11 +6215,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12041341803',
       'node/12041341803'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'mystic-93-sydney',
       'Mystic 93',
       'au',
@@ -5648,6 +6228,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '93 Crown Street, Sydney',
       '+61 404 880 093',
+      NULL,
       'https://www.mystic93.com/',
       'Massage, Relaxation',
       'Mystic 93 operates out of 93 Crown Street, Sydney. Their site is www.mystic93.com. Posted hours: Mo-Su 11:00-02:00.',
@@ -5655,11 +6236,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 11:00-02:00',
+      'https://www.mystic93.com/imgs/meta-image.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13136107521',
       'node/13136107521'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chiangmai-spa-thai-massage-sydney',
       'Chiangmai Spa & Thai Massage',
       'au',
@@ -5667,6 +6249,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '315 Liverpool Road, Sydney',
       '+61 2 9797 2600',
+      NULL,
       'https://www.chiangmaispaandthaimassage.com.au/',
       'Traditional Thai, Relaxation',
       'Chiangmai Spa & Thai Massage — a massage studio mapped in Sydney near 315 Liverpool Road. Their site is www.chiangmaispaandthaimassage.com.au. Posted hours: 10:00-21:00.',
@@ -5674,11 +6257,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13399495237',
       'node/13399495237'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'siam-kingsgrove-thai-massage-sydney',
       'Siam Kingsgrove Thai Massage',
       'au',
@@ -5686,6 +6270,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '250 Kingsgrove Road, Sydney',
       '+61 2 8201 3623',
+      NULL,
       'https://siamkingsgrovemassage.com.au',
       'Traditional Thai, Relaxation',
       'Siam Kingsgrove Thai Massage — a massage studio mapped in Sydney near 250 Kingsgrove Road. Their site is siamkingsgrovemassage.com.au. Posted hours: 10:00-20:30.',
@@ -5693,11 +6278,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-20:30',
+      'https://img1.wsimg.com/isteam/getty/1939516721',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13412467948',
       'node/13412467948'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'cammeray-massage-sydney',
       'Cammeray Massage',
       'au',
@@ -5705,6 +6291,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '459 Miller Street, Sydney',
       '+61 2 8068 6908',
+      NULL,
       'https://cammeraymassage.com',
       'Massage, Relaxation',
       'Cammeray Massage operates out of 459 Miller Street, Sydney. Their site is cammeraymassage.com. Posted hours: Mo-Th 08:00-18:30, Fr 08:00-18:00, Sa 08:00-17:00, Su 09:00-16:30.',
@@ -5712,11 +6299,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Th 08:00-18:30, Fr 08:00-18:00, Sa 08:00-17:00, Su 09:00-16:30',
+      'https://www.cammeraymassage.com/wp-content/uploads/2023/06/cammeray_massage_accupuncture.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13431584853',
       'node/13431584853'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'payak-therapeutic-thai-massage-sydney',
       'Payak Therapeutic Thai Massage',
       'au',
@@ -5724,6 +6312,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '306 Kingsgrove Road, Sydney',
       '+61 452 639 645',
+      NULL,
       'https://payaktherapeuticthaimassage.com.au',
       'Traditional Thai, Relaxation',
       'Payak Therapeutic Thai Massage — a massage studio mapped in Sydney near 306 Kingsgrove Road. Their site is payaktherapeuticthaimassage.com.au. Posted hours: 10:00-21:00.',
@@ -5731,11 +6320,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-21:00',
+      'https://img1.wsimg.com/isteam/ip/c44a45fb-f40a-42cc-8d83-1e61b73a24c3/web-01.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13432929690',
       'node/13432929690'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'hurstville-thai-massage-sydney',
       'Hurstville Thai Massage',
       'au',
@@ -5743,6 +6333,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '464 King Georges Road, Sydney',
       '+61 2 8084 0328',
+      NULL,
       'https://www.hurstville-thaimassage.com.au',
       'Traditional Thai, Relaxation',
       'Hurstville Thai Massage operates out of 464 King Georges Road, Sydney. Their site is www.hurstville-thaimassage.com.au. Posted hours: 10:00-20:00.',
@@ -5750,11 +6341,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/14045580645',
       'node/14045580645'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'beverly-hills-body-spa-massage-sydney',
       'Beverly Hills Body Spa Massage',
       'au',
@@ -5762,6 +6354,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '2A Edgbaston Road, Sydney',
       '+61 2 8056 3372',
+      'massage2A@outlook.com',
       'https://www.beverlyhillsbodyspamassage.com',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Beverly Hills Body Spa Massage, a massage studio in Sydney (2A Edgbaston Road). Posted hours: Mo-Tu 10:00-20:30; We off; Th-Su 10:00-20:00. Their site is www.beverlyhillsbodyspamassage.com.',
@@ -5769,11 +6362,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Tu 10:00-20:30; We off; Th-Su 10:00-20:00',
+      'https://image.makewebeasy.net/makeweb/m_1200x600/xv0f1aXNw/DefaultData/3F80D7D5_B12D_41FB_A5E6_40ADA8FBE731.jpeg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/14045622062',
       'node/14045622062'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-palms-siam-sydney',
       'The Palms Siam',
       'au',
@@ -5781,6 +6375,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       '85A New Illawarra Road, Sydney',
       '+61 424 070 085',
+      NULL,
       'https://thepalmssiamwellness.com.au',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: The Palms Siam, a massage studio in Sydney (85A New Illawarra Road). Posted hours: 10:00-21:00. Their site is thepalmssiamwellness.com.au.',
@@ -5788,11 +6383,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/14053500019',
       'node/14053500019'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'siam-tara-thai-massage-sydney',
       'Siam Tara Thai Massage',
       'au',
@@ -5800,6 +6396,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       NULL,
       '+61 2 9362 9118',
+      NULL,
       'www.siamtarathaimassageandspa.com.au',
       'Traditional Thai, Relaxation',
       'Tucked into Sydney, Siam Tara Thai Massage runs as an independent massage studio. Posted hours: Mo-Su 10:00-21:00. Their site is www.siamtarathaimassageandspa.com.au.',
@@ -5807,17 +6404,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4925657948',
       'node/4925657948'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'bangkok-spa-thai-massage-west-ryde-sydney',
       'Bangkok Spa Thai Massage West Ryde',
       'au',
       'sydney',
       'Sydney',
       '11 Ryedale Road, Sydney',
+      NULL,
       NULL,
       'https://www.bangkokspathaimassage.com.au/west-ryde',
       'Traditional Thai, Relaxation',
@@ -5826,11 +6425,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6053610953',
       'node/6053610953'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'deep-holistic-therapies-sydney',
       'Deep Holistic Therapies',
       'au',
@@ -5838,6 +6438,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       NULL,
       '+61 2 9300 6583',
+      NULL,
       'https://www.deepholistictherapies.com.au/',
       'Massage, Relaxation',
       'Deep Holistic Therapies operates out of Sydney. Their site is www.deepholistictherapies.com.au. Hours aren''t posted, so check before you go.',
@@ -5845,11 +6446,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/7701378361',
       'node/7701378361'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'suksahai-thai-massage-sydney',
       'Suksahai Thai Massage',
       'au',
@@ -5857,6 +6459,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       NULL,
       '+61 2 9319 6271',
+      'suksabaithaimassage@gmail.com',
       'https://www.suksabaithaimassage.com.au/',
       'Traditional Thai, Relaxation',
       'Suksahai Thai Massage operates out of Sydney. Their site is www.suksabaithaimassage.com.au. Posted hours: Mo-Su 10:00-21:00.',
@@ -5864,11 +6467,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/8393390974',
       'node/8393390974'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'stanmore-full-body-massage-sydney',
       'Stanmore Full Body Massage',
       'au',
@@ -5876,6 +6480,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       NULL,
       '+61 411 984 066',
+      NULL,
       'https://stanmore.massagesydney.com/',
       'Massage, Relaxation',
       'Locals in Sydney know Stanmore Full Body Massage as a neighbourhood massage studio. Posted hours: Mo-Su 10:00-20:00. Their site is stanmore.massagesydney.com.',
@@ -5883,11 +6488,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9518299693',
       'node/9518299693'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'nurture-mind-body-sydney',
       'Nurture Mind & Body',
       'au',
@@ -5895,6 +6501,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Sydney',
       NULL,
       '+61 434 419 708',
+      NULL,
       'https://www.nurturemindandbody.com.au/',
       'Massage, Relaxation',
       'Nurture Mind & Body — a massage studio mapped in Sydney. Their site is www.nurturemindandbody.com.au. Hours aren''t posted, so check before you go.',
@@ -5902,11 +6509,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'http://static1.squarespace.com/static/64ab631186784c5e6f09b634/t/65d162e30b2733710eec6422/1708221155372/nuture-favicon.png?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/12089676948',
       'node/12089676948'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'dequeens-thai-massage-sydney',
       'DeQueens Thai Massage',
       'au',
@@ -5915,17 +6523,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '66 Queens Road, Sydney',
       '+61 2 8386 7760',
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Tucked into Sydney on 66 Queens Road, DeQueens Thai Massage runs as an independent massage studio. Hours aren''t posted, so check before you go. Call ahead on +61 2 8386 7760.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/1129297307',
       'node/1129297307'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       '365-thai-massage-brisbane',
       '365 Thai Massage',
       'au',
@@ -5933,6 +6543,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Brisbane',
       '115 Wickham Street, Brisbane',
       '+61 412 391 635',
+      NULL,
       'https://365thaimassage.com.au/',
       'Traditional Thai, Relaxation',
       '365 Thai Massage — a massage studio mapped in Brisbane near 115 Wickham Street. Their site is 365thaimassage.com.au. Posted hours: Mo-Sa 10:00-20:00.',
@@ -5940,11 +6551,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      'https://365thaimassage.com.au/assets/img/Traditional-Thai-Massage.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/10965201842',
       'node/10965201842'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thai-diamond-massage-brisbane',
       'Thai Diamond Massage',
       'au',
@@ -5952,6 +6564,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Brisbane',
       '247 Stafford Road, Brisbane',
       '+61 403 780 900',
+      NULL,
       'https://thai-diamond-massage.business.site/',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Thai Diamond Massage, a massage studio in Brisbane (247 Stafford Road). Posted hours: Mo-Su 09:00-20:00. Their site is thai-diamond-massage.business.site.',
@@ -5959,11 +6572,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 09:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11090963655',
       'node/11090963655'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ratchada-thai-massage-spa-brisbane',
       'Ratchada Thai Massage & Spa',
       'au',
@@ -5971,6 +6585,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Brisbane',
       '275 Stafford Road, Brisbane',
       '+61 7 3195 0858',
+      'ratchadathaimassage2016@gmail.com',
       'https://ratchadathaimassage.com.au/',
       'Traditional Thai, Relaxation',
       'Tucked into Brisbane on 275 Stafford Road, Ratchada Thai Massage & Spa runs as an independent massage studio. Posted hours: Mo-Fr 10:00-20:00; Sa-Su 10:00-18:00. Their site is ratchadathaimassage.com.au.',
@@ -5978,11 +6593,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-20:00; Sa-Su 10:00-18:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11092838535',
       'node/11092838535'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'no-more-knots-massage-myotherapy-brisbane',
       'No More Knots Massage & Myotherapy',
       'au',
@@ -5990,6 +6606,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Brisbane',
       '285 Enoggera Road, Brisbane',
       '+61 7 3358 1111',
+      'newmarket@nomoreknots.com.au',
       'https://nomoreknots.com.au/',
       'Massage, Relaxation',
       'No More Knots Massage & Myotherapy — a massage studio mapped in Brisbane near 285 Enoggera Road. Their site is nomoreknots.com.au. Posted hours: Mo 08:00-16:00; Tu 08:00-18:00; We 08:00-16:00; Th 08:00-16:30; Fr 08:00-17:00; Sa 08:00-15:00.',
@@ -5997,11 +6614,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo 08:00-16:00; Tu 08:00-18:00; We 08:00-16:00; Th 08:00-16:30; Fr 08:00-17:00; Sa 08:00-15:00',
+      'http://nomoreknots.com.au/cdn/shop/files/NMK-SEO-share-1200x628-cream.png?v=1785032501',
       'openstreetmap',
       'https://www.openstreetmap.org/way/1424520735',
       'way/1424520735'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'bangkok-thai-massage-brisbane',
       'Bangkok Thai Massage',
       'au',
@@ -6009,6 +6627,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Brisbane',
       '188 Newmarket Road, Brisbane',
       '+61 7 3356 4856',
+      NULL,
       'https://bangkokthaimassage.com.au/',
       'Traditional Thai, Relaxation',
       'Tucked into Brisbane on 188 Newmarket Road, Bangkok Thai Massage runs as an independent massage studio. Posted hours: Mo-Su 09:30-18:00. Their site is bangkokthaimassage.com.au.',
@@ -6016,17 +6635,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 09:30-18:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/1431619029',
       'way/1431619029'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'benita-red-brisbane',
       'Benita Red',
       'au',
       'brisbane',
       'Brisbane',
       '141 Melbourne Street, Brisbane',
+      NULL,
       NULL,
       'https://www.benitared.com/',
       'Massage, Relaxation',
@@ -6035,17 +6656,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'http://static1.squarespace.com/static/5fe806412c235a341204877a/t/5fe9587664b17f17516cdf10/1609128058661/mono-white.png?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/5150015271',
       'node/5150015271'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thai-smile-massage-beauty-brisbane',
       'Thai Smile Massage & Beauty',
       'au',
       'brisbane',
       'Brisbane',
       '193 Melbourne Street, Brisbane',
+      NULL,
       NULL,
       'http://www.thaismilemassagebeauty.com.au/',
       'Traditional Thai, Relaxation',
@@ -6054,17 +6677,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu-Sa 10:00-19:00',
+      'http://thaismilemassagebeauty.com.au/wp-content/uploads/2014/09/Thai-Smile-Timeline.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/5150081719',
       'node/5150081719'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'five-elements-massage-brisbane',
       'Five Elements Massage',
       'au',
       'brisbane',
       'Brisbane',
       '85 Mawson Street, Brisbane',
+      NULL,
       NULL,
       'https://www.fiveelementsmassage.com',
       'Massage, Relaxation',
@@ -6073,16 +6698,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13079620656',
       'node/13079620656'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-on-oxford-brisbane',
       'Massage on Oxford',
       'au',
       'brisbane',
       'Brisbane',
+      NULL,
       NULL,
       NULL,
       'https://massageonoxford.com.au/',
@@ -6092,16 +6719,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4821718694',
       'node/4821718694'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'wellness-sanctuary-brisbane',
       'Wellness Sanctuary',
       'au',
       'brisbane',
       'Brisbane',
+      NULL,
       NULL,
       NULL,
       'https://wellness-sanctuary.com.au/',
@@ -6111,16 +6740,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'http://static1.squarespace.com/static/64f2c18afc78b13fbd328cd3/t/65423548ca55e31c3ababaef/1698837832626/favicon.png?format=1500w',
       'openstreetmap',
       'https://www.openstreetmap.org/node/6300604504',
       'node/6300604504'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'authentic-thai-massage-brisbane',
       'Authentic Thai Massage',
       'au',
       'brisbane',
       'Brisbane',
+      NULL,
       NULL,
       NULL,
       'http://www.authenticthaimassage.com.au',
@@ -6130,11 +6761,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/7911771398',
       'node/7911771398'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'willey-massage-brisbane',
       'Willey Massage',
       'au',
@@ -6143,17 +6775,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '170 Patricks Road, Brisbane',
       '+61 451 907 588',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Willey Massage operates out of 170 Patricks Road, Brisbane. Call ahead on +61 451 907 588. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9794239472',
       'node/9794239472'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'body-soul-massage-brisbane',
       'Body & Soul Massage',
       'au',
@@ -6162,17 +6796,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '236 Stafford Road, Brisbane',
       '+61 415 968 885',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Body & Soul Massage — a massage studio mapped in Brisbane near 236 Stafford Road. Call ahead on +61 415 968 885. Posted hours: Mo-Su 08:00-22:00.',
       'AUD',
       0,
       0,
       'Mo-Su 08:00-22:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11092482006',
       'node/11092482006'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-therapy-brisbane',
       'Massage Therapy',
       'au',
@@ -6181,17 +6817,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '454 Samford Road, Brisbane',
       '+61 7 3355 0088',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Massage Therapy operates out of 454 Samford Road, Brisbane. Call ahead on +61 7 3355 0088. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11240371846',
       'node/11240371846'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-health-centre-brisbane',
       'Massage Health Centre',
       'au',
@@ -6200,17 +6838,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '33 Racecourse Road, Brisbane',
       '+61 7 3122 1767',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Tucked into Brisbane on 33 Racecourse Road, Massage Health Centre runs as an independent massage studio. Posted hours: Mo-Fr 09:30-18:30; Sa 09:30-17:30; Su 10:00-17:30. Call ahead on +61 7 3122 1767.',
       'AUD',
       0,
       0,
       'Mo-Fr 09:30-18:30; Sa 09:30-17:30; Su 10:00-17:30',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12644688371',
       'node/12644688371'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'unique-thai-massage-and-men-s-waxing-brisbane',
       'Unique Thai Massage and Men''s Waxing',
       'au',
@@ -6219,17 +6859,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '285 Stafford Road, Brisbane',
       '+61 426 539 964',
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Locals in Brisbane know Unique Thai Massage and Men''s Waxing as a neighbourhood massage studio off 285 Stafford Road. Posted hours: Mo-Sa 09:00-20:00; Su 10:30-20:00. Call ahead on +61 426 539 964.',
       'AUD',
       0,
       0,
       'Mo-Sa 09:00-20:00; Su 10:30-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12662273956',
       'node/12662273956'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       '521-massage-brisbane',
       '521 Massage',
       'au',
@@ -6238,17 +6880,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '521 Beams Road, Brisbane',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Tucked into Brisbane on 521 Beams Road, 521 Massage runs as an independent massage studio. Posted hours: 09:00-21:00. No phone or website is on file yet — a good candidate to claim.',
       'AUD',
       0,
       0,
       '09:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6213038323',
       'node/6213038323'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'the-nurture-foundation-brisbane',
       'The Nurture Foundation',
       'au',
@@ -6257,17 +6901,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '24 South Pine Road, Brisbane',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Brisbane know The Nurture Foundation as a neighbourhood massage studio off 24 South Pine Road. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6255283295',
       'node/6255283295'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sophia-o-farrell-brisbane-massage-brisbane',
       'Sophia O’farrell Brisbane Massage',
       'au',
@@ -6276,17 +6922,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       NULL,
       '+61 413 601 010',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sophia O’farrell Brisbane Massage operates out of Brisbane. Call ahead on +61 413 601 010. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/8027175048',
       'node/8027175048'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'spring-massage-brisbane',
       'Spring Massage',
       'au',
@@ -6295,17 +6943,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '196 Moggill Road, Brisbane',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Brisbane know Spring Massage as a neighbourhood massage studio off 196 Moggill Road. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/8203997237',
       'node/8203997237'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sore-no-more-brisbane',
       'Sore No More',
       'au',
@@ -6314,17 +6964,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '79 Oateson Skyline Drive, Brisbane',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sore No More — a massage studio mapped in Brisbane near 79 Oateson Skyline Drive. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9019027651',
       'node/9019027651'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'plumeria-brisbane',
       'Plumeria',
       'au',
@@ -6333,17 +6985,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '427 Annerley Road, Brisbane',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Plumeria operates out of 427 Annerley Road, Brisbane. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9128441986',
       'node/9128441986'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'alderley-thai-remedial-massage-by-nipon-brisbane',
       'Alderley Thai & Remedial Massage By Nipon',
       'au',
@@ -6352,17 +7006,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '19 Samford Road, Brisbane',
       NULL,
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Alderley Thai & Remedial Massage By Nipon operates out of 19 Samford Road, Brisbane. No phone or website is on file yet — a good candidate to claim. Posted hours: Mo,We-Fr 09:00-18:00; Tu 09:30-18:00; Sa 09:00-16:00.',
       'AUD',
       0,
       0,
       'Mo,We-Fr 09:00-18:00; Tu 09:30-18:00; Sa 09:00-16:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9297291311',
       'node/9297291311'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'nine-9-massage-brisbane',
       'Nine 9 Massage',
       'au',
@@ -6371,17 +7027,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '83 Macgregor Terrace, Brisbane',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Tucked into Brisbane on 83 Macgregor Terrace, Nine 9 Massage runs as an independent massage studio. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/159103582',
       'way/159103582'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'movement-matters-perth-perth',
       'Movement Matters Perth',
       'au',
@@ -6389,6 +7047,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Perth',
       '25G Gallipoli Street, Perth',
       '+61 487 348 494',
+      'bookings@movementmattersperth.com.au',
       'https://movementmattersperth.com.au/',
       'Massage, Relaxation',
       'Movement Matters Perth operates out of 25G Gallipoli Street, Perth. Their site is movementmattersperth.com.au. Posted hours: Tu,We 08:00-19:00; Th 08:00-20:00; Fr,Sa 08:00-17:00; Su 11:00-18:00.',
@@ -6396,11 +7055,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu,We 08:00-19:00; Th 08:00-20:00; Fr,Sa 08:00-17:00; Su 11:00-18:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13347261427',
       'node/13347261427'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'mel-s-massage-and-reflexology-perth',
       'Mel''s Massage and Reflexology',
       'au',
@@ -6408,6 +7068,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Perth',
       NULL,
       '+61 8 6162 6499',
+      NULL,
       'melsmassagereflex.com',
       'Massage, Relaxation',
       'Mel''s Massage and Reflexology — a massage studio mapped in Perth. Their site is melsmassagereflex.com. Hours aren''t posted, so check before you go.',
@@ -6415,11 +7076,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9459438118',
       'node/9459438118'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'susan-s-massage-beauty-centre-perth',
       'Susan''s Massage & Beauty Centre',
       'au',
@@ -6427,6 +7089,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Perth',
       NULL,
       '+61 422 748 257',
+      NULL,
       'https://www.facebook.com/Susans-Massage-and-Beauty-Center-1668644593373662/',
       'Massage, Relaxation',
       'Susan''s Massage & Beauty Centre operates out of Perth. Their site is www.facebook.com/Susans-Massage-and-Beauty-Center-1668644593373662. Posted hours: Mo-Su 09:30-18:30.',
@@ -6434,11 +7097,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 09:30-18:30',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9572200867',
       'node/9572200867'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ethereal-massage-perth',
       'Ethereal Massage',
       'au',
@@ -6446,6 +7110,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Perth',
       NULL,
       '+61 449 930 195',
+      NULL,
       'https://www.etherealmassage.com.au/',
       'Massage, Relaxation',
       'Tucked into Perth, Ethereal Massage runs as an independent massage studio. Posted hours: Mo-We 09:00-17:30; Th 09:00-19:00; Fr 09:00-17:30; Sa 09:00-17:00. Their site is www.etherealmassage.com.au.',
@@ -6453,11 +7118,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-We 09:00-17:30; Th 09:00-19:00; Fr 09:00-17:30; Sa 09:00-17:00',
+      'https://static.wixstatic.com/media/4203e9_2d77ca360c384daea085414684fe0bf1%7Emv2.png/v1/fit/w_2500,h_1330,al_c/4203e9_2d77ca360c384daea085414684fe0bf1%7Emv2.png',
       'openstreetmap',
       'https://www.openstreetmap.org/way/1320078102',
       'way/1320078102'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ing-phu-perth',
       'Ing Phu',
       'au',
@@ -6466,22 +7132,25 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '375 Hay Street, Perth',
       '+61 8 9221 9330',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Ing Phu operates out of 375 Hay Street, Perth. Call ahead on +61 8 9221 9330. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/8148111632',
       'node/8148111632'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'life-touch-remedial-massage-perth',
       'Life Touch Remedial Massage',
       'au',
       'perth',
       'Perth',
+      NULL,
       NULL,
       NULL,
       'https://swift6985.wixsite.com/lifetouchremedial',
@@ -6491,11 +7160,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9574608787',
       'node/9574608787'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'wa-healing-massage-waxing-perth',
       'WA Healing Massage & Waxing',
       'au',
@@ -6504,17 +7174,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '16c Rokeby Road, Perth',
       '+61 422 659 894',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'WA Healing Massage & Waxing — a massage studio mapped in Perth near 16c Rokeby Road. Call ahead on +61 422 659 894. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10160742776',
       'node/10160742776'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'nutthinun-thai-massage-perth',
       'Nutthinun Thai Massage',
       'au',
@@ -6523,17 +7195,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '2 Braid Street, Perth',
       '+61 482 039 301',
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Nutthinun Thai Massage is a massage studio in Perth, on 2 Braid Street. Call ahead on +61 482 039 301. Posted hours: Mo-Su 09:00-20:00.',
       'AUD',
       0,
       0,
       'Mo-Su 09:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12526606693',
       'node/12526606693'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'g-day-massage-perth',
       'G''day Massage',
       'au',
@@ -6542,17 +7216,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '580 Hay Street, Perth',
       '+61 452 175 885',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'G''day Massage — a massage studio mapped in Perth near 580 Hay Street. Call ahead on +61 452 175 885. Posted hours: 09:30-18:30.',
       'AUD',
       0,
       0,
       '09:30-18:30',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/14079958367',
       'node/14079958367'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'opulence-serenity-perth',
       'Opulence Serenity',
       'au',
@@ -6561,17 +7237,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '119 Rokeby Road, Perth',
       '+61 435 746 858',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Opulence Serenity — a massage studio mapped in Perth near 119 Rokeby Road. Call ahead on +61 435 746 858. Posted hours: 10:00-18:00.',
       'AUD',
       0,
       0,
       '10:00-18:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/14089111465',
       'node/14089111465'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'full-moon-massage-perth',
       'Full Moon Massage',
       'au',
@@ -6580,17 +7258,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '337 Canning Highway, Perth',
       '+61 413 807 164',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Perth know Full Moon Massage as a neighbourhood massage studio off 337 Canning Highway. Hours aren''t posted, so check before you go. Call ahead on +61 413 807 164.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/1248730265',
       'way/1248730265'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'precision-physiotherapy-massage-manning-perth',
       'Precision Physiotherapy & Massage Manning',
       'au',
@@ -6599,17 +7279,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '2 Welwyn Avenue, Perth',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Perth know Precision Physiotherapy & Massage Manning as a neighbourhood massage studio off 2 Welwyn Avenue. Posted hours: Mo-Fr 07:30-19:00, Sa 07:30-12:00, Su 12:00-15:00. No phone or website is on file yet — a good candidate to claim.',
       'AUD',
       0,
       0,
       'Mo-Fr 07:30-19:00, Sa 07:30-12:00, Su 12:00-15:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4594152968',
       'node/4594152968'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'lu-dan-ni-massage-perth',
       'Lu Dan Ni Massage',
       'au',
@@ -6618,17 +7300,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '293 Hay Street, Perth',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Lu Dan Ni Massage, a massage studio in Perth (293 Hay Street). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/8148109305',
       'node/8148109305'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'embody-health-perth',
       'Embody Health',
       'au',
@@ -6637,17 +7321,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       NULL,
       '+61 8 9380 9994',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Embody Health operates out of Perth. Call ahead on +61 8 9380 9994. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11166515354',
       'node/11166515354'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'new-u-massage-perth',
       'New U Massage',
       'au',
@@ -6656,17 +7342,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       NULL,
       '+61 409 719 009',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'New U Massage — a massage studio mapped in Perth. Call ahead on +61 409 719 009. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11792150136',
       'node/11792150136'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'pure-essence-massage-perth',
       'Pure Essence Massage',
       'au',
@@ -6675,17 +7363,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       NULL,
       '+61 8 9356 2805',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Pure Essence Massage is a massage studio in Perth. Call ahead on +61 8 9356 2805. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12345839114',
       'node/12345839114'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'jasmine-perth',
       'Jasmine',
       'au',
@@ -6694,17 +7384,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       NULL,
       '+61 426 400 660',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Jasmine, a massage studio in Perth. Hours aren''t posted, so check before you go. Call ahead on +61 426 400 660.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12360682347',
       'node/12360682347'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'hokki-massage-perth',
       'Hokki Massage',
       'au',
@@ -6713,17 +7405,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       NULL,
       '+61 434 178 159',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Hokki Massage, a massage studio in Perth. Hours aren''t posted, so check before you go. Call ahead on +61 434 178 159.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12452921178',
       'node/12452921178'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'international-300-perth',
       'International 300',
       'au',
@@ -6732,17 +7426,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '140 Edward Street, Perth',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'International 300 operates out of 140 Edward Street, Perth. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13435801701',
       'node/13435801701'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'g-day-massage-couples-room-perth',
       'G''day Massage Couples Room',
       'au',
@@ -6751,17 +7447,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       NULL,
       '+61 452 175 885',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Perth know G''day Massage Couples Room as a neighbourhood massage studio. Posted hours: 09:00-20:00. Call ahead on +61 452 175 885.',
       'AUD',
       0,
       0,
       '09:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/14079958368',
       'node/14079958368'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'busaba-perth',
       'Busaba',
       'au',
@@ -6770,17 +7468,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '580 Hay Street, Perth',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Perth know Busaba as a neighbourhood massage studio off 580 Hay Street. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/14079958370',
       'node/14079958370'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'shen-s-massage-perth',
       'Shen''s Massage',
       'au',
@@ -6789,22 +7489,25 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '100 St Georges Terrace, Perth',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Locals in Perth know Shen''s Massage as a neighbourhood massage studio off 100 St Georges Terrace. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/14098878140',
       'node/14098878140'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'green-health-perth',
       'Green Health',
       'au',
       'perth',
       'Perth',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -6814,16 +7517,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4197214061',
       'node/4197214061'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'esprit-perth',
       'Esprit',
       'au',
       'perth',
       'Perth',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -6833,11 +7538,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5317836125',
       'node/5317836125'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chiang-mai-house-of-massage-adelaide',
       'Chiang Mai House of Massage',
       'au',
@@ -6845,6 +7551,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Adelaide',
       '45 Grenfell Street, Adelaide',
       '+61 455 337 272',
+      NULL,
       'https://chiangmaihouse.com.au/',
       'Massage, Relaxation',
       'Chiang Mai House of Massage operates out of 45 Grenfell Street, Adelaide. Their site is chiangmaihouse.com.au. Hours aren''t posted, so check before you go.',
@@ -6852,11 +7559,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3870406157',
       'node/3870406157'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'rub-massage-adelaide',
       'Rub Massage',
       'au',
@@ -6864,6 +7572,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Adelaide',
       '11 College Road, Adelaide',
       '+61 8 8357 3773',
+      NULL,
       'https://rubmassage.com.au',
       'Massage, Relaxation',
       'Rub Massage is a massage studio in Adelaide, on 11 College Road. Their site is rubmassage.com.au. Hours aren''t posted, so check before you go.',
@@ -6871,11 +7580,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://rubmassage.com.au/wp-content/uploads/2026/04/Rub-Massage-City-Exterior-534x400.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/9349882430',
       'node/9349882430'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'tran-massage-therapy-adelaide',
       'TRAN Massage Therapy',
       'au',
@@ -6883,6 +7593,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Adelaide',
       NULL,
       '+61 418 872 875',
+      NULL,
       'https://www.tranmassagetherapy.com.au/',
       'Massage, Relaxation',
       'TRAN Massage Therapy is a massage studio in Adelaide. Their site is www.tranmassagetherapy.com.au. Hours aren''t posted, so check before you go.',
@@ -6890,16 +7601,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://static.wixstatic.com/media/68ad37_50cfafd3609d4b9f8a20580729c1894f%7Emv2.jpg/v1/fit/w_2500,h_1330,al_c/68ad37_50cfafd3609d4b9f8a20580729c1894f%7Emv2.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/9724098996',
       'node/9724098996'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'karasa-massage-adelaide',
       'Karasa Massage',
       'au',
       'adelaide',
       'Adelaide',
+      NULL,
       NULL,
       NULL,
       'https://karsa.mase.cloud/',
@@ -6909,11 +7622,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11617925108',
       'node/11617925108'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'gratitude-massage-adelaide',
       'Gratitude Massage',
       'au',
@@ -6922,17 +7636,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '389 Greenhill Road, Adelaide',
       '+61 466 770 588',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Gratitude Massage is a massage studio in Adelaide, on 389 Greenhill Road. Call ahead on +61 466 770 588. Posted hours: Mo-Su 10:00-19:00.',
       'AUD',
       0,
       0,
       'Mo-Su 10:00-19:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12797165837',
       'node/12797165837'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'i-massage-u-mitcham-adelaide',
       'I Massage U Mitcham',
       'au',
@@ -6941,17 +7657,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '119 Belair Road, Adelaide',
       '+61 481 861 680',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Tucked into Adelaide on 119 Belair Road, I Massage U Mitcham runs as an independent massage studio. Posted hours: Mo-Fr 09:00-18:00. Call ahead on +61 481 861 680.',
       'AUD',
       0,
       0,
       'Mo-Fr 09:00-18:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13874926740',
       'node/13874926740'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'heavenly-headspace-adelaide',
       'Heavenly Headspace',
       'au',
@@ -6960,17 +7678,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '5 Hackney Road, Adelaide',
       '+61 412 163 793',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Heavenly Headspace is a massage studio in Adelaide, on 5 Hackney Road. Call ahead on +61 412 163 793. Posted hours: Th-Sa 12:00-17:00.',
       'AUD',
       0,
       0,
       'Th-Sa 12:00-17:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13949706762',
       'node/13949706762'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'magill-massage-adelaide',
       'Magill Massage',
       'au',
@@ -6979,17 +7699,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '381 Magill Road, Adelaide',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Magill Massage — a massage studio mapped in Adelaide near 381 Magill Road. No phone or website is on file yet — a good candidate to claim. Posted hours: Mo-Su 09:30-21:00.',
       'AUD',
       0,
       0,
       'Mo-Su 09:30-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6255128387',
       'node/6255128387'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'noble-hair-studio-adelaide',
       'Noble Hair Studio',
       'au',
@@ -6998,17 +7720,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '38 O''Connell Street, Adelaide',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Noble Hair Studio, a massage studio in Adelaide (38 O''Connell Street). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/7800423087',
       'node/7800423087'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chinese-massage-adelaide',
       'Chinese Massage',
       'au',
@@ -7017,17 +7741,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'O G Road, Adelaide',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Chinese Massage, a massage studio in Adelaide (O G Road). Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11773423508',
       'node/11773423508'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'breathe-massage-movement-adelaide',
       'Breathe Massage & Movement',
       'au',
@@ -7036,17 +7762,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Dulwich Avenue, Adelaide',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Tucked into Adelaide on Dulwich Avenue, Breathe Massage & Movement runs as an independent massage studio. Hours aren''t posted, so check before you go. No phone or website is on file yet — a good candidate to claim.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13542001598',
       'node/13542001598'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sasa-massage-adelaide',
       'Sasa Massage',
       'au',
@@ -7055,17 +7783,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Greenhill Road, Adelaide',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sasa Massage — a massage studio mapped in Adelaide near Greenhill Road. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13591925509',
       'node/13591925509'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'natures-touch-adelaide',
       'Natures Touch',
       'au',
@@ -7074,17 +7804,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '455 Greenhill Road, Adelaide',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Natures Touch — a massage studio mapped in Adelaide near 455 Greenhill Road. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13909573259',
       'node/13909573259'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'luck-massage-spa-adelaide',
       'Luck Massage Spa',
       'au',
@@ -7093,17 +7825,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '36 Addison Road, Adelaide',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Luck Massage Spa operates out of 36 Addison Road, Adelaide. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/215803155',
       'way/215803155'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'o-connell-massage-beauty-adelaide',
       'O''Connell Massage & Beauty',
       'au',
@@ -7112,17 +7846,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '97 O''Connell Street, Adelaide',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'O''Connell Massage & Beauty — a massage studio mapped in Adelaide near 97 O''Connell Street. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/370121796',
       'way/370121796'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'yubodywellness-adelaide',
       'Yubodywellness',
       'au',
@@ -7131,22 +7867,25 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '396 North East Road, Adelaide',
       NULL,
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Yubodywellness operates out of 396 North East Road, Adelaide. No phone or website is on file yet — a good candidate to claim. Hours aren''t posted, so check before you go.',
       'AUD',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/1494589937',
       'way/1494589937'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-314-adelaide',
       'Massage 314',
       'au',
       'adelaide',
       'Adelaide',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -7156,16 +7895,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5259164122',
       'node/5259164122'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'simply-natural-massage-therapy-adelaide',
       'Simply Natural Massage Therapy',
       'au',
       'adelaide',
       'Adelaide',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -7175,16 +7916,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5579519759',
       'node/5579519759'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'oriental-touch-adelaide',
       'Oriental Touch',
       'au',
       'adelaide',
       'Adelaide',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -7194,16 +7937,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6215207386',
       'node/6215207386'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'daily-chinese-massage-adelaide',
       'Daily Chinese Massage',
       'au',
       'adelaide',
       'Adelaide',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -7213,16 +7958,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6917366891',
       'node/6917366891'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'body-bliss-adelaide',
       'Body Bliss',
       'au',
       'adelaide',
       'Adelaide',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -7232,16 +7979,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/7795880788',
       'node/7795880788'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'glenelg-thai-massage-adelaide',
       'Glenelg Thai Massage',
       'au',
       'adelaide',
       'Adelaide',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -7251,16 +8000,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10611718111',
       'node/10611718111'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'yin-adelaide',
       'Yin',
       'au',
       'adelaide',
       'Adelaide',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -7270,16 +8021,18 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10794123879',
       'node/10794123879'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'henley-massage-adelaide',
       'Henley Massage',
       'au',
       'adelaide',
       'Adelaide',
+      NULL,
       NULL,
       NULL,
       NULL,
@@ -7289,11 +8042,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10794127363',
       'node/10794127363'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sen-spa-berlin-berlin',
       'Sen Spa Berlin',
       'de',
@@ -7301,6 +8055,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '76 Konrad-Wolf-Straße, Berlin',
       '+491621866699',
+      'senspaberlin2024@gmail.com',
       'https://senspa-berlin.de/',
       'Massage, Relaxation',
       'Sen Spa Berlin operates out of 76 Konrad-Wolf-Straße, Berlin. Their site is senspa-berlin.de. Posted hours: Mo-Fr 09:00-20:00; Sa 09:00-19:00.',
@@ -7308,11 +8063,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 09:00-20:00; Sa 09:00-19:00',
+      'https://senspa-berlin.de/wp-content/uploads/2025/05/cropped-cropped-Senspa-logo-02-1.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/60775321',
       'node/60775321'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'peilin-thaimassage-berlin',
       'Peilin Thaimassage',
       'de',
@@ -7320,6 +8076,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '2 Garnisonkirchplatz, Berlin',
       '+49 30 24046812',
+      NULL,
       'https://www.peilin-thaimassage.de/',
       'Traditional Thai, Relaxation',
       'Locals in Berlin know Peilin Thaimassage as a neighbourhood massage studio off 2 Garnisonkirchplatz. Posted hours: Mo-Sa 10:00-23:00; Su 12:00-21:00. Their site is www.peilin-thaimassage.de.',
@@ -7327,11 +8084,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-23:00; Su 12:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/429738645',
       'node/429738645'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'veronas-massagen-berlin',
       'Veronas Massagen',
       'de',
@@ -7339,6 +8097,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '31 Mansfelder Straße, Berlin',
       '+49 30 86209546',
+      NULL,
       'http://www.veronas-massagen.de/',
       'Massage, Relaxation',
       'Locals in Berlin know Veronas Massagen as a neighbourhood massage studio off 31 Mansfelder Straße. Posted hours: Mo-Fr 10:30-20:30. Their site is www.veronas-massagen.de.',
@@ -7346,11 +8105,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:30-20:30',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/651837933',
       'node/651837933'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ra-pee-wellness-add-gmbh-berlin',
       'Ra-Pee Wellness add GmbH',
       'de',
@@ -7358,6 +8118,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '38 Barnimstraße, Berlin',
       '+49 30 28444127',
+      NULL,
       'http://www.ra-pee.de/',
       'Massage, Relaxation',
       'Ra-Pee Wellness add GmbH operates out of 38 Barnimstraße, Berlin. Their site is www.ra-pee.de. Posted hours: Tu-Sa 10:00-19:30; Su 11:00-19:30.',
@@ -7365,11 +8126,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu-Sa 10:00-19:30; Su 11:00-19:30',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/663596963',
       'node/663596963'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'mabelle-massagen-berlin',
       'MaBelle-Massagen',
       'de',
@@ -7377,6 +8139,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '12 Gryphiusstraße, Berlin',
       '+49 30 27573858',
+      NULL,
       'https://mabelle-massagen.com/',
       'Massage, Relaxation',
       'MaBelle-Massagen — a massage studio mapped in Berlin near 12 Gryphiusstraße. Their site is mabelle-massagen.com. Posted hours: 11:00-21:00.',
@@ -7384,11 +8147,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '11:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/690211824',
       'node/690211824'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'iris-massagestudio-berlin',
       'Iris Massagestudio',
       'de',
@@ -7396,6 +8160,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '16 Plönzeile, Berlin',
       '+49 30 53601899',
+      NULL,
       'http://www.iris-massagen.com',
       'Massage, Relaxation',
       'Iris Massagestudio is a massage studio in Berlin, on 16 Plönzeile. Their site is www.iris-massagen.com. Posted hours: Mo-Fr 10:00-21:00; Sa-Su 11:00-20:00.',
@@ -7403,11 +8168,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-21:00; Sa-Su 11:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/690405175',
       'node/690405175'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sayam-thaimassage-berlin',
       'Sayam Thaimassage',
       'de',
@@ -7415,6 +8181,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '12 Waldeyerstraße, Berlin',
       '+49 30 96600015',
+      NULL,
       'http://sayam-thaimassage-berlin.de/',
       'Traditional Thai, Relaxation',
       'Sayam Thaimassage is a massage studio in Berlin, on 12 Waldeyerstraße. Their site is sayam-thaimassage-berlin.de. Posted hours: 10:00-20:00.',
@@ -7422,11 +8189,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/724958307',
       'node/724958307'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'mae-thaimassage-berlin',
       'MAE Thaimassage',
       'de',
@@ -7434,6 +8202,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '94 Friedrich-Wilhelm-Straße, Berlin',
       '+49 30 75764035',
+      NULL,
       'https://www.mae-thaimassage.de/',
       'Traditional Thai, Relaxation',
       'Tucked into Berlin on 94 Friedrich-Wilhelm-Straße, MAE Thaimassage runs as an independent massage studio. Posted hours: Mo-Sa 10:00-20:00. Their site is www.mae-thaimassage.de.',
@@ -7441,11 +8210,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      'https://www.mae-thaimassage.de/wp-content/uploads/2024/09/2024-Zertifikat.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/730079174',
       'node/730079174'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'anabel-berlin',
       'Anabel',
       'de',
@@ -7453,6 +8223,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '38 Altonaer Straße, Berlin',
       '+49 30 54778737',
+      NULL,
       'https://anabel-massagen.de/',
       'Massage, Relaxation',
       'Anabel — a massage studio mapped in Berlin near 38 Altonaer Straße. Their site is anabel-massagen.de. Posted hours: 10:00-22:00.',
@@ -7460,11 +8231,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-22:00',
+      'https://anabel-massagen.de/wp-content/uploads/2023/08/gug_anabel_kompr.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/751633047',
       'node/751633047'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'photong-berlin',
       'Photong',
       'de',
@@ -7472,6 +8244,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '110 Scharnweberstraße, Berlin',
       '+49 30 20979192',
+      NULL,
       'https://www.photong.de',
       'Massage, Relaxation',
       'Locals in Berlin know Photong as a neighbourhood massage studio off 110 Scharnweberstraße. Posted hours: Mo-Fr 10:00-21:00; Sa 12:00-20:00. Their site is www.photong.de.',
@@ -7479,11 +8252,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-21:00; Sa 12:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/766150248',
       'node/766150248'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sabay-sabay-berlin',
       'Sabay Sabay',
       'de',
@@ -7491,6 +8265,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '62 Niebuhrstraße, Berlin',
       '+49 30 31991892',
+      NULL,
       'https://www.sabaysabay-berlin.de/filiale-1',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Sabay Sabay, a massage studio in Berlin (62 Niebuhrstraße). Posted hours: Mo-Sa 10:00-21:00; Su 12:00-20:00. Their site is www.sabaysabay-berlin.de/filiale-1.',
@@ -7498,11 +8273,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-21:00; Su 12:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/774091367',
       'node/774091367'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'kamlai-thai-massage-berlin',
       'Kamlai Thai-Massage',
       'de',
@@ -7510,6 +8286,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '40 Drakestraße, Berlin',
       '+49 30 30136421',
+      NULL,
       'http://www.kamlai.de/',
       'Traditional Thai, Relaxation',
       'Kamlai Thai-Massage — a massage studio mapped in Berlin near 40 Drakestraße. Their site is www.kamlai.de. Hours aren''t posted, so check before you go.',
@@ -7517,11 +8294,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/800503473',
       'node/800503473'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chabagaew-thaimassage-berlin',
       'Chabagaew Thaimassage',
       'de',
@@ -7529,6 +8307,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '352 Clayallee, Berlin',
       '+49 30 81059108',
+      NULL,
       'https://www.chabagaew-thaimassage.de',
       'Traditional Thai, Relaxation',
       'Chabagaew Thaimassage — a massage studio mapped in Berlin near 352 Clayallee. Their site is www.chabagaew-thaimassage.de. Posted hours: 10:00-22:00.',
@@ -7536,11 +8315,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-22:00',
+      'https://image.jimcdn.com/app/cms/image/transf/none/path/sdc8ab0597d79eac5/backgroundarea/i957ca33d50cd8d37/version/1511102182/image.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/869901653',
       'node/869901653'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'tha-sia-spa-berlin',
       'Tha Sia Spa',
       'de',
@@ -7548,6 +8328,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '85-86 Wilhelmstraße, Berlin',
       '+49 30 20886360',
+      NULL,
       'http://www.thaimassage-berlin-thasiaspa.de/',
       'Massage, Relaxation',
       'Tha Sia Spa operates out of 85-86 Wilhelmstraße, Berlin. Their site is www.thaimassage-berlin-thasiaspa.de. Posted hours: Mo-Sa 10:00-22:00; Su 12:00-21:00; Apr 06 12:00-20:00; May 24,May 25 12:00-20:00; Dec 24 10:00-18:00; Dec 26 12:00-20:00; Dec 31 10:00-18:00; Jan 01 off; Apr 05 off; May 01 off; Oct 03 off; Dec 25 off.',
@@ -7555,11 +8336,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-22:00; Su 12:00-21:00; Apr 06 12:00-20:00; May 24,May 25 12:00-20:00; Dec 24 10:00-18:00; Dec 26 12:00-20:00; Dec 31 10:00-18:00; Jan 01 off; Apr 05 off; May 01 off; Oct 03 off; Dec 25 off',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/878354802',
       'node/878354802'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'lins-thai-massage-lankwitz-berlin',
       'Lins Thai Massage Lankwitz',
       'de',
@@ -7567,6 +8349,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '74 Siemensstraße, Berlin',
       '+49 30 79781497',
+      NULL,
       'http://www.linsmassage.de/',
       'Traditional Thai, Relaxation',
       'Lins Thai Massage Lankwitz — a massage studio mapped in Berlin near 74 Siemensstraße. Their site is www.linsmassage.de. Posted hours: Mo-Fr 09:30-20:00; Sa,Su 10:00-18:30; PH off.',
@@ -7574,11 +8357,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 09:30-20:00; Sa,Su 10:00-18:30; PH off',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/891114147',
       'node/891114147'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'dam-s-thaimassage-berlin',
       'Dam´s Thaimassage',
       'de',
@@ -7586,6 +8370,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '65 Motzstraße, Berlin',
       '+49 30 47989201',
+      NULL,
       'http://www.dams-thaimassage.de/',
       'Traditional Thai, Relaxation',
       'Tucked into Berlin on 65 Motzstraße, Dam´s Thaimassage runs as an independent massage studio. Posted hours: Mo-Sa 10:00-20:00. Their site is www.dams-thaimassage.de.',
@@ -7593,11 +8378,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/911189654',
       'node/911189654'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'goldenes-dreieck-berlin',
       'Goldenes Dreieck',
       'de',
@@ -7605,6 +8391,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '4 Herrfurthstraße, Berlin',
       '+49 30 62723707',
+      NULL,
       'https://www.goldenesdreieck-thai-mass.de/',
       'Massage, Relaxation',
       'Goldenes Dreieck operates out of 4 Herrfurthstraße, Berlin. Their site is www.goldenesdreieck-thai-mass.de. Posted hours: Mo-Su 09:00-21:00.',
@@ -7612,11 +8399,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 09:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/939212108',
       'node/939212108'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'pia-thaimassage-berlin',
       'Pia Thaimassage',
       'de',
@@ -7624,6 +8412,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '156 Hauptstraße, Berlin',
       '+49 30 70094494',
+      NULL,
       'http://www.pia-thaimassage.de/',
       'Traditional Thai, Relaxation',
       'Pia Thaimassage is a massage studio in Berlin, on 156 Hauptstraße. Their site is www.pia-thaimassage.de. Posted hours: Mo-Sa 11:00-21:00; Su 12:00-18:00.',
@@ -7631,11 +8420,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 11:00-21:00; Su 12:00-18:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/942047176',
       'node/942047176'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'meechai-thaimassage-berlin',
       'Meechai Thaimassage',
       'de',
@@ -7643,6 +8433,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '108 Boelckestraße, Berlin',
       '+49 30 78951021',
+      NULL,
       'https://www.meechai.de/',
       'Traditional Thai, Relaxation',
       'Meechai Thaimassage operates out of 108 Boelckestraße, Berlin. Their site is www.meechai.de. Posted hours: Mo-Sa 10:00-21:00, Sa 10:00-20:00.',
@@ -7650,11 +8441,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-21:00, Sa 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/945491622',
       'node/945491622'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'fantasy-massagen-berlin',
       'Fantasy Massagen',
       'de',
@@ -7662,6 +8454,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '65 Langhansstraße, Berlin',
       '+49 30 80205719',
+      NULL,
       'https://www.fantasy-massagestudio.de/',
       'Massage, Relaxation',
       'Fantasy Massagen is a massage studio in Berlin, on 65 Langhansstraße. Their site is www.fantasy-massagestudio.de. Posted hours: Sa,Su 12:00-19:00; Mo-Fr 11:00-22:00.',
@@ -7669,11 +8462,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Sa,Su 12:00-19:00; Mo-Fr 11:00-22:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/968208346',
       'node/968208346'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ekstase-massagesalon-berlin',
       'Ekstase Massagesalon',
       'de',
@@ -7681,6 +8475,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '29 Ebertystraße, Berlin',
       '+49 30 42088889',
+      NULL,
       'http://www.ekstase-massage.de',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Ekstase Massagesalon, a massage studio in Berlin (29 Ebertystraße). Posted hours: Mo-Fr 12:00-23:00; Sa,Su 12:00-23:00. Their site is www.ekstase-massage.de.',
@@ -7688,11 +8483,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 12:00-23:00; Sa,Su 12:00-23:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/971061406',
       'node/971061406'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'araya-thaimassage-berlin',
       'Araya Thaimassage',
       'de',
@@ -7700,6 +8496,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '188 Goerzallee, Berlin',
       '+49 30 43207005',
+      NULL,
       'https://www.araya-thaimassage.de/',
       'Traditional Thai, Relaxation',
       'Araya Thaimassage — a massage studio mapped in Berlin near 188 Goerzallee. Their site is www.araya-thaimassage.de. Posted hours: Mo-Sa 10:00-20:00.',
@@ -7707,11 +8504,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/985458081',
       'node/985458081'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'constant-balance-berlin',
       'Constant Balance',
       'de',
@@ -7719,6 +8517,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Berlin',
       '47 Winterfeldtstraße, Berlin',
       '+49 30 23607556',
+      NULL,
       'http://www.constant-balance.de/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Constant Balance, a massage studio in Berlin (47 Winterfeldtstraße). Hours aren''t posted, so check before you go. Their site is www.constant-balance.de.',
@@ -7726,11 +8525,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/998027173',
       'node/998027173'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'van-haren-munich',
       'Van Haren',
       'de',
@@ -7738,6 +8538,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '71 Albert-Roßhaupter-Straße, München',
       '+49 89 760 42 79',
+      NULL,
       'https://www.praxis-van-haren.de/',
       'Massage, Relaxation',
       'Locals in Munich know Van Haren as a neighbourhood massage studio off 71 Albert-Roßhaupter-Straße. Posted hours: Mo-Fr 07:00-20:00. Their site is www.praxis-van-haren.de.',
@@ -7745,11 +8546,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 07:00-20:00',
+      'https://praxis-van-haren.de/www/uploads/Teaser_Bild_defaultIMG_3688-1200x630.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/1314437916',
       'node/1314437916'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'khon-thai-munich',
       'Khon-Thai',
       'de',
@@ -7757,6 +8559,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '2a Falkenstraße, München',
       '+498962232657',
+      NULL,
       'https://khon-thaimassage.de/',
       'Traditional Thai, Relaxation',
       'Khon-Thai operates out of 2a Falkenstraße, Munich. Their site is khon-thaimassage.de. Posted hours: Mo-We,Fr 10:30-19:00; Th 14:00-19:00; Sa 10:00-15:00.',
@@ -7764,11 +8567,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-We,Fr 10:30-19:00; Th 14:00-19:00; Sa 10:00-15:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/1932765155',
       'node/1932765155'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'bua-siam-thai-massage-spa-munich',
       'Bua Siam Thai Massage & Spa',
       'de',
@@ -7776,6 +8580,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '67 Herzogstraße, München',
       '+49 89 388 793 08',
+      NULL,
       'https://www.buasiam-massage.de/',
       'Traditional Thai, Relaxation',
       'Bua Siam Thai Massage & Spa operates out of 67 Herzogstraße, Munich. Their site is www.buasiam-massage.de. Posted hours: Mo-Sa 10:00-20:00.',
@@ -7783,11 +8588,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2524029945',
       'node/2524029945'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'shida-thai-massage-spa-munich',
       'Shida Thai Massage & Spa',
       'de',
@@ -7795,6 +8601,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '46 Pelkovenstraße, München',
       '+49 89 143 40266',
+      NULL,
       'https://shida-thaimassage.de/',
       'Traditional Thai, Relaxation',
       'Shida Thai Massage & Spa operates out of 46 Pelkovenstraße, Munich. Their site is shida-thaimassage.de. Posted hours: Mo-Sa 10:00-20:00.',
@@ -7802,11 +8609,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2821833745',
       'node/2821833745'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'poogon-thai-massage-munich',
       'Poogon Thai Massage',
       'de',
@@ -7814,6 +8622,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '78 Aidenbachstraße, München',
       '+49 89 85 63 98 46',
+      'info@pogoon.de',
       'https://www.pogoon.de/',
       'Traditional Thai, Relaxation',
       'Poogon Thai Massage operates out of 78 Aidenbachstraße, Munich. Their site is www.pogoon.de. Posted hours: Mo-Sa 09:30-20:30.',
@@ -7821,11 +8630,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 09:30-20:30',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3430621090',
       'node/3430621090'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sunet-s-thaimassage-munich',
       'Sunet''s Thaimassage',
       'de',
@@ -7833,6 +8643,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '4d Bahnhofplatz, Haar',
       '+49 89 21598700',
+      'termin@sunets-thaimassage.de',
       'http://www.sunets-thaimassage.de',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Sunet''s Thaimassage, a massage studio in Munich (4d Bahnhofplatz). Posted hours: Mo-Sa 10:00-20:00. Their site is www.sunets-thaimassage.de.',
@@ -7840,11 +8651,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3751651749',
       'node/3751651749'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chofah-thai-massage-munich',
       'CHOFAH THAI massage',
       'de',
@@ -7852,6 +8664,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '14b Schloßstraße, Grünwald',
       '+49 89 37916328',
+      'chofah-thai-massage@web.de',
       'https://www.chofah-thai-massage.de/',
       'Traditional Thai, Relaxation',
       'CHOFAH THAI massage operates out of 14b Schloßstraße, Munich. Their site is www.chofah-thai-massage.de. Hours aren''t posted, so check before you go.',
@@ -7859,11 +8672,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://chofah-thai-massage.de/wp-content/uploads/2023/04/zwei_blumen.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/4174465299',
       'node/4174465299'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'white-bamboo-spa-munich',
       'White Bamboo Spa',
       'de',
@@ -7871,6 +8685,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '4 Josephsplatz, München',
       '+49 89 127 378 06',
+      NULL,
       'https://www.white-bamboo.de',
       'Massage, Relaxation',
       'White Bamboo Spa — a massage studio mapped in Munich near 4 Josephsplatz. Their site is www.white-bamboo.de. Posted hours: Mo-Sa 10:00-20:00; Su 10:00-18:00; PH off.',
@@ -7878,11 +8693,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00; Su 10:00-18:00; PH off',
+      'https://image.jimcdn.com/app/cms/image/transf/dimension=1920x10000:format=png/path/sd03cfd8f6dbf57fc/image/i8ef7b36aa96d77e4/version/1784708765/image.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/4523700331',
       'node/4523700331'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ruen-thaimassage-munich',
       'Ruen Thaimassage',
       'de',
@@ -7890,6 +8706,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '86a Ottostraße, Ottobrunn',
       '+49 89 61180260',
+      NULL,
       'http://www.ruenthai-massage.de',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Ruen Thaimassage, a massage studio in Munich (86a Ottostraße). Posted hours: Mo-Fr 10:00-19:00; Sa 11:00-17:00; Su,PH off. Their site is www.ruenthai-massage.de.',
@@ -7897,11 +8714,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-19:00; Sa 11:00-17:00; Su,PH off',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4623897576',
       'node/4623897576'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'bua-schein-thai-munich',
       'Bua Schein Thai',
       'de',
@@ -7909,6 +8727,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '34 Kazmairstraße, Munich',
       '+49 89 37419057',
+      NULL,
       'https://www.bua-schein-thai.de/',
       'Traditional Thai, Relaxation',
       'Tucked into Munich on 34 Kazmairstraße, Bua Schein Thai runs as an independent massage studio. Posted hours: Mo-Sa 10:00-20:00. Their site is www.bua-schein-thai.de.',
@@ -7916,11 +8735,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4906056321',
       'node/4906056321'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'linly-thai-massage-munich',
       'Linly Thai Massage',
       'de',
@@ -7928,6 +8748,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '16 Schüleinstraße, München',
       '+49 89 24405724',
+      'info@linly-thaimassage.de',
       'https://www.linly-thai-massage.de/',
       'Traditional Thai, Relaxation',
       'Linly Thai Massage is a massage studio in Munich, on 16 Schüleinstraße. Their site is www.linly-thai-massage.de. Posted hours: Mo-Sa 10:00-20:00.',
@@ -7935,11 +8756,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4906161973',
       'node/4906161973'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sukanya-munich',
       'Sukanya',
       'de',
@@ -7947,6 +8769,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '48a Brudermühlstraße, München',
       '+49 89 370 323 73',
+      NULL,
       'https://sukanya.spa/',
       'Massage, Relaxation',
       'Sukanya is a massage studio in Munich, on 48a Brudermühlstraße. Their site is sukanya.spa. Posted hours: Tu-Su 10:00-20:00; Mo,PH off.',
@@ -7954,11 +8777,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu-Su 10:00-20:00; Mo,PH off',
+      'https://sukanya.spa/wp-content/uploads/2025/02/Sukanya-Social-Media.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/4947385094',
       'node/4947385094'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'leelawadee-thai-massage-munich',
       'Leelawadee Thai Massage',
       'de',
@@ -7966,6 +8790,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '94 Kirchenstraße, München',
       '+49 89 189 444 49',
+      NULL,
       'http://leelawadee-thaimassage.com/',
       'Traditional Thai, Relaxation',
       'Leelawadee Thai Massage — a massage studio mapped in Munich near 94 Kirchenstraße. Their site is leelawadee-thaimassage.com. Posted hours: Mo-Su 10:00-20:00.',
@@ -7973,11 +8798,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4984545521',
       'node/4984545521'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'bua-siam-munich',
       'Bua Siam',
       'de',
@@ -7985,6 +8811,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '104 Westendstraße, München',
       '+49 89 726 098 51',
+      NULL,
       'https://www.buasiam-massage.de/',
       'Massage, Relaxation',
       'Tucked into Munich on 104 Westendstraße, Bua Siam runs as an independent massage studio. Posted hours: Tu-Sa 10:00-20:00. Their site is www.buasiam-massage.de.',
@@ -7992,11 +8819,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu-Sa 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5472434555',
       'node/5472434555'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'physiotherapiezentrum-munchen-bewig-munich',
       'Physiotherapiezentrum München Bewig',
       'de',
@@ -8004,6 +8832,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '9 Griegstraße, München',
       '+4917660919620',
+      'physiotherapiezentrumbewig@web.de',
       'https://www.physiotherapiezentrumbewig.de/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Physiotherapiezentrum München Bewig, a massage studio in Munich (9 Griegstraße). Posted hours: Mo-We 08:00-18:00; Th 08:00-12:00. Their site is www.physiotherapiezentrumbewig.de.',
@@ -8011,11 +8840,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-We 08:00-18:00; Th 08:00-12:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5730341829',
       'node/5730341829'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thien-hom-munich',
       'Thiën Hom',
       'de',
@@ -8023,6 +8853,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '71 Amalienstraße, München',
       '+49 89 6606 1014',
+      NULL,
       'https://www.thienhom.de/',
       'Massage, Relaxation',
       'Thiën Hom operates out of 71 Amalienstraße, Munich. Their site is www.thienhom.de. Posted hours: Mo-Sa 10:00-20:00; Su 10:00-18:00.',
@@ -8030,11 +8861,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00; Su 10:00-18:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5768852493',
       'node/5768852493'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'physiotherapie-am-kirchplatz-munich',
       'Physiotherapie am Kirchplatz',
       'de',
@@ -8042,6 +8874,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '4 Münchener Straße, Pullach im Isartal',
       '+49 89 7936 9000',
+      'info@physioamkirchplatz.de',
       'https://www.physioamkirchplatz.de/',
       'Massage, Relaxation',
       'Tucked into Munich on 4 Münchener Straße, Physiotherapie am Kirchplatz runs as an independent massage studio. Hours aren''t posted, so check before you go. Their site is www.physioamkirchplatz.de.',
@@ -8049,11 +8882,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5848459885',
       'node/5848459885'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'marigold-munich',
       'Marigold',
       'de',
@@ -8061,6 +8895,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '306a Truderinger Straße, München',
       '+4989 545 744 66',
+      'info@marigold-muenchen.de',
       'https://www.marigoldthaimassage.de/',
       'Massage, Relaxation',
       'Tucked into Munich on 306a Truderinger Straße, Marigold runs as an independent massage studio. Posted hours: Mo-Fr 11:00-19:00; Sa 11:00-18:00. Their site is www.marigoldthaimassage.de.',
@@ -8068,11 +8903,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 11:00-19:00; Sa 11:00-18:00',
+      'https://www.marigoldthaimassage.de/wp-content/uploads/2024/01/cropped-cropped-webb-logo-final-scaled.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/6090959487',
       'node/6090959487'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'orchidee-munich',
       'Orchidee',
       'de',
@@ -8080,6 +8916,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '131 Nymphenburger Straße, München',
       '+49 89 46228412; +49 151 51851000',
+      'info@orchidee-massage-muenchen.de',
       'https://orchidee-massage-muenchen.de/',
       'Massage, Relaxation',
       'Tucked into Munich on 131 Nymphenburger Straße, Orchidee runs as an independent massage studio. Posted hours: Mo-Fr 10:00-20:00; Sa 11:00-18:00; Su,PH off. Their site is orchidee-massage-muenchen.de.',
@@ -8087,11 +8924,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-20:00; Sa 11:00-18:00; Su,PH off',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6387387388',
       'node/6387387388'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'tassanee-thaimassage-munich',
       'Tassanee Thaimassage',
       'de',
@@ -8099,6 +8937,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '22 Mannertstraße, München',
       '+49 89 638 899 10',
+      'tassaneethaimassage@gmail.com',
       'https://www.tassanee-thaimassage.de',
       'Traditional Thai, Relaxation',
       'Tassanee Thaimassage is a massage studio in Munich, on 22 Mannertstraße. Their site is www.tassanee-thaimassage.de. Hours aren''t posted, so check before you go.',
@@ -8106,11 +8945,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6597230075',
       'node/6597230075'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chang-thong-thai-massage-munich',
       'Chang Thong Thai-Massage',
       'de',
@@ -8118,6 +8958,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '78 Forstenrieder Allee, München',
       '+49 89 79086559',
+      NULL,
       'http://chang-thong-thai-massage.de/',
       'Traditional Thai, Relaxation',
       'Chang Thong Thai-Massage — a massage studio mapped in Munich near 78 Forstenrieder Allee. Their site is chang-thong-thai-massage.de. Posted hours: Mo-Fr 10:00-20:00; Sa 10:00-18:00.',
@@ -8125,11 +8966,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-20:00; Sa 10:00-18:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/7446778313',
       'node/7446778313'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'herz-und-hand-munich',
       'Herz und Hand',
       'de',
@@ -8137,6 +8979,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '51 Geigenbergerstraße, Munich',
       '+49 170 9518931',
+      NULL,
       'https://www.massage-herzundhand.de',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Herz und Hand, a massage studio in Munich (51 Geigenbergerstraße). Hours aren''t posted, so check before you go. Their site is www.massage-herzundhand.de.',
@@ -8144,11 +8987,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/7852143667',
       'node/7852143667'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thai-massage-saeng-thong-munich',
       'Thai-Massage Saeng Thong',
       'de',
@@ -8156,6 +9000,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '1 Posener Platz, München',
       '+49 89 92564896',
+      NULL,
       'https://saengthong-thaimassage.de/',
       'Traditional Thai, Relaxation',
       'Thai-Massage Saeng Thong — a massage studio mapped in Munich near 1 Posener Platz. Their site is saengthong-thaimassage.de. Hours aren''t posted, so check before you go.',
@@ -8163,11 +9008,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/8390937132',
       'node/8390937132'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'das-ein-wellness-munich',
       'DaS ein – Wellness',
       'de',
@@ -8175,6 +9021,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Munich',
       '41 Schneckenburgerstraße, Munich',
       '+49 89 81 30 41 930',
+      NULL,
       'https://dasein-wellness.de/',
       'Massage, Relaxation',
       'Locals in Munich know DaS ein – Wellness as a neighbourhood massage studio off 41 Schneckenburgerstraße. Posted hours: Mo-Sa 10:00-20:00. Their site is dasein-wellness.de.',
@@ -8182,11 +9029,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      'https://jthemes.net/themes/wp/spamagic/wp-content/uploads/2021/12/slide-1.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/8401633517',
       'node/8401633517'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'tawan-spa-2-thai-massage-hamburg',
       'Tawan Spa 2 & Thai Massage',
       'de',
@@ -8194,6 +9042,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '31 Hopfenmarkt, Hamburg',
       '+49 40 67594949',
+      NULL,
       'https://thaimassage-nikolai-hopfenmarkt.de/',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Tawan Spa 2 & Thai Massage, a massage studio in Hamburg (31 Hopfenmarkt). Posted hours: Mo,We-Su 11:00-20:00. Their site is thaimassage-nikolai-hopfenmarkt.de.',
@@ -8201,11 +9050,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo,We-Su 11:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2318828541',
       'node/2318828541'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'praxis-fur-energie-wellness-emma-wolf-hamburg',
       'Praxis für Energie & Wellness Emma Wolf',
       'de',
@@ -8213,6 +9063,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '11 Schinkelstraße, Hamburg',
       '+49 40 65 04 36 55',
+      'info@emma-wolf.de',
       'http://www.emma-wolf.de/',
       'Massage, Relaxation',
       'Praxis für Energie & Wellness Emma Wolf — a massage studio mapped in Hamburg near 11 Schinkelstraße. Their site is www.emma-wolf.de. Posted hours: "Terminvereinbarung Telefon: 65043656 Handy: 0176-51489447".',
@@ -8220,11 +9071,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '"Terminvereinbarung Telefon: 65043656 Handy: 0176-51489447"',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2939052497',
       'node/2939052497'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'baan-siam-hamburg',
       'Baan Siam',
       'de',
@@ -8232,6 +9084,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '11 Müggenkampstraße, Hamburg',
       '+49 40 50719646',
+      NULL,
       'https://www.baansiam-hamburg.de/',
       'Massage, Relaxation',
       'Baan Siam operates out of 11 Müggenkampstraße, Hamburg. Their site is www.baansiam-hamburg.de. Posted hours: Mo-Fr 10:00-20:00; Sa 10:00-20:00.',
@@ -8239,11 +9092,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-20:00; Sa 10:00-20:00',
+      'https://baansiam-hamburg.de/wp-content/uploads/Baan-Siam-ogtitle.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/3664851709',
       'node/3664851709'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'kosmetik-fu-pflege-am-s-bahnhof-krupunder-hamburg',
       'Kosmetik & Fußpflege am S-Bahnhof Krupunder',
       'de',
@@ -8251,6 +9105,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '250 Seestraße, Halstenbek',
       '+49 4101 48 09 87',
+      NULL,
       'https://www.kosmetik-fusspflege-krupunder.de/',
       'Massage, Relaxation',
       'Kosmetik & Fußpflege am S-Bahnhof Krupunder is a massage studio in Hamburg, on 250 Seestraße. Their site is www.kosmetik-fusspflege-krupunder.de. Posted hours: Mo-Fr 09:00-18:00 || "Nach Absprache andere Termine auch Samstags".',
@@ -8258,11 +9113,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 09:00-18:00 || "Nach Absprache andere Termine auch Samstags"',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4159017268',
       'node/4159017268'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chokdee-hamburg',
       'Chokdee',
       'de',
@@ -8270,6 +9126,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '61 Grindelberg, Hamburg',
       '+49 40 87 50 99 51',
+      NULL,
       'https://www.chokdee-thaimassage.com/',
       'Massage, Relaxation',
       'Chokdee is a massage studio in Hamburg, on 61 Grindelberg. Their site is www.chokdee-thaimassage.com. Posted hours: Mo-Sa 10:00-20:00.',
@@ -8277,11 +9134,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      'http://www.chokdee-thaimassage.com/wp-content/uploads/thai-massage-hamburg-eimsbuettel.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/4239152639',
       'node/4239152639'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chang-thai-wellness-hamburg',
       'Chang Thai Wellness',
       'de',
@@ -8289,6 +9147,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '29-33 Ferdinandstraße, Hamburg',
       '+49 40 32508766',
+      'booking@changthaiwellness.de',
       'http://www.changthaiwellness.de',
       'Traditional Thai, Relaxation',
       'Tucked into Hamburg on 29-33 Ferdinandstraße, Chang Thai Wellness runs as an independent massage studio. Posted hours: Mo-Su 11:00-21:00. Their site is www.changthaiwellness.de.',
@@ -8296,11 +9155,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 11:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4522870792',
       'node/4522870792'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'dara-s-thai-wellness-spa-hamburg',
       'Dara’s Thai Wellness &Spa',
       'de',
@@ -8308,6 +9168,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '20 Braamkamp, Hamburg',
       '+49 40 70973822',
+      NULL,
       'https://www.darathaimassage.de',
       'Traditional Thai, Relaxation',
       'Locals in Hamburg know Dara’s Thai Wellness &Spa as a neighbourhood massage studio off 20 Braamkamp. Posted hours: Mo-Fr 10:00-20:00, Sa 10:00-17:00. Their site is www.darathaimassage.de.',
@@ -8315,11 +9176,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-20:00, Sa 10:00-17:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4971324573',
       'node/4971324573'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ploy-massage-hamburg',
       'Ploy Massage',
       'de',
@@ -8327,6 +9189,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '1 Beethovenstraße, Hamburg',
       '+49 40 60788848',
+      NULL,
       'https://www.ploy-massage.de/',
       'Massage, Relaxation',
       'Ploy Massage is a massage studio in Hamburg, on 1 Beethovenstraße. Their site is www.ploy-massage.de. Posted hours: Mo-Fr 10:00-20:00; Sa 10:00-19:00.',
@@ -8334,11 +9197,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-20:00; Sa 10:00-19:00',
+      'https://ploy-massage.de/wp-content/uploads/2021/02/Thai-Massage-quadrat.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/5798419179',
       'node/5798419179'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sani-thai-massage-hamburg',
       'Sani Thai Massage',
       'de',
@@ -8346,6 +9210,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '67 Hellkamp, Hamburg',
       '+4917649329011',
+      'tmsani@hotmail.de',
       'http://sani-thaimassage.com/',
       'Traditional Thai, Relaxation',
       'Tucked into Hamburg on 67 Hellkamp, Sani Thai Massage runs as an independent massage studio. Posted hours: Mo-Sa 10:00-20:00; Su "nach Vereinbarung". Their site is sani-thaimassage.com.',
@@ -8353,11 +9218,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00; Su "nach Vereinbarung"',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6248952293',
       'node/6248952293'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massagepraxis-eppendorf-hamburg',
       'Massagepraxis Eppendorf',
       'de',
@@ -8365,6 +9231,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '8 Löwenstraße, Hamburg',
       '+49 40 46 27 80',
+      NULL,
       'https://www.massagepraxis-eppendorf.de/index2.html',
       'Massage, Relaxation',
       'Massagepraxis Eppendorf operates out of 8 Löwenstraße, Hamburg. Their site is www.massagepraxis-eppendorf.de/index2.html. Hours aren''t posted, so check before you go.',
@@ -8372,11 +9239,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6515461712',
       'node/6515461712'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'a-roon-thai-massage-hamburg',
       'A-Roon Thai Massage',
       'de',
@@ -8384,6 +9252,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '26 St. Georgs Kirchhof, Hamburg',
       '+491744665106',
+      NULL,
       'https://www.aroon-thai-massage.com/',
       'Traditional Thai, Relaxation',
       'A-Roon Thai Massage is a massage studio in Hamburg, on 26 St. Georgs Kirchhof. Their site is www.aroon-thai-massage.com. Hours aren''t posted, so check before you go.',
@@ -8391,11 +9260,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6847077768',
       'node/6847077768'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'suai-thai-massage-hamburg',
       'Suai Thai Massage',
       'de',
@@ -8403,6 +9273,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '125 Schulterblatt, Hamburg',
       '+49 40 37 50 45 30',
+      'Suai-Thai-Massage@t-online.de',
       'http://www.suai-thai-massage.de/',
       'Traditional Thai, Relaxation',
       'Suai Thai Massage is a massage studio in Hamburg, on 125 Schulterblatt. Their site is www.suai-thai-massage.de. Posted hours: Mo-Sa 11:00-21:00; Su 13:00-21:00.',
@@ -8410,11 +9281,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 11:00-21:00; Su 13:00-21:00',
+      'http://www.suai-thai-massage.de/.cm4all/uproc.php/0/20180227_141526.jpg?_=161d778a700',
       'openstreetmap',
       'https://www.openstreetmap.org/node/8661293647',
       'node/8661293647'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massagezeit-anja-kruger-hamburg',
       'Massagezeit Anja Krüger',
       'de',
@@ -8422,6 +9294,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '3 Op''n Barg, Bönningstedt',
       '+49 40 54809622',
+      'info@intouch-anja-krueger.de',
       'https://www.intouch-anja-krueger.de',
       'Massage, Relaxation',
       'Massagezeit Anja Krüger is a massage studio in Hamburg, on 3 Op''n Barg. Their site is www.intouch-anja-krueger.de. Posted hours: Mo-Th 14:00-20:00.',
@@ -8429,11 +9302,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Th 14:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/8815609934',
       'node/8815609934'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'elizabeth-edwards-massages-hamburg',
       'Elizabeth Edwards Massages',
       'de',
@@ -8441,6 +9315,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '4 Königsberger Straße, Hamburg',
       '+49 176 765 279 54',
+      NULL,
       'https://www.elizabeth-edwards.de',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Elizabeth Edwards Massages, a massage studio in Hamburg (4 Königsberger Straße). Hours aren''t posted, so check before you go. Their site is www.elizabeth-edwards.de.',
@@ -8448,11 +9323,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://www.elizabeth-edwards.de/s/misc/logo.jpg?t=1786646804',
       'openstreetmap',
       'https://www.openstreetmap.org/node/10068325931',
       'node/10068325931'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'friendly-thai-massage-hamburg',
       'Friendly Thai Massage',
       'de',
@@ -8460,6 +9336,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '2 Mühlendamm, Hamburg',
       '+49 40 66934830',
+      NULL,
       'https://friendly-thaimassage.de',
       'Traditional Thai, Relaxation',
       'Friendly Thai Massage — a massage studio mapped in Hamburg near 2 Mühlendamm. Their site is friendly-thaimassage.de. Posted hours: Mo-Sa 10:00-20:00.',
@@ -8467,11 +9344,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10968071120',
       'node/10968071120'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'estrada-massagen-hamburg',
       'Estrada Massagen',
       'de',
@@ -8479,6 +9357,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '61 Bahrenfelder Steindamm, Hamburg',
       '+49 160 7629695',
+      NULL,
       'https://estrada-massagen.de/',
       'Massage, Relaxation',
       'Estrada Massagen — a massage studio mapped in Hamburg near 61 Bahrenfelder Steindamm. Their site is estrada-massagen.de. Posted hours: Mo-Fr 10:00-20:00.',
@@ -8486,11 +9365,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/10993979005',
       'node/10993979005'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'suk-jai-wellness-thaimassagen-hamburg',
       'Suk Jai Wellness Thaimassagen',
       'de',
@@ -8498,6 +9378,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '32 Kunaustraße, Hamburg',
       '+49 40 73087934',
+      NULL,
       'https://www.sukjaiwellnessthaimassage.de/',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Suk Jai Wellness Thaimassagen, a massage studio in Hamburg (32 Kunaustraße). Posted hours: Mo-Fr 10:00-20:00; Sa 10:00-17:00; Su off. Their site is www.sukjaiwellnessthaimassage.de.',
@@ -8505,11 +9386,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-20:00; Sa 10:00-17:00; Su off',
+      'https://www.sukjaiwellnessthaimassage.de/wp-content/uploads/2021/09/back-massage-nice-pretty-young-woman-enjoying-relaxing-massage-while-visiting-spa-salon_259150-27194.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/11578199783',
       'node/11578199783'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'fasan-thaimassage-hamburg',
       'Fasan Thaimassage',
       'de',
@@ -8517,6 +9399,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '201a Saseler Chaussee, Hamburg',
       '+49 40 87606012',
+      NULL,
       'https://fasan-thaimassage.jimdofree.com/',
       'Traditional Thai, Relaxation',
       'Tucked into Hamburg on 201a Saseler Chaussee, Fasan Thaimassage runs as an independent massage studio. Posted hours: Mo-Sa 10:00-20:00. Their site is fasan-thaimassage.jimdofree.com.',
@@ -8524,11 +9407,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      'https://image.jimcdn.com/app/cms/image/transf/none/path/sdb1f67e4105afc79/backgroundarea/i4c406a40f4d200a0/version/1574246871/image.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/11578199784',
       'node/11578199784'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chalisa-thai-spa-wellness-hamburg',
       'Chalisa: Thai Spa Wellness',
       'de',
@@ -8536,6 +9420,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '53 Bahrenfelder Chaussee, Hamburg',
       '+49 172 20 34 70 98',
+      NULL,
       'https://www.chalisa-massage.de/',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Chalisa: Thai Spa Wellness, a massage studio in Hamburg (53 Bahrenfelder Chaussee). Posted hours: Mo-Su 10:00-20:00 "Nach telefonischer Absprache". Their site is www.chalisa-massage.de.',
@@ -8543,11 +9428,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:00 "Nach telefonischer Absprache"',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12804337903',
       'node/12804337903'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massageinsel-hamburg',
       'Massageinsel',
       'de',
@@ -8555,6 +9441,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '15 Sechslingspforte, Hamburg',
       '+49 40 2000 3338',
+      'info@massageinsel.de',
       'https://massageinsel.de/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Massageinsel, a massage studio in Hamburg (15 Sechslingspforte). Posted hours: Mo,We,Th 12:00-20:00; Fr,Sa 10:00-21:00; Tu,Su 11:00-21:00. Their site is massageinsel.de.',
@@ -8562,11 +9449,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo,We,Th 12:00-20:00; Fr,Sa 10:00-21:00; Tu,Su 11:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13380755916',
       'node/13380755916'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'baan-korat-thai-massage-hamburg',
       'Baan Korat Thai Massage',
       'de',
@@ -8574,6 +9462,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '44 Danziger Straße, Hamburg',
       '+491743797889',
+      'booking@baankorat.de',
       'https://baankorat.de/',
       'Traditional Thai, Relaxation',
       'Baan Korat Thai Massage is a massage studio in Hamburg, on 44 Danziger Straße. Their site is baankorat.de. Posted hours: Mo-Sa 10:00-20:00.',
@@ -8581,11 +9470,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00',
+      'https://baankorat.de/og-image.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13807257282',
       'node/13807257282'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'tong-thai-wellness-hamburg',
       'Tong Thai Wellness',
       'de',
@@ -8593,6 +9483,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       '7 Wandsbeker Chaussee, Hamburg',
       '+49 40 8550 9756',
+      NULL,
       'https://www.tong-thai-wellness.de/',
       'Traditional Thai, Relaxation',
       'Tong Thai Wellness — a massage studio mapped in Hamburg near 7 Wandsbeker Chaussee. Their site is www.tong-thai-wellness.de. Posted hours: Mo-Su 10:00-20:00.',
@@ -8600,17 +9491,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13899154987',
       'node/13899154987'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'asia-masage-chock-dee-hamburg',
       'Asia Masage Chock Dee',
       'de',
       'hamburg',
       'Hamburg',
       '83 Rahlstedter Straße, Hamburg',
+      NULL,
       NULL,
       'https://asiamassage-chokdee.de/',
       'Massage, Relaxation',
@@ -8619,11 +9512,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-19:00; Sa 10:00-16:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3461592763',
       'node/3461592763'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'siri-thai-wellness-hamburg',
       'Siri Thai Wellness',
       'de',
@@ -8631,6 +9525,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Hamburg',
       NULL,
       '+49 40 369 446 35',
+      NULL,
       'https://www.sirithaiwellness.de/',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Siri Thai Wellness, a massage studio in Hamburg. Posted hours: Mo-Sa 11:00-21:00. Their site is www.sirithaiwellness.de.',
@@ -8638,11 +9533,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 11:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3671506176',
       'node/3671506176'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'physio-vital-frankfurt',
       'Physio Vital',
       'de',
@@ -8650,6 +9546,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       '82 Voltastraße, Frankfurt am Main',
       '+49 69 77011999',
+      NULL,
       'https://www.physio-vital-frankfurt.de',
       'Massage, Relaxation',
       'Tucked into Frankfurt on 82 Voltastraße, Physio Vital runs as an independent massage studio. Posted hours: "Nach Vereinbarung". Their site is www.physio-vital-frankfurt.de.',
@@ -8657,11 +9554,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '"Nach Vereinbarung"',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/1997275096',
       'node/1997275096'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'little-moments-frankfurt',
       'Little Moments',
       'de',
@@ -8669,6 +9567,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       '70 Rennbahnstraße, Frankfurt am Main',
       '+49 69 67868505',
+      'info@littlemoments-massage.de',
       'http://www.littlemoments-massage.de/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Little Moments, a massage studio in Frankfurt (70 Rennbahnstraße). Posted hours: "nach Vereinbarung". Their site is www.littlemoments-massage.de.',
@@ -8676,11 +9575,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '"nach Vereinbarung"',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3736008827',
       'node/3736008827'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'siladon-thai-massage-frankfurt',
       'Siladon Thai Massage',
       'de',
@@ -8688,6 +9588,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       '92 Grüneburgweg, Frankfurt am Main',
       '+496920735942',
+      NULL,
       'https://www.siladon.de/',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Siladon Thai Massage, a massage studio in Frankfurt (92 Grüneburgweg). Hours aren''t posted, so check before you go. Their site is www.siladon.de.',
@@ -8695,11 +9596,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4047898589',
       'node/4047898589'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'pim-siam-thaimassage-frankfurt',
       'Pim Siam Thaimassage',
       'de',
@@ -8707,6 +9609,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       '181 Homburger Landstraße, Frankfurt am Main',
       '+49 69 90548880',
+      NULL,
       'https://www.pimsiamthaimassage.de',
       'Traditional Thai, Relaxation',
       'Pim Siam Thaimassage — a massage studio mapped in Frankfurt near 181 Homburger Landstraße. Their site is www.pimsiamthaimassage.de. Posted hours: Mo-Sa 11:00-20:00.',
@@ -8714,11 +9617,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 11:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6709714023',
       'node/6709714023'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'pornthip-s-wellness-beauty-oase-frankfurt',
       'Pornthip’s Wellness & Beauty Oase',
       'de',
@@ -8726,6 +9630,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       '34 Woogstraße, Frankfurt am Main',
       '+496984770240',
+      'mail@wboase.de',
       'https://wboase.de/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Pornthip’s Wellness & Beauty Oase, a massage studio in Frankfurt (34 Woogstraße). Hours aren''t posted, so check before you go. Their site is wboase.de.',
@@ -8733,11 +9638,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9932379248',
       'node/9932379248'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'banlang-thai-massage-frankfurt',
       'Banlang Thai Massage',
       'de',
@@ -8745,6 +9651,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       '20 Wilhelmshöher Straße, Frankfurt am Main',
       '+49 69 79273238',
+      NULL,
       'https://banlang.de/',
       'Traditional Thai, Relaxation',
       'Tucked into Frankfurt on 20 Wilhelmshöher Straße, Banlang Thai Massage runs as an independent massage studio. Posted hours: Mo-Sa 11:00-20:00. Their site is banlang.de.',
@@ -8752,11 +9659,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 11:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11391496348',
       'node/11391496348'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'my-leela-wadee-frankfurt',
       'my leela wadee',
       'de',
@@ -8764,6 +9672,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       '49 Aschaffenburger Straße, Offenbach am Main',
       '+49 69 891183',
+      NULL,
       'https://www.my-leelawadee.de',
       'Massage, Relaxation',
       'my leela wadee operates out of 49 Aschaffenburger Straße, Frankfurt. Their site is www.my-leelawadee.de. Hours aren''t posted, so check before you go.',
@@ -8771,11 +9680,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://image.jimcdn.com/app/cms/image/transf/none/path/s9aaab479e5546d03/backgroundarea/i4e288dc8b9b7b729/version/1470931327/image.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/12851683234',
       'node/12851683234'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'song-nari-thai-massage-frankfurt',
       'Song Nari Thai Massage',
       'de',
@@ -8783,6 +9693,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       '163 Mörfelder Landstraße, Frankfurt',
       '+491606805143',
+      'info@songnari-thaimassage.de',
       'https://songnari-thaimassage.de/',
       'Traditional Thai, Relaxation',
       'Tucked into Frankfurt on 163 Mörfelder Landstraße, Song Nari Thai Massage runs as an independent massage studio. Posted hours: Mo-Sa 09:00-20:00. Their site is songnari-thaimassage.de.',
@@ -8790,11 +9701,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 09:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13659166301',
       'node/13659166301'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ohm-thai-massagestudio-frankfurt',
       'Ohm Thai Massagestudio',
       'de',
@@ -8802,6 +9714,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       '36a Adalbertstraße, Frankfurt am Main',
       '+49 6776 064994',
+      NULL,
       'https://ohmthai.de',
       'Traditional Thai, Relaxation',
       'Locals in Frankfurt know Ohm Thai Massagestudio as a neighbourhood massage studio off 36a Adalbertstraße. Hours aren''t posted, so check before you go. Their site is ohmthai.de.',
@@ -8809,11 +9722,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://ohmthai.de/wp-content/uploads/2025/10/Ohm-Thai-Massagestudio-Hintergrund-Bild.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13986923834',
       'node/13986923834'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'thong-thai-massage-frankfurt',
       'Thong Thai Massage',
       'de',
@@ -8821,6 +9735,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       NULL,
       '+49 69 95202810',
+      NULL,
       'http://www.thong-thai-massage.com',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Thong Thai Massage, a massage studio in Frankfurt. Posted hours: Mo-Sa 11:00-20:00. Their site is www.thong-thai-massage.com.',
@@ -8828,11 +9743,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 11:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/796495194',
       'node/796495194'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'malithong-wellissimo-frankfurt',
       'Malithong Wellissimo',
       'de',
@@ -8840,6 +9756,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       NULL,
       '+49 69 87209306',
+      'Malithong.wellissimo@gmail.com',
       'https://www.malithongwellissimo.de',
       'Massage, Relaxation',
       'Tucked into Frankfurt, Malithong Wellissimo runs as an independent massage studio. Hours aren''t posted, so check before you go. Their site is www.malithongwellissimo.de.',
@@ -8847,11 +9764,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/1796130469',
       'node/1796130469'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'hong-tip-thai-massage-frankfurt',
       'Hong Tip Thai Massage',
       'de',
@@ -8859,6 +9777,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       NULL,
       '+49 6074 4830343',
+      NULL,
       'https://www.hongtip.de',
       'Traditional Thai, Relaxation',
       'Locals in Frankfurt know Hong Tip Thai Massage as a neighbourhood massage studio. Posted hours: Mo-Fr 10:00-20:00; Sa 09:00-18:00. Their site is www.hongtip.de.',
@@ -8866,11 +9785,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-20:00; Sa 09:00-18:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/2508917676',
       'node/2508917676'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'lomi-kirsten-marquardt-frankfurt',
       'Lomi Kirsten Marquardt',
       'de',
@@ -8878,6 +9798,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       NULL,
       '+49 69 515324',
+      'info@lomi-frankfurt.de',
       'https://www.lomi-frankfurt.de/',
       'Massage, Relaxation',
       'Locals in Frankfurt know Lomi Kirsten Marquardt as a neighbourhood massage studio. Hours aren''t posted, so check before you go. Their site is www.lomi-frankfurt.de.',
@@ -8885,11 +9806,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4056044130',
       'node/4056044130'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'secret-service-frankfurt',
       'Secret Service',
       'de',
@@ -8897,6 +9819,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       NULL,
       '+49 69 20 02 11 72',
+      NULL,
       'https://www.erotische-massage-in-frankfurt.de/',
       'Massage, Relaxation',
       'Secret Service — a massage studio mapped in Frankfurt. Their site is www.erotische-massage-in-frankfurt.de. Posted hours: Mo-Sa 10:00-21:00; Su,PH 12:00-21:00.',
@@ -8904,11 +9827,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-21:00; Su,PH 12:00-21:00',
+      'https://www.erotische-massage-in-frankfurt.de/wp-content/uploads/home1.jpeg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/4432380395',
       'node/4432380395'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'warunee-thai-massage-frankfurt',
       'Warunee Thai-Massage',
       'de',
@@ -8916,6 +9840,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       NULL,
       '+49 69 95518399',
+      NULL,
       'https://www.w-t-m.info',
       'Traditional Thai, Relaxation',
       'Warunee Thai-Massage operates out of Frankfurt. Their site is www.w-t-m.info. Posted hours: Mo-Sa 11:00-20:00.',
@@ -8923,11 +9848,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 11:00-20:00',
+      'https://www.w-t-m.info/s/misc/logo.jpg?t=1784446719',
       'openstreetmap',
       'https://www.openstreetmap.org/node/6348295523',
       'node/6348295523'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'jasmin-s-frankfurt',
       'Jasmin''s',
       'de',
@@ -8935,6 +9861,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Frankfurt',
       NULL,
       '+49 69 48000743',
+      NULL,
       'https://jasmins-thaimassage-frankfurt.de',
       'Massage, Relaxation',
       'Locals in Frankfurt know Jasmin''s as a neighbourhood massage studio. Posted hours: Mo-Fr 11:00-20:00; Sa 11:00-21:00. Their site is jasmins-thaimassage-frankfurt.de.',
@@ -8942,17 +9869,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 11:00-20:00; Sa 11:00-21:00',
+      'https://jasmins-thaimassage-frankfurt.de/wp-content/uploads/2021/06/Jasmins-Thaimassage_Frankfurt_57-1024x683.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/11685008783',
       'node/11685008783'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'steph-by-steph-frankfurt',
       'Steph by Steph',
       'de',
       'frankfurt',
       'Frankfurt',
       '16 Rothschildallee, Frankfurt',
+      NULL,
       NULL,
       'https://www.stephbysteph.de/',
       'Massage, Relaxation',
@@ -8961,17 +9890,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      'https://static.wixstatic.com/media/44154f_4d478b21bd7d49b48ff3c5eb9719b080~mv2_d_3456_5184_s_4_2.jpg/v1/fill/w_2500,h_3750,al_c/44154f_4d478b21bd7d49b48ff3c5eb9719b080~mv2_d_3456_5184_s_4_2.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/13180425001',
       'node/13180425001'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'pams-erotik-massagen-frankfurt',
       'Pams Erotik Massagen',
       'de',
       'frankfurt',
       'Frankfurt',
       '5 Alte Gasse, Frankfurt am Main',
+      NULL,
       NULL,
       'http://www.pams-lounge.de',
       'Massage, Relaxation',
@@ -8980,11 +9911,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/way/61326501',
       'way/61326501'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'mamsmassage-frankfurt',
       'MamsMassage',
       'de',
@@ -8993,17 +9925,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '366 Eschersheimer Landstraße, Frankfurt am Main',
       '+49 15251875691',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: MamsMassage, a massage studio in Frankfurt (366 Eschersheimer Landstraße). Hours aren''t posted, so check before you go. Call ahead on +49 15251875691.',
       'EUR',
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/1881344827',
       'node/1881344827'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'erawan-wellness-thaimassage-frankfurt',
       'Erawan Wellness Thaimassage',
       'de',
@@ -9012,22 +9946,25 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '66 Martinskirchstraße, Frankfurt am Main',
       '+49 69 21003650',
       NULL,
+      NULL,
       'Traditional Thai, Relaxation',
       'Locals in Frankfurt know Erawan Wellness Thaimassage as a neighbourhood massage studio off 66 Martinskirchstraße. Posted hours: Mo-Sa 10:00-19:00. Call ahead on +49 69 21003650.',
       'EUR',
       0,
       0,
       'Mo-Sa 10:00-19:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3736382225',
       'node/3736382225'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'vux-beauty-spa-frankfurt',
       'VUX Beauty Spa',
       'de',
       'frankfurt',
       'Frankfurt',
+      NULL,
       NULL,
       NULL,
       'https://vuxspa.de',
@@ -9037,11 +9974,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Th-Tu 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5163575717',
       'node/5163575717'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'bangkok-one-frankfurt',
       'Bangkok One',
       'de',
@@ -9050,22 +9988,25 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '84 Niddastraße, Frankfurt am Main',
       '+49 69 35350712',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Bangkok One operates out of 84 Niddastraße, Frankfurt. Call ahead on +49 69 35350712. Posted hours: Mo-Fr 10:30-20:00; Sa 10:30-17:00.',
       'EUR',
       0,
       0,
       'Mo-Fr 10:30-20:00; Sa 10:30-17:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/5390942160',
       'node/5390942160'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ayothaya-massage-frankfurt',
       'Ayothaya Massage',
       'de',
       'frankfurt',
       'Frankfurt',
+      NULL,
       NULL,
       NULL,
       'https://www.ayothaya-massage.de/',
@@ -9075,11 +10016,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 11:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6265834374',
       'node/6265834374'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'chinesisch-europaische-massagetherapie-frankfurt',
       'Chinesisch-europäische Massagetherapie',
       'de',
@@ -9088,17 +10030,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       '44 Rödelheimer Straße, Frankfurt',
       '+49 172 8880611',
       NULL,
+      NULL,
       'Massage, Relaxation',
       'Chinesisch-europäische Massagetherapie — a massage studio mapped in Frankfurt near 44 Rödelheimer Straße. Call ahead on +49 172 8880611. Posted hours: Mo-Sa 10:00-21:00.',
       'EUR',
       0,
       0,
       'Mo-Sa 10:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6583672171',
       'node/6583672171'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'lanna-thaimassage-cologne',
       'Lanna Thaimassage',
       'de',
@@ -9106,6 +10050,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '80 Deutzer Freiheit, Köln',
       '+49 221 16902880',
+      NULL,
       'http://deutz-thaimassage.de',
       'Traditional Thai, Relaxation',
       'Lanna Thaimassage — a massage studio mapped in Cologne near 80 Deutzer Freiheit. Their site is deutz-thaimassage.de. Posted hours: Tu-Su 10:00-20:00; Mo 11:00-20:00.',
@@ -9113,11 +10058,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu-Su 10:00-20:00; Mo 11:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/946072090',
       'node/946072090'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'my-thai-massage-cologne',
       'My Thai Massage',
       'de',
@@ -9125,6 +10071,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '652 Frankfurter Straße, Köln',
       '+49 2203 8095000',
+      NULL,
       'https://www.my-thaimassage.koeln/',
       'Traditional Thai, Relaxation',
       'My Thai Massage — a massage studio mapped in Cologne near 652 Frankfurter Straße. Their site is www.my-thaimassage.koeln. Posted hours: Tu-Su 12:00-21:00.',
@@ -9132,11 +10079,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu-Su 12:00-21:00',
+      'https://www.my-thaimassage.koeln/wp-content/uploads/2022/10/My-Thai-MAssage-Koeln-Porz-Foto-Social-Media.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/4204729089',
       'node/4204729089'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'babybeach-cologne',
       'Babybeach',
       'de',
@@ -9144,6 +10092,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '51 Hauptstraße, Frechen',
       '+49 2234 9517763',
+      'babybeach.frechen@gmail.com',
       'https://www.babybeach.de/babybeach-standorte/frechen/',
       'Spa treatments, Wellness',
       'Babybeach — a spa mapped in Cologne near 51 Hauptstraße. Their site is www.babybeach.de/babybeach-standorte/frechen. Posted hours: Mo,We,Th,Fr 09:30-17:00; Sa 10:00-16:00; Su 10:00-18:00; Tu off.',
@@ -9151,11 +10100,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo,We,Th,Fr 09:30-17:00; Sa 10:00-16:00; Su 10:00-18:00; Tu off',
+      'https://image.jimcdn.com/app/cms/image/transf/dimension=1920x10000:format=jpg/path/sa137d232fa63d5cf/image/i50ecdacf52ee0c6b/version/1702328445/image.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/4226821233',
       'node/4226821233'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'suithai-massagen-cologne',
       'Suithai Massagen',
       'de',
@@ -9163,6 +10113,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '93 Hansaring, Köln',
       '+49 221 1301411',
+      NULL,
       'https://thaimassage-am-hansaring.de',
       'Traditional Thai, Relaxation',
       'Suithai Massagen operates out of 93 Hansaring, Cologne. Their site is thaimassage-am-hansaring.de. Posted hours: Mo-Fr 11:00-20:00; Sa 11:00-19:00; Su 12:00-19:00.',
@@ -9170,11 +10121,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 11:00-20:00; Sa 11:00-19:00; Su 12:00-19:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/4718783295',
       'node/4718783295'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'layla-s-thai-massage-cologne',
       'Layla''s Thai Massage',
       'de',
@@ -9182,6 +10134,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '138 Hüchelner Straße, Cologne',
       '+49 2234 2028978',
+      'gamrai.m@gmx.de',
       'http://www.laylas-thai-massage.com/',
       'Traditional Thai, Relaxation',
       'Layla''s Thai Massage — a massage studio mapped in Cologne near 138 Hüchelner Straße. Their site is www.laylas-thai-massage.com. Posted hours: Mo-Fr 10:00-19:00; Sa 11:00-19:00.',
@@ -9189,11 +10142,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 10:00-19:00; Sa 11:00-19:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/6893897372',
       'node/6893897372'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'vitasana-cologne',
       'Vitasana',
       'de',
@@ -9201,6 +10155,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '102 Dellbrücker Hauptstraße, Köln',
       '+49 221 9777567',
+      'info@vitasana-fitness.de',
       'https://vitasana-fitness.de/',
       'Massage, Relaxation',
       'Vitasana operates out of 102 Dellbrücker Hauptstraße, Cologne. Their site is vitasana-fitness.de. Posted hours: Mo-Fr 09:00-20:00; Sa 09:00-15:00; Su 10:00-14:00.',
@@ -9208,11 +10163,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 09:00-20:00; Sa 09:00-15:00; Su 10:00-14:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/7692433849',
       'node/7692433849'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ploy-thaimassage-cologne',
       'Ploy Thaimassage',
       'de',
@@ -9220,6 +10176,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       'Brühler Straße, Cologne',
       '+49 221 67810939',
+      NULL,
       'https://www.thaimassage-koeln.net',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Ploy Thaimassage, a massage studio in Cologne (Brühler Straße). Posted hours: Mo-Su 10:00-20:00. Their site is www.thaimassage-koeln.net.',
@@ -9227,11 +10184,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/8441029350',
       'node/8441029350'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'bailaan-cologne',
       'Bailaan',
       'de',
@@ -9239,6 +10197,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '129 Mülheimer Freiheit, Köln',
       '+49 221 97771350',
+      'info@bailaan-massage.de',
       'https://www.bailaan-massage.de',
       'Massage, Relaxation',
       'Tucked into Cologne on 129 Mülheimer Freiheit, Bailaan runs as an independent massage studio. Posted hours: Mo-Sa 11:00-20:00. Their site is www.bailaan-massage.de.',
@@ -9246,11 +10205,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 11:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/9405316018',
       'node/9405316018'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'saitong-thai-massage-cologne',
       'Saitong Thai-Massage',
       'de',
@@ -9258,6 +10218,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '27 Lindenthalgürtel, Köln',
       '+49 221 96437286',
+      NULL,
       'https://saitong.de/koeln-lindenthal/',
       'Traditional Thai, Relaxation',
       'Saitong Thai-Massage is a massage studio in Cologne, on 27 Lindenthalgürtel. Their site is saitong.de/koeln-lindenthal. Posted hours: Mo-Sa 10:00-20:00; Su 11:00-20:00.',
@@ -9265,11 +10226,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Sa 10:00-20:00; Su 11:00-20:00',
+      'https://saitong.de/wp-content/uploads/2021/05/AdobeStock_358441564_Preview.jpeg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/10132963981',
       'node/10132963981'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'mayathara-thai-massage-cologne',
       'MayaThara Thai Massage',
       'de',
@@ -9277,6 +10239,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '2a Schweriner Weg, Niederkassel',
       '+49 2208 769905',
+      NULL,
       'https://www.maya-thara.de',
       'Traditional Thai, Relaxation',
       'MayaThara Thai Massage operates out of 2a Schweriner Weg, Cologne. Their site is www.maya-thara.de. Posted hours: 10:00-18:00.',
@@ -9284,11 +10247,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       '10:00-18:00',
+      'https://maya-thara.de/img/Logo-Maja-Thara-Thai-Massage-Niederkassel.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/10674370027',
       'node/10674370027'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'gobna-thaimassage-cologne',
       'Gobna Thaimassage',
       'de',
@@ -9296,6 +10260,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '74 Bonner Straße, Cologne',
       '+49 221 36792587',
+      NULL,
       'https://www.gobna-massage.com/',
       'Traditional Thai, Relaxation',
       'Gobna Thaimassage — a massage studio mapped in Cologne near 74 Bonner Straße. Their site is www.gobna-massage.com. Posted hours: Mo-Su 11:00-20:00.',
@@ -9303,11 +10268,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 11:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/11074639278',
       'node/11074639278'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'linhlinh-traditionells-thai-massage-cologne',
       'LinhLinh Traditionells Thai Massage',
       'de',
@@ -9315,6 +10281,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '151-153 Severinstraße, Köln',
       '+49 221 16870584',
+      NULL,
       'https://linhlinh-thai-massage.de',
       'Traditional Thai, Relaxation',
       'Locals in Cologne know LinhLinh Traditionells Thai Massage as a neighbourhood massage studio off 151-153 Severinstraße. Posted hours: Mo 11:00-20:00; Tu-Su 10:00-20:00. Their site is linhlinh-thai-massage.de.',
@@ -9322,11 +10289,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo 11:00-20:00; Tu-Su 10:00-20:00',
+      'https://linhlinh-thai-massage.de/wp-content/uploads/2025/10/cropped-LinhLinh-Logo-500-x-120-px-1.png',
       'openstreetmap',
       'https://www.openstreetmap.org/node/12134024094',
       'node/12134024094'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ta-mai-cologne',
       'Ta Mai',
       'de',
@@ -9334,6 +10302,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '321 Siegburger Straße, Köln',
       '+49 221 99876837',
+      NULL,
       'https://www.ta-mai.de/',
       'Massage, Relaxation',
       'Ta Mai operates out of 321 Siegburger Straße, Cologne. Their site is www.ta-mai.de. Posted hours: Mo off; Tu-Su 10:00-20:00.',
@@ -9341,11 +10310,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo off; Tu-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/12497840654',
       'node/12497840654'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'lyns-wellness-massage-cologne',
       'Lyns Wellness Massage',
       'de',
@@ -9353,6 +10323,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '594 Neusser Straße, Cologne',
       '+49 221 16922117',
+      NULL,
       'https://www.lyns-wellness-massage.de/',
       'Massage, Relaxation',
       'Sourced from OpenStreetMap: Lyns Wellness Massage, a massage studio in Cologne (594 Neusser Straße). Posted hours: Tu-Sa 10:00-20:00; Su,PH "Nach Vereinbarung"; Mo off. Their site is www.lyns-wellness-massage.de.',
@@ -9360,11 +10331,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu-Sa 10:00-20:00; Su,PH "Nach Vereinbarung"; Mo off',
+      'https://www.lyns-wellness-massage.de/s/img/emotionheader.jpg',
       'openstreetmap',
       'https://www.openstreetmap.org/node/12636144408',
       'node/12636144408'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'rien-bua-traditionelle-thai-massage-cologne',
       'Rien Bua Traditionelle Thai-Massage',
       'de',
@@ -9372,6 +10344,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '905 Olpener Straße, Cologne',
       '+49 221 887 517 96',
+      NULL,
       'https://www.rienbua.de',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Rien Bua Traditionelle Thai-Massage, a massage studio in Cologne (905 Olpener Straße). Posted hours: Tu-Su 10:00-20:00. Their site is www.rienbua.de.',
@@ -9379,11 +10352,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13658589901',
       'node/13658589901'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'alisa-thaimassage-wellness-cologne',
       'Alisa Thaimassage & Wellness',
       'de',
@@ -9391,6 +10365,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '733 Bergisch Gladbacher Straße, Cologne',
       '+49 221 94333221',
+      NULL,
       'https://alisa-thaimassage-wellness.de/',
       'Traditional Thai, Relaxation',
       'Alisa Thaimassage & Wellness — a massage studio mapped in Cologne near 733 Bergisch Gladbacher Straße. Their site is alisa-thaimassage-wellness.de. Posted hours: Tu-Su 10:00-20:00.',
@@ -9398,11 +10373,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13665284401',
       'node/13665284401'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'matulada-thai-massage-cologne',
       'Matulada Thai Massage',
       'de',
@@ -9410,6 +10386,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       '610 Bergisch Gladbacher Straße, Cologne',
       '+49 1520 6223180',
+      NULL,
       'https://www.matulada-thaimassage.de/',
       'Traditional Thai, Relaxation',
       'Matulada Thai Massage — a massage studio mapped in Cologne near 610 Bergisch Gladbacher Straße. Their site is www.matulada-thaimassage.de. Posted hours: Mo-Su 10:00-20:00.',
@@ -9417,17 +10394,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 10:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/13717256501',
       'node/13717256501'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'sukon-thaimassage-cologne-cologne',
       'Sukon Thaimassage Cologne',
       'de',
       'cologne',
       'Cologne',
       '5 Unter Goldschmied, Köln',
+      NULL,
       NULL,
       'https://www.sukon.de/',
       'Traditional Thai, Relaxation',
@@ -9436,17 +10415,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Su 11:00-21:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/639615140',
       'node/639615140'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ulli-betting-osteopathie-cologne',
       'Ulli Betting Osteopathie',
       'de',
       'cologne',
       'Cologne',
       '23 Wittgensteinstraße, Köln',
+      NULL,
       NULL,
       'https://divi.sportpraxis-koeln.de/',
       'Massage, Relaxation',
@@ -9455,11 +10436,12 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Mo-Fr 08:15-13:00,15:00-18:30; We,Fr 15:00-16:30',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/1358238860',
       'node/1358238860'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'ban-pasuk-thai-massage-cologne',
       'Ban Pasuk Thai-Massage',
       'de',
@@ -9467,6 +10449,7 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       'Cologne',
       NULL,
       '+49 2203 8090383',
+      'ban-pasuk@apdy.de',
       'https://www.amqs.de/Thai-Massage/index.html',
       'Traditional Thai, Relaxation',
       'Sourced from OpenStreetMap: Ban Pasuk Thai-Massage, a massage studio in Cologne. Posted hours: Tu-Su 08:00-20:00. Their site is www.amqs.de/Thai-Massage/index.html.',
@@ -9474,17 +10457,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       'Tu-Su 08:00-20:00',
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/1643494735',
       'node/1643494735'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'massage-erholung-cologne',
       'Massage Erholung',
       'de',
       'cologne',
       'Cologne',
       '10 Friedensstraße, Leverkusen',
+      NULL,
       NULL,
       'https://www.massage-erholung.de/',
       'Massage, Relaxation',
@@ -9493,17 +10478,19 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/1993463951',
       'node/1993463951'
     );
-INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       'kinnaree-thai-massagen-cologne',
       'Kinnaree Thai Massagen',
       'de',
       'cologne',
       'Cologne',
       '248 Subbelrather Straße, Köln',
+      NULL,
       NULL,
       'https://www.thaimassage-kinnaree.de/',
       'Traditional Thai, Relaxation',
@@ -9512,7 +10499,13 @@ INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, add
       0,
       0,
       NULL,
+      NULL,
       'openstreetmap',
       'https://www.openstreetmap.org/node/3958645704',
       'node/3958645704'
     );
+
+-- Outreach CRM: one row per unclaimed real listing, so someone can track
+-- who's been asked to claim their business. This never sends anything itself.
+DELETE FROM crm_contacts;
+INSERT INTO crm_contacts (listing_id, business_name, country_code, city_slug, phone, email, website, stage) SELECT id, name, country_code, city_slug, phone, email, website, 'new' FROM listings WHERE claimed = 0;

@@ -36,14 +36,26 @@ function overpassQuery(lat, lng, radius) {
   );out center tags;`;
 }
 
+const MIRROR_TIMEOUT_MS = 35000;
+
 async function fetchFromMirror(mirror, query) {
-  const response = await fetch(mirror, {
-    method: "POST",
-    headers: { "content-type": "application/x-www-form-urlencoded" },
-    body: `data=${encodeURIComponent(query)}`,
-  });
-  if (!response.ok) throw new Error(`${mirror} -> HTTP ${response.status}`);
-  return response.json();
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), MIRROR_TIMEOUT_MS);
+  try {
+    const response = await fetch(mirror, {
+      method: "POST",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      body: `data=${encodeURIComponent(query)}`,
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new Error(`${mirror} -> HTTP ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    if (error.name === "AbortError") throw new Error(`${mirror} -> timed out after ${MIRROR_TIMEOUT_MS}ms`);
+    throw error;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 async function queryOverpass(lat, lng, radius) {

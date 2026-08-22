@@ -29,7 +29,7 @@ const BLOCKED_HOSTS = new Set([
   "www.instagram.com",
 ]);
 
-function withTimeout(promise, ms) {
+function abortSignalAfter(ms) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), ms);
   return { signal: controller.signal, cleanup: () => clearTimeout(timer) };
@@ -55,7 +55,7 @@ function extractOgImage(html, baseUrl) {
 }
 
 async function fetchText(url) {
-  const { signal, cleanup } = withTimeout(null, FETCH_TIMEOUT_MS);
+  const { signal, cleanup } = abortSignalAfter(FETCH_TIMEOUT_MS);
   try {
     const response = await fetch(url, {
       redirect: "follow",
@@ -75,7 +75,7 @@ async function fetchText(url) {
 }
 
 async function verifyImage(url) {
-  const { signal, cleanup } = withTimeout(null, FETCH_TIMEOUT_MS);
+  const { signal, cleanup } = abortSignalAfter(FETCH_TIMEOUT_MS);
   try {
     const response = await fetch(url, { method: "GET", redirect: "follow", signal, headers: { "user-agent": UA } });
     if (!response.ok) return false;
