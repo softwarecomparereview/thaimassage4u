@@ -11,6 +11,8 @@
     "check": "wrangler check && tsc --noEmit",
     "seed:generate": "node scripts/generate-seed.mjs",
     "seed:local": "wrangler d1 migrations apply thaimassageforu --local && wrangler d1 execute thaimassageforu --local --file=./seed/seed.sql",
+    "enrich:fresha": "node scripts/enrich-fresha-links.mjs",
+    "enrich:fresha:apply": "node scripts/enrich-fresha-links.mjs --apply",
     "test": "vitest run",
     "test:watch": "vitest"
   },
