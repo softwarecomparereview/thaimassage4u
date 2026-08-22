@@ -91,12 +91,9 @@ Production Worker is live at **https://thaimassageforu.aniruddh-6d3.workers.dev*
 
 D1, KV (`CACHE`), R2 (`thaimassageforu-media`), and queue (`thaimassageforu-leads`) are in the Cloudflare account. Custom domains `thaimassageforu.com` and `www.thaimassageforu.com` are configured on the Worker.
 
-The `.com` still uses GoDaddy nameservers (`ns07` / `ns08.domaincontrol.com`). Point the domain at Cloudflare:
+Nameservers are Cloudflare (`bruce.ns.cloudflare.com`, `piper.ns.cloudflare.com`). The Worker is attached as a custom domain on `thaimassageforu.com` and `www`.
 
-- `bruce.ns.cloudflare.com`
-- `piper.ns.cloudflare.com`
-
-After nameservers propagate, Cloudflare will serve the Worker on the `.com` instead of GitHub Pages.
+Do **not** add a `CNAME` file or a GitHub Pages custom domain for this hostname. The old Melbourne site in `softwarecomparereview/directoryservices` still has Pages bound to `thaimassageforu.com`; that makes any resolver still holding GoDaddy/GitHub IPs show Pages instead of the Worker. Remove that Pages custom domain so the hostname cannot revert.
 
 First visit from the USA, UK, Australia or Germany is sent to `/us`, `/uk`, `/au` or `/de`. Clicking another country is remembered, so you can browse and test that market. **All countries** (`/?intl=1`) shows the international hub. Search engines still see `/` un-redirected.
 
