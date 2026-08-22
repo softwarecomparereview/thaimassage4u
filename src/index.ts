@@ -39,6 +39,7 @@ import { enqueueDailySerp, latestSerpPlan, refreshCitySerp } from "./lib/serp";
 import { adminAuthorized } from "./lib/secrets";
 import { thumbnailListing } from "./lib/thumbnails";
 import { adminApp } from "./admin";
+import { apiApp } from "./api";
 import { cacheDelete, cacheGet, cachePut, mediaGet, mediaPut } from "./lib/storage";
 import { ARTICLES } from "./lib/articles";
 import { yelpSignal } from "./lib/yelp";
@@ -219,6 +220,7 @@ app.get("/privacy", async (c) => html(renderLegal(await shell(c.env, c.req.raw),
 app.get("/terms", async (c) => html(renderLegal(await shell(c.env, c.req.raw), "terms")));
 
 app.route("/admin", adminApp());
+app.route("/api/v1", apiApp());
 
 app.get("/robots.txt", (c) =>
   c.text(`User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /admin\nDisallow: /claim\nSitemap: ${c.env.SITE_URL}/sitemap.xml\n`)
