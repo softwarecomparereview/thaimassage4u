@@ -269,7 +269,7 @@ lines.push(`INSERT INTO listings (slug, name, country_code, city_slug, suburb, a
   NULL,
   NULL,
   'Independent massage, Personal massage, Relaxation',
-  'The independent masseuse I name in the west. Werribee — one person, one room. Call 0478 898 557. For people who live west of the river and should not have to come into the CBD for a proper hour.',
+  'Betty is a highly skilled, qualified independent masseuse in Werribee. Amazing service — one person, one room. Call 0478 898 557. For people who live west of the river and should not have to come into the CBD for a proper hour.',
   NULL,
   'AUD',
   2,

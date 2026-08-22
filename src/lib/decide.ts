@@ -186,7 +186,7 @@ export function decideListing(
     return {
       score: 94,
       verdict: "strong",
-      label: "A room I send people to",
+      label: "Why we love them",
       summary: known.verdict,
       checks: known.noticed,
       gaps: [],

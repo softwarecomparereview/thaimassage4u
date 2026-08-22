@@ -291,7 +291,7 @@ function visitReviewsHtml(slug: string): string {
 function listingCard(listing: Listing): string {
   const href = `/${listing.country_code}/${listing.city_slug}/${listing.slug}`;
   const badge =
-    listing.source === "editor" ? "A room I know" : listing.premium >= 1 ? "Featured" : listing.claimed ? "Claimed" : "Listed";
+    listing.source === "editor" ? "Why we love them" : listing.premium >= 1 ? "Featured" : listing.claimed ? "Claimed" : "Listed";
   const decision = decideListing(listing, cityLabel(listing.city_slug));
   const rating =
     listing.rating != null
@@ -344,7 +344,6 @@ export function renderCountry(
         }</p>
       </div>
       <div class="featured-hero-grid featured-hero-grid--${heroes.length}">${heroes.map((listing, index) => featuredHero(listing, index)).join("")}</div>
-      ${country.code === "au" ? independentQualitiesHtml("country") : ""}
     </div>
   </section>`
       : ""
@@ -435,12 +434,12 @@ function featuredHero(listing: Listing, index = 0): string {
       <img src="${escapeAttr(listingPhoto(listing))}" alt="${escapeAttr(listing.name)}" width="1200" height="720">
     </a>
     <div class="featured-hero-copy">
-      <p class="badge">${known ? `A room I know · ${escapeHtml(rank)}` : "Featured"}</p>
-      ${decideChip(decideListing(listing, cityLabel(listing.city_slug)))}
+      <p class="badge">${known ? `Why we love them · ${escapeHtml(rank)}` : "Featured"}</p>
+      ${known ? "" : decideChip(decideListing(listing, cityLabel(listing.city_slug)))}
       <h3><a href="${escapeAttr(href)}">${escapeHtml(listing.name)}</a></h3>
       <p>${escapeHtml(listing.suburb ?? listing.city_slug.replaceAll("-", " "))}${listing.address ? ` · ${escapeHtml(listing.address)}` : ""} · ${escapeHtml(listing.services.replaceAll(",", " · "))}</p>
       ${phone}
-      <a class="featured-hero-go" href="${escapeAttr(href)}">${known ? "Read why I send people here" : "Open this room"}</a>
+      <a class="featured-hero-go" href="${escapeAttr(href)}">${known ? "Why we love them" : "Open this room"}</a>
     </div>
   </article>`;
 }
@@ -531,7 +530,7 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
   <section>
     <div class="container content-wrapper">
       <article class="main-content">
-        <p class="eyebrow">${escapeHtml(listing.source === "editor" ? "A room I know" : listing.premium ? "Featured listing" : "Directory listing")}</p>
+        <p class="eyebrow">${escapeHtml(listing.source === "editor" ? "Why we love them" : listing.premium ? "Featured listing" : "Directory listing")}</p>
         <h1>${escapeHtml(listing.source === "editor" ? `${listing.name} in ${city.name}` : `${listing.name} — Thai massage in ${city.name}`)}</h1>
         <img class="listing-hero" src="${escapeAttr(listingPhoto(listing))}" alt="${escapeAttr(listing.name)}" width="1200" height="640">
         <p>${escapeHtml(listing.description)}</p>

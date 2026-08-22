@@ -938,6 +938,11 @@ footer{
 .featured-hero-copy h3 a{color:#fff;text-decoration:none}
 .featured-hero-copy h3 a:hover{color:#b7e4d8}
 .featured-hero-copy p{color:rgba(255,255,255,.82);margin-bottom:0.75rem}
+.featured-hero-copy .badge{
+  background:transparent;
+  border-color:rgba(255,255,255,.35);
+  color:#b7e4d8
+}
 .featured-hero-go{
   display:inline-block;
   font-weight:700;

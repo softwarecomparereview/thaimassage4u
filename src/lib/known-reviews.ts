@@ -107,14 +107,14 @@ const ROOMS: Record<string, KnownRoom> = {
   },
   "betty-werribee": {
     verdict:
-      "Betty is the independent masseuse I put in the west. Werribee, not the city. One person, one room, you call 0478 898 557 and you go. I send people who live west of the river and should not have to crawl into the CBD for a proper hour.",
+      "Betty is the independent masseuse we love in the west. Highly skilled, qualified, amazing service — Werribee, one person, one room. Call 0478 898 557. For people who live west of the river and should not have to crawl into the CBD for a proper hour.",
     noticed: [
-      "Independent — one masseuse, not a shopfront factory.",
+      "Highly skilled, qualified hands — personal work, not a factory menu.",
+      "Amazing service: she answers the phone and keeps the hour.",
+      "Independent — one masseuse, not a shopfront with six tables.",
       "Werribee and the western suburbs, so the west can stay in the west.",
-      "She answers the phone: +61 478 898 557.",
-      "Personal work: she reads the back in front of her, not a laminated menu.",
-      "Private, punctual, no hard sell.",
-      "You leave worked, not processed.",
+      "Call +61 478 898 557.",
+      "Private, punctual, no hard sell. You leave worked, not processed.",
     ],
     reviews: [
       {
