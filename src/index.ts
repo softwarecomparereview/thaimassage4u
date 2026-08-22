@@ -15,6 +15,7 @@ import {
   searchListings,
 } from "./lib/db";
 import {
+  renderArticle,
   renderBlog,
   renderCity,
   renderClaim,
@@ -37,6 +38,7 @@ import { adminAuthorized } from "./lib/secrets";
 import { thumbnailListing } from "./lib/thumbnails";
 import { adminApp } from "./admin";
 import { cacheDelete, cacheGet, cachePut, mediaGet, mediaPut } from "./lib/storage";
+import { ARTICLES } from "./lib/articles";
 import {
   clearCountryCookie,
   clearInternationalCookie,
@@ -204,6 +206,11 @@ app.get("/faq", async (c) => html(renderFaq(await shell(c.env, c.req.raw))));
 app.get("/contact", async (c) => html(renderContact(await shell(c.env, c.req.raw), c.req.query("sent"))));
 app.get("/pricing", async (c) => html(renderPricing(await shell(c.env, c.req.raw))));
 app.get("/blog", async (c) => html(renderBlog(await shell(c.env, c.req.raw))));
+app.get("/blog/:slug", async (c) => {
+  const article = ARTICLES.find((item) => item.slug === c.req.param("slug"));
+  if (!article) return html(renderNotFound(await shell(c.env, c.req.raw)), 404);
+  return html(renderArticle(await shell(c.env, c.req.raw), article));
+});
 app.get("/privacy", async (c) => html(renderLegal(await shell(c.env, c.req.raw), "privacy")));
 app.get("/terms", async (c) => html(renderLegal(await shell(c.env, c.req.raw), "terms")));
 
@@ -229,6 +236,7 @@ app.get("/sitemap.xml", async (c) => {
     "/contact",
     "/pricing",
     "/blog",
+    ...ARTICLES.map((article) => `/blog/${article.slug}`),
     "/search",
     ...countries.map((country) => `/${country.code}`),
     ...cities.map((city) => `/${city.country_code}/${city.slug}`),
