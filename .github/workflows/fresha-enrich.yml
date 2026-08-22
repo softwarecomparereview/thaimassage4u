@@ -1,0 +1,55 @@
+name: Fresha link enrichment
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/enrich-fresha-links.mjs'
+      - 'scripts/cities.mjs'
+      - 'migrations/0009_fresha_links.sql'
+      - '.github/workflows/fresha-enrich.yml'
+
+concurrency:
+  group: fresha-link-enrichment
+  cancel-in-progress: false
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Require Cloudflare credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || (echo 'Missing CLOUDFLARE_API_TOKEN' && exit 1)
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || (echo 'Missing CLOUDFLARE_ACCOUNT_ID' && exit 1)
+      - name: Crawl Fresha and apply high-confidence links
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          FRESHA_MAX_PAGES: '15'
+          FRESHA_PROFILE_CONCURRENCY: '6'
+          FRESHA_MATCH_THRESHOLD: '0.78'
+          FRESHA_REVIEW_THRESHOLD: '0.64'
+        run: npm run enrich:fresha:apply
+      - name: Upload enrichment report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fresha-link-report
+          path: |
+            data/fresha-links.json
+            data/fresha-links.sql
+          if-no-files-found: warn
+          retention-days: 14
