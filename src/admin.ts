@@ -21,7 +21,10 @@ import {
   deleteAffiliateProgram,
   getAffiliateDefaults,
   getAffiliateProgram,
+  kitAddress,
+  kitBio,
   kitEmail,
+  kitPhone,
   kitSecret,
   listAffiliatePrograms,
   saveAffiliateDefaults,
@@ -193,6 +196,9 @@ function kitCards(programs: AffiliateProgram[], defaults: AffiliateDefaults): st
     list.push(program);
     groups.set(key, list);
   }
+  const phone = kitPhone(defaults);
+  const address = kitAddress(defaults);
+  const bio = kitBio(defaults);
   return [...groups.entries()]
     .map(([code, rows]) => {
       const cards = rows
@@ -208,6 +214,9 @@ function kitCards(programs: AffiliateProgram[], defaults: AffiliateDefaults): st
             <label>Login email<input readonly value="${escapeAttr(email)}"></label>
             <label>Preferred password<input id="${escapeAttr(id)}" class="kit-secret" type="password" readonly value="${escapeAttr(secret)}" autocomplete="off"></label>
             <label class="check"><input type="checkbox" onchange="document.getElementById('${escapeAttr(id)}').type=this.checked?'text':'password'"> Show password</label>
+            <label>Phone${phone ? "" : ' <span class="small">(not set)</span>'}<input readonly value="${escapeAttr(phone)}"></label>
+            <label>Address${address ? "" : ' <span class="small">(not set — city/suburb only, or not applicable)</span>'}<input readonly value="${escapeAttr(address)}"></label>
+            ${bio ? `<label>Business bio<textarea readonly rows="3">${escapeHtml(bio)}</textarea></label>` : ""}
             <div class="hero-actions">
               <a class="btn btn-primary" href="${escapeAttr(program.signup_url)}" rel="noopener noreferrer" target="_blank">Open signup</a>
               ${program.login_url ? `<a class="btn btn-outline" href="${escapeAttr(program.login_url)}" rel="noopener noreferrer" target="_blank">Open login</a>` : ""}
@@ -476,7 +485,10 @@ export function adminApp() {
           <div><label>Contact email</label><input name="contact_email" type="email" value="${escapeAttr(defaults.contact_email ?? "")}"></div>
           <div><label>Login email</label><input name="login_email" type="email" autocomplete="off" value="${escapeAttr(defaults.login_email ?? "")}"></div>
           <div><label>Preferred signup password</label><input name="login_secret" type="password" autocomplete="new-password" placeholder="${escapeAttr(defaults.login_secret ? "Leave blank to keep the saved password" : "Choose a password you only use for partner dashboards")}"></div>
+          <div><label>Phone</label><input name="phone" value="${escapeAttr(defaults.phone ?? "")}"></div>
+          <div><label>Address (city/suburb level is fine)</label><input name="address" value="${escapeAttr(defaults.address ?? "")}"></div>
         </div>
+        <div><label>Business bio (for "describe your business" fields)</label><textarea name="bio" rows="3">${escapeHtml(defaults.bio ?? "")}</textarea></div>
         <div><label>Notes</label><textarea name="notes" rows="3">${escapeHtml(defaults.notes ?? "")}</textarea></div>
         <button class="btn btn-primary" type="submit">Save identity</button>
       </form>
@@ -492,7 +504,7 @@ export function adminApp() {
         }
       </tbody></table>
       <h2>Register in one sitting</h2>
-      <p>Each card already has your company name, email and password. Open signup, paste, then mark the row live. Do not automate those forms.</p>
+      <p>Each card already has your company name, email, password, phone, address and bio — every field these signup forms usually ask for. Open signup, paste top to bottom, then mark the row live. This Worker does not submit these forms itself.</p>
       ${kitCards(programs, defaults)}`;
     return html(adminChrome("Affiliates", body, noticeText));
   });
@@ -507,6 +519,9 @@ export function adminApp() {
       login_secret: text("login_secret") || null,
       website: text("website") || null,
       notes: text("notes") || null,
+      phone: text("phone") || null,
+      address: text("address") || null,
+      bio: text("bio") || null,
     });
     return c.redirect("/admin/affiliates?defaults=1", 303);
   });
