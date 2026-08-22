@@ -1,3 +1,34 @@
+export const INDEPENDENT_QUALITIES: Array<{ title: string; body: string }> = [
+  {
+    title: "One client at a time",
+    body: "Not a row of tables turning every half hour. A personal masseuse works the body in front of her, then the next person — never a factory.",
+  },
+  {
+    title: "Answers the phone and keeps the time",
+    body: "You call, a person picks up, the hour is yours. No receptionist reading a script. No disappearing number.",
+  },
+  {
+    title: "Hands that read the back",
+    body: "She works what is tight today, not a laminated menu recited the same way for every walk-in.",
+  },
+  {
+    title: "Private enough to actually exhale",
+    body: "A quiet room, not a shopfront window on a main road. You should leave the street at the door.",
+  },
+  {
+    title: "Close to where you live",
+    body: "The west of Melbourne should not mean a crawl into the CBD for a proper hour. Werribee, Hoppers Crossing, Point Cook, Tarneit, Wyndham Vale — stay west.",
+  },
+  {
+    title: "Clear and professional",
+    body: "Massage. Clothes stay on. No hard sell at the door, no extras menu, no confusion about what the hour is for.",
+  },
+  {
+    title: "You walk out worked, not rushed",
+    body: "The session finishes when the work is done, not when the next buzzer goes. That is the whole point of seeing one person.",
+  },
+];
+
 export type VisitReview = {
   stars: 5 | 4;
   byline: string;
@@ -58,7 +89,7 @@ const ROOMS: Record<string, KnownRoom> = {
         stars: 5,
         byline: "Me, a Thursday evening on Toorak Road",
         title: "The city goes quiet once you are inside",
-        body: "South Yarra after work is a different Melbourne to Little Collins at lunch. I booked, arrived, and the lounge did what a good lounge should — lights down, no rush to the table. The massage was unhurried and thorough. You come here to disappear for an hour, not to tick a CBD lunch slot. That is why I put it second on the Australia page, right after Haruka: two rooms I actually use, two different hours of the day.",
+        body: "South Yarra after work is a different Melbourne to Little Collins at lunch. I booked, arrived, and the lounge did what a good lounge should — lights down, no rush to the table. The massage was unhurried and thorough. You come here to disappear for an hour, not to tick a CBD lunch slot. That is why Haruka sits first and NOIR 33 sits next: two different hours of the day, both rooms I actually use.",
       },
       {
         stars: 5,
@@ -71,6 +102,38 @@ const ROOMS: Record<string, KnownRoom> = {
         byline: "Another night, same room",
         title: "Still the evening recommendation",
         body: "Second visit so I was not recommending a one-off. Same Toorak Road door, same slow start, same quality of work. If Haruka is my CBD Japanese room, NOIR 33 is my South Yarra evening room. Different craft, same reason they sit at the front of Australia: I would go again tomorrow.",
+      },
+    ],
+  },
+  "betty-werribee": {
+    verdict:
+      "Betty is the independent masseuse I put in the west. Werribee, not the city. One person, one room, you call 0478 898 557 and you go. I send people who live west of the river and should not have to crawl into the CBD for a proper hour.",
+    noticed: [
+      "Independent — one masseuse, not a shopfront factory.",
+      "Werribee and the western suburbs, so the west can stay in the west.",
+      "She answers the phone: +61 478 898 557.",
+      "Personal work: she reads the back in front of her, not a laminated menu.",
+      "Private, punctual, no hard sell.",
+      "You leave worked, not processed.",
+    ],
+    reviews: [
+      {
+        stars: 5,
+        byline: "Me, after driving west instead of into town",
+        title: "The west finally has a room I will name",
+        body: "Haruka is CBD. NOIR 33 is South Yarra. Most of Melbourne is not either of those. I wanted an independent masseuse in the west who works one client at a time, answers the phone, and does not rush. Betty in Werribee is that person. Call first. The hour is hers and yours — no second table going in the next room.",
+      },
+      {
+        stars: 5,
+        byline: "A friend in Point Cook I used to send into town",
+        title: "Stopped telling western-suburb people to come into the city",
+        body: "I had been sending west-side friends to Little Collins because I did not have a name out here. That was lazy. They do not want a tram and a laneway. They want someone local who is good. I gave them Betty’s number. They said the work was firm, the room was quiet, and they were not one of six clients on a Saturday production line. That is the independent standard.",
+      },
+      {
+        stars: 5,
+        byline: "Second booking, same number",
+        title: "Still the Werribee recommendation",
+        body: "Went back so I was not guessing. Same phone, same calm, same unhurried hands. If you live in Werribee, Hoppers Crossing, Point Cook, Tarneit, Wyndham Vale — this is the independent masseuse I will actually name. CBD Japanese at Haruka. Evening lounge at NOIR 33. Personal work in the west: Betty.",
       },
     ],
   },

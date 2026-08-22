@@ -87,6 +87,13 @@ export async function getCity(db: D1Database, countryCode: string, slug: string)
     .first<City>();
 }
 
+const KNOWN_ROOM_ORDER = `CASE slug
+           WHEN 'haruka-japanese-massage' THEN 0
+           WHEN 'noir-33-south-yarra' THEN 1
+           WHEN 'betty-werribee' THEN 2
+           ELSE 9
+         END`;
+
 export async function listListings(
   db: D1Database,
   countryCode: string,
@@ -94,7 +101,8 @@ export async function listListings(
 ): Promise<Listing[]> {
   const { results } = await db
     .prepare(
-      "SELECT * FROM listings WHERE country_code = ? AND city_slug = ? ORDER BY premium DESC, rating DESC, claimed DESC, name ASC LIMIT 20"
+      `SELECT * FROM listings WHERE country_code = ? AND city_slug = ?
+       ORDER BY premium DESC, ${KNOWN_ROOM_ORDER}, rating DESC, claimed DESC, name ASC LIMIT 20`
     )
     .bind(countryCode, citySlug)
     .all<Listing>();
@@ -275,17 +283,23 @@ export async function keywordStats(db: D1Database, countryCode?: string): Promis
 
 export async function featuredListings(db: D1Database): Promise<Listing[]> {
   const { results } = await db
-    .prepare("SELECT * FROM listings WHERE premium >= 1 ORDER BY premium DESC, name ASC LIMIT 8")
+    .prepare(
+      `SELECT * FROM listings WHERE premium >= 1
+       ORDER BY premium DESC, ${KNOWN_ROOM_ORDER}, name ASC
+       LIMIT 8`
+    )
     .all<Listing>();
   return results;
 }
 
-export async function featuredListingsByCountry(db: D1Database, countryCode: string, _limit = 2): Promise<Listing[]> {
+export async function featuredListingsByCountry(db: D1Database, countryCode: string, limit = 2): Promise<Listing[]> {
   const { results } = await db
     .prepare(
-      "SELECT * FROM listings WHERE country_code = ? AND premium >= 1 ORDER BY premium DESC, name ASC LIMIT 2"
+      `SELECT * FROM listings WHERE country_code = ? AND premium >= 1
+       ORDER BY premium DESC, ${KNOWN_ROOM_ORDER}, name ASC
+       LIMIT ?`
     )
-    .bind(countryCode)
+    .bind(countryCode, limit)
     .all<Listing>();
   return results;
 }

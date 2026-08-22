@@ -400,7 +400,7 @@ describe("directory SEO app", () => {
     expect(publicHtml).not.toContain("/admin/affiliates");
   });
 
-  it("puts Haruka then NOIR 33 first in Australia as rooms the editor knows", async () => {
+  it("puts Haruka, NOIR 33, then Betty first in Australia as rooms the editor knows", async () => {
     await env.DB.prepare(
       `INSERT OR IGNORE INTO countries (code, name, slug, locale, currency, flag, tagline, intro, monthly_searches)
        VALUES ('au', 'Australia', 'au', 'en-AU', 'AUD', 'AU', 'Home market', 'Australia remains the origin market.', 22000)`
@@ -417,17 +417,28 @@ describe("directory SEO app", () => {
       `INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source)
        VALUES ('noir-33-south-yarra', 'NOIR 33 Massage & Spa', 'au', 'melbourne', 'South Yarra', '10/209 Toorak Rd, South Yarra VIC 3141', '+61 481 333 209', 'bookings@noir33.com.au', 'https://noir33.com.au', 'Private lounge', 'South Yarra, not the CBD.', 'AUD', 2, 1, 'Closes 20:00', '/images/partners/noir33.jpg', 'editor')`
     ).run();
+    await env.DB.prepare(
+      `INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, services, description, currency, premium, claimed, hours, image_url, source)
+       VALUES ('betty-werribee', 'Betty — independent masseuse', 'au', 'melbourne', 'Werribee', 'Werribee, western suburbs, Melbourne VIC', '+61 478 898 557', 'Independent massage, Personal massage, Relaxation', 'The independent masseuse I name in the west.', 'AUD', 2, 1, 'Call to book', '/images/partners/betty.jpg', 'editor')`
+    ).run();
 
     const australia = await SELF.fetch("https://thaimassageforu.com/au");
     expect(australia.status).toBe(200);
     const html = await australia.text();
-    expect(html).toContain("Two Melbourne rooms I actually know");
+    expect(html).toContain("Three Melbourne rooms I actually know");
     expect(html).toContain("Haruka Japanese Massage");
     expect(html).toContain("NOIR 33 Massage &amp; Spa");
+    expect(html).toContain("Betty — independent masseuse");
     expect(html.indexOf("Haruka Japanese Massage")).toBeLessThan(html.indexOf("NOIR 33 Massage"));
+    expect(html.indexOf("NOIR 33 Massage")).toBeLessThan(html.indexOf("Betty — independent masseuse"));
     expect(html).toContain("A room I know · 01");
     expect(html).toContain("A room I know · 02");
+    expect(html).toContain("A room I know · 03");
     expect(html).toContain("+61 468 480 365");
+    expect(html).toContain("+61 478 898 557");
+    expect(html).toContain("Werribee");
+    expect(html).toContain("What a personal masseuse should be");
+    expect(html).toContain("One client at a time");
     expect(html).toContain("known-hero");
     expect(html.toLowerCase()).not.toContain("paid");
     expect(html).not.toContain("Sponsored");
@@ -451,5 +462,20 @@ describe("directory SEO app", () => {
     expect(noirHtml).toContain("The city goes quiet once you are inside");
     expect(noirHtml).toContain("Toorak Road");
     expect(noirHtml).not.toContain("Featured on this directory.");
+
+    const betty = await SELF.fetch("https://thaimassageforu.com/au/melbourne/betty-werribee");
+    const bettyHtml = await betty.text();
+    expect(betty.status).toBe(200);
+    expect(bettyHtml).toContain("Betty — independent masseuse in Melbourne");
+    expect(bettyHtml).toContain("The west finally has a room I will name");
+    expect(bettyHtml).toContain("What a personal masseuse should be");
+    expect(bettyHtml).toContain("One client at a time");
+    expect(bettyHtml).toContain("+61 478 898 557");
+    expect(bettyHtml).toContain("Werribee");
+    expect(bettyHtml).toContain("Reviews from visits");
+    expect(bettyHtml).not.toContain("Featured on this directory.");
+    expect(bettyHtml).not.toContain("Advertise here");
+    expect(bettyHtml.toLowerCase()).not.toContain("paid");
+    expect(bettyHtml).not.toContain("Sponsored");
   });
 });

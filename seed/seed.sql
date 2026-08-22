@@ -107,6 +107,26 @@ INSERT INTO listings (slug, name, country_code, city_slug, suburb, address, phon
   '/images/partners/noir33.jpg',
   'editor'
 );
+INSERT INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, price_from, currency, premium, claimed, hours, image_url, source) VALUES (
+  'betty-werribee',
+  'Betty — independent masseuse',
+  'au',
+  'melbourne',
+  'Werribee',
+  'Werribee, western suburbs, Melbourne VIC',
+  '+61 478 898 557',
+  NULL,
+  NULL,
+  'Independent massage, Personal massage, Relaxation',
+  'The independent masseuse I name in the west. Werribee — one person, one room. Call 0478 898 557. For people who live west of the river and should not have to come into the CBD for a proper hour.',
+  NULL,
+  'AUD',
+  2,
+  1,
+  'Call to book',
+  '/images/partners/betty.jpg',
+  'editor'
+);
 INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, services, description, price_from, currency, premium, claimed, hours, image_url, source) VALUES (
       'lotus-river-new-york',
       'Lotus River Thai Massage',

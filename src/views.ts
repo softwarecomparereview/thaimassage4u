@@ -8,7 +8,7 @@ import { cityOrigin, countryOrigin, type OriginStory } from "./lib/origins";
 import { cityPhoto, countryPhoto, HERO_PHOTO, listingPhoto, placePhotoAlt } from "./lib/photos";
 import { cityLabel, countryReferralSites, countryReviewGuide, decideListing, type Decision } from "./lib/decide";
 import type { YelpSignal } from "./lib/yelp";
-import { knownRoom } from "./lib/known-reviews";
+import { INDEPENDENT_QUALITIES, knownRoom } from "./lib/known-reviews";
 
 type Shell = {
   env: Env;
@@ -127,7 +127,7 @@ export function renderHome(
     <div class="container">
       <div class="section-header">
         <h2>Rooms I would walk to</h2>
-        <p>Featured studios sit up front. Haruka and NOIR 33 in Melbourne are rooms I know in person. Everyone else is still worth a look — and owners can claim a page whenever they are ready.</p>
+        <p>Featured studios sit up front. In Melbourne I know three rooms in person: Haruka on Little Collins, NOIR 33 in South Yarra, and Betty — an independent masseuse in Werribee in the western suburbs. Everyone else is still worth a look — and owners can claim a page whenever they are ready.</p>
       </div>
       <div class="cards">${featured.map(listingCard).join("")}</div>
     </div>
@@ -253,6 +253,20 @@ function decisionCard(decision: Decision, known = false): string {
   </aside>`;
 }
 
+function independentQualitiesHtml(variant: "country" | "listing"): string {
+  const lede =
+    variant === "country"
+      ? "The west of Melbourne does not need another shopfront with six tables and a receptionist who does not know your name. An independent masseuse is one person who takes you one at a time. These are the qualities I look for — and Betty in Werribee is the person in the west I would actually send you to."
+      : "This is the standard I use for a personal masseuse. One person, one table, the west of Melbourne. Betty is the name I give when someone in Werribee should not have to come into town.";
+  return `<div class="independent-qualities${variant === "listing" ? " independent-qualities--listing" : ""}">
+    <p class="independent-qualities__kicker">What a personal masseuse should be</p>
+    <p class="independent-qualities__lede">${escapeHtml(lede)}</p>
+    <ul class="independent-qualities__list">
+      ${INDEPENDENT_QUALITIES.map((q) => `<li><strong>${escapeHtml(q.title)}</strong> ${escapeHtml(q.body)}</li>`).join("")}
+    </ul>
+  </div>`;
+}
+
 function visitReviewsHtml(slug: string): string {
   const room = knownRoom(slug);
   if (!room) return "";
@@ -307,7 +321,7 @@ export function renderCountry(
   featured: Listing[] = []
 ) {
   const origin = countryOrigin(country.code);
-  const heroes = featured.slice(0, 2);
+  const heroes = featured.slice(0, country.code === "au" ? 3 : 2);
   const body = `
   ${themeBand(resolveTheme(country.code))}
   <section class="page-hero">
@@ -322,14 +336,15 @@ export function renderCountry(
       ? `<section class="featured-heroes">
     <div class="container">
       <div class="section-header">
-        <h2>${country.code === "au" ? "Two Melbourne rooms I actually know" : `Featured in ${escapeHtml(country.name)}`}</h2>
+        <h2>${country.code === "au" ? "Three Melbourne rooms I actually know" : `Featured in ${escapeHtml(country.name)}`}</h2>
         <p>${
           country.code === "au"
-            ? "Haruka on Little Collins, then NOIR 33 in South Yarra. Friends’ rooms I have sat in — the two I put first in Australia."
+            ? "These are not ads. Friends I have sat with. Haruka first on Little Collins, NOIR 33 second in South Yarra, Betty third in Werribee. Two shopfronts in the inner city, then an independent masseuse in the western suburbs."
             : "Two rooms at most sit up here — the ones we would send a friend to first."
         }</p>
       </div>
-      <div class="featured-hero-grid">${heroes.map((listing, index) => featuredHero(listing, index)).join("")}</div>
+      <div class="featured-hero-grid featured-hero-grid--${heroes.length}">${heroes.map((listing, index) => featuredHero(listing, index)).join("")}</div>
+      ${country.code === "au" ? independentQualitiesHtml("country") : ""}
     </div>
   </section>`
       : ""
@@ -535,6 +550,7 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
         </div>
         ${listing.source === "editor" ? `<p class="small">Written from sitting in the room — hours and phone as they gave them to me.</p>` : ""}
         ${listing.source === "openstreetmap" ? `<p class="small">Found on the public map. The studio can claim this page to confirm hours and phone.</p>` : ""}
+        ${listing.slug === "betty-werribee" ? independentQualitiesHtml("listing") : ""}
         ${visitReviewsHtml(listing.slug)}
         ${decisionCard(decision, Boolean(knownRoom(listing.slug)))}
       </article>

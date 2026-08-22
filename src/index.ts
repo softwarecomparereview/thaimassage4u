@@ -356,7 +356,7 @@ app.get("/:country", async (c) => {
       listCities(c.env.DB, country.code),
       keywordStats(c.env.DB, country.code),
       countListings(c.env.DB, country.code),
-      featuredListingsByCountry(c.env.DB, country.code, 2),
+      featuredListingsByCountry(c.env.DB, country.code, country.code === "au" ? 3 : 2),
     ]);
     return renderCountry(await shell(c.env, c.req.raw), country, cities, keywords, listingCount, featured);
   });
