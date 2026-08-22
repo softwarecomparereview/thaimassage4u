@@ -124,7 +124,13 @@ ${hreflang}
 <div class="topbar">
   <div class="container">
     <div>International Thai massage directory · USA · UK · Australia · Germany</div>
-    <div>${geo ? `Suggested for you: <a href="/${escapeAttr(geo.toLowerCase())}">${escapeHtml(geo)}</a> · ` : ""}<a href="mailto:${escapeAttr(env.CONTACT_EMAIL)}">${escapeHtml(env.CONTACT_EMAIL)}</a></div>
+    <div>${
+      theme.country
+        ? `Browsing ${escapeHtml(theme.country.label)} · `
+        : geo
+          ? `Suggested for you: <a href="/${escapeAttr(geo)}">${escapeHtml(geo.toUpperCase())}</a> · `
+          : ""
+    }<a href="/?intl=1">All countries</a> · <a href="mailto:${escapeAttr(env.CONTACT_EMAIL)}">${escapeHtml(env.CONTACT_EMAIL)}</a></div>
   </div>
 </div>
 ${themeBand(theme)}
@@ -138,6 +144,7 @@ ${themeBand(theme)}
     <nav id="primary-nav" class="nav-links" aria-label="Primary">
       <a href="/">Home</a>
       ${navCountries}
+      <a href="/?intl=1">All countries</a>
       <a href="/pricing">List your studio</a>
       <a href="/faq">FAQ</a>
       <a href="/for-sale" class="btn btn-primary">Buy this site</a>

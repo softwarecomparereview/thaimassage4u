@@ -29,6 +29,70 @@ describe("directory SEO app", () => {
     expect(text).toContain("/de");
   });
 
+  it("geo-routes visitors to their country hub", async () => {
+    const au = await SELF.fetch("https://thaimassageforu.com/", {
+      redirect: "manual",
+      headers: { "CF-IPCountry": "AU" },
+    });
+    expect(au.status).toBe(302);
+    expect(au.headers.get("location")).toBe("/au");
+
+    const gb = await SELF.fetch("https://thaimassageforu.com/", {
+      redirect: "manual",
+      headers: { "CF-IPCountry": "GB" },
+    });
+    expect(gb.status).toBe(302);
+    expect(gb.headers.get("location")).toBe("/uk");
+
+    const us = await SELF.fetch("https://thaimassageforu.com/", {
+      redirect: "manual",
+      headers: { "CF-IPCountry": "US" },
+    });
+    expect(us.status).toBe(302);
+    expect(us.headers.get("location")).toBe("/us");
+
+    const de = await SELF.fetch("https://thaimassageforu.com/", {
+      redirect: "manual",
+      headers: { "CF-IPCountry": "DE" },
+    });
+    expect(de.status).toBe(302);
+    expect(de.headers.get("location")).toBe("/de");
+
+    const bot = await SELF.fetch("https://thaimassageforu.com/", {
+      redirect: "manual",
+      headers: { "CF-IPCountry": "AU", "user-agent": "Mozilla/5.0 (compatible; Googlebot/2.1)" },
+    });
+    expect(bot.status).toBe(200);
+
+    const intl = await SELF.fetch("https://thaimassageforu.com/?intl=1", {
+      redirect: "manual",
+      headers: { "CF-IPCountry": "AU" },
+    });
+    expect(intl.status).toBe(200);
+  });
+
+  it("lets visitors browse another country after they switch", async () => {
+    const germany = await SELF.fetch("https://thaimassageforu.com/de", {
+      redirect: "manual",
+      headers: { "CF-IPCountry": "AU" },
+    });
+    expect(germany.status).toBe(200);
+    const text = await germany.text();
+    expect(text).toContain("theme-de");
+    expect(text).not.toContain("theme-de-berlin");
+    expect(germany.headers.get("set-cookie") ?? "").toContain("tmfu_country=de");
+
+    const home = await SELF.fetch("https://thaimassageforu.com/", {
+      redirect: "manual",
+      headers: {
+        "CF-IPCountry": "AU",
+        cookie: "tmfu_country=uk",
+      },
+    });
+    expect(home.status).toBe(302);
+    expect(home.headers.get("location")).toBe("/uk");
+  });
+
   it("renders a unique Berlin city lander", async () => {
     const response = await SELF.fetch("https://thaimassageforu.com/de/berlin");
     expect(response.status).toBe(200);

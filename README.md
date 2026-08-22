@@ -98,6 +98,8 @@ The `.com` still uses GoDaddy nameservers (`ns07` / `ns08.domaincontrol.com`). P
 
 After nameservers propagate, Cloudflare will serve the Worker on the `.com` instead of GitHub Pages.
 
+First visit from the USA, UK, Australia or Germany is sent to `/us`, `/uk`, `/au` or `/de`. Clicking another country is remembered, so you can browse and test that market. **All countries** (`/?intl=1`) shows the international hub. Search engines still see `/` un-redirected.
+
 Redeploy:
 
 ```bash
@@ -110,8 +112,6 @@ Optional secrets (Places/SERP jobs):
 npx wrangler secret put GOOGLE_PLACES_API_KEY
 npx wrangler secret put SERPAPI_KEY
 ```
-
-`thaimassageforu.com` still points at GitHub Pages. Attach the Worker custom domain after the hostname is added as a zone in this Cloudflare account (Workers cannot bind a domain whose nameservers are not on Cloudflare). Then turn off GitHub Pages for the `.com`.
 
 ## Sale
 
