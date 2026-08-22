@@ -211,11 +211,52 @@ lines.push(`INSERT INTO listings (slug, name, country_code, city_slug, suburb, a
   'The original Thai Massage For U studio in Melbourne. Traditional Thai, relaxation, couples sessions and foot massage — a room you can walk to after work.',
   99,
   'AUD',
-  2,
+  0,
   1,
   'Mon–Fri 10:00–20:00; Sat–Sun 10:00–18:00',
   '/images/hero.svg',
   'origin'
+);`);
+
+lines.push(`INSERT INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, price_from, currency, premium, claimed, hours, image_url, source) VALUES (
+  'haruka-japanese-massage',
+  'Haruka Japanese Massage',
+  'au',
+  'melbourne',
+  'Melbourne CBD',
+  '413/365 Little Collins St, Melbourne VIC 3000',
+  '+61 468 480 365',
+  NULL,
+  NULL,
+  'Japanese massage, Relaxation, Beauty & spa',
+  'The Japanese room on Little Collins I send people to when they are already in the CBD and do not want a tourist spa. Close enough after a meeting that you walk, sit, and walk home.',
+  NULL,
+  'AUD',
+  2,
+  1,
+  'From 11:00',
+  '/images/partners/haruka.jpg',
+  'editor'
+);`);
+lines.push(`INSERT INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, price_from, currency, premium, claimed, hours, image_url, source) VALUES (
+  'noir-33-south-yarra',
+  'NOIR 33 Massage & Spa',
+  'au',
+  'melbourne',
+  'South Yarra',
+  '10/209 Toorak Rd, South Yarra VIC 3141',
+  '+61 481 333 209',
+  'bookings@noir33.com.au',
+  'https://noir33.com.au',
+  'Private lounge, Specialty wellness, Premium packages',
+  'South Yarra, not the CBD. Low lights, a lounge on Toorak Road, the room I mention when someone wants to disappear for an hour rather than sit in a shopfront on Collins.',
+  NULL,
+  'AUD',
+  2,
+  1,
+  'Closes 20:00',
+  '/images/partners/noir33.jpg',
+  'editor'
 );`);
 
 const featuredRank = {

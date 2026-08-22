@@ -399,4 +399,45 @@ describe("directory SEO app", () => {
     expect(publicHtml).not.toContain("partners@thaimassageforu.com");
     expect(publicHtml).not.toContain("/admin/affiliates");
   });
+
+  it("puts Haruka then NOIR 33 first in Australia as rooms the editor knows", async () => {
+    await env.DB.prepare(
+      `INSERT OR IGNORE INTO countries (code, name, slug, locale, currency, flag, tagline, intro, monthly_searches)
+       VALUES ('au', 'Australia', 'au', 'en-AU', 'AUD', 'AU', 'Home market', 'Australia remains the origin market.', 22000)`
+    ).run();
+    await env.DB.prepare(
+      `INSERT OR IGNORE INTO cities (country_code, slug, name, region, intro, monthly_searches)
+       VALUES ('au', 'melbourne', 'Melbourne', 'VIC', 'Melbourne is the original market.', 7200)`
+    ).run();
+    await env.DB.prepare(
+      `INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, services, description, currency, premium, claimed, hours, image_url, source)
+       VALUES ('haruka-japanese-massage', 'Haruka Japanese Massage', 'au', 'melbourne', 'Melbourne CBD', '413/365 Little Collins St, Melbourne VIC 3000', '+61 468 480 365', 'Japanese massage', 'The Japanese room on Little Collins I send people to.', 'AUD', 2, 1, 'From 11:00', '/images/partners/haruka.jpg', 'editor')`
+    ).run();
+    await env.DB.prepare(
+      `INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source)
+       VALUES ('noir-33-south-yarra', 'NOIR 33 Massage & Spa', 'au', 'melbourne', 'South Yarra', '10/209 Toorak Rd, South Yarra VIC 3141', '+61 481 333 209', 'bookings@noir33.com.au', 'https://noir33.com.au', 'Private lounge', 'South Yarra, not the CBD.', 'AUD', 2, 1, 'Closes 20:00', '/images/partners/noir33.jpg', 'editor')`
+    ).run();
+
+    const australia = await SELF.fetch("https://thaimassageforu.com/au");
+    expect(australia.status).toBe(200);
+    const html = await australia.text();
+    expect(html).toContain("Two Melbourne rooms I actually know");
+    expect(html).toContain("Haruka Japanese Massage");
+    expect(html).toContain("NOIR 33 Massage &amp; Spa");
+    expect(html.indexOf("Haruka Japanese Massage")).toBeLessThan(html.indexOf("NOIR 33 Massage"));
+    expect(html).toContain("A room I know · 01");
+    expect(html).toContain("A room I know · 02");
+    expect(html).toContain("+61 468 480 365");
+    expect(html).toContain("known-hero");
+    expect(html.toLowerCase()).not.toContain("paid");
+    expect(html).not.toContain("Sponsored");
+
+    const haruka = await SELF.fetch("https://thaimassageforu.com/au/melbourne/haruka-japanese-massage");
+    const harukaHtml = await haruka.text();
+    expect(haruka.status).toBe(200);
+    expect(harukaHtml).toContain("Haruka Japanese Massage in Melbourne");
+    expect(harukaHtml).toContain("Written from sitting in the room");
+    expect(harukaHtml.toLowerCase()).not.toContain("paid");
+    expect(harukaHtml).not.toContain("Premium listing");
+  });
 });

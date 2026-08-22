@@ -283,7 +283,7 @@ export async function featuredListings(db: D1Database): Promise<Listing[]> {
 export async function featuredListingsByCountry(db: D1Database, countryCode: string, _limit = 2): Promise<Listing[]> {
   const { results } = await db
     .prepare(
-      "SELECT * FROM listings WHERE country_code = ? AND premium >= 1 ORDER BY premium DESC, rating DESC, name ASC LIMIT 2"
+      "SELECT * FROM listings WHERE country_code = ? AND premium >= 1 ORDER BY premium DESC, name ASC LIMIT 2"
     )
     .bind(countryCode)
     .all<Listing>();

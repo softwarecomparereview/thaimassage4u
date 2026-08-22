@@ -125,8 +125,8 @@ export function renderHome(
   <section class="alt-bg">
     <div class="container">
       <div class="section-header">
-        <h2>Rooms worth a detour</h2>
-        <p>Featured studios sit up front. Everyone else is still worth a look — and owners can claim a page whenever they are ready.</p>
+        <h2>Rooms I would walk to</h2>
+        <p>Featured studios sit up front. Haruka and NOIR 33 in Melbourne are rooms I know in person. Everyone else is still worth a look — and owners can claim a page whenever they are ready.</p>
       </div>
       <div class="cards">${featured.map(listingCard).join("")}</div>
     </div>
@@ -247,7 +247,8 @@ function decisionCard(decision: Decision): string {
 
 function listingCard(listing: Listing): string {
   const href = `/${listing.country_code}/${listing.city_slug}/${listing.slug}`;
-  const badge = listing.premium >= 2 ? "Sponsored" : listing.premium === 1 ? "Featured" : listing.claimed ? "Claimed" : "Listed";
+  const badge =
+    listing.source === "editor" ? "A room I know" : listing.premium >= 1 ? "Featured" : listing.claimed ? "Claimed" : "Listed";
   const decision = decideListing(listing, cityLabel(listing.city_slug));
   const rating =
     listing.rating != null
@@ -292,10 +293,14 @@ export function renderCountry(
       ? `<section class="featured-heroes">
     <div class="container">
       <div class="section-header">
-        <h2>Featured in ${escapeHtml(country.name)}</h2>
-        <p>Two rooms at most sit up here — the ones we would send a friend to first.</p>
+        <h2>${country.code === "au" ? "Two Melbourne rooms I actually know" : `Featured in ${escapeHtml(country.name)}`}</h2>
+        <p>${
+          country.code === "au"
+            ? "Haruka on Little Collins, then NOIR 33 in South Yarra. Friends’ rooms I have sat in — the two I put first in Australia."
+            : "Two rooms at most sit up here — the ones we would send a friend to first."
+        }</p>
       </div>
-      <div class="featured-hero-grid">${heroes.map(featuredHero).join("")}</div>
+      <div class="featured-hero-grid">${heroes.map((listing, index) => featuredHero(listing, index)).join("")}</div>
     </div>
   </section>`
       : ""
@@ -374,19 +379,25 @@ function keywordBlock(keywords: KeywordStat[]): string {
   </div></section>`;
 }
 
-function featuredHero(listing: Listing): string {
+function featuredHero(listing: Listing, index = 0): string {
   const href = `/${listing.country_code}/${listing.city_slug}/${listing.slug}`;
-  return `<article class="featured-hero">
-    <a href="${escapeAttr(href)}">
+  const known = listing.source === "editor";
+  const rank = String(index + 1).padStart(2, "0");
+  const phone = listing.phone
+    ? `<a class="known-hero-call" href="tel:${escapeAttr(listing.phone.replaceAll(" ", ""))}">${escapeHtml(listing.phone)}</a>`
+    : "";
+  return `<article class="featured-hero${known ? " known-hero" : ""}">
+    <a class="known-hero-media" href="${escapeAttr(href)}">
       <img src="${escapeAttr(listingPhoto(listing))}" alt="${escapeAttr(listing.name)}" width="1200" height="720">
-      <div class="featured-hero-copy">
-        <p class="badge">Featured</p>
-        ${decideChip(decideListing(listing, cityLabel(listing.city_slug)))}
-        <h3>${escapeHtml(listing.name)}</h3>
-        <p>${escapeHtml(listing.suburb ?? listing.city_slug.replaceAll("-", " "))} · ${escapeHtml(listing.services.replaceAll(",", " · "))}</p>
-        <span class="featured-hero-go">Open this room</span>
-      </div>
     </a>
+    <div class="featured-hero-copy">
+      <p class="badge">${known ? `A room I know · ${escapeHtml(rank)}` : "Featured"}</p>
+      ${decideChip(decideListing(listing, cityLabel(listing.city_slug)))}
+      <h3><a href="${escapeAttr(href)}">${escapeHtml(listing.name)}</a></h3>
+      <p>${escapeHtml(listing.suburb ?? listing.city_slug.replaceAll("-", " "))}${listing.address ? ` · ${escapeHtml(listing.address)}` : ""} · ${escapeHtml(listing.services.replaceAll(",", " · "))}</p>
+      ${phone}
+      <a class="featured-hero-go" href="${escapeAttr(href)}">${known ? "Read why I send people here" : "Open this room"}</a>
+    </div>
   </article>`;
 }
 
@@ -476,8 +487,8 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
   <section>
     <div class="container content-wrapper">
       <article class="main-content">
-        <p class="eyebrow">${escapeHtml(listing.premium ? "Premium listing" : "Directory listing")}</p>
-        <h1>${escapeHtml(listing.name)} — Thai massage in ${escapeHtml(city.name)}</h1>
+        <p class="eyebrow">${escapeHtml(listing.source === "editor" ? "A room I know" : listing.premium ? "Featured listing" : "Directory listing")}</p>
+        <h1>${escapeHtml(listing.source === "editor" ? `${listing.name} in ${city.name}` : `${listing.name} — Thai massage in ${city.name}`)}</h1>
         <img class="listing-hero" src="${escapeAttr(listingPhoto(listing))}" alt="${escapeAttr(listing.name)}" width="1200" height="640">
         <p>${escapeHtml(listing.description)}</p>
         ${ratingLine}
@@ -487,11 +498,13 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
           <li>${escapeHtml(listing.hours ?? "Hours listed after the owner claims")}</li>
         </ul>
         <div class="hero-actions">
-          ${listing.phone ? `<a class="btn btn-primary" href="tel:${escapeAttr(listing.phone)}">Call ${escapeHtml(listing.phone)}</a>` : ""}
+          ${listing.phone ? `<a class="btn btn-primary" href="tel:${escapeAttr(listing.phone.replaceAll(" ", ""))}">Call ${escapeHtml(listing.phone)}</a>` : ""}
+          ${listing.website ? `<a class="btn btn-secondary" href="${escapeAttr(listing.website)}" rel="noopener" target="_blank">Open their site</a>` : ""}
           ${listing.maps_url ? `<a class="btn btn-outline" href="${escapeAttr(listing.maps_url)}" rel="nofollow noopener" target="_blank">Open in Google Maps</a>` : ""}
-          ${listing.claimed ? "" : `<a class="btn btn-secondary" href="/claim/${escapeAttr(listing.slug)}">Claim this listing</a>`}
+          ${listing.claimed || listing.source === "editor" ? "" : `<a class="btn btn-secondary" href="/claim/${escapeAttr(listing.slug)}">Claim this listing</a>`}
           <a class="btn btn-outline" href="/${escapeAttr(country.code)}/${escapeAttr(city.slug)}">More in ${escapeHtml(city.name)}</a>
         </div>
+        ${listing.source === "editor" ? `<p class="small">Written from sitting in the room — hours and phone as they gave them to me.</p>` : ""}
         ${listing.source === "openstreetmap" ? `<p class="small">Found on the public map. The studio can claim this page to confirm hours and phone.</p>` : ""}
         ${decisionCard(decision)}
       </article>
@@ -501,7 +514,7 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
           <p>${escapeHtml(listing.suburb ?? city.name)}</p>
           <p>${escapeHtml(listing.address ?? "Address available after claim")}</p>
           <p>From ${escapeHtml(money(listing.price_from, listing.currency))}</p>
-          ${listing.email ? `<a class="btn btn-primary" href="mailto:${escapeAttr(listing.email)}">Email studio</a>` : `<a class="btn btn-primary" href="/claim/${escapeAttr(listing.slug)}">Claim to add booking</a>`}
+          ${listing.email ? `<a class="btn btn-primary" href="mailto:${escapeAttr(listing.email)}">Email studio</a>` : listing.phone ? `<a class="btn btn-primary" href="tel:${escapeAttr(listing.phone.replaceAll(" ", ""))}">Call ${escapeHtml(listing.phone)}</a>` : listing.source === "editor" ? "" : `<a class="btn btn-primary" href="/claim/${escapeAttr(listing.slug)}">Claim to add booking</a>`}
         </div>
         <div class="sidebar-widget">
           <h3>In ${escapeHtml(country.name)}, people also check</h3>
