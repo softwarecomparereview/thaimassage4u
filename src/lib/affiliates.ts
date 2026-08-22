@@ -21,6 +21,9 @@ export type AffiliateDefaults = {
   login_secret: string | null;
   website: string | null;
   notes: string | null;
+  phone: string | null;
+  address: string | null;
+  bio: string | null;
 };
 
 export const FALLBACK_DEFAULTS: AffiliateDefaults = {
@@ -31,6 +34,9 @@ export const FALLBACK_DEFAULTS: AffiliateDefaults = {
   login_secret: null,
   website: "https://thaimassageforu.com",
   notes: "Preferred signup identity for review and booking partner sites.",
+  phone: null,
+  address: null,
+  bio: null,
 };
 
 export const COUNTRY_LABELS: Record<string, string> = {
@@ -60,8 +66,8 @@ export async function saveAffiliateDefaults(
   const secret = blankToNull(draft.login_secret) ?? (keepSecretIfBlank ? existing.login_secret : null);
   await db
     .prepare(
-      `INSERT INTO affiliate_defaults (id, company_name, contact_email, login_email, login_secret, website, notes, updated_at)
-       VALUES (1, ?, ?, ?, ?, ?, ?, datetime('now'))
+      `INSERT INTO affiliate_defaults (id, company_name, contact_email, login_email, login_secret, website, notes, phone, address, bio, updated_at)
+       VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
        ON CONFLICT(id) DO UPDATE SET
          company_name = excluded.company_name,
          contact_email = excluded.contact_email,
@@ -69,6 +75,9 @@ export async function saveAffiliateDefaults(
          login_secret = excluded.login_secret,
          website = excluded.website,
          notes = excluded.notes,
+         phone = excluded.phone,
+         address = excluded.address,
+         bio = excluded.bio,
          updated_at = datetime('now')`
     )
     .bind(
@@ -77,7 +86,10 @@ export async function saveAffiliateDefaults(
       blankToNull(draft.login_email),
       secret,
       blankToNull(draft.website),
-      blankToNull(draft.notes)
+      blankToNull(draft.notes),
+      blankToNull(draft.phone),
+      blankToNull(draft.address),
+      blankToNull(draft.bio)
     )
     .run();
 }
@@ -174,4 +186,16 @@ export function kitSecret(program: AffiliateProgram, defaults: AffiliateDefaults
 
 export function kitEmail(program: AffiliateProgram, defaults: AffiliateDefaults): string {
   return program.login_email || defaults.login_email || program.contact_email || defaults.contact_email || "";
+}
+
+export function kitPhone(defaults: AffiliateDefaults): string {
+  return defaults.phone || "";
+}
+
+export function kitAddress(defaults: AffiliateDefaults): string {
+  return defaults.address || "";
+}
+
+export function kitBio(defaults: AffiliateDefaults): string {
+  return defaults.bio || "";
 }
