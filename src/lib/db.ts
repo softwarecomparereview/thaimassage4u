@@ -50,6 +50,8 @@ export type Listing = {
   review_count?: number | null;
   maps_url?: string | null;
   photo_name?: string | null;
+  fresha_url?: string | null;
+  fresha_match_score?: number | null;
 };
 
 export type KeywordStat = {

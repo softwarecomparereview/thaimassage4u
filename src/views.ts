@@ -543,6 +543,7 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
         <div class="hero-actions">
           ${listing.phone ? `<a class="btn btn-primary" href="tel:${escapeAttr(listing.phone.replaceAll(" ", ""))}">Call ${escapeHtml(listing.phone)}</a>` : ""}
           ${listing.website ? `<a class="btn btn-secondary" href="${escapeAttr(listing.website)}" rel="noopener" target="_blank">Open their site</a>` : ""}
+          ${listing.fresha_url ? `<a class="btn btn-secondary" href="${escapeAttr(listing.fresha_url)}" rel="noopener" target="_blank">Book on Fresha</a>` : ""}
           ${listing.maps_url ? `<a class="btn btn-outline" href="${escapeAttr(listing.maps_url)}" rel="nofollow noopener" target="_blank">Open in Google Maps</a>` : ""}
           ${listing.claimed || listing.source === "editor" ? "" : `<a class="btn btn-secondary" href="/claim/${escapeAttr(listing.slug)}">Claim this listing</a>`}
           <a class="btn btn-outline" href="/${escapeAttr(country.code)}/${escapeAttr(city.slug)}">More in ${escapeHtml(city.name)}</a>
