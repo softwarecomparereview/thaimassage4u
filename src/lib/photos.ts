@@ -9,8 +9,10 @@ const SPA_PHOTOS = [
   "/images/spa/spa-6.jpg",
   "/images/spa/spa-7.jpg",
   "/images/spa/spa-8.jpg",
+  "/images/spa/spa-10.jpg",
   "/images/spa/spa-11.jpg",
   "/images/spa/spa-12.jpg",
+  "/images/spa/spa-13.jpg",
 ] as const;
 
 export const HERO_PHOTO = "/images/spa/hero.jpg";
