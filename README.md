@@ -76,6 +76,32 @@ npm test
 npm run dev
 ```
 
+## Seed data: real listings, not placeholders
+
+`seed/seed.sql` is generated, not hand-written. Every business in it (bar four
+hand-picked Melbourne rooms marked `source = 'editor'`) is a real point of
+interest scraped from **OpenStreetMap** — real name, real street address, and
+real phone/website/opening hours where the OSM mapper recorded them. Nothing
+is invented: a listing with no known phone says so instead of making one up.
+
+To refresh it:
+
+```bash
+node scripts/scrape-osm-listings.mjs   # queries Overpass for shop=massage / amenity=spa
+                                        # per city in scripts/cities.mjs, writes data/osm-listings.json
+node scripts/generate-seed.mjs         # turns that cache + country/city metadata into seed/seed.sql
+```
+
+Each listing's description is composed from its own scraped facts (street,
+contact details, posted hours) through one of several sentence shapes chosen
+per-listing, so copy never repeats verbatim across ~500 businesses. Thumbnails
+come from `listingPhoto()` (`src/lib/photos.ts`), which falls back to a
+rotating pool of real interior photos for any listing without its own image —
+scraped listings intentionally don't set `image_url`, so they always get one.
+
+OSM data is © OpenStreetMap contributors, ODbL — attributed in the site
+footer. See `https://www.openstreetmap.org/copyright`.
+
 Open `http://localhost:8787`. Put `ADMIN_PASSWORD=dev-admin` in `.dev.vars` to use `/admin` locally. For Browser Run you need `wrangler dev --remote` (or `"remote": true` on the browser binding) plus an account.
 
 Admin scrape (after `wrangler secret put ADMIN_SCRAPE_KEY`):

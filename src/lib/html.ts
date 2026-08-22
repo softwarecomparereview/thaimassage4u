@@ -184,6 +184,7 @@ ${hreflang}
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 ${escapeHtml(SITE)}. For people looking for a real Thai room, not a brochure.</p>
+      <p>Listing data © <a href="https://www.openstreetmap.org/copyright" rel="noopener">OpenStreetMap</a> contributors, ODbL.</p>
     </div>
   </div>
 </footer>
