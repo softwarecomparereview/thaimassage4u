@@ -437,7 +437,19 @@ describe("directory SEO app", () => {
     expect(haruka.status).toBe(200);
     expect(harukaHtml).toContain("Haruka Japanese Massage in Melbourne");
     expect(harukaHtml).toContain("Written from sitting in the room");
+    expect(harukaHtml).toContain("Reviews from visits");
+    expect(harukaHtml).toContain("The neck work is why I keep going back");
+    expect(harukaHtml).toContain("Japanese pressure");
+    expect(harukaHtml).not.toContain("Featured on this directory.");
+    expect(harukaHtml).not.toContain("What looks solid");
     expect(harukaHtml.toLowerCase()).not.toContain("paid");
     expect(harukaHtml).not.toContain("Premium listing");
+
+    const noir = await SELF.fetch("https://thaimassageforu.com/au/melbourne/noir-33-south-yarra");
+    const noirHtml = await noir.text();
+    expect(noir.status).toBe(200);
+    expect(noirHtml).toContain("The city goes quiet once you are inside");
+    expect(noirHtml).toContain("Toorak Road");
+    expect(noirHtml).not.toContain("Featured on this directory.");
   });
 });

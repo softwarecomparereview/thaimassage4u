@@ -8,6 +8,7 @@ import { cityOrigin, countryOrigin, type OriginStory } from "./lib/origins";
 import { cityPhoto, countryPhoto, HERO_PHOTO, listingPhoto, placePhotoAlt } from "./lib/photos";
 import { cityLabel, countryReferralSites, countryReviewGuide, decideListing, type Decision } from "./lib/decide";
 import type { YelpSignal } from "./lib/yelp";
+import { knownRoom } from "./lib/known-reviews";
 
 type Shell = {
   env: Env;
@@ -217,23 +218,14 @@ function pickGuide(countryCode: string, cityName?: string): string {
   </section>`;
 }
 
-function decisionCard(decision: Decision): string {
-  return `<aside class="decide-card decide-${escapeAttr(decision.verdict)}" aria-label="How to decide on this studio">
-    <p class="decide-kicker">How to decide</p>
-    <h2>${escapeHtml(decision.label)}</h2>
-    <p class="decide-score"><strong>${escapeHtml(String(decision.score))}</strong> / 100 from what this page can show</p>
-    <p>${escapeHtml(decision.summary)}</p>
-    ${
-      decision.checks.length
-        ? `<h3>What looks solid</h3><ul class="decide-checks">${decision.checks.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
-        : ""
-    }
-    ${
-      decision.gaps.length
-        ? `<h3>Check before you go</h3><ul class="decide-gaps">${decision.gaps.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
-        : ""
-    }
-    <h3>Read the local review sites</h3>
+function decisionCard(decision: Decision, known = false): string {
+  const checkTitle = known ? "What the visit is like" : "What looks solid";
+  const scoreLine = known
+    ? ""
+    : `<p class="decide-score"><strong>${escapeHtml(String(decision.score))}</strong> / 100 from what this page can show</p>`;
+  const sites = known
+    ? ""
+    : `<h3>Read the local review sites</h3>
     <ul class="referral-list">
       ${decision.referrals
         .map(
@@ -241,8 +233,45 @@ function decisionCard(decision: Decision): string {
             `<li><a href="${escapeAttr(site.href)}" rel="nofollow noopener" target="_blank">${escapeHtml(site.name)}</a><span>${escapeHtml(site.why)}</span></li>`
         )
         .join("")}
-    </ul>
+    </ul>`;
+  return `<aside class="decide-card decide-${escapeAttr(decision.verdict)}" aria-label="${known ? "Notes from visits" : "How to decide on this studio"}">
+    <p class="decide-kicker">${known ? "From sitting in the room" : "How to decide"}</p>
+    <h2>${escapeHtml(decision.label)}</h2>
+    ${scoreLine}
+    <p>${escapeHtml(decision.summary)}</p>
+    ${
+      decision.checks.length
+        ? `<h3>${escapeHtml(checkTitle)}</h3><ul class="decide-checks">${decision.checks.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+        : ""
+    }
+    ${
+      decision.gaps.length
+        ? `<h3>Check before you go</h3><ul class="decide-gaps">${decision.gaps.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+        : ""
+    }
+    ${sites}
   </aside>`;
+}
+
+function visitReviewsHtml(slug: string): string {
+  const room = knownRoom(slug);
+  if (!room) return "";
+  return `<section class="visit-reviews" aria-label="Reviews from visits">
+    <h2>Reviews from visits</h2>
+    <p class="small">Written after going, and after sending people I actually know. Not copied from another site.</p>
+    <div class="visit-review-list">
+      ${room.reviews
+        .map(
+          (review) => `<article class="visit-review">
+            <p class="visit-stars" aria-label="${review.stars} out of 5">${"★".repeat(review.stars)}${"☆".repeat(5 - review.stars)}</p>
+            <h3>${escapeHtml(review.title)}</h3>
+            <p class="visit-byline">${escapeHtml(review.byline)}</p>
+            <p>${escapeHtml(review.body)}</p>
+          </article>`
+        )
+        .join("")}
+    </div>
+  </section>`;
 }
 
 function listingCard(listing: Listing): string {
@@ -506,7 +535,8 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
         </div>
         ${listing.source === "editor" ? `<p class="small">Written from sitting in the room — hours and phone as they gave them to me.</p>` : ""}
         ${listing.source === "openstreetmap" ? `<p class="small">Found on the public map. The studio can claim this page to confirm hours and phone.</p>` : ""}
-        ${decisionCard(decision)}
+        ${visitReviewsHtml(listing.slug)}
+        ${decisionCard(decision, Boolean(knownRoom(listing.slug)))}
       </article>
       <aside class="sidebar">
         <div class="sidebar-widget">
@@ -528,11 +558,15 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
               .join("")}
           </ul>
         </div>
-        <div class="sidebar-widget">
+        ${
+          listing.source === "editor"
+            ? ""
+            : `<div class="sidebar-widget">
           <h3>Advertise here</h3>
           <p>A featured slot on this city’s page sits above the rest of the rooms.</p>
           <a class="btn btn-secondary" href="/pricing">See premium tiers</a>
-        </div>
+        </div>`
+        }
         <div class="sidebar-widget">
           <h3>Origin of ${escapeHtml(city.name)}</h3>
           <p>${escapeHtml(cityOrigin(country.code, city.slug)?.lede ?? city.intro)}</p>

@@ -1,4 +1,5 @@
 import type { Listing } from "./db";
+import { knownRoom } from "./known-reviews";
 
 export type ReferralSite = {
   name: string;
@@ -180,6 +181,18 @@ export function decideListing(
   cityName: string,
   extra?: { yelp?: { name: string; rating: number | null; reviewCount: number | null; url: string | null } | null }
 ): Decision {
+  const known = knownRoom(listing.slug);
+  if (known) {
+    return {
+      score: 94,
+      verdict: "strong",
+      label: "A room I send people to",
+      summary: known.verdict,
+      checks: known.noticed,
+      gaps: [],
+      referrals: countryReferralSites(listing.country_code, listing, cityName),
+    };
+  }
   const scored = withPublicSignals(listing, extra?.yelp ? { rating: extra.yelp.rating, reviewCount: extra.yelp.reviewCount } : undefined);
   const checks: string[] = [];
   const gaps: string[] = [];

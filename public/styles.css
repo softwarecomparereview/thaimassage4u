@@ -1030,7 +1030,19 @@ footer{
   background:#fff;
   box-shadow:var(--shadow)
 }
-.decide-card.decide-strong{border-color:#147a66}
+.visit-reviews{margin:2.25rem 0 0}
+.visit-reviews h2{margin:0 0 0.35rem}
+.visit-review-list{display:grid;gap:1rem;margin-top:1rem}
+.visit-review{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  padding:1.15rem 1.25rem 1.3rem;
+  box-shadow:var(--shadow)
+}
+.visit-stars{color:#c9a227;letter-spacing:.12em;margin:0 0 0.35rem;font-size:1.05rem}
+.visit-review h3{margin:0 0 0.25rem;font-size:1.15rem}
+.visit-byline{color:var(--muted);font-size:0.88rem;font-weight:700;margin:0 0 0.65rem}
 .decide-kicker{
   text-transform:uppercase;
   letter-spacing:.08em;
