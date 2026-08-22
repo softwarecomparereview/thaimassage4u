@@ -30,6 +30,7 @@ import {
   type AffiliateDefaults,
   type AffiliateProgram,
 } from "./lib/affiliates";
+import { CRM_STAGES, crmStageCounts, listCrmContacts, updateCrmContact, type CrmStage } from "./lib/crm";
 
 type AppEnv = { Bindings: Env };
 
@@ -61,6 +62,7 @@ function adminChrome(title: string, body: string, noticeText = ""): string {
     <a href="/admin">Dashboard</a>
     <a href="/admin/listings">Listings</a>
     <a href="/admin/listings/new">New listing</a>
+    <a href="/admin/crm">Outreach CRM</a>
     <a href="/admin/affiliates">Affiliates</a>
     <a href="/" target="_blank" rel="noreferrer">View site</a>
     <a href="/admin/logout">Log out</a>
@@ -392,6 +394,67 @@ export function adminApp() {
     await deleteListing(c.env.DB, id);
     await bustCache(c.env, existing.country_code);
     return c.redirect("/admin/listings", 303);
+  });
+
+  admin.get("/crm", async (c) => {
+    const country = (c.req.query("country") ?? "").trim();
+    const city = (c.req.query("city") ?? "").trim();
+    const stage = (c.req.query("stage") ?? "").trim();
+    const q = (c.req.query("q") ?? "").trim();
+    const [contacts, counts] = await Promise.all([
+      listCrmContacts(c.env.DB, { country, city, stage, q }),
+      crmStageCounts(c.env.DB),
+    ]);
+    const stageOptions = (value: string) =>
+      CRM_STAGES.map((s) => `<option value="${escapeAttr(s)}" ${value === s ? "selected" : ""}>${escapeHtml(s)}</option>`).join("");
+    const body = `
+      <h1>Outreach CRM</h1>
+      <p>Real, unclaimed listings scraped from OpenStreetMap, tracked here so you know who's been reached and who hasn't. This table only tracks status — it does not send email or SMS. Sending needs a real provider and a compliance decision (consent, opt-out, CAN-SPAM/TCPA/PECR/GDPR depending on the country) that hasn't been made yet.</p>
+      <p class="small">${CRM_STAGES.map((s) => `${escapeHtml(s)}: ${escapeHtml(String(counts[s] ?? 0))}`).join(" · ")}</p>
+      <form method="get" class="hero-search">
+        <input name="country" value="${escapeAttr(country)}" placeholder="country">
+        <input name="city" value="${escapeAttr(city)}" placeholder="city slug">
+        <select name="stage"><option value="">Any stage</option>${stageOptions(stage)}</select>
+        <input name="q" value="${escapeAttr(q)}" placeholder="search name/email/phone">
+        <button class="btn btn-primary" type="submit">Filter</button>
+      </form>
+      <table class="admin-table"><thead><tr><th>Business</th><th>City</th><th>Phone</th><th>Email</th><th>Stage</th><th>Notes</th><th></th></tr></thead><tbody>
+        ${
+          contacts
+            .map((contact) => {
+              const formId = `crm-${contact.id}`;
+              return `<tr>
+                <td>${escapeHtml(contact.business_name)}${contact.website ? ` · <a href="${escapeAttr(contact.website)}" target="_blank" rel="noopener noreferrer">site</a>` : ""}</td>
+                <td>${escapeHtml(contact.country_code)}/${escapeHtml(contact.city_slug)}</td>
+                <td>${escapeHtml(contact.phone ?? "—")}</td>
+                <td>${escapeHtml(contact.email ?? "—")}</td>
+                <td><select name="stage" form="${escapeAttr(formId)}">${stageOptions(contact.stage)}</select></td>
+                <td><input name="notes" form="${escapeAttr(formId)}" value="${escapeAttr(contact.notes ?? "")}" placeholder="notes"></td>
+                <td>
+                  <label class="check"><input type="checkbox" name="contacted_now" value="1" form="${escapeAttr(formId)}"> just contacted</label>
+                  <button class="btn btn-secondary" type="submit" form="${escapeAttr(formId)}">Save</button>
+                  <form id="${escapeAttr(formId)}" method="post" action="/admin/crm/${contact.id}"></form>
+                </td>
+              </tr>`;
+            })
+            .join("") || `<tr><td colspan="7">No contacts match this filter.</td></tr>`
+        }
+      </tbody></table>`;
+    return html(adminChrome("Outreach CRM", body, c.req.query("saved") === "1" ? "Contact updated." : ""));
+  });
+
+  admin.post("/crm/:id", async (c) => {
+    const id = Number(c.req.param("id"));
+    const form = await c.req.formData();
+    const stage = String(form.get("stage") ?? "new") as CrmStage;
+    if (!CRM_STAGES.includes(stage)) return c.notFound();
+    const notes = String(form.get("notes") ?? "").trim() || null;
+    const markContacted = Boolean(form.get("contacted_now"));
+    await updateCrmContact(c.env.DB, id, { stage, notes, markContacted });
+    const back = new URL(c.req.url);
+    back.pathname = "/admin/crm";
+    back.searchParams.set("saved", "1");
+    return c.redirect(back.toString(), 303);
   });
 
   admin.get("/affiliates", async (c) => {

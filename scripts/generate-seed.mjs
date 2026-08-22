@@ -93,7 +93,21 @@ function loadOsmData() {
   return JSON.parse(raw).cities;
 }
 
+// Optional: real photos pulled from each business's own website (its og:image),
+// keyed by "<osmType>/<osmId>". Produced by scripts/enrich-photos-from-websites.mjs.
+// Not required — a listing without an entry here just falls back to
+// listingPhoto()'s rotating stock-photo pool at render time.
+function loadPhotoOverrides() {
+  try {
+    const raw = readFileSync(new URL("../data/osm-listing-photos.json", import.meta.url), "utf8");
+    return JSON.parse(raw).photos ?? {};
+  } catch {
+    return {};
+  }
+}
+
 const osmData = loadOsmData();
+const photoOverrides = loadPhotoOverrides();
 
 const lines = [];
 lines.push("-- Generated seed for Thai Massage For U international directory");
@@ -215,6 +229,7 @@ lines.push(`INSERT INTO listings (slug, name, country_code, city_slug, suburb, a
 
 let totalReal = 0;
 let totalSkippedAdult = 0;
+let totalWithRealPhoto = 0;
 
 for (const [code, slug, name] of cities) {
   const records = osmData[`${code}/${slug}`] ?? [];
@@ -237,8 +252,10 @@ for (const [code, slug, name] of cities) {
     const address = addressFor(record, name);
     const description = describe(record, name, countryName[code]);
     const hours = hoursFor(record);
+    const osmKey = `${record.osmType}/${record.osmId}`;
+    const photoUrl = photoOverrides[osmKey] ?? null;
 
-    lines.push(`INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, website, services, description, currency, premium, claimed, hours, source, source_url, osm_id) VALUES (
+    lines.push(`INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, currency, premium, claimed, hours, image_url, source, source_url, osm_id) VALUES (
       ${sql(listingSlug)},
       ${sql(record.name.slice(0, 80))},
       ${sql(code)},
@@ -246,6 +263,7 @@ for (const [code, slug, name] of cities) {
       ${sql(name)},
       ${sql(address)},
       ${sql(record.phone)},
+      ${sql(record.email)},
       ${sql(record.website)},
       ${sql(servicesFor(record))},
       ${sql(description)},
@@ -253,15 +271,25 @@ for (const [code, slug, name] of cities) {
       0,
       0,
       ${sql(hours)},
+      ${sql(photoUrl)},
       'openstreetmap',
       ${sql(`https://www.openstreetmap.org/${record.osmType}/${record.osmId}`)},
-      ${sql(`${record.osmType}/${record.osmId}`)}
+      ${sql(osmKey)}
     );`);
     totalReal += 1;
+    if (photoUrl) totalWithRealPhoto += 1;
   }
 }
 
+lines.push("");
+lines.push("-- Outreach CRM: one row per unclaimed real listing, so someone can track");
+lines.push("-- who's been asked to claim their business. This never sends anything itself.");
+lines.push("DELETE FROM crm_contacts;");
+lines.push(
+  "INSERT INTO crm_contacts (listing_id, business_name, country_code, city_slug, phone, email, website, stage) SELECT id, name, country_code, city_slug, phone, email, website, 'new' FROM listings WHERE claimed = 0;"
+);
+
 writeFileSync(new URL("../seed/seed.sql", import.meta.url), lines.join("\n") + "\n");
 console.log(
-  `Wrote seed with ${countries.length} countries, ${cities.length} cities, ${totalReal} real OSM listings (skipped ${totalSkippedAdult} adult-services matches) + 4 editor picks`
+  `Wrote seed with ${countries.length} countries, ${cities.length} cities, ${totalReal} real OSM listings (skipped ${totalSkippedAdult} adult-services matches, ${totalWithRealPhoto} with a real photo from their own website) + 4 editor picks`
 );

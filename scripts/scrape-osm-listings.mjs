@@ -83,6 +83,7 @@ function toRecord(element) {
     addrCity: tags["addr:city"] ?? null,
     postcode: tags["addr:postcode"] ?? null,
     phone: tags.phone ?? tags["contact:phone"] ?? null,
+    email: tags.email ?? tags["contact:email"] ?? null,
     website: tags.website ?? tags["contact:website"] ?? null,
     openingHours: tags.opening_hours ?? null,
     lat: typeof lat === "number" ? lat : null,
