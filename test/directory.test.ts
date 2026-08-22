@@ -425,7 +425,10 @@ describe("directory SEO app", () => {
     const australia = await SELF.fetch("https://thaimassageforu.com/au");
     expect(australia.status).toBe(200);
     const html = await australia.text();
-    expect(html).toContain("Three Melbourne rooms I actually know");
+    expect(html).toContain("Two studios and one independent masseuse");
+    expect(html).toContain("Haruka on Little Collins");
+    expect(html).not.toContain("Three Melbourne rooms I actually know");
+    expect(html).not.toContain("Friends I have sat with");
     expect(html).toContain("Haruka Japanese Massage");
     expect(html).toContain("NOIR 33 Massage &amp; Spa");
     expect(html).toContain("Betty — independent masseuse");

@@ -127,7 +127,7 @@ export function renderHome(
     <div class="container">
       <div class="section-header">
         <h2>Rooms I would walk to</h2>
-        <p>Featured studios sit up front. In Melbourne I know three rooms in person: Haruka on Little Collins, NOIR 33 in South Yarra, and Betty — an independent masseuse in Werribee in the western suburbs. Everyone else is still worth a look — and owners can claim a page whenever they are ready.</p>
+        <p>Featured studios sit up front. Melbourne leads with two studios and one independent masseuse: Haruka on Little Collins, NOIR 33 in South Yarra, and Betty in Werribee. Everyone else is still worth a look — and owners can claim a page whenever they are ready.</p>
       </div>
       <div class="cards">${featured.map(listingCard).join("")}</div>
     </div>
@@ -336,10 +336,10 @@ export function renderCountry(
       ? `<section class="featured-heroes">
     <div class="container">
       <div class="section-header">
-        <h2>${country.code === "au" ? "Three Melbourne rooms I actually know" : `Featured in ${escapeHtml(country.name)}`}</h2>
+        <h2>${country.code === "au" ? "Two studios and one independent masseuse" : `Featured in ${escapeHtml(country.name)}`}</h2>
         <p>${
           country.code === "au"
-            ? "These are not ads. Friends I have sat with. Haruka first on Little Collins, NOIR 33 second in South Yarra, Betty third in Werribee. Two shopfronts in the inner city, then an independent masseuse in the western suburbs."
+            ? "Haruka on Little Collins and NOIR 33 in South Yarra are studios. Betty in Werribee is an independent masseuse — western suburbs, one person. They sit in this order because Melbourne keeps naming them that way once the hour is over."
             : "Two rooms at most sit up here — the ones we would send a friend to first."
         }</p>
       </div>
