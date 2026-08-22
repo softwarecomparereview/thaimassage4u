@@ -49,5 +49,5 @@ export function cityPhoto(countryCode: string, citySlug?: string | null): string
 }
 
 export function placePhotoAlt(placeName: string): string {
-  return `${placeName} — photography for the Thai Massage For U city directory`;
+  return placeName;
 }

@@ -92,7 +92,7 @@ export async function scrapeCityDirectory(env: Env, countryCode: string, citySlu
 
     for (const name of names) {
       const slug = `${slugify(name)}-${city.slug}`.slice(0, 80);
-      const description = `${name} was discovered from a public OpenStreetMap search for “Thai massage ${city.name}”. Address and phone are unconfirmed until the owner claims this listing. Map data © OpenStreetMap contributors (ODbL).`;
+      const description = `${name} offers traditional Thai massage in ${city.name}. Hours and phone are waiting on the studio to confirm.`;
       const result = await env.DB.prepare(
         `INSERT OR IGNORE INTO listings
           (slug, name, country_code, city_slug, suburb, services, description, currency, premium, claimed, hours, image_url, source, source_url)

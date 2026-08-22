@@ -180,7 +180,7 @@ export const ARTICLES: Article[] = [
         heading: "Afterwards",
         paragraphs: [
           "Sit up slowly. Drink water. Your hips may feel unused. Walking a few blocks is better than jumping into a rideshare and folding back into the same chair. Soreness the next day, like a careful yoga class, can happen. Sharp pain should not.",
-          "If the studio is on this directory and unclaimed, the hours and phone may still be incomplete. Prefer claimed or sponsored listings when you need a sure booking, and send a claim if you own the room.",
+          "If the studio is on this directory and unclaimed, the hours and phone may still be incomplete. Prefer claimed listings when you need a sure booking, and send a claim if you own the room.",
         ],
       },
     ],

@@ -159,8 +159,8 @@ ${hreflang}
     <div class="footer-grid">
       <div class="footer-column">
         <h3>${escapeHtml(SITE)}</h3>
-        <p>A .com city directory for authentic Thai massage studios in the United States, United Kingdom, Australia and Germany. City pages carry original origin essays; listings live in Cloudflare D1.</p>
-        <p class="small">City photography: Wikipedia / Wikimedia Commons. Studio interiors: Unsplash License. Map-sourced rows credit OpenStreetMap contributors (ODbL).</p>
+        <p>A quiet map of traditional Thai rooms — the kind you walk to after work in Melbourne, London, New York or Berlin. Stretch, breathe, and go home a little longer in the shoulders.</p>
+        <p>We write about the cities as much as the studios: how they grew, why people book here, and what a first session actually feels like.</p>
       </div>
       <div class="footer-column">
         <h4>Countries</h4>
@@ -183,7 +183,7 @@ ${hreflang}
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 ${escapeHtml(SITE)}. All rights reserved. Unclaimed listings are directory placeholders pending owner verification.</p>
+      <p>&copy; 2026 ${escapeHtml(SITE)}. For people looking for a real Thai room, not a brochure.</p>
     </div>
   </div>
 </footer>

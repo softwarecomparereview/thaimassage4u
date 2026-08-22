@@ -48,7 +48,7 @@ export function parsePlacesResponse(payload: unknown): PlaceRecord[] {
       photoName: place.photos?.[0]?.name ?? null,
     });
   }
-  return out.slice(0, 16);
+  return out.slice(0, 20);
 }
 
 export function placesSearchQuery(cityName: string): string {
@@ -67,7 +67,7 @@ export async function searchPlaces(env: Env, cityName: string): Promise<PlaceRec
       "X-Goog-FieldMask":
         "places.id,places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.internationalPhoneNumber,places.websiteUri,places.googleMapsUri,places.rating,places.userRatingCount,places.photos",
     },
-    body: JSON.stringify({ textQuery: placesSearchQuery(cityName), maxResultCount: 12 }),
+    body: JSON.stringify({ textQuery: placesSearchQuery(cityName), maxResultCount: 20 }),
   });
   if (!response.ok) {
     throw new Error(`Places search failed (${response.status}): ${(await response.text()).slice(0, 240)}`);

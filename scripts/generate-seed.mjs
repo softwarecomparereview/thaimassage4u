@@ -132,6 +132,19 @@ const studioNames = [
   ["Bamboo Lantern", "Relaxation,Foot massage"],
   ["White Orchid Thai", "Traditional Thai,Couples"],
   ["Mekong Studio", "Traditional Thai,Relaxation"],
+  ["Ayutthaya Room", "Traditional Thai,Stretching"],
+  ["Sukhothai Mat", "Traditional Thai,Foot massage"],
+  ["River Sala", "Traditional Thai,Relaxation"],
+  ["Lantern House", "Relaxation,Couples"],
+  ["Temple Hands", "Traditional Thai,Deep tissue"],
+  ["Palm Court Thai", "Traditional Thai,Foot massage"],
+  ["Night Jasmine", "Relaxation,Oil"],
+  ["Old Teak Studio", "Traditional Thai,Stretching"],
+  ["Harbour Sala", "Traditional Thai,Couples"],
+  ["Green Papaya", "Traditional Thai,Relaxation"],
+  ["Silk Road Thai", "Traditional Thai,Foot massage"],
+  ["Morning Glory", "Relaxation,Couples"],
+  ["Wat Pho Room", "Traditional Thai,Stretching"],
 ];
 
 const streets = {
@@ -147,7 +160,7 @@ function sql(v) {
 }
 
 function listingDesc(name, city, country, services) {
-  return `${name} is listed in the Thai Massage For U ${city} directory for ${country}. Services tagged on this unclaimed storefront include ${services.replaceAll(",", ", ").toLowerCase()}. Details are seeded for local SEO and can be updated when the owner claims the listing.`;
+  return `${name} offers ${services.replaceAll(",", ", ").toLowerCase()} in ${city}, ${country}. A traditional room on the map — claim the page if this is your studio.`;
 }
 
 const lines = [];
@@ -195,28 +208,100 @@ lines.push(`INSERT INTO listings (slug, name, country_code, city_slug, suburb, a
   'hello@thaimassageforu.com',
   'https://thaimassageforu.com',
   'Traditional Thai,Relaxation,Foot massage,Couples',
-  'The original Thai Massage For U studio in Melbourne. Traditional Thai massage, relaxation treatments, couples sessions and foot massage with online enquiry. This is the featured home-market listing on the international directory.',
+  'The original Thai Massage For U studio in Melbourne. Traditional Thai, relaxation, couples sessions and foot massage — a room you can walk to after work.',
   99,
   'AUD',
-  2,
+  0,
   1,
   'Mon–Fri 10:00–20:00; Sat–Sun 10:00–18:00',
   '/images/hero.svg',
   'origin'
 );`);
 
+lines.push(`INSERT INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, price_from, currency, premium, claimed, hours, image_url, source) VALUES (
+  'haruka-japanese-massage',
+  'Haruka Japanese Massage',
+  'au',
+  'melbourne',
+  'Melbourne CBD',
+  '413/365 Little Collins St, Melbourne VIC 3000',
+  '+61 468 480 365',
+  NULL,
+  NULL,
+  'Japanese massage, Relaxation, Beauty & spa',
+  'The Japanese room on Little Collins I send people to when they are already in the CBD and do not want a tourist spa. Close enough after a meeting that you walk, sit, and walk home.',
+  NULL,
+  'AUD',
+  2,
+  1,
+  'From 11:00',
+  '/images/partners/haruka.jpg',
+  'editor'
+);`);
+lines.push(`INSERT INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, price_from, currency, premium, claimed, hours, image_url, source) VALUES (
+  'noir-33-south-yarra',
+  'NOIR 33 Massage & Spa',
+  'au',
+  'melbourne',
+  'South Yarra',
+  '10/209 Toorak Rd, South Yarra VIC 3141',
+  '+61 481 333 209',
+  'bookings@noir33.com.au',
+  'https://noir33.com.au',
+  'Private lounge, Specialty wellness, Premium packages',
+  'South Yarra, not the CBD. Low lights, a lounge on Toorak Road, the room I mention when someone wants to disappear for an hour rather than sit in a shopfront on Collins.',
+  NULL,
+  'AUD',
+  2,
+  1,
+  'Closes 20:00',
+  '/images/partners/noir33.jpg',
+  'editor'
+);`);
+lines.push(`INSERT INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, price_from, currency, premium, claimed, hours, image_url, source) VALUES (
+  'betty-werribee',
+  'Betty — independent masseuse',
+  'au',
+  'melbourne',
+  'Werribee',
+  'Werribee, western suburbs, Melbourne VIC',
+  '+61 478 898 557',
+  NULL,
+  NULL,
+  'Independent massage, Personal massage, Relaxation',
+  'Betty is a highly skilled, qualified independent masseuse in Werribee. Amazing service — one person, one room. Call 0478 898 557. For people who live west of the river and should not have to come into the CBD for a proper hour.',
+  NULL,
+  'AUD',
+  2,
+  1,
+  'Call to book',
+  '/images/partners/betty.jpg',
+  'editor'
+);`);
+
+const featuredRank = {
+  "us-new-york": 2,
+  "us-los-angeles": 1,
+  "uk-london": 2,
+  "uk-manchester": 1,
+  "au-sydney": 1,
+  "de-berlin": 2,
+  "de-munich": 1,
+};
+
 let i = 0;
 for (const [code, slug, name] of cities) {
-  const count = slug === "berlin" || slug === "london" || slug === "new-york" || slug === "melbourne" ? 4 : 3;
+  const count = 20;
   for (let n = 0; n < count; n++) {
-    if (code === "au" && slug === "melbourne" && n === 0) continue; // keep featured slot unique
-    const [studio, services] = studioNames[(i + n) % studioNames.length];
+    if (code === "au" && slug === "melbourne" && n === 0) continue;
+    const idx = slug === "berlin" ? n : (i + n) % studioNames.length;
+    const [studio, services] = studioNames[idx];
     const street = streets[code][(i + n) % streets[code].length];
     const listingName = `${studio} Thai Massage`;
     const listingSlug = `${studio.toLowerCase().replaceAll(" ", "-")}-${slug}`;
     const suburb = n === 0 ? name : `${name} Centre`;
-    const premium = n === 0 && ["berlin", "london", "new-york", "los-angeles", "sydney"].includes(slug) ? 1 : 0;
-    const price = code === "us" ? 89 + n * 10 : code === "uk" ? 55 + n * 8 : code === "de" ? 49 + n * 7 : 79 + n * 10;
+    const premium = n === 0 ? featuredRank[`${code}-${slug}`] ?? 0 : 0;
+    const price = code === "us" ? 89 + n * 4 : code === "uk" ? 55 + n * 3 : code === "de" ? 49 + n * 3 : 79 + n * 4;
     lines.push(`INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, services, description, price_from, currency, premium, claimed, hours, image_url, source) VALUES (
       ${sql(listingSlug)},
       ${sql(listingName)},

@@ -15,6 +15,21 @@ import {
 import { escapeAttr, escapeHtml, slugify } from "./lib/escape";
 import { adminPassword, clearSessionCookie, createSessionCookie, hasValidSession, passwordsMatch } from "./lib/session";
 import { cacheDelete } from "./lib/storage";
+import {
+  COUNTRY_LABELS,
+  createAffiliateProgram,
+  deleteAffiliateProgram,
+  getAffiliateDefaults,
+  getAffiliateProgram,
+  kitEmail,
+  kitSecret,
+  listAffiliatePrograms,
+  saveAffiliateDefaults,
+  updateAffiliateProgram,
+  type AffiliateDraft,
+  type AffiliateDefaults,
+  type AffiliateProgram,
+} from "./lib/affiliates";
 
 type AppEnv = { Bindings: Env };
 
@@ -46,6 +61,7 @@ function adminChrome(title: string, body: string, noticeText = ""): string {
     <a href="/admin">Dashboard</a>
     <a href="/admin/listings">Listings</a>
     <a href="/admin/listings/new">New listing</a>
+    <a href="/admin/affiliates">Affiliates</a>
     <a href="/" target="_blank" rel="noreferrer">View site</a>
     <a href="/admin/logout">Log out</a>
   </div>
@@ -114,6 +130,93 @@ function listingFields(listing?: Partial<Listing>): string {
     <div><label>Description</label><textarea name="description" required rows="5">${escapeHtml(listing?.description ?? "")}</textarea></div>
     <label class="check"><input type="checkbox" name="claimed" value="1" ${listing?.claimed ? "checked" : ""}> Claimed / verified</label>
   `;
+}
+
+function affiliateDraftFrom(form: FormData): AffiliateDraft {
+  const text = (key: string) => String(form.get(key) ?? "").trim();
+  return {
+    country_code: (text("country_code") || "all").toLowerCase(),
+    program_name: text("program_name"),
+    company_name: text("company_name") || "Thai Massage For U",
+    signup_url: text("signup_url"),
+    login_url: text("login_url") || null,
+    contact_email: text("contact_email") || null,
+    affiliate_id: text("affiliate_id") || null,
+    login_email: text("login_email") || null,
+    login_secret: text("login_secret") || null,
+    notes: text("notes") || null,
+    status: text("status") || "todo",
+  };
+}
+
+function countryOptions(value: string): string {
+  return Object.entries(COUNTRY_LABELS)
+    .map(
+      ([code, label]) =>
+        `<option value="${escapeAttr(code)}" ${value === code ? "selected" : ""}>${escapeHtml(label)}</option>`
+    )
+    .join("");
+}
+
+function statusOptions(value: string): string {
+  return ["todo", "applied", "live", "paused", "skip"]
+    .map((status) => `<option value="${escapeAttr(status)}" ${value === status ? "selected" : ""}>${escapeHtml(status)}</option>`)
+    .join("");
+}
+
+function affiliateFields(program?: Partial<AffiliateProgram>, isEdit = false): string {
+  return `
+    <div class="admin-grid">
+      <div><label>Program name</label><input name="program_name" required value="${escapeAttr(program?.program_name ?? "")}" placeholder="Trustpilot Business"></div>
+      <div><label>Country</label><select name="country_code">${countryOptions(program?.country_code ?? "all")}</select></div>
+      <div><label>Your company name</label><input name="company_name" required value="${escapeAttr(program?.company_name ?? "Thai Massage For U")}"></div>
+      <div><label>Status</label><select name="status">${statusOptions(program?.status ?? "todo")}</select></div>
+      <div><label>Official signup URL</label><input name="signup_url" required value="${escapeAttr(program?.signup_url ?? "")}" placeholder="https://"></div>
+      <div><label>Login URL</label><input name="login_url" value="${escapeAttr(program?.login_url ?? "")}" placeholder="https://"></div>
+      <div><label>Contact email</label><input name="contact_email" type="email" value="${escapeAttr(program?.contact_email ?? "")}"></div>
+      <div><label>Login email</label><input name="login_email" type="email" autocomplete="off" value="${escapeAttr(program?.login_email ?? "")}"></div>
+      <div><label>Affiliate / publisher ID</label><input name="affiliate_id" value="${escapeAttr(program?.affiliate_id ?? "")}"></div>
+      <div><label>Signup password</label><input name="login_secret" type="password" autocomplete="new-password" placeholder="${escapeAttr(isEdit ? "Leave blank to keep the saved password" : "Blank uses your preferred password")}"></div>
+    </div>
+    <div><label>Notes</label><textarea name="notes" rows="4">${escapeHtml(program?.notes ?? "")}</textarea></div>
+    <p class="small">Passwords stay on this admin screen. Public pages never see them. This Worker does not submit signup forms on other companies’ websites.</p>
+  `;
+}
+
+function kitCards(programs: AffiliateProgram[], defaults: AffiliateDefaults): string {
+  const groups = new Map<string, AffiliateProgram[]>();
+  for (const program of programs) {
+    const key = program.country_code;
+    const list = groups.get(key) ?? [];
+    list.push(program);
+    groups.set(key, list);
+  }
+  return [...groups.entries()]
+    .map(([code, rows]) => {
+      const cards = rows
+        .map((program) => {
+          const email = kitEmail(program, defaults);
+          const secret = kitSecret(program, defaults);
+          const id = `secret-${program.id}`;
+          return `<article class="kit-card">
+            <h3>${escapeHtml(program.program_name)}</h3>
+            <p class="small">${escapeHtml(program.status)} · ${escapeHtml(program.company_name)}</p>
+            ${program.notes ? `<p>${escapeHtml(program.notes)}</p>` : ""}
+            <label>Company name<input readonly value="${escapeAttr(program.company_name)}"></label>
+            <label>Login email<input readonly value="${escapeAttr(email)}"></label>
+            <label>Preferred password<input id="${escapeAttr(id)}" class="kit-secret" type="password" readonly value="${escapeAttr(secret)}" autocomplete="off"></label>
+            <label class="check"><input type="checkbox" onchange="document.getElementById('${escapeAttr(id)}').type=this.checked?'text':'password'"> Show password</label>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="${escapeAttr(program.signup_url)}" rel="noopener noreferrer" target="_blank">Open signup</a>
+              ${program.login_url ? `<a class="btn btn-outline" href="${escapeAttr(program.login_url)}" rel="noopener noreferrer" target="_blank">Open login</a>` : ""}
+              <a class="btn btn-secondary" href="/admin/affiliates/${program.id}">Edit</a>
+            </div>
+          </article>`;
+        })
+        .join("");
+      return `<h2>${escapeHtml(COUNTRY_LABELS[code] ?? code)}</h2><div class="kit-grid">${cards}</div>`;
+    })
+    .join("");
 }
 
 export function adminApp() {
@@ -289,6 +392,126 @@ export function adminApp() {
     await deleteListing(c.env.DB, id);
     await bustCache(c.env, existing.country_code);
     return c.redirect("/admin/listings", 303);
+  });
+
+  admin.get("/affiliates", async (c) => {
+    const [programs, defaults] = await Promise.all([listAffiliatePrograms(c.env.DB), getAffiliateDefaults(c.env.DB)]);
+    const noticeText =
+      c.req.query("saved") === "1"
+        ? "Affiliate details saved."
+        : c.req.query("defaults") === "1"
+          ? "Preferred company identity saved."
+          : "";
+    const body = `
+      <h1>Referral and affiliate kit</h1>
+      <p>Store the company name, login email and preferred password you use on review and booking partner sites. Open each official signup page in a new tab and paste these fields. This directory never creates accounts on other companies’ websites.</p>
+      <form class="admin-form" method="post" action="/admin/affiliates/defaults" autocomplete="off">
+        <h2>Your preferred identity</h2>
+        <div class="admin-grid">
+          <div><label>Company name</label><input name="company_name" required value="${escapeAttr(defaults.company_name)}"></div>
+          <div><label>Public website</label><input name="website" value="${escapeAttr(defaults.website ?? "")}"></div>
+          <div><label>Contact email</label><input name="contact_email" type="email" value="${escapeAttr(defaults.contact_email ?? "")}"></div>
+          <div><label>Login email</label><input name="login_email" type="email" autocomplete="off" value="${escapeAttr(defaults.login_email ?? "")}"></div>
+          <div><label>Preferred signup password</label><input name="login_secret" type="password" autocomplete="new-password" placeholder="${escapeAttr(defaults.login_secret ? "Leave blank to keep the saved password" : "Choose a password you only use for partner dashboards")}"></div>
+        </div>
+        <div><label>Notes</label><textarea name="notes" rows="3">${escapeHtml(defaults.notes ?? "")}</textarea></div>
+        <button class="btn btn-primary" type="submit">Save identity</button>
+      </form>
+      <p><a class="btn btn-secondary" href="/admin/affiliates/new">Add a partner program</a></p>
+      <table class="admin-table"><thead><tr><th>Program</th><th>Country</th><th>Status</th><th>Password</th><th></th></tr></thead><tbody>
+        ${
+          programs
+            .map(
+              (program) =>
+                `<tr><td>${escapeHtml(program.program_name)}</td><td>${escapeHtml(COUNTRY_LABELS[program.country_code] ?? program.country_code)}</td><td>${escapeHtml(program.status)}</td><td>${kitSecret(program, defaults) ? "saved" : "missing"}</td><td><a href="/admin/affiliates/${program.id}">Edit</a></td></tr>`
+            )
+            .join("") || `<tr><td colspan="5">No partner programs yet.</td></tr>`
+        }
+      </tbody></table>
+      <h2>Register in one sitting</h2>
+      <p>Each card already has your company name, email and password. Open signup, paste, then mark the row live. Do not automate those forms.</p>
+      ${kitCards(programs, defaults)}`;
+    return html(adminChrome("Affiliates", body, noticeText));
+  });
+
+  admin.post("/affiliates/defaults", async (c) => {
+    const form = await c.req.formData();
+    const text = (key: string) => String(form.get(key) ?? "").trim();
+    await saveAffiliateDefaults(c.env.DB, {
+      company_name: text("company_name") || "Thai Massage For U",
+      contact_email: text("contact_email") || null,
+      login_email: text("login_email") || null,
+      login_secret: text("login_secret") || null,
+      website: text("website") || null,
+      notes: text("notes") || null,
+    });
+    return c.redirect("/admin/affiliates?defaults=1", 303);
+  });
+
+  admin.get("/affiliates/new", async (c) => {
+    const defaults = await getAffiliateDefaults(c.env.DB);
+    const body = `<h1>Add a partner program</h1>
+      <form class="admin-form" method="post" action="/admin/affiliates" autocomplete="off">
+        ${affiliateFields({
+          company_name: defaults.company_name,
+          contact_email: defaults.contact_email,
+          login_email: defaults.login_email,
+          country_code: "all",
+          status: "todo",
+        })}
+        <button class="btn btn-primary" type="submit">Save program</button>
+      </form>`;
+    return html(adminChrome("New affiliate program", body));
+  });
+
+  admin.post("/affiliates", async (c) => {
+    const draft = affiliateDraftFrom(await c.req.formData());
+    if (!draft.program_name || !draft.signup_url) {
+      return html(
+        adminChrome(
+          "New affiliate program",
+          `<p class="form-notice err">Program name and an official signup URL are required.</p><form class="admin-form" method="post" action="/admin/affiliates">${affiliateFields(draft)}<button class="btn btn-primary" type="submit">Save program</button></form>`
+        ),
+        400
+      );
+    }
+    await createAffiliateProgram(c.env.DB, draft);
+    return c.redirect("/admin/affiliates?saved=1", 303);
+  });
+
+  admin.get("/affiliates/:id", async (c) => {
+    const program = await getAffiliateProgram(c.env.DB, Number(c.req.param("id")));
+    if (!program) return c.notFound();
+    const body = `<h1>Edit ${escapeHtml(program.program_name)}</h1>
+      <p><a href="${escapeAttr(program.signup_url)}" rel="noopener noreferrer" target="_blank">Open official signup</a></p>
+      <form class="admin-form" method="post" action="/admin/affiliates/${program.id}" autocomplete="off">
+        ${affiliateFields(program, true)}
+        <button class="btn btn-primary" type="submit">Save</button>
+      </form>
+      <form method="post" action="/admin/affiliates/${program.id}/delete" onsubmit="return confirm('Delete this partner program?')">
+        <button class="btn btn-outline" type="submit">Delete</button>
+      </form>`;
+    return html(adminChrome(`Edit ${program.program_name}`, body));
+  });
+
+  admin.post("/affiliates/:id", async (c) => {
+    const id = Number(c.req.param("id"));
+    const existing = await getAffiliateProgram(c.env.DB, id);
+    if (!existing) return c.notFound();
+    const draft = affiliateDraftFrom(await c.req.formData());
+    if (!draft.program_name || !draft.signup_url) {
+      return html(adminChrome("Edit affiliate program", `<p class="form-notice err">Program name and an official signup URL are required.</p>`), 400);
+    }
+    await updateAffiliateProgram(c.env.DB, id, draft);
+    return c.redirect("/admin/affiliates?saved=1", 303);
+  });
+
+  admin.post("/affiliates/:id/delete", async (c) => {
+    const id = Number(c.req.param("id"));
+    const existing = await getAffiliateProgram(c.env.DB, id);
+    if (!existing) return c.notFound();
+    await deleteAffiliateProgram(c.env.DB, id);
+    return c.redirect("/admin/affiliates", 303);
   });
 
   return admin;

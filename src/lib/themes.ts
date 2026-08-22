@@ -13,30 +13,30 @@ const COUNTRY_LAYERS: Record<string, ThemeLayer> = {
   us: {
     id: "us",
     label: "United States",
-    kicker: "Country layer",
+    kicker: "United States",
     greeting: "Book a Thai massage in the States",
-    note: "Bold type, navy and crimson, after-work energy. City pages keep the US frame and add a local overlay.",
+    note: "After-work rooms in the big cities — Midtown, the Valley, the Loop, a walk from the hotel.",
   },
   uk: {
     id: "uk",
     label: "United Kingdom",
-    kicker: "Country layer",
+    kicker: "United Kingdom",
     greeting: "Find a treatment room in Britain",
-    note: "Heritage navy and burgundy, quieter corners, high-street studios. Each city adds its own grain on top.",
+    note: "High streets, quieter corners, a mat room above the restaurant you already know.",
   },
   au: {
     id: "au",
     label: "Australia",
-    kicker: "Country layer",
+    kicker: "Australia",
     greeting: "Thai massage across the capitals",
-    note: "Warm sand, eucalyptus green and late-light gold from the original Melbourne brand, stretched nationally.",
+    note: "The home market. Laneways in Melbourne, harbour light in Sydney, river heat in Brisbane.",
   },
   de: {
     id: "de",
     label: "Germany",
-    kicker: "Country layer",
+    kicker: "Germany",
     greeting: "Thai-Massage in Deutschland",
-    note: "Clean lines, charcoal and warm gold. Precise city overlays sit on this national frame.",
+    note: "Neighbourhood rooms first — Berlin kiez by kiez, then Munich, Hamburg, Frankfurt and Cologne.",
   },
 };
 
@@ -95,7 +95,7 @@ const CITY_LAYERS: Record<string, ThemeLayer> = {
     label: "Manchester",
     kicker: "City layer",
     greeting: "Northern Quarter recovery",
-    note: "Mill-brick red over the UK layer — the brief’s example city for high-intent search.",
+    note: "Northern Quarter recoveries, mill brick, a walkable centre that is not London.",
   },
   "uk-birmingham": {
     id: "birmingham",
@@ -228,7 +228,7 @@ export function themeBand(theme: ResolvedTheme): string {
     <img src="${escapeAttr(photo)}" alt="${escapeAttr(placePhotoAlt(label))}" width="1600" height="900">
     <div class="place-hero-scrim"></div>
     <div class="place-hero-copy">
-      <span class="culture-kicker">${escapeHtml(city ? city.kicker : theme.country.kicker)} · ${escapeHtml(label)}</span>
+      <span class="culture-kicker">${escapeHtml(label)}</span>
       <strong>${escapeHtml(greeting)}</strong>
       <p>${escapeHtml(note)}</p>
       ${city ? "" : `<p class="place-hero-hint">Choose a city below to open its origin story, local photography and studios.</p>`}
