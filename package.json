@@ -1,0 +1,27 @@
+{
+  "name": "thaimassageforu",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "types": "wrangler types",
+    "check": "wrangler check && tsc --noEmit",
+    "seed:generate": "node scripts/generate-seed.mjs",
+    "seed:local": "wrangler d1 migrations apply thaimassageforu --local && wrangler d1 execute thaimassageforu --local --file=./seed/seed.sql",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "hono": "^4.9.6"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.8.71",
+    "@cloudflare/workers-types": "latest",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4",
+    "wrangler": "^4.28.1"
+  }
+}
