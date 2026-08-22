@@ -89,7 +89,14 @@ curl -X POST https://thaimassageforu.com/api/scrape/de/berlin \
 
 Production Worker is live at **https://thaimassageforu.aniruddh-6d3.workers.dev**.
 
-D1 (`thaimassageforu`) and queue (`thaimassageforu-leads`) are created in the Cloudflare account. KV/R2 were skipped because this API token cannot create those products; page cache and media uploads no-op until a token with Workers KV + R2 edit is used.
+D1, KV (`CACHE`), R2 (`thaimassageforu-media`), and queue (`thaimassageforu-leads`) are in the Cloudflare account. Custom domains `thaimassageforu.com` and `www.thaimassageforu.com` are configured on the Worker.
+
+The `.com` still uses GoDaddy nameservers (`ns07` / `ns08.domaincontrol.com`). Point the domain at Cloudflare:
+
+- `bruce.ns.cloudflare.com`
+- `piper.ns.cloudflare.com`
+
+After nameservers propagate, Cloudflare will serve the Worker on the `.com` instead of GitHub Pages.
 
 Redeploy:
 

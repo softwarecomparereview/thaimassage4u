@@ -32,6 +32,22 @@
       "migrations_dir": "migrations"
     }
   ],
+  "kv_namespaces": [
+    {
+      "binding": "CACHE",
+      "id": "a2fcf46a261644bcbf746dc29df06c74"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "thaimassageforu-media"
+    }
+  ],
+  "routes": [
+    { "pattern": "thaimassageforu.com", "custom_domain": true },
+    { "pattern": "www.thaimassageforu.com", "custom_domain": true }
+  ],
   "queues": {
     "producers": [
       { "binding": "LEADS", "queue": "thaimassageforu-leads" }
