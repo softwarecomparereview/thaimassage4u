@@ -1,7 +1,7 @@
 type CacheEnv = { CACHE?: KVNamespace };
 type MediaEnv = { MEDIA?: R2Bucket };
 
-const CACHE_GEN = "v3:";
+const CACHE_GEN = "v4:";
 
 export async function cacheGet(env: Env, key: string): Promise<string | null> {
   const cache = (env as CacheEnv).CACHE;

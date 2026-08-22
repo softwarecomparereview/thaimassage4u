@@ -40,6 +40,7 @@ import { thumbnailListing } from "./lib/thumbnails";
 import { adminApp } from "./admin";
 import { cacheDelete, cacheGet, cachePut, mediaGet, mediaPut } from "./lib/storage";
 import { ARTICLES } from "./lib/articles";
+import { yelpSignal } from "./lib/yelp";
 import {
   clearCountryCookie,
   clearInternationalCookie,
@@ -379,7 +380,8 @@ app.get("/:country/:city/:slug", async (c) => {
   const country = await getCountry(c.env.DB, listing.country_code);
   const city = await getCity(c.env.DB, listing.country_code, listing.city_slug);
   if (!country || !city) return html(renderNotFound(await shell(c.env, c.req.raw)), 404);
-  return html(renderListing(await shell(c.env, c.req.raw), country, city, listing));
+  const yelp = await yelpSignal(c.env, listing.name, `${city.name}, ${country.name}`);
+  return html(renderListing(await shell(c.env, c.req.raw), country, city, listing, yelp));
 });
 
 app.notFound(async (c) => html(renderNotFound(await shell(c.env, c.req.raw)), 404));

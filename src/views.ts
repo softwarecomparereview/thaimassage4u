@@ -6,6 +6,8 @@ import { resolveTheme, themeBand } from "./lib/themes";
 import { ARTICLES, type Article } from "./lib/articles";
 import { cityOrigin, countryOrigin, type OriginStory } from "./lib/origins";
 import { cityPhoto, countryPhoto, HERO_PHOTO, listingPhoto, placePhotoAlt } from "./lib/photos";
+import { cityLabel, countryReferralSites, countryReviewGuide, decideListing, type Decision } from "./lib/decide";
+import type { YelpSignal } from "./lib/yelp";
 
 type Shell = {
   env: Env;
@@ -191,12 +193,65 @@ function articleCard(article: Article): string {
   </article>`;
 }
 
+function decideChip(decision: Decision): string {
+  return `<p class="decide-chip decide-${escapeAttr(decision.verdict)}">${escapeHtml(decision.label)}</p>`;
+}
+
+function pickGuide(countryCode: string, cityName?: string): string {
+  const guide = countryReviewGuide(countryCode);
+  const links = cityName ? countryReferralSites(countryCode, { name: "Thai massage" }, cityName) : [];
+  const items = links.length
+    ? links.map(
+        (site) =>
+          `<li><a href="${escapeAttr(site.href)}" rel="nofollow noopener" target="_blank">${escapeHtml(site.name)}</a><span>${escapeHtml(site.why)}</span></li>`
+      )
+    : guide.sites.map((site) => `<li><strong>${escapeHtml(site.name)}</strong><span>${escapeHtml(site.why)}</span></li>`);
+  return `<section class="pick-guide">
+    <div class="container">
+      <div class="section-header">
+        <h2>${escapeHtml(guide.title)}</h2>
+        <p>${escapeHtml(guide.intro)}</p>
+      </div>
+      <ul class="referral-list">${items.join("")}</ul>
+    </div>
+  </section>`;
+}
+
+function decisionCard(decision: Decision): string {
+  return `<aside class="decide-card decide-${escapeAttr(decision.verdict)}" aria-label="How to decide on this studio">
+    <p class="decide-kicker">How to decide</p>
+    <h2>${escapeHtml(decision.label)}</h2>
+    <p class="decide-score"><strong>${escapeHtml(String(decision.score))}</strong> / 100 from what this page can show</p>
+    <p>${escapeHtml(decision.summary)}</p>
+    ${
+      decision.checks.length
+        ? `<h3>What looks solid</h3><ul class="decide-checks">${decision.checks.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+        : ""
+    }
+    ${
+      decision.gaps.length
+        ? `<h3>Check before you go</h3><ul class="decide-gaps">${decision.gaps.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+        : ""
+    }
+    <h3>Read the local review sites</h3>
+    <ul class="referral-list">
+      ${decision.referrals
+        .map(
+          (site) =>
+            `<li><a href="${escapeAttr(site.href)}" rel="nofollow noopener" target="_blank">${escapeHtml(site.name)}</a><span>${escapeHtml(site.why)}</span></li>`
+        )
+        .join("")}
+    </ul>
+  </aside>`;
+}
+
 function listingCard(listing: Listing): string {
   const href = `/${listing.country_code}/${listing.city_slug}/${listing.slug}`;
   const badge = listing.premium >= 2 ? "Sponsored" : listing.premium === 1 ? "Featured" : listing.claimed ? "Claimed" : "Listed";
+  const decision = decideListing(listing, cityLabel(listing.city_slug));
   const rating =
     listing.rating != null
-      ? `<p class="small">${escapeHtml(listing.rating.toFixed(1))}★${listing.review_count ? ` · ${escapeHtml(String(listing.review_count))} reviews` : ""}</p>`
+      ? `<p class="small">${escapeHtml(listing.rating.toFixed(1))}★${listing.review_count ? ` · ${escapeHtml(String(listing.review_count))} public reviews` : ""}</p>`
       : "";
   return `<article class="card listing-card">
     <div class="listing-card-media">
@@ -204,6 +259,7 @@ function listingCard(listing: Listing): string {
     </div>
     <div class="listing-card-body">
       <p class="badge">${escapeHtml(badge)}</p>
+      ${decideChip(decision)}
       <h3><a href="${escapeAttr(href)}">${escapeHtml(listing.name)}</a></h3>
       <p>${escapeHtml(listing.suburb ?? listing.city_slug)} · ${escapeHtml(listing.services.replaceAll(",", " · "))}</p>
       ${rating}
@@ -244,6 +300,7 @@ export function renderCountry(
   </section>`
       : ""
   }
+  ${pickGuide(country.code)}
   ${originEssay(origin)}
   <section>
     <div class="container">
@@ -324,6 +381,7 @@ function featuredHero(listing: Listing): string {
       <img src="${escapeAttr(listingPhoto(listing))}" alt="${escapeAttr(listing.name)}" width="1200" height="720">
       <div class="featured-hero-copy">
         <p class="badge">Featured</p>
+        ${decideChip(decideListing(listing, cityLabel(listing.city_slug)))}
         <h3>${escapeHtml(listing.name)}</h3>
         <p>${escapeHtml(listing.suburb ?? listing.city_slug.replaceAll("-", " "))} · ${escapeHtml(listing.services.replaceAll(",", " · "))}</p>
         <span class="featured-hero-go">Open this room</span>
@@ -356,11 +414,12 @@ export function renderCity(shell: Shell, country: Country, city: City, listings:
     <div class="container">
       <div class="section-header">
         <h2>Top studios in ${escapeHtml(city.name)}</h2>
-        <p>Twenty rooms at most, ranked with featured studios first. If a room looks familiar, it is yours to claim.</p>
+        <p>Twenty rooms at most. Each card carries a first-pick, worth-a-call, or confirm-before-you-go read so you are not guessing from a name alone.</p>
       </div>
       <div class="cards">${shown.map(listingCard).join("") || "<p>No studios listed here yet. Check another city, or come back soon.</p>"}</div>
     </div>
   </section>
+  ${pickGuide(country.code, city.name)}
   <section class="alt-bg">
     <div class="container">
       <div class="section-header">
@@ -404,8 +463,15 @@ export function renderCity(shell: Shell, country: Country, city: City, listings:
   );
 }
 
-export function renderListing(shell: Shell, country: Country, city: City, listing: Listing) {
+export function renderListing(shell: Shell, country: Country, city: City, listing: Listing, yelp: YelpSignal | null = null) {
   const path = `/${country.code}/${city.slug}/${listing.slug}`;
+  const decision = decideListing(listing, city.name, { yelp });
+  const ratingLine =
+    listing.rating != null
+      ? `<p><strong>${escapeHtml(listing.rating.toFixed(1))}★</strong>${listing.review_count ? ` from ${escapeHtml(String(listing.review_count))} public reviews` : ""} — a signal, not a copy of anyone’s review text.</p>`
+      : yelp?.rating != null
+        ? `<p><strong>${escapeHtml(yelp.rating.toFixed(1))}★</strong> on Yelp${yelp.reviewCount ? ` from ${escapeHtml(String(yelp.reviewCount))} reviews` : ""}.</p>`
+        : "";
   const body = `
   <section>
     <div class="container content-wrapper">
@@ -414,7 +480,7 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
         <h1>${escapeHtml(listing.name)} — Thai massage in ${escapeHtml(city.name)}</h1>
         <img class="listing-hero" src="${escapeAttr(listingPhoto(listing))}" alt="${escapeAttr(listing.name)}" width="1200" height="640">
         <p>${escapeHtml(listing.description)}</p>
-        ${listing.rating != null ? `<p><strong>${escapeHtml(listing.rating.toFixed(1))}★</strong>${listing.review_count ? ` from ${escapeHtml(String(listing.review_count))} Google reviews` : ""}</p>` : ""}
+        ${ratingLine}
         <ul class="checklist">
           ${listing.services.split(",").map((service) => `<li>${escapeHtml(service.trim())}</li>`).join("")}
           <li>${escapeHtml(listing.address ?? `${city.name}, ${country.name}`)}</li>
@@ -427,6 +493,7 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
           <a class="btn btn-outline" href="/${escapeAttr(country.code)}/${escapeAttr(city.slug)}">More in ${escapeHtml(city.name)}</a>
         </div>
         ${listing.source === "openstreetmap" ? `<p class="small">Found on the public map. The studio can claim this page to confirm hours and phone.</p>` : ""}
+        ${decisionCard(decision)}
       </article>
       <aside class="sidebar">
         <div class="sidebar-widget">
@@ -435,6 +502,18 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
           <p>${escapeHtml(listing.address ?? "Address available after claim")}</p>
           <p>From ${escapeHtml(money(listing.price_from, listing.currency))}</p>
           ${listing.email ? `<a class="btn btn-primary" href="mailto:${escapeAttr(listing.email)}">Email studio</a>` : `<a class="btn btn-primary" href="/claim/${escapeAttr(listing.slug)}">Claim to add booking</a>`}
+        </div>
+        <div class="sidebar-widget">
+          <h3>In ${escapeHtml(country.name)}, people also check</h3>
+          <ul class="referral-list compact">
+            ${decision.referrals
+              .slice(0, 3)
+              .map(
+                (site) =>
+                  `<li><a href="${escapeAttr(site.href)}" rel="nofollow noopener" target="_blank">${escapeHtml(site.name)}</a></li>`
+              )
+              .join("")}
+          </ul>
         </div>
         <div class="sidebar-widget">
           <h3>Advertise here</h3>
@@ -624,6 +703,7 @@ export function renderFaq(shell: Shell) {
     ["Is this a booking site?", "It is a map of rooms. You read a city, pick a studio, and call or email them. Owners can claim a page to keep the details honest."],
     ["Why these four countries?", "This brand started in Melbourne. Britain and the United States have the same habit of searching a city name after “Thai massage”. Germany is here because Berlin books the craft the way a neighbourhood books a bakery — often, and in more than one language."],
     ["Are all of these official studio pages?", "Not until an owner claims them. Unclaimed rooms are a starting sketch: name, neighbourhood, the kind of work they do. Claimed pages can add a phone, hours and a booking note."],
+    ["How should I pick a studio?", "Each room gets a first-pick, worth-a-call, or confirm-before-you-go read from what this page can show: a claimed owner, a phone, hours, and a public rating. Then open the local review site for that country — Yelp in the US, Trustpilot in Britain, ProductReview in Australia, ProvenExpert in Germany. We do not keep a private copy of Google’s review text."],
     ["How do new studios get onto a city page?", "We look up public studio listings and the open map, then owners fill in the rest. We do not harvest White Pages or Yellow Pages."],
     ["Can I buy the domain?", "Yes. Use the for-sale form. Offers for the name, the directory, or both are read."],
   ];

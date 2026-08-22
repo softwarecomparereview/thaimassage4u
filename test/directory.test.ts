@@ -268,4 +268,135 @@ describe("directory SEO app", () => {
     expect(isPlaceholderImage("/images/room.svg")).toBe(true);
     expect(listingPhoto({ slug: "claimed", image_url: "/media/listings/claimed.jpg" })).toBe("/media/listings/claimed.jpg");
   });
+
+  it("scores studios and points to country-specific review sites", async () => {
+    const { decideListing, countryReferralSites, countryReviewGuide } = await import("../src/lib/decide");
+    const base = {
+      id: 1,
+      slug: "siam-house",
+      name: "Siam House",
+      country_code: "us",
+      city_slug: "new-york",
+      suburb: "Midtown",
+      address: "12 W 46th St",
+      phone: "+12125550100",
+      email: "hello@example.com",
+      website: "https://example.com",
+      services: "Traditional Thai, Oil, Foot",
+      description: "A claimed Midtown room.",
+      price_from: 80,
+      currency: "USD",
+      premium: 1,
+      claimed: 1,
+      hours: "10:00-20:00",
+      image_url: null,
+      source: "seed",
+      source_url: null,
+      rating: 4.7,
+      review_count: 88,
+    };
+    const strong = decideListing(base, "New York");
+    expect(strong.verdict).toBe("strong");
+    expect(strong.score).toBeGreaterThanOrEqual(68);
+    expect(strong.label).toBe("Strong first pick");
+    expect(strong.summary).toContain("do not keep a private copy of Google");
+
+    const thin = decideListing(
+      { ...base, claimed: 0, phone: null, address: null, hours: null, website: null, premium: 0, rating: null, review_count: null, services: "Traditional Thai" },
+      "New York"
+    );
+    expect(thin.verdict).toBe("confirm");
+    expect(thin.label).toBe("Confirm before you go");
+
+    const yelpBoost = decideListing(
+      { ...base, claimed: 0, phone: "+12125550100", address: "12 W 46th St", hours: null, website: null, premium: 0, rating: null, review_count: null, services: "Traditional Thai" },
+      "New York",
+      { yelp: { name: "Siam House", rating: 4.6, reviewCount: 120, url: "https://www.yelp.com/biz/siam-house" } }
+    );
+    expect(yelpBoost.referrals[0]?.name).toBe("Yelp");
+    expect(yelpBoost.referrals[0]?.href).toContain("yelp.com/biz/siam-house");
+    expect(yelpBoost.checks.some((item) => item.includes("Yelp"))).toBe(true);
+
+    expect(countryReferralSites("us", base, "New York").map((site) => site.name)).toContain("Yelp");
+    expect(countryReferralSites("uk", { name: "Siam House" }, "London").map((site) => site.name)).toContain("Trustpilot");
+    expect(countryReferralSites("au", { name: "Siam House" }, "Melbourne").map((site) => site.name)).toContain("ProductReview");
+    expect(countryReferralSites("de", { name: "Siam House" }, "Berlin").map((site) => site.name)).toContain("ProvenExpert");
+    expect(countryReviewGuide("au").intro).toContain("ProductReview");
+  });
+
+  it("helps a visitor decide on a listing without copying Google review text", async () => {
+    const page = await SELF.fetch("https://thaimassageforu.com/de/berlin/lotus-river-berlin");
+    expect(page.status).toBe(200);
+    const html = await page.text();
+    expect(html).toContain("decide-card");
+    expect(html).toContain("How to decide");
+    expect(html).toContain("ProvenExpert");
+    expect(html).toContain("Trustpilot");
+    expect(html).toContain("do not keep a private copy of Google");
+    expect(html).not.toContain("Google reviews");
+    expect(html).not.toContain("login_secret");
+
+    const city = await SELF.fetch("https://thaimassageforu.com/de/berlin");
+    const cityHtml = await city.text();
+    expect(cityHtml).toContain("pick-guide");
+    expect(cityHtml).toContain("ProvenExpert");
+    expect(cityHtml).toContain("Confirm before you go");
+
+    const faq = await SELF.fetch("https://thaimassageforu.com/faq");
+    expect(await faq.text()).toContain("How should I pick a studio?");
+  });
+
+  it("keeps affiliate passwords in admin only and never auto-registers partners", async () => {
+    const locked = await SELF.fetch("https://thaimassageforu.com/admin/affiliates", { redirect: "manual" });
+    expect(locked.status).toBe(302);
+
+    const login = await SELF.fetch("https://thaimassageforu.com/admin/login", {
+      method: "POST",
+      redirect: "manual",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ password: "test-admin" }),
+    });
+    const session = login.headers.get("set-cookie")?.split(";")[0] ?? "";
+    expect(session).toContain("tmfu_admin=");
+
+    const kit = await SELF.fetch("https://thaimassageforu.com/admin/affiliates", { headers: { cookie: session } });
+    expect(kit.status).toBe(200);
+    const kitHtml = await kit.text();
+    expect(kitHtml).toContain("noindex");
+    expect(kitHtml).toContain("Trustpilot");
+    expect(kitHtml).toContain("ProductReview");
+    expect(kitHtml).toContain("ProvenExpert");
+    expect(kitHtml).toContain("never creates accounts on other companies");
+    expect(kitHtml).toContain("https://business.trustpilot.com/signup");
+
+    const saved = await SELF.fetch("https://thaimassageforu.com/admin/affiliates/defaults", {
+      method: "POST",
+      redirect: "manual",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        cookie: session,
+      },
+      body: new URLSearchParams({
+        company_name: "Thai Massage For U",
+        contact_email: "hello@thaimassageforu.com",
+        login_email: "partners@thaimassageforu.com",
+        login_secret: "kit-pass-9f3a",
+        website: "https://thaimassageforu.com",
+        notes: "Preferred partner password",
+      }),
+    });
+    expect(saved.status).toBe(303);
+
+    const ready = await SELF.fetch("https://thaimassageforu.com/admin/affiliates", { headers: { cookie: session } });
+    const readyHtml = await ready.text();
+    expect(readyHtml).toContain("kit-pass-9f3a");
+    expect(readyHtml).toContain("partners@thaimassageforu.com");
+    expect(readyHtml).toContain(">saved<");
+
+    const publicPage = await SELF.fetch("https://thaimassageforu.com/de/berlin/lotus-river-berlin");
+    const publicHtml = await publicPage.text();
+    expect(publicHtml).not.toContain("kit-pass-9f3a");
+    expect(publicHtml).not.toContain("partners@thaimassageforu.com");
+    expect(publicHtml).not.toContain("/admin/affiliates");
+  });
 });

@@ -977,3 +977,78 @@ footer{
   .nav-links.open{display:flex}
   .sale-hero-grid,.form-row{grid-template-columns:1fr}
 }
+
+.decide-chip{
+  display:inline-block;
+  margin:0 0 0.55rem;
+  padding:0.18rem 0.65rem;
+  border-radius:999px;
+  font-size:0.72rem;
+  font-weight:800;
+  letter-spacing:.02em;
+  border:1px solid var(--line);
+  background:#fff
+}
+.decide-chip.decide-strong{background:#147a66;color:#fff;border-color:#147a66}
+.decide-chip.decide-call{background:#e8f4f0;color:#0b3d34;border-color:#b7d8cf}
+.decide-chip.decide-confirm{background:#f4f1ee;color:#5c534c;border-color:#ddd4cc}
+.featured-hero-copy .decide-chip.decide-strong{background:#7dcebb;color:#0b3d34;border-color:#7dcebb}
+.featured-hero-copy .decide-chip.decide-call{background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.35)}
+.featured-hero-copy .decide-chip.decide-confirm{background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
+.decide-card{
+  margin:2rem 0 0;
+  padding:1.4rem 1.5rem 1.6rem;
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  background:#fff;
+  box-shadow:var(--shadow)
+}
+.decide-card.decide-strong{border-color:#147a66}
+.decide-kicker{
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:0.72rem;
+  font-weight:800;
+  color:var(--brand);
+  margin:0 0 0.35rem
+}
+.decide-card h2{margin:0 0 0.4rem}
+.decide-score{color:var(--muted);margin-bottom:0.85rem}
+.decide-score strong{color:var(--text);font-size:1.35rem}
+.decide-card h3{font-size:1rem;margin:1.1rem 0 0.45rem}
+.decide-checks,.decide-gaps,.referral-list{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:0.55rem
+}
+.decide-checks li,.decide-gaps li,.referral-list li{
+  padding:0.65rem 0.8rem;
+  border-radius:12px;
+  background:var(--bg-soft);
+  border:1px solid var(--line)
+}
+.decide-gaps li{background:#f7f3ef}
+.referral-list a{font-weight:800;color:var(--brand);display:block}
+.referral-list span,.referral-list li span{display:block;color:var(--text-light);font-size:0.92rem;margin-top:0.15rem}
+.referral-list.compact li{background:transparent;border:0;padding:0.2rem 0}
+.pick-guide{padding:2.5rem 0 1rem}
+.pick-guide .referral-list{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:1rem}
+.kit-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1rem;
+  margin:0 0 2rem
+}
+.kit-card{
+  background:#fff;
+  border:1px solid #e8dfd5;
+  border-radius:16px;
+  padding:1rem 1.1rem 1.2rem;
+  display:grid;
+  gap:0.65rem
+}
+.kit-card h3{margin:0}
+.kit-card label{display:grid;gap:0.25rem;font-size:0.85rem;font-weight:700}
+.kit-card input{width:100%;padding:.55rem .7rem;border:1px solid #d9cfc4;border-radius:10px}
