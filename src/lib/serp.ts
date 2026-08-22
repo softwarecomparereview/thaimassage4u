@@ -1,5 +1,6 @@
 import { getCity, listCities, type City } from "./db";
 import { envSecret } from "./secrets";
+import { cacheDelete } from "./storage";
 
 export type PeopleAlsoAsk = { question: string; answer: string };
 export type SerpPlan = {
@@ -120,9 +121,7 @@ export async function saveSerpPlan(env: Env, city: City, countryName: string, pa
       .run();
   }
 
-  await env.CACHE.delete(`page:/${city.country_code}`);
-  await env.CACHE.delete(`page:/${city.country_code}/${city.slug}`);
-  await env.CACHE.delete("page:/");
+  await cacheDelete(env, `page:/${city.country_code}`, `page:/${city.country_code}/${city.slug}`, "page:/");
   return plan;
 }
 

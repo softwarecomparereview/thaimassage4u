@@ -36,6 +36,7 @@ import { enqueueDailySerp, latestSerpPlan, refreshCitySerp } from "./lib/serp";
 import { adminAuthorized } from "./lib/secrets";
 import { thumbnailListing } from "./lib/thumbnails";
 import { adminApp } from "./admin";
+import { cacheDelete, cacheGet, cachePut, mediaGet, mediaPut } from "./lib/storage";
 
 export { FormLimiter, SaleOfferWorkflow };
 
@@ -60,11 +61,15 @@ function clientIp(request: Request): string {
 }
 
 function track(env: Env, request: Request, name: string) {
-  env.ANALYTICS?.writeDataPoint({
-    blobs: [name, new URL(request.url).pathname, request.headers.get("CF-IPCountry") ?? "XX"],
-    doubles: [1],
-    indexes: [env.CF_VERSION_METADATA?.id ?? "dev"],
-  });
+  try {
+    env.ANALYTICS?.writeDataPoint({
+      blobs: [name, new URL(request.url).pathname, request.headers.get("CF-IPCountry") ?? "XX"],
+      doubles: [1],
+      indexes: [env.CF_VERSION_METADATA?.id ?? "dev"],
+    });
+  } catch {
+    /* analytics is optional on first deploy */
+  }
 }
 
 async function shell(env: Env, request: Request) {
@@ -72,10 +77,10 @@ async function shell(env: Env, request: Request) {
 }
 
 async function cachedHtml(env: Env, key: string, build: () => Promise<string>, ttl = 300): Promise<string> {
-  const hit = await env.CACHE.get(key);
+  const hit = await cacheGet(env, key);
   if (hit) return hit;
   const html = await build();
-  await env.CACHE.put(key, html, { expirationTtl: ttl });
+  await cachePut(env, key, html, ttl);
   return html;
 }
 
@@ -181,7 +186,7 @@ app.get("/robots.txt", (c) =>
 );
 
 app.get("/sitemap.xml", async (c) => {
-  const cached = await c.env.CACHE.get("sitemap");
+  const cached = await cacheGet(c.env, "sitemap");
   if (cached) return c.body(cached, 200, { "content-type": "application/xml; charset=utf-8" });
   const [countries, cities] = await Promise.all([listCountries(c.env.DB), listCities(c.env.DB)]);
   const { results: listings } = await c.env.DB.prepare("SELECT slug, country_code, city_slug FROM listings").all<{
@@ -204,7 +209,7 @@ app.get("/sitemap.xml", async (c) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
     .map((path) => `  <url><loc>${c.env.SITE_URL}${path}</loc><changefreq>weekly</changefreq></url>`)
     .join("\n")}\n</urlset>\n`;
-  await c.env.CACHE.put("sitemap", xml, { expirationTtl: 3600 });
+  await cachePut(c.env, "sitemap", xml, 3600);
   return c.body(xml, 200, { "content-type": "application/xml; charset=utf-8" });
 });
 
@@ -278,7 +283,7 @@ app.post("/api/contact", async (c) => {
 app.get("/media/*", async (c) => {
   const key = new URL(c.req.url).pathname.replace(/^\/media\//, "");
   if (!key || key.includes("..")) return c.notFound();
-  const object = await c.env.MEDIA.get(key);
+  const object = await mediaGet(c.env, key);
   if (!object) return c.notFound();
   const headers = new Headers();
   headers.set("cache-control", "public, max-age=86400");
@@ -358,7 +363,7 @@ export default {
           const listing = await getListing(env.DB, body.slug);
           if (listing) await thumbnailListing(env, listing);
         } else if (body.kind === "offer" || body.kind === "claim" || body.kind === "contact") {
-          await env.MEDIA.put(`leads/${body.kind}/${body.id}.json`, JSON.stringify(body), {
+          await mediaPut(env, `leads/${body.kind}/${body.id}.json`, JSON.stringify(body), {
             httpMetadata: { contentType: "application/json" },
           });
         }
@@ -373,8 +378,7 @@ export default {
   async scheduled(controller, env, ctx) {
     ctx.waitUntil(
       (async () => {
-        await env.CACHE.delete("sitemap");
-        await env.CACHE.delete("page:/");
+        await cacheDelete(env, "sitemap", "page:/");
         if (controller.cron === SERP_CRON) {
           const queued = await enqueueDailySerp(env);
           console.log(JSON.stringify({ event: "scheduled-serp-enqueued", queued }));

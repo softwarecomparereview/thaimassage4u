@@ -28,20 +28,8 @@
     {
       "binding": "DB",
       "database_name": "thaimassageforu",
-      "database_id": "00000000-0000-0000-0000-000000000d01",
+      "database_id": "c5b8920a-cfaf-4cd7-9656-f36f65260aed",
       "migrations_dir": "migrations"
-    }
-  ],
-  "kv_namespaces": [
-    {
-      "binding": "CACHE",
-      "id": "00000000000000000000000000000001"
-    }
-  ],
-  "r2_buckets": [
-    {
-      "binding": "MEDIA",
-      "bucket_name": "thaimassageforu-media"
     }
   ],
   "queues": {

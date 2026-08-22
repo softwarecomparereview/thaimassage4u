@@ -1,6 +1,7 @@
 import { getCity, getListing, listCities } from "./db";
 import { searchPlaces, upsertPlaces } from "./places";
 import { thumbnailListing } from "./thumbnails";
+import { cacheDelete } from "./storage";
 
 export async function enrichCityFromPlaces(env: Env, countryCode: string, citySlug: string): Promise<{ places: number; thumbs: number }> {
   const city = await getCity(env.DB, countryCode, citySlug);
@@ -28,10 +29,7 @@ export async function enrichCityFromPlaces(env: Env, countryCode: string, citySl
     )
       .bind("done", slugs.length, jobId)
       .run();
-    await env.CACHE.delete(`page:/${countryCode}`);
-    await env.CACHE.delete(`page:/${countryCode}/${citySlug}`);
-    await env.CACHE.delete("page:/");
-    await env.CACHE.delete("sitemap");
+    await cacheDelete(env, `page:/${countryCode}`, `page:/${countryCode}/${citySlug}`, "page:/", "sitemap");
     return { places: slugs.length, thumbs };
   } catch (error) {
     const message = error instanceof Error ? error.message : "enrich failed";

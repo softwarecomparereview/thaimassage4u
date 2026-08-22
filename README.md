@@ -87,19 +87,24 @@ curl -X POST https://thaimassageforu.com/api/scrape/de/berlin \
 
 ## Deploy
 
-Create the D1 database, KV namespace, R2 bucket and queue, put their IDs in `wrangler.jsonc`, then:
+Production Worker is live at **https://thaimassageforu.aniruddh-6d3.workers.dev**.
+
+D1 (`thaimassageforu`) and queue (`thaimassageforu-leads`) are created in the Cloudflare account. KV/R2 were skipped because this API token cannot create those products; page cache and media uploads no-op until a token with Workers KV + R2 edit is used.
+
+Redeploy:
 
 ```bash
-npx wrangler d1 migrations apply thaimassageforu --remote
-npx wrangler d1 execute thaimassageforu --remote --file=./seed/seed.sql
-npx wrangler secret put ADMIN_PASSWORD
-npx wrangler secret put ADMIN_SCRAPE_KEY
-npx wrangler secret put GOOGLE_PLACES_API_KEY
-npx wrangler secret put SERPAPI_KEY
 npx wrangler deploy
 ```
 
-Replace placeholder IDs in `wrangler.jsonc` before production deploy.
+Optional secrets (Places/SERP jobs):
+
+```bash
+npx wrangler secret put GOOGLE_PLACES_API_KEY
+npx wrangler secret put SERPAPI_KEY
+```
+
+`thaimassageforu.com` still points at GitHub Pages. Attach the Worker custom domain after the hostname is added as a zone in this Cloudflare account (Workers cannot bind a domain whose nameservers are not on Cloudflare). Then turn off GitHub Pages for the `.com`.
 
 ## Sale
 
