@@ -254,6 +254,14 @@ export async function countListings(db: D1Database, countryCode?: string): Promi
   return row?.n ?? 0;
 }
 
+/** Real per-city listing counts, keyed "countryCode/citySlug" — for city cards that show a count. */
+export async function cityListingCounts(db: D1Database): Promise<Record<string, number>> {
+  const { results } = await db
+    .prepare("SELECT country_code, city_slug, COUNT(*) as n FROM listings GROUP BY country_code, city_slug")
+    .all<{ country_code: string; city_slug: string; n: number }>();
+  return Object.fromEntries(results.map((row) => [`${row.country_code}/${row.city_slug}`, row.n]));
+}
+
 export async function searchListings(db: D1Database, query: string): Promise<Listing[]> {
   const like = `%${query}%`;
   const { results } = await db

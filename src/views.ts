@@ -61,7 +61,8 @@ export function renderHome(
   counts: Record<string, number>,
   featured: Listing[],
   keywords: KeywordStat[],
-  cities: City[]
+  cities: City[],
+  cityCounts: Record<string, number> = {}
 ) {
   const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
   const body = `
@@ -74,8 +75,12 @@ export function renderHome(
         <form class="hero-search" action="/search" method="get" role="search">
           <label class="sr-only" for="q">Search Thai massage studios</label>
           <input id="q" name="q" type="search" placeholder="Try “Thai massage Berlin” or a studio name" required>
-          <button class="btn btn-primary" type="submit">Search</button>
+          <button class="btn btn-primary" type="submit">Find your quiet</button>
         </form>
+        <div class="mood-row">
+          <a class="mood-chip" href="/search?q=Thai%20massage">I need to unwind</a>
+          <a class="mood-chip" href="/search?q=deep%20tissue">I'm stiff after travel</a>
+        </div>
         <div class="trust-badges">
           <div class="trust-badge"><strong>4</strong><span>Countries</span></div>
           <div class="trust-badge"><strong>${escapeHtml(String(cities.length))}</strong><span>Cities</span></div>
@@ -86,6 +91,32 @@ export function renderHome(
         <img src="${HERO_PHOTO}" alt="Hot stone spa treatment — traditional wellness photography" width="1400" height="933">
         <figcaption>Traditional pressure, assisted stretching, a quieter hour in the middle of a city.</figcaption>
       </figure>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="mood-grid">
+        <a class="mood-card mood-sage" href="/search?q=relaxation%20massage">
+          <h3>Wired</h3>
+          <p>Calm your mind and slow the noise.</p>
+          <span class="mood-arrow">→</span>
+        </a>
+        <a class="mood-card mood-mist" href="/search?q=Thai%20massage">
+          <h3>Tired</h3>
+          <p>Release exhaustion and restore energy.</p>
+          <span class="mood-arrow">→</span>
+        </a>
+        <a class="mood-card mood-olive" href="/search?q=deep%20tissue">
+          <h3>Stiff</h3>
+          <p>Loosen tight muscles and move better.</p>
+          <span class="mood-arrow">→</span>
+        </a>
+        <a class="mood-card mood-forest" href="/search?q=Thai%20massage">
+          <h3>Overdue</h3>
+          <p>It's been a while. You deserve this.</p>
+          <span class="mood-arrow">→</span>
+        </a>
+      </div>
     </div>
   </section>
   <section>
@@ -103,15 +134,21 @@ export function renderHome(
         <h2>Open a city the way you would walk it</h2>
         <p>Every city page has a photograph of the real place, a short origin story, and the rooms nearby. No two capitals share a skyline or a sentence.</p>
       </div>
-      <div class="city-chip-row">
+      <div class="city-photo-grid">
         ${cities
-          .slice(0, 18)
+          .slice(0, 10)
           .map(
-            (city) =>
-              `<a class="city-chip" href="/${escapeAttr(city.country_code)}/${escapeAttr(city.slug)}">Thai massage ${escapeHtml(city.name)}</a>`
+            (city) => `<a class="city-photo-card" href="/${escapeAttr(city.country_code)}/${escapeAttr(city.slug)}">
+              <img src="${escapeAttr(cityPhoto(city.country_code, city.slug))}" alt="${escapeAttr(city.name)}" width="440" height="260" loading="lazy">
+              <div class="city-photo-card-body">
+                <h3>${escapeHtml(city.name)}</h3>
+                <span>${escapeHtml(String(cityCounts[`${city.country_code}/${city.slug}`] ?? 0))} places</span>
+              </div>
+            </a>`
           )
           .join("")}
       </div>
+      <p class="section-more"><a href="/search">View all cities →</a></p>
     </div>
   </section>
   <section>

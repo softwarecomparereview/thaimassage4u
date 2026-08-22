@@ -3,6 +3,7 @@ import { FormLimiter } from "./limiter";
 import { SaleOfferWorkflow } from "./workflow";
 import { LEGACY_REDIRECTS } from "./lib/legacy";
 import {
+  cityListingCounts,
   countListings,
   featuredListings,
   featuredListingsByCountry,
@@ -165,10 +166,11 @@ app.get("/", async (c) => {
   track(c.env, c.req.raw, "view");
   const body = await cachedHtml(c.env, "page:/", async () => {
     const s = await shell(c.env, c.req.raw);
-    const [featured, keywords, cities] = await Promise.all([
+    const [featured, keywords, cities, cityCounts] = await Promise.all([
       featuredListings(c.env.DB),
       keywordStats(c.env.DB),
       listCities(c.env.DB),
+      cityListingCounts(c.env.DB),
     ]);
     const counts: Record<string, number> = {};
     await Promise.all(
@@ -176,7 +178,7 @@ app.get("/", async (c) => {
         counts[country.code] = await countListings(c.env.DB, country.code);
       })
     );
-    return renderHome(s, counts, featured, keywords, cities);
+    return renderHome(s, counts, featured, keywords, cities, cityCounts);
   });
   const response = html(body);
   if (wantsInternational(c.req.raw)) {
