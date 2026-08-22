@@ -1,4 +1,5 @@
-import { escapeHtml } from "./escape";
+import { escapeAttr, escapeHtml } from "./escape";
+import { cityPhoto, countryPhoto, HERO_PHOTO, placePhotoAlt } from "./photos";
 
 export type ThemeLayer = {
   id: string;
@@ -211,25 +212,26 @@ export function resolveTheme(countryCode?: string | null, citySlug?: string | nu
   return { country, city, className: classes.join(" ") };
 }
 
+export function themePhoto(theme: ResolvedTheme): string {
+  if (!theme.country) return HERO_PHOTO;
+  return theme.city ? cityPhoto(theme.country.id, theme.city.id) : countryPhoto(theme.country.id);
+}
+
 export function themeBand(theme: ResolvedTheme): string {
   if (!theme.country) return "";
   const city = theme.city;
-  return `<aside class="culture-band" aria-label="Local look and feel">
-    <div class="culture-stack">
-      <div class="culture-layer country">
-        <span class="culture-kicker">${escapeHtml(theme.country.kicker)} · ${escapeHtml(theme.country.label)}</span>
-        <strong>${escapeHtml(theme.country.greeting)}</strong>
-        <p>${escapeHtml(theme.country.note)}</p>
-      </div>
-      ${
-        city
-          ? `<div class="culture-layer city">
-        <span class="culture-kicker">${escapeHtml(city.kicker)} · ${escapeHtml(city.label)}</span>
-        <strong>${escapeHtml(city.greeting)}</strong>
-        <p>${escapeHtml(city.note)}</p>
-      </div>`
-          : `<div class="culture-layer city pending"><span class="culture-kicker">City layer</span><p>Open a city to stack a local look on this country frame.</p></div>`
-      }
+  const photo = themePhoto(theme);
+  const label = city ? `${theme.country.label} · ${city.label}` : theme.country.label;
+  const greeting = city?.greeting ?? theme.country.greeting;
+  const note = city?.note ?? theme.country.note;
+  return `<aside class="place-hero" aria-label="Local look and feel">
+    <img src="${escapeAttr(photo)}" alt="${escapeAttr(placePhotoAlt(label))}" width="1600" height="900">
+    <div class="place-hero-scrim"></div>
+    <div class="place-hero-copy">
+      <span class="culture-kicker">${escapeHtml(city ? city.kicker : theme.country.kicker)} · ${escapeHtml(label)}</span>
+      <strong>${escapeHtml(greeting)}</strong>
+      <p>${escapeHtml(note)}</p>
+      ${city ? "" : `<p class="place-hero-hint">Choose a city below to open its origin story, local photography and studios.</p>`}
     </div>
   </aside>`;
 }

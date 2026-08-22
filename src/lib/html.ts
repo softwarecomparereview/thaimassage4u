@@ -1,6 +1,7 @@
 import { escapeAttr, escapeHtml, jsonLd } from "./escape";
 import type { Country } from "./db";
-import { resolveTheme, themeBand, type ResolvedTheme } from "./themes";
+import { resolveTheme, type ResolvedTheme } from "./themes";
+import { HERO_PHOTO } from "./photos";
 
 export type PageMeta = {
   title: string;
@@ -29,7 +30,7 @@ export function layout(
 ) {
   const siteUrl = env.SITE_URL;
   const canonical = absolute(siteUrl, meta.canonical ?? meta.path);
-  const image = absolute(siteUrl, meta.image ?? "/images/hero-homepage.png");
+  const image = absolute(siteUrl, meta.image ?? HERO_PHOTO);
   const locale = meta.locale ?? "en";
   const countries = options?.countries ?? [];
   const geo = options?.geo;
@@ -108,6 +109,9 @@ ${hreflang}
 <meta name="twitter:description" content="${escapeAttr(meta.description)}">
 <meta name="twitter:image" content="${escapeAttr(image)}">
 <link rel="icon" href="/images/hero.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 <link rel="stylesheet" href="/themes.css">
 <script type="application/ld+json">${jsonLd({ "@context": "https://schema.org", "@graph": graph })}</script>
@@ -115,19 +119,20 @@ ${hreflang}
 <body class="${escapeAttr(theme.className)}">
 <a class="skip-link" href="#content">Skip to content</a>
 <div class="sale-ribbon">
-  <a href="/for-sale">
-    <span class="sale-dot" aria-hidden="true"></span>
-    This .com directory is for sale — any serious offer considered
-    <strong>Send an offer</strong>
-  </a>
+  <a href="/for-sale">This directory is for sale · <span>Send an offer</span></a>
 </div>
 <div class="topbar">
   <div class="container">
-    <div>International Thai massage directory · USA · UK · Australia · Germany</div>
-    <div>${geo ? `Suggested for you: <a href="/${escapeAttr(geo.toLowerCase())}">${escapeHtml(geo)}</a> · ` : ""}<a href="mailto:${escapeAttr(env.CONTACT_EMAIL)}">${escapeHtml(env.CONTACT_EMAIL)}</a></div>
+    <div>USA · UK · Australia · Germany</div>
+    <div>${
+      theme.country
+        ? `Browsing ${escapeHtml(theme.country.label)} · `
+        : geo
+          ? `Suggested for you: <a href="/${escapeAttr(geo)}">${escapeHtml(geo.toUpperCase())}</a> · `
+          : ""
+    }<a href="/?intl=1">All countries</a> · <a href="mailto:${escapeAttr(env.CONTACT_EMAIL)}">${escapeHtml(env.CONTACT_EMAIL)}</a></div>
   </div>
 </div>
-${themeBand(theme)}
 <header>
   <div class="container nav">
     <a class="brand" href="/" aria-label="${escapeAttr(SITE)} home">
@@ -138,9 +143,10 @@ ${themeBand(theme)}
     <nav id="primary-nav" class="nav-links" aria-label="Primary">
       <a href="/">Home</a>
       ${navCountries}
-      <a href="/pricing">List your studio</a>
+      <a href="/blog">Guides</a>
+      <a href="/pricing">List a studio</a>
       <a href="/faq">FAQ</a>
-      <a href="/for-sale" class="btn btn-primary">Buy this site</a>
+      <a href="/for-sale" class="nav-sale">For sale</a>
     </nav>
   </div>
 </header>
@@ -153,8 +159,8 @@ ${themeBand(theme)}
     <div class="footer-grid">
       <div class="footer-column">
         <h3>${escapeHtml(SITE)}</h3>
-        <p>A .com city directory for authentic Thai massage studios in the United States, United Kingdom, Australia and Germany. Listings live in Cloudflare D1 and city pages are built for high-intent local keywords.</p>
-        <p class="small">Map-sourced rows credit OpenStreetMap contributors (ODbL).</p>
+        <p>A .com city directory for authentic Thai massage studios in the United States, United Kingdom, Australia and Germany. City pages carry original origin essays; listings live in Cloudflare D1.</p>
+        <p class="small">City photography: Wikipedia / Wikimedia Commons. Studio interiors: Unsplash License. Map-sourced rows credit OpenStreetMap contributors (ODbL).</p>
       </div>
       <div class="footer-column">
         <h4>Countries</h4>
@@ -182,8 +188,8 @@ ${themeBand(theme)}
   </div>
 </footer>
 <div class="sticky-cta">
-  <a href="/for-sale">Buy this site</a>
-  <a class="secondary" href="/search">Find a studio</a>
+  <a href="/search">Find a studio</a>
+  <a class="secondary" href="/for-sale">Domain for sale</a>
 </div>
 <script src="/app.js" defer></script>
 </body>

@@ -29,6 +29,70 @@ describe("directory SEO app", () => {
     expect(text).toContain("/de");
   });
 
+  it("geo-routes visitors to their country hub", async () => {
+    const au = await SELF.fetch("https://thaimassageforu.com/", {
+      redirect: "manual",
+      headers: { "CF-IPCountry": "AU" },
+    });
+    expect(au.status).toBe(302);
+    expect(au.headers.get("location")).toBe("/au");
+
+    const gb = await SELF.fetch("https://thaimassageforu.com/", {
+      redirect: "manual",
+      headers: { "CF-IPCountry": "GB" },
+    });
+    expect(gb.status).toBe(302);
+    expect(gb.headers.get("location")).toBe("/uk");
+
+    const us = await SELF.fetch("https://thaimassageforu.com/", {
+      redirect: "manual",
+      headers: { "CF-IPCountry": "US" },
+    });
+    expect(us.status).toBe(302);
+    expect(us.headers.get("location")).toBe("/us");
+
+    const de = await SELF.fetch("https://thaimassageforu.com/", {
+      redirect: "manual",
+      headers: { "CF-IPCountry": "DE" },
+    });
+    expect(de.status).toBe(302);
+    expect(de.headers.get("location")).toBe("/de");
+
+    const bot = await SELF.fetch("https://thaimassageforu.com/", {
+      redirect: "manual",
+      headers: { "CF-IPCountry": "AU", "user-agent": "Mozilla/5.0 (compatible; Googlebot/2.1)" },
+    });
+    expect(bot.status).toBe(200);
+
+    const intl = await SELF.fetch("https://thaimassageforu.com/?intl=1", {
+      redirect: "manual",
+      headers: { "CF-IPCountry": "AU" },
+    });
+    expect(intl.status).toBe(200);
+  });
+
+  it("lets visitors browse another country after they switch", async () => {
+    const germany = await SELF.fetch("https://thaimassageforu.com/de", {
+      redirect: "manual",
+      headers: { "CF-IPCountry": "AU" },
+    });
+    expect(germany.status).toBe(200);
+    const text = await germany.text();
+    expect(text).toContain("theme-de");
+    expect(text).not.toContain("theme-de-berlin");
+    expect(germany.headers.get("set-cookie") ?? "").toContain("tmfu_country=de");
+
+    const home = await SELF.fetch("https://thaimassageforu.com/", {
+      redirect: "manual",
+      headers: {
+        "CF-IPCountry": "AU",
+        cookie: "tmfu_country=uk",
+      },
+    });
+    expect(home.status).toBe(302);
+    expect(home.headers.get("location")).toBe("/uk");
+  });
+
   it("renders a unique Berlin city lander", async () => {
     const response = await SELF.fetch("https://thaimassageforu.com/de/berlin");
     expect(response.status).toBe(200);
@@ -53,7 +117,9 @@ describe("directory SEO app", () => {
     const germanyHtml = await germany.text();
     expect(germanyHtml).toContain('class="theme-base theme-de"');
     expect(germanyHtml).toContain("Thai-Massage in Deutschland");
-    expect(germanyHtml).toContain("Open a city to stack a local look");
+    expect(germanyHtml).toContain("Choose a city below to open its origin story");
+    expect(germanyHtml).toContain("/images/cities/de.jpg");
+    expect(germanyHtml).toContain("Why Germany is the fourth country");
     expect(germanyHtml).not.toContain("theme-de-berlin");
 
     const berlin = await SELF.fetch("https://thaimassageforu.com/de/berlin");
@@ -62,6 +128,10 @@ describe("directory SEO app", () => {
     expect(berlinHtml).toContain("theme-de-berlin");
     expect(berlinHtml).toContain("Kiez by Kiez");
     expect(berlinHtml).toContain("/themes.css");
+    expect(berlinHtml).toContain("/images/cities/de-berlin.jpg");
+    expect(berlinHtml).toContain("A marsh town that became Europe");
+    expect(berlinHtml).toContain("/images/spa/");
+    expect(berlinHtml).not.toContain("/images/room.svg");
   });
 
   it("protects admin and lets a password create a listing", async () => {
@@ -167,5 +237,33 @@ describe("directory SEO app", () => {
       "Berlin"
     );
     expect(intro).toContain("Berlin");
+  });
+
+  it("publishes original Thai massage benefit articles", async () => {
+    const index = await SELF.fetch("https://thaimassageforu.com/blog");
+    const indexHtml = await index.text();
+    expect(index.status).toBe(200);
+    expect(indexHtml).toContain("The real benefits of traditional Thai massage");
+    expect(indexHtml).toContain("/blog/benefits-of-traditional-thai-massage");
+
+    const article = await SELF.fetch("https://thaimassageforu.com/blog/benefits-of-traditional-thai-massage");
+    const html = await article.text();
+    expect(article.status).toBe(200);
+    expect(html).toContain("Why the stretching is the point");
+    expect(html).toContain("Traditional Thai massage is not a quieter version");
+    expect(html).toContain("/images/spa/");
+
+    const sitemap = await SELF.fetch("https://thaimassageforu.com/sitemap.xml");
+    expect(await sitemap.text()).toContain("/blog/from-wat-pho-to-berlin-and-melbourne");
+  });
+
+  it("keeps a stable spa photo for listings without a real image", async () => {
+    const { listingPhoto, isPlaceholderImage } = await import("../src/lib/photos");
+    const first = listingPhoto({ slug: "lotus-river-berlin", image_url: null });
+    const again = listingPhoto({ slug: "lotus-river-berlin", image_url: "/images/room.svg" });
+    expect(first).toMatch(/^\/images\/spa\/spa-\d+\.jpg$/);
+    expect(again).toBe(first);
+    expect(isPlaceholderImage("/images/room.svg")).toBe(true);
+    expect(listingPhoto({ slug: "claimed", image_url: "/media/listings/claimed.jpg" })).toBe("/media/listings/claimed.jpg");
   });
 });

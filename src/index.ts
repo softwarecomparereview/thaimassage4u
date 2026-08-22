@@ -15,6 +15,7 @@ import {
   searchListings,
 } from "./lib/db";
 import {
+  renderArticle,
   renderBlog,
   renderCity,
   renderClaim,
@@ -37,6 +38,17 @@ import { adminAuthorized } from "./lib/secrets";
 import { thumbnailListing } from "./lib/thumbnails";
 import { adminApp } from "./admin";
 import { cacheDelete, cacheGet, cachePut, mediaGet, mediaPut } from "./lib/storage";
+import { ARTICLES } from "./lib/articles";
+import {
+  clearCountryCookie,
+  clearInternationalCookie,
+  countryChoiceCookie,
+  geoHomeLocation,
+  internationalCookie,
+  pathCountry,
+  requestCountry,
+  wantsInternational,
+} from "./lib/geo";
 
 export { FormLimiter, SaleOfferWorkflow };
 
@@ -45,15 +57,11 @@ type AppEnv = { Bindings: Env };
 const STATIC_PREFIX = /^\/(styles\.css|themes\.css|app\.js|images\/|favicon\.ico)/;
 const SCRAPE_CRON = "15 */6 * * *";
 const SERP_CRON = "20 6 * * *";
-const COUNTRY_CODES = new Set(["us", "uk", "au", "de"]);
 
 const app = new Hono<AppEnv>();
 
 function geoHint(request: Request): string | null {
-  const raw = request.headers.get("CF-IPCountry")?.toLowerCase() ?? "";
-  if (raw === "gb") return "uk";
-  if (COUNTRY_CODES.has(raw)) return raw;
-  return null;
+  return requestCountry(request);
 }
 
 function clientIp(request: Request): string {
@@ -133,9 +141,25 @@ app.use("*", async (c, next) => {
   const legacy = LEGACY_REDIRECTS[url.pathname];
   if (legacy) return redirect(legacy);
   await next();
+  const country = pathCountry(url.pathname);
+  if (country && c.res.status < 400) {
+    c.header("set-cookie", countryChoiceCookie(country), { append: true });
+    c.header("set-cookie", clearInternationalCookie(), { append: true });
+  }
 });
 
 app.get("/", async (c) => {
+  const geoLocation = geoHomeLocation(c.req.raw);
+  if (geoLocation) {
+    return new Response(null, {
+      status: 302,
+      headers: {
+        location: geoLocation,
+        "cache-control": "private, no-store",
+        vary: "CF-IPCountry, User-Agent, Cookie",
+      },
+    });
+  }
   track(c.env, c.req.raw, "view");
   const body = await cachedHtml(c.env, "page:/", async () => {
     const s = await shell(c.env, c.req.raw);
@@ -152,7 +176,13 @@ app.get("/", async (c) => {
     );
     return renderHome(s, counts, featured, keywords, cities);
   });
-  return html(body);
+  const response = html(body);
+  if (wantsInternational(c.req.raw)) {
+    response.headers.append("set-cookie", internationalCookie());
+    response.headers.append("set-cookie", clearCountryCookie());
+  }
+  response.headers.set("vary", "CF-IPCountry, User-Agent, Cookie");
+  return response;
 });
 
 app.get("/for-sale", async (c) => {
@@ -176,6 +206,11 @@ app.get("/faq", async (c) => html(renderFaq(await shell(c.env, c.req.raw))));
 app.get("/contact", async (c) => html(renderContact(await shell(c.env, c.req.raw), c.req.query("sent"))));
 app.get("/pricing", async (c) => html(renderPricing(await shell(c.env, c.req.raw))));
 app.get("/blog", async (c) => html(renderBlog(await shell(c.env, c.req.raw))));
+app.get("/blog/:slug", async (c) => {
+  const article = ARTICLES.find((item) => item.slug === c.req.param("slug"));
+  if (!article) return html(renderNotFound(await shell(c.env, c.req.raw)), 404);
+  return html(renderArticle(await shell(c.env, c.req.raw), article));
+});
 app.get("/privacy", async (c) => html(renderLegal(await shell(c.env, c.req.raw), "privacy")));
 app.get("/terms", async (c) => html(renderLegal(await shell(c.env, c.req.raw), "terms")));
 
@@ -201,6 +236,7 @@ app.get("/sitemap.xml", async (c) => {
     "/contact",
     "/pricing",
     "/blog",
+    ...ARTICLES.map((article) => `/blog/${article.slug}`),
     "/search",
     ...countries.map((country) => `/${country.code}`),
     ...cities.map((city) => `/${city.country_code}/${city.slug}`),

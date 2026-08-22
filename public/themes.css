@@ -102,45 +102,11 @@
 .theme-uk h1{letter-spacing:-0.02em}
 .theme-de h1{letter-spacing:-0.05em;text-transform:none}
 
-.culture-band{
-  border-bottom:1px solid var(--line);
-  background:
-    var(--culture-stripe, none),
-    var(--bg-soft);
-}
-.culture-stack{
-  width:min(var(--max), calc(100% - 3rem));
-  margin:0 auto;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:1rem;
-  padding:1rem 0
-}
-.culture-layer{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:1rem 1.15rem;
-  box-shadow:var(--shadow)
-}
-.culture-layer.country{border-top:4px solid var(--accent)}
-.culture-layer.city{border-top:4px solid var(--brand)}
-.culture-layer.pending{opacity:.78}
-.culture-kicker{
-  display:block;
-  font-size:0.72rem;
-  font-weight:800;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:.35rem
-}
-.culture-layer strong{display:block;margin-bottom:.35rem}
-.culture-layer p{margin:0;color:var(--muted);font-size:.92rem}
-.theme-base .hero-image-local{
-  background:
-    var(--hero-wash, linear-gradient(180deg, rgba(43,36,29,0.08), rgba(43,36,29,0.28))),
-    url('/images/hero-homepage.png') center/cover
+.culture-band{display:none}
+.place-hero{
+  position:relative;
+  color:#fff;
+  background:#1a1511
 }
 .theme-us-las-vegas .topbar,
 .theme-us-las-vegas header{
@@ -153,11 +119,12 @@
 .theme-us-las-vegas .city-chip,
 .theme-us-las-vegas .keyword-table-wrap,
 .theme-us-las-vegas .card,
-.theme-us-las-vegas .suburb-card{
+.theme-us-las-vegas .place-card{
   background:var(--card);
   color:var(--text)
 }
 
 @media (max-width: 768px){
-  .culture-stack{grid-template-columns:1fr}
+  .place-hero > img{height:min(48vh, 420px)}
+  .place-hero-copy{padding:1.5rem 0 1.25rem}
 }
