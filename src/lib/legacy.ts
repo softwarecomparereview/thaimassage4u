@@ -1,0 +1,16 @@
+export const LEGACY_REDIRECTS: Record<string, string> = {
+  "/index.html": "/",
+  "/thai-massage-melbourne.html": "/au/melbourne",
+  "/relaxation-massage-melbourne.html": "/au/melbourne",
+  "/foot-massage-melbourne.html": "/au/melbourne",
+  "/couples-massage-melbourne.html": "/au/melbourne",
+  "/suburbs.html": "/au/melbourne",
+  "/melbourne-cbd-thai-massage.html": "/au/melbourne",
+  "/southbank-thai-massage.html": "/au/melbourne",
+  "/docklands-thai-massage.html": "/au/melbourne",
+  "/richmond-thai-massage.html": "/au/melbourne",
+  "/st-kilda-thai-massage.html": "/au/melbourne",
+  "/faq.html": "/faq",
+  "/contact.html": "/contact",
+  "/blog.html": "/blog",
+};
