@@ -99,7 +99,7 @@ describe("directory SEO app", () => {
     const text = await response.text();
     expect(text).toContain("<h1>Thai massage in Berlin, Germany</h1>");
     expect(text).toContain("Lotus River Thai Massage");
-    expect(text).toContain("43");
+    expect(text).toContain("Top studios in Berlin");
   });
 
   it("stacks a country look-and-feel layer under a city overlay", async () => {
@@ -121,6 +121,8 @@ describe("directory SEO app", () => {
     expect(germanyHtml).toContain("/images/cities/de.jpg");
     expect(germanyHtml).toContain("Why Germany is the fourth country");
     expect(germanyHtml).not.toContain("theme-de-berlin");
+    expect(germanyHtml).toContain("Featured in Germany");
+    expect(germanyHtml).toContain("featured-hero");
 
     const berlin = await SELF.fetch("https://thaimassageforu.com/de/berlin");
     const berlinHtml = await berlin.text();

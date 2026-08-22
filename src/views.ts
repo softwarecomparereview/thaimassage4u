@@ -23,6 +23,11 @@ function page(
   return layout(shell.env, meta, body, { countries: shell.countries, geo: shell.geo, theme });
 }
 
+function firstSentence(text: string): string {
+  const match = text.match(/^[^.!?]+[.!?]/);
+  return (match ? match[0] : text).trim();
+}
+
 function originEssay(story: OriginStory | null): string {
   if (!story) return "";
   return `<section class="origin-section">
@@ -41,8 +46,8 @@ function countryCard(country: Country, listingCount: number) {
       <img src="${escapeAttr(countryPhoto(country.code))}" alt="${escapeAttr(placePhotoAlt(country.name))}" width="800" height="500" loading="lazy">
       <div class="place-card-body">
         <h3>${escapeHtml(country.flag)} Thai massage in ${escapeHtml(country.name)}</h3>
-        <p>${escapeHtml(country.tagline)}</p>
-        <p class="small"><strong>${escapeHtml(String(country.monthly_searches.toLocaleString("en")))}</strong> modelled monthly searches · ${escapeHtml(String(listingCount))} listings</p>
+        <p>${escapeHtml(firstSentence(countryOrigin(country.code)?.lede ?? country.tagline))}</p>
+        <p class="small">${escapeHtml(String(listingCount))} studios to browse</p>
       </div>
     </a>
   </article>`;
@@ -60,9 +65,9 @@ export function renderHome(
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <span class="eyebrow">International Thai massage directory</span>
+        <span class="eyebrow">Find a room. Keep your clothes on. Walk home taller.</span>
         <h1>Find authentic Thai massage in the USA, UK, Australia and Germany</h1>
-        <p>City photography, original origin essays and long-form guides on the benefits of traditional Thai massage — plus a directory of studios across the capitals. One .com, four countries, landers built for the way people actually search.</p>
+        <p>Traditional mat work in the cities people actually live in — Melbourne laneways, London high streets, New York lunch hours, Berlin neighbourhoods. Read a little about the place, then pick a studio.</p>
         <form class="hero-search" action="/search" method="get" role="search">
           <label class="sr-only" for="q">Search Thai massage studios</label>
           <input id="q" name="q" type="search" placeholder="Try “Thai massage Berlin” or a studio name" required>
@@ -70,8 +75,8 @@ export function renderHome(
         </form>
         <div class="trust-badges">
           <div class="trust-badge"><strong>4</strong><span>Countries</span></div>
-          <div class="trust-badge"><strong>${escapeHtml(String(cities.length))}</strong><span>City landers</span></div>
-          <div class="trust-badge"><strong>${escapeHtml(String(total))}</strong><span>Directory listings</span></div>
+          <div class="trust-badge"><strong>${escapeHtml(String(cities.length))}</strong><span>Cities</span></div>
+          <div class="trust-badge"><strong>${escapeHtml(String(total))}</strong><span>Studios</span></div>
         </div>
       </div>
       <figure class="hero-visual">
@@ -83,8 +88,8 @@ export function renderHome(
   <section>
     <div class="container">
       <div class="section-header">
-        <h2>Countries chosen for search demand</h2>
-        <p>USA, UK and Australia were specified. Germany was added because Berlin Thai-massage keyword variants alone exceed 43,000 documented monthly searches — the strongest measured city cluster.</p>
+        <h2>Four countries, one wandering map</h2>
+        <p>Start in Australia, where this brand began. Cross to Britain’s high streets, America’s lunch-hour rooms, and Berlin’s kiez studios — each city with its own skyline and story.</p>
       </div>
       <div class="suburb-grid">${shell.countries.map((country) => countryCard(country, counts[country.code] ?? 0)).join("")}</div>
     </div>
@@ -92,15 +97,15 @@ export function renderHome(
   <section class="alt-bg">
     <div class="container">
       <div class="section-header">
-        <h2>City pages built for “near me” SEO</h2>
-        <p>Each city has a unique H1, an origin essay, photography of the real place, ItemList schema and internal links. That is how a .com directory ranks location keywords without splitting authority across ccTLDs.</p>
+        <h2>Open a city the way you would walk it</h2>
+        <p>Every city page has a photograph of the real place, a short origin story, and the rooms nearby. No two capitals share a skyline or a sentence.</p>
       </div>
       <div class="city-chip-row">
         ${cities
           .slice(0, 18)
           .map(
             (city) =>
-              `<a class="city-chip" href="/${escapeAttr(city.country_code)}/${escapeAttr(city.slug)}">Thai massage ${escapeHtml(city.name)} <span>${escapeHtml(String(city.monthly_searches.toLocaleString("en")))}</span></a>`
+              `<a class="city-chip" href="/${escapeAttr(city.country_code)}/${escapeAttr(city.slug)}">Thai massage ${escapeHtml(city.name)}</a>`
           )
           .join("")}
       </div>
@@ -110,7 +115,7 @@ export function renderHome(
     <div class="container">
       <div class="section-header">
         <h2>Guides on the benefits of Thai massage</h2>
-        <p>Original editorial — not two stub cards. Read before you book, then open a city lander for studios.</p>
+        <p>What the stretching is for, how a first visit feels, and why a desk-bound week asks for a mat rather than another candlelit oil menu.</p>
       </div>
       <div class="cards article-cards">${ARTICLES.map(articleCard).join("")}</div>
     </div>
@@ -118,8 +123,8 @@ export function renderHome(
   <section class="alt-bg">
     <div class="container">
       <div class="section-header">
-        <h2>Featured and sponsored studios</h2>
-        <p>Premium placement is the B2B revenue layer: recurring featured rows, city sponsorships and local banners on these landers.</p>
+        <h2>Rooms worth a detour</h2>
+        <p>Featured studios sit up front. Everyone else is still worth a look — and owners can claim a page whenever they are ready.</p>
       </div>
       <div class="cards">${featured.map(listingCard).join("")}</div>
     </div>
@@ -127,17 +132,17 @@ export function renderHome(
   <section>
     <div class="container">
       <div class="section-header">
-        <h2>Keyword evidence in D1</h2>
-        <p>Search volumes are stored beside listings so country and city copy can cite numbers instead of generic “expand internationally” claims.</p>
+        <h2>What people type before they book</h2>
+        <p>Almost always the same shape: Thai massage, then a city. Here is the short list.</p>
       </div>
       <div class="keyword-table-wrap">
         <table class="keyword-table">
-          <thead><tr><th>Keyword</th><th>Monthly searches</th><th>Source</th></tr></thead>
+          <thead><tr><th>People search for</th><th>Each month</th></tr></thead>
           <tbody>
             ${keywords
               .map(
                 (row) =>
-                  `<tr><td>${escapeHtml(row.keyword)}</td><td>${escapeHtml(row.monthly_searches.toLocaleString("en"))}</td><td>${escapeHtml(row.source)}</td></tr>`
+                  `<tr><td>${escapeHtml(row.keyword)}</td><td>${escapeHtml(row.monthly_searches.toLocaleString("en"))}</td></tr>`
               )
               .join("")}
           </tbody>
@@ -188,7 +193,7 @@ function articleCard(article: Article): string {
 
 function listingCard(listing: Listing): string {
   const href = `/${listing.country_code}/${listing.city_slug}/${listing.slug}`;
-  const badge = listing.premium >= 2 ? "Sponsored" : listing.premium === 1 ? "Featured" : listing.source === "places" ? "Google Places" : listing.claimed ? "Claimed" : "Unclaimed";
+  const badge = listing.premium >= 2 ? "Sponsored" : listing.premium === 1 ? "Featured" : listing.claimed ? "Claimed" : "Listed";
   const rating =
     listing.rating != null
       ? `<p class="small">${escapeHtml(listing.rating.toFixed(1))}★${listing.review_count ? ` · ${escapeHtml(String(listing.review_count))} reviews` : ""}</p>`
@@ -207,23 +212,44 @@ function listingCard(listing: Listing): string {
   </article>`;
 }
 
-export function renderCountry(shell: Shell, country: Country, cities: City[], keywords: KeywordStat[], listingCount: number) {
+export function renderCountry(
+  shell: Shell,
+  country: Country,
+  cities: City[],
+  keywords: KeywordStat[],
+  listingCount: number,
+  featured: Listing[] = []
+) {
   const origin = countryOrigin(country.code);
+  const heroes = featured.slice(0, 2);
   const body = `
   ${themeBand(resolveTheme(country.code))}
   <section class="page-hero">
     <div class="container page-title">
       <h1>Thai massage in ${escapeHtml(country.name)}</h1>
-      <p class="lead">${escapeHtml(country.intro)}</p>
-      <p class="small">${escapeHtml(country.search_note ?? "")} · ${escapeHtml(String(listingCount))} listings in D1.</p>
+      <p class="lead">${escapeHtml(origin?.lede ?? country.intro)}</p>
+      <p class="small">${escapeHtml(String(listingCount))} studios across ${escapeHtml(country.name)}.</p>
     </div>
   </section>
+  ${
+    heroes.length
+      ? `<section class="featured-heroes">
+    <div class="container">
+      <div class="section-header">
+        <h2>Featured in ${escapeHtml(country.name)}</h2>
+        <p>Two rooms at most sit up here — the ones we would send a friend to first.</p>
+      </div>
+      <div class="featured-hero-grid">${heroes.map(featuredHero).join("")}</div>
+    </div>
+  </section>`
+      : ""
+  }
   ${originEssay(origin)}
   <section>
     <div class="container">
       <div class="section-header">
-        <h2>Cities and their origins</h2>
-        <p>Each capital keeps its own skyline, founding story and studio list. Open a city to stack the local look on this country frame.</p>
+        <h2>Cities and their stories</h2>
+        <p>Each capital keeps its own skyline, founding story and studio list. Open a city when you are ready to walk it.</p>
       </div>
       <div class="suburb-grid">
         ${cities
@@ -234,7 +260,7 @@ export function renderCountry(shell: Shell, country: Country, cities: City[], ke
                 <div class="place-card-body">
                   <h3>Thai massage ${escapeHtml(city.name)}</h3>
                   <p>${escapeHtml(cityOrigin(country.code, city.slug)?.lede ?? city.intro)}</p>
-                  <p class="small">${escapeHtml(String(city.monthly_searches.toLocaleString("en")))} modelled monthly searches</p>
+                  <p class="small">Studios in ${escapeHtml(city.name)}</p>
                 </div>
               </a>
             </article>`
@@ -249,7 +275,7 @@ export function renderCountry(shell: Shell, country: Country, cities: City[], ke
     shell,
     {
       title: `Thai Massage ${country.name} — City Directory | Thai Massage For U`,
-      description: `Find Thai massage studios across ${country.name}. City origin stories, photography and unclaimed listings owners can claim.`,
+      description: `Find Thai massage studios across ${country.name}. City stories, photography, and rooms you can actually walk to.`,
       path: `/${country.code}`,
       image: countryPhoto(country.code),
       locale: country.locale,
@@ -278,58 +304,74 @@ export function renderCountry(shell: Shell, country: Country, cities: City[], ke
 function keywordBlock(keywords: KeywordStat[]): string {
   if (!keywords.length) return "";
   return `<section class="alt-bg"><div class="container">
-    <h2>Keywords this country can rank</h2>
+    <h2>What people look for here</h2>
     <div class="keyword-table-wrap"><table class="keyword-table">
-      <thead><tr><th>Keyword</th><th>Monthly searches</th><th>Source</th></tr></thead>
+      <thead><tr><th>People search for</th><th>Each month</th></tr></thead>
       <tbody>${keywords
         .map(
           (row) =>
-            `<tr><td>${escapeHtml(row.keyword)}</td><td>${escapeHtml(row.monthly_searches.toLocaleString("en"))}</td><td>${escapeHtml(row.source)}</td></tr>`
+            `<tr><td>${escapeHtml(row.keyword)}</td><td>${escapeHtml(row.monthly_searches.toLocaleString("en"))}</td></tr>`
         )
         .join("")}</tbody>
     </table></div>
   </div></section>`;
 }
 
+function featuredHero(listing: Listing): string {
+  const href = `/${listing.country_code}/${listing.city_slug}/${listing.slug}`;
+  return `<article class="featured-hero">
+    <a href="${escapeAttr(href)}">
+      <img src="${escapeAttr(listingPhoto(listing))}" alt="${escapeAttr(listing.name)}" width="1200" height="720">
+      <div class="featured-hero-copy">
+        <p class="badge">Featured</p>
+        <h3>${escapeHtml(listing.name)}</h3>
+        <p>${escapeHtml(listing.suburb ?? listing.city_slug.replaceAll("-", " "))} · ${escapeHtml(listing.services.replaceAll(",", " · "))}</p>
+        <span class="featured-hero-go">Open this room</span>
+      </div>
+    </a>
+  </article>`;
+}
+
 export function renderCity(shell: Shell, country: Country, city: City, listings: Listing[], serp: SerpPlan | null) {
+  const origin = cityOrigin(country.code, city.slug);
   const h1 = serp?.h1 || `Thai massage in ${city.name}, ${country.name}`;
-  const lead = serp?.description || city.intro;
+  const lead = origin?.lede || serp?.description || city.intro;
   const related = (serp?.related ?? []).map((query) => `<a class="city-chip" href="/search?q=${escapeAttr(query)}">${escapeHtml(query)}</a>`).join("");
   const paa = (serp?.peopleAlsoAsk ?? [])
-    .map((item) => `<div class="faq-item"><h3>${escapeHtml(item.question)}</h3><p>${escapeHtml(item.answer || "See listings below for local studios.")}</p></div>`)
+    .map((item) => `<div class="faq-item"><h3>${escapeHtml(item.question)}</h3><p>${escapeHtml(item.answer || "See the studios below for rooms nearby.")}</p></div>`)
     .join("");
-  const origin = cityOrigin(country.code, city.slug);
+  const shown = listings.slice(0, 20);
   const body = `
   ${themeBand(resolveTheme(country.code, city.slug))}
   <section class="page-hero">
     <div class="container page-title">
       <h1>${escapeHtml(h1)}</h1>
       <p class="lead">${escapeHtml(lead)}</p>
-      <p class="small">${escapeHtml(String(listings.length))} listings · modelled demand ${escapeHtml(String(city.monthly_searches.toLocaleString("en")))} monthly searches${serp ? ` · SERP refreshed ${escapeHtml(serp.capturedAt.slice(0, 10))} for “${escapeHtml(serp.query)}”` : ""} · ${escapeHtml(city.region ?? "")}</p>
-      <a class="btn btn-primary" href="/pricing">Sponsor ${escapeHtml(city.name)}</a>
+      <p class="small">Top ${escapeHtml(String(shown.length))} rooms in ${escapeHtml(city.name)}${city.region ? ` · ${escapeHtml(city.region)}` : ""}</p>
+      <a class="btn btn-primary" href="/pricing">Feature a studio in ${escapeHtml(city.name)}</a>
     </div>
   </section>
   ${originEssay(origin)}
   <section>
     <div class="container">
       <div class="section-header">
-        <h2>Studios in ${escapeHtml(city.name)}</h2>
-        <p>Photography on unclaimed rows is original spa interiors until the owner adds their own room photos.</p>
+        <h2>Top studios in ${escapeHtml(city.name)}</h2>
+        <p>Twenty rooms at most, ranked with featured studios first. If a room looks familiar, it is yours to claim.</p>
       </div>
-      <div class="cards">${listings.map(listingCard).join("") || "<p>No listings yet. Run Places enrichment to pull live studios.</p>"}</div>
+      <div class="cards">${shown.map(listingCard).join("") || "<p>No studios listed here yet. Check another city, or come back soon.</p>"}</div>
     </div>
   </section>
   <section class="alt-bg">
     <div class="container">
       <div class="section-header">
         <h2>Why people book Thai massage</h2>
-        <p>Original guides — stretching, sleep, desk work and the first visit.</p>
+        <p>Stretching, sleep, desk-bound weeks, and the first visit — written in ordinary language.</p>
       </div>
       <div class="cards article-cards">${ARTICLES.slice(0, 3).map(articleCard).join("")}</div>
     </div>
   </section>
-  ${related ? `<section><div class="container"><h2>People also search today</h2><div class="city-chip-row">${related}</div></div></section>` : ""}
-  ${paa ? `<section class="alt-bg"><div class="container"><h2>Questions from today's SERP</h2><div class="faq-list">${paa}</div></div></section>` : ""}`;
+  ${related ? `<section><div class="container"><h2>Also on people’s minds</h2><div class="city-chip-row">${related}</div></div></section>` : ""}
+  ${paa ? `<section class="alt-bg"><div class="container"><h2>Questions people ask</h2><div class="faq-list">${paa}</div></div></section>` : ""}`;
 
   return page(
     shell,
@@ -348,7 +390,7 @@ export function renderCity(shell: Shell, country: Country, city: City, listings:
         {
           "@type": "ItemList",
           name: `Thai massage ${city.name}`,
-          itemListElement: listings.map((listing, index) => ({
+          itemListElement: listings.slice(0, 20).map((listing, index) => ({
             "@type": "ListItem",
             position: index + 1,
             name: listing.name,
@@ -384,7 +426,7 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
           ${listing.claimed ? "" : `<a class="btn btn-secondary" href="/claim/${escapeAttr(listing.slug)}">Claim this listing</a>`}
           <a class="btn btn-outline" href="/${escapeAttr(country.code)}/${escapeAttr(city.slug)}">More in ${escapeHtml(city.name)}</a>
         </div>
-        ${listing.source === "openstreetmap" ? `<p class="small">Source: public OpenStreetMap search. Map data © OpenStreetMap contributors, ODbL.</p>` : ""}
+        ${listing.source === "openstreetmap" ? `<p class="small">Found on the public map. The studio can claim this page to confirm hours and phone.</p>` : ""}
       </article>
       <aside class="sidebar">
         <div class="sidebar-widget">
@@ -396,7 +438,7 @@ export function renderListing(shell: Shell, country: Country, city: City, listin
         </div>
         <div class="sidebar-widget">
           <h3>Advertise here</h3>
-          <p>City sponsorships sit above unclaimed rows on this lander.</p>
+          <p>A featured slot on this city’s page sits above the rest of the rooms.</p>
           <a class="btn btn-secondary" href="/pricing">See premium tiers</a>
         </div>
         <div class="sidebar-widget">
@@ -452,7 +494,7 @@ export function renderSale(shell: Shell, sent?: string) {
       <div>
         <span class="eyebrow">Domain + directory for sale</span>
         <h1>thaimassageforu.com is open to offers</h1>
-        <p class="lead">Any serious offer will be considered. The international directory, D1 listings, city SEO architecture and this .com name can transfer together.</p>
+        <p class="lead">Any serious offer will be considered. The name, the city pages, and the studio directory can transfer together.</p>
         ${sent === "1" ? notice("ok", "Offer received. We will read every message.") : ""}
         ${sent === "0" ? notice("err", "Please complete the required fields with a real email.") : ""}
         <form class="sale-form" action="/api/offers" method="post">
@@ -500,7 +542,7 @@ export function renderSale(shell: Shell, sent?: string) {
     shell,
     {
       title: "This Thai Massage Directory Is For Sale | Thai Massage For U",
-      description: "thaimassageforu.com is listed for sale. Send any serious offer through the form. The international city directory and D1 listings can be included.",
+      description: "thaimassageforu.com is listed for sale. Send any serious offer through the form. The city directory can be included.",
       path: "/for-sale",
       image: HERO_PHOTO,
     },
@@ -512,15 +554,15 @@ export function renderClaim(shell: Shell, listing: Listing | null, sent?: string
   const body = `
   <section class="page-hero"><div class="container page-title">
     <h1>${listing ? `Claim ${escapeHtml(listing.name)}` : "Claim a Thai massage listing"}</h1>
-    <p class="lead">Owners can request edits, premium placement and a booking button. Claims are stored in D1 and queued on Cloudflare.</p>
+    <p class="lead">If this is your room, tell us. We will check it is really yours before anything on the page changes.</p>
     ${sent === "1" ? notice("ok", "Claim received. We will verify ownership before publishing edits.") : ""}
   </div></section>
   <section><div class="container booking-panel">
     <form action="/api/claims" method="post">
       <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div>
-        <label for="listing_slug">Listing slug</label>
-        <input id="listing_slug" name="listing_slug" required value="${escapeAttr(listing?.slug ?? "")}" placeholder="golden-sala-berlin">
+        <label for="listing_slug">Studio page</label>
+        <input id="listing_slug" name="listing_slug" required value="${escapeAttr(listing?.slug ?? "")}" placeholder="studio-name-melbourne">
       </div>
       <div>
         <label for="name">Your name</label>
@@ -579,21 +621,21 @@ export function renderSearch(shell: Shell, query: string, listings: Listing[]) {
 
 export function renderFaq(shell: Shell) {
   const faqs = [
-    ["Why add Germany as the fourth country?", "Berlin Thai-massage keyword variants are publicly documented at 16,400 + 14,300 + 7,400 + 5,000 monthly searches. That city cluster outpaces modelled volumes for other candidate fourth countries such as Canada or New Zealand."],
-    ["Are unclaimed listings official business pages?", "No. Seeded and OpenStreetMap-derived rows are directory placeholders. Owners must claim a listing before booking buttons or verified phones go live."],
-    ["How do you scrape new cities?", "Google Places (official API) supplies live studios, ratings and photos. Browser Run only opens the spa’s own website or allowlisted OSM/Wikipedia pages to make thumbnails. Google Search/Maps HTML is not scraped."],
-    ["Do pages change with daily SERP data?", "Yes. A 06:20 UTC cron pulls SerpAPI snapshots into D1. City titles, H1s, People-also-ask blocks and related-search chips rewrite from the latest snapshot."],
-    ["Can I buy the domain only?", "Yes. Use the for-sale form. Offers for the name, the listings database, or both are considered."],
+    ["Is this a booking site?", "It is a map of rooms. You read a city, pick a studio, and call or email them. Owners can claim a page to keep the details honest."],
+    ["Why these four countries?", "This brand started in Melbourne. Britain and the United States have the same habit of searching a city name after “Thai massage”. Germany is here because Berlin books the craft the way a neighbourhood books a bakery — often, and in more than one language."],
+    ["Are all of these official studio pages?", "Not until an owner claims them. Unclaimed rooms are a starting sketch: name, neighbourhood, the kind of work they do. Claimed pages can add a phone, hours and a booking note."],
+    ["How do new studios get onto a city page?", "We look up public studio listings and the open map, then owners fill in the rest. We do not harvest White Pages or Yellow Pages."],
+    ["Can I buy the domain?", "Yes. Use the for-sale form. Offers for the name, the directory, or both are read."],
   ];
-  const body = `<section class="page-hero"><div class="container page-title"><h1>Directory FAQ</h1><p class="lead">SEO, listings and the sale process.</p></div></section>
+  const body = `<section class="page-hero"><div class="container page-title"><h1>Questions we hear a lot</h1><p class="lead">Booking, claiming a room, and the four countries on this map.</p></div></section>
   <section><div class="container faq-list">${faqs
     .map((faq) => `<div class="faq-item"><h2>${escapeHtml(faq[0])}</h2><p>${escapeHtml(faq[1])}</p></div>`)
     .join("")}</div></section>`;
   return page(
     shell,
     {
-      title: "FAQ | Thai Massage For U International Directory",
-      description: "How the international Thai massage directory, Germany keyword pick, Browser Run scraping and domain sale work.",
+      title: "FAQ | Thai Massage For U",
+      description: "How the Thai massage directory works, how studios get listed, and how to claim a page.",
       path: "/faq",
       jsonLd: [
         {
@@ -630,11 +672,11 @@ export function renderContact(shell: Shell, sent?: string) {
 
 export function renderPricing(shell: Shell) {
   const body = `<section class="page-hero"><div class="container page-title"><h1>Premium listings and city sponsorships</h1>
-    <p class="lead">Unclaimed rows stay free. Revenue comes from featured placement, city takeovers and local banners on high-intent landers.</p></div></section>
+    <p class="lead">A basic page is free. Featured rooms sit at the top of a country — two at a time — and at the front of a city.</p></div></section>
   <section><div class="container cards">
     <article class="card"><h2>Basic</h2><p>Public name, suburb and services. Claim is free.</p><div class="price"><span>Monthly</span><span>$0</span></div></article>
     <article class="card"><h2>Featured</h2><p>Priority sort, badge and extra photos on the city page.</p><div class="price"><span>From</span><span>$49</span></div></article>
-    <article class="card"><h2>City sponsor</h2><p>Top slot plus a banner on one city lander.</p><div class="price"><span>From</span><span>$199</span></div></article>
+    <article class="card"><h2>City sponsor</h2><p>One of the two hero rooms on a country page, plus the top of that city’s list.</p><div class="price"><span>From</span><span>$199</span></div></article>
   </div></section>`;
   return page(shell, { title: "Pricing | List a Thai Massage Studio", description: "Premium Thai massage listing tiers for featured placement and city sponsorships.", path: "/pricing" }, body);
 }
@@ -667,7 +709,7 @@ export function renderArticle(shell: Shell, article: Article) {
             `${section.heading ? `<h2>${escapeHtml(section.heading)}</h2>` : ""}${section.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}`
         )
         .join("")}
-      <p class="small">Then open a city lander and book a room. These guides are editorial, not medical advice.</p>
+      <p class="small">Find a city, then a room. These guides are for curious readers, not medical advice.</p>
     </div>
   </article>
   <section class="alt-bg"><div class="container">
@@ -698,7 +740,7 @@ export function renderArticle(shell: Shell, article: Article) {
 export function renderLegal(shell: Shell, kind: "privacy" | "terms") {
   const title = kind === "privacy" ? "Privacy policy" : "Terms of use";
   const body = `<section class="page-hero"><div class="container page-title"><h1>${title}</h1>
-    <p class="lead">Offer, claim and contact forms store the fields you submit in Cloudflare D1. Analytics Engine records path-level events without selling personal profiles. Unclaimed listings may include public OpenStreetMap names with ODbL attribution. Do not submit secrets or payment cards in the offer form.</p>
+    <p class="lead">When you send an offer, a claim, or a message, we keep the name, email and words you typed so we can reply. We do not sell that. Please do not send card numbers or passwords through these forms.</p>
   </div></section>`;
   return page(shell, { title: `${title} | Thai Massage For U`, description: `${title} for the Thai Massage For U directory.`, path: `/${kind}` }, body);
 }

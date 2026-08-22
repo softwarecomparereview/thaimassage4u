@@ -1,32 +1,30 @@
 /* Country tokens first. City classes override the same custom properties on top. */
 
 .theme-base{
-  --header-bg:rgba(255,252,247,0.95);
+  --header-bg:rgba(238,243,241,0.92);
   --header-fg:var(--text);
-  --topbar-bg:linear-gradient(135deg, #2d2520 0%, #1a1511 100%);
+  --topbar-bg:linear-gradient(135deg, #0b3d34 0%, #10211c 100%);
   --topbar-fg:#fff;
-  --topbar-link:#e5c9a8;
-  --hero-wash:linear-gradient(180deg, rgba(43,36,29,0.08), rgba(43,36,29,0.28));
-  --culture-stripe:repeating-linear-gradient(90deg, var(--accent) 0 10px, var(--brand) 10px 14px, transparent 14px 26px);
+  --topbar-link:#b7e4d8;
+  --hero-wash:linear-gradient(180deg, rgba(11,61,52,0.12), rgba(11,61,52,0.42));
+  --culture-stripe:none;
 }
-
 .theme-us{
-  --bg:#f4f1ea;
-  --bg-soft:#fffdf8;
-  --brand:#b42318;
-  --brand-dark:#8a1a12;
-  --brand-light:#e8b3ad;
+  --bg:#eef2f6;
+  --bg-soft:#ffffff;
+  --brand:#1d4e89;
+  --brand-dark:#13345c;
+  --brand-light:#b7c7e0;
   --accent:#12233d;
   --accent-light:#2a4466;
   --font-display:"Iowan Old Style", "Palatino Linotype", Palatino, serif;
-  --hero-wash:linear-gradient(120deg, rgba(18,35,61,.55), rgba(180,35,24,.28));
-  --culture-stripe:repeating-linear-gradient(90deg, #12233d 0 12px, #b42318 12px 16px, transparent 16px 28px);
-  --topbar-bg:linear-gradient(135deg, #12233d 0%, #1a1511 100%);
-  --topbar-link:#e8b3ad;
+  --hero-wash:linear-gradient(120deg, rgba(18,35,61,.55), rgba(29,78,137,.28));
+  --topbar-bg:linear-gradient(135deg, #12233d 0%, #10211c 100%);
+  --topbar-link:#b7c7e0;
 }
 .theme-uk{
-  --bg:#f3efe8;
-  --bg-soft:#fbf7f1;
+  --bg:#eef1f5;
+  --bg-soft:#ffffff;
   --brand:#6b1d2a;
   --brand-dark:#4a121c;
   --brand-light:#d4a3ab;
@@ -34,39 +32,36 @@
   --accent-light:#3d4e73;
   --font-display:Georgia, "Times New Roman", serif;
   --hero-wash:linear-gradient(160deg, rgba(27,42,74,.5), rgba(107,29,42,.22));
-  --culture-stripe:repeating-linear-gradient(45deg, #1b2a4a 0 8px, #c5a35a 8px 10px, transparent 10px 22px);
   --topbar-bg:linear-gradient(135deg, #1b2a4a 0%, #4a121c 100%);
   --topbar-link:#d4a3ab;
 }
 .theme-au{
-  --bg:#f8f5f0;
-  --bg-soft:#fffcf7;
-  --brand:#c8956e;
-  --brand-dark:#a67952;
-  --brand-light:#e5c9a8;
-  --accent:#2d5f54;
-  --accent-light:#4a8276;
+  --bg:#eef3f1;
+  --bg-soft:#ffffff;
+  --brand:#147a66;
+  --brand-dark:#0d5a4c;
+  --brand-light:#b7e4d8;
+  --accent:#0b3d34;
+  --accent-light:#1f7a68;
   --font-display:Georgia, "Iowan Old Style", serif;
-  --hero-wash:linear-gradient(180deg, rgba(45,95,84,.2), rgba(200,149,110,.25));
-  --culture-stripe:repeating-linear-gradient(90deg, #2d5f54 0 10px, #c8956e 10px 14px, transparent 14px 26px);
-  --topbar-bg:linear-gradient(135deg, #2d2520 0%, #1a1511 100%);
-  --topbar-link:#e5c9a8;
+  --hero-wash:linear-gradient(180deg, rgba(11,61,52,.35), rgba(20,122,102,.22));
+  --topbar-bg:linear-gradient(135deg, #0b3d34 0%, #10211c 100%);
+  --topbar-link:#b7e4d8;
 }
 .theme-de{
-  --bg:#f2efe9;
-  --bg-soft:#faf7f2;
-  --brand:#b08d3e;
-  --brand-dark:#8a6c2c;
-  --brand-light:#e2d0a4;
-  --accent:#1f1f1f;
+  --bg:#f0f2f3;
+  --bg-soft:#ffffff;
+  --brand:#2563eb;
+  --brand-dark:#1d4ed8;
+  --brand-light:#bfdbfe;
+  --accent:#111827;
   --accent-light:#3d3d3d;
   --radius:10px;
   --radius-lg:14px;
   --font-display:"Avenir Next", "Segoe UI", sans-serif;
-  --hero-wash:linear-gradient(135deg, rgba(31,31,31,.45), rgba(176,141,62,.25));
-  --culture-stripe:repeating-linear-gradient(90deg, #1f1f1f 0 14px, #b08d3e 14px 18px, transparent 18px 30px);
-  --topbar-bg:linear-gradient(135deg, #1f1f1f 0%, #3d3d3d 100%);
-  --topbar-link:#e2d0a4;
+  --hero-wash:linear-gradient(135deg, rgba(17,24,39,.45), rgba(37,99,235,.22));
+  --topbar-bg:linear-gradient(135deg, #111827 0%, #1f2937 100%);
+  --topbar-link:#bfdbfe;
 }
 
 .theme-us-new-york{--brand:#e2b714;--brand-dark:#8a6d12;--brand-light:#f3e3a1;--accent:#0b0b0d;--radius:8px;--hero-wash:linear-gradient(90deg, rgba(11,11,13,.6), rgba(226,183,20,.3));--culture-stripe:repeating-linear-gradient(90deg, #0b0b0d 0 10px, #e2b714 10px 14px, transparent 14px 24px)}
@@ -83,7 +78,7 @@
 .theme-uk-glasgow{--brand:#1d4e89;--brand-dark:#13345c;--brand-light:#a8c3e3;--accent:#111827;--hero-wash:linear-gradient(180deg, rgba(17,24,39,.5), rgba(29,78,137,.25))}
 .theme-uk-bristol{--brand:#0ea5a4;--brand-dark:#0a7372;--brand-light:#9ee0df;--accent:#be185d;--hero-wash:linear-gradient(120deg, rgba(14,165,164,.3), rgba(190,24,93,.2))}
 
-.theme-au-melbourne{--accent:#1c1917;--brand:#b45309;--brand-dark:#8a3e07;--brand-light:#e8b88a;--hero-wash:linear-gradient(180deg, rgba(28,25,23,.45), rgba(180,83,9,.2))}
+.theme-au-melbourne{--accent:#0b3d34;--brand:#147a66;--brand-dark:#0d5a4c;--brand-light:#b7e4d8;--hero-wash:linear-gradient(180deg, rgba(11,61,52,.45), rgba(20,122,102,.2))}
 .theme-au-sydney{--accent:#0c4a6e;--brand:#d4a017;--brand-dark:#9a7510;--brand-light:#edd48a;--hero-wash:linear-gradient(180deg, rgba(12,74,110,.4), rgba(212,160,23,.22))}
 .theme-au-brisbane{--accent:#166534;--brand:#ca8a04;--brand-dark:#926403;--brand-light:#ecd089;--hero-wash:linear-gradient(180deg, rgba(22,101,52,.3), rgba(202,138,4,.2))}
 .theme-au-perth{--accent:#155e75;--brand:#f59e0b;--brand-dark:#b47408;--brand-light:#f8d48a;--hero-wash:linear-gradient(180deg, rgba(21,94,117,.35), rgba(245,158,11,.2))}

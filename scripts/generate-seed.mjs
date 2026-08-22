@@ -132,6 +132,19 @@ const studioNames = [
   ["Bamboo Lantern", "Relaxation,Foot massage"],
   ["White Orchid Thai", "Traditional Thai,Couples"],
   ["Mekong Studio", "Traditional Thai,Relaxation"],
+  ["Ayutthaya Room", "Traditional Thai,Stretching"],
+  ["Sukhothai Mat", "Traditional Thai,Foot massage"],
+  ["River Sala", "Traditional Thai,Relaxation"],
+  ["Lantern House", "Relaxation,Couples"],
+  ["Temple Hands", "Traditional Thai,Deep tissue"],
+  ["Palm Court Thai", "Traditional Thai,Foot massage"],
+  ["Night Jasmine", "Relaxation,Oil"],
+  ["Old Teak Studio", "Traditional Thai,Stretching"],
+  ["Harbour Sala", "Traditional Thai,Couples"],
+  ["Green Papaya", "Traditional Thai,Relaxation"],
+  ["Silk Road Thai", "Traditional Thai,Foot massage"],
+  ["Morning Glory", "Relaxation,Couples"],
+  ["Wat Pho Room", "Traditional Thai,Stretching"],
 ];
 
 const streets = {
@@ -147,7 +160,7 @@ function sql(v) {
 }
 
 function listingDesc(name, city, country, services) {
-  return `${name} is listed in the Thai Massage For U ${city} directory for ${country}. Services tagged on this unclaimed storefront include ${services.replaceAll(",", ", ").toLowerCase()}. Details are seeded for local SEO and can be updated when the owner claims the listing.`;
+  return `${name} offers ${services.replaceAll(",", ", ").toLowerCase()} in ${city}, ${country}. A traditional room on the map — claim the page if this is your studio.`;
 }
 
 const lines = [];
@@ -195,7 +208,7 @@ lines.push(`INSERT INTO listings (slug, name, country_code, city_slug, suburb, a
   'hello@thaimassageforu.com',
   'https://thaimassageforu.com',
   'Traditional Thai,Relaxation,Foot massage,Couples',
-  'The original Thai Massage For U studio in Melbourne. Traditional Thai massage, relaxation treatments, couples sessions and foot massage with online enquiry. This is the featured home-market listing on the international directory.',
+  'The original Thai Massage For U studio in Melbourne. Traditional Thai, relaxation, couples sessions and foot massage — a room you can walk to after work.',
   99,
   'AUD',
   2,
@@ -205,18 +218,29 @@ lines.push(`INSERT INTO listings (slug, name, country_code, city_slug, suburb, a
   'origin'
 );`);
 
+const featuredRank = {
+  "us-new-york": 2,
+  "us-los-angeles": 1,
+  "uk-london": 2,
+  "uk-manchester": 1,
+  "au-sydney": 1,
+  "de-berlin": 2,
+  "de-munich": 1,
+};
+
 let i = 0;
 for (const [code, slug, name] of cities) {
-  const count = slug === "berlin" || slug === "london" || slug === "new-york" || slug === "melbourne" ? 4 : 3;
+  const count = 20;
   for (let n = 0; n < count; n++) {
-    if (code === "au" && slug === "melbourne" && n === 0) continue; // keep featured slot unique
-    const [studio, services] = studioNames[(i + n) % studioNames.length];
+    if (code === "au" && slug === "melbourne" && n === 0) continue;
+    const idx = slug === "berlin" ? n : (i + n) % studioNames.length;
+    const [studio, services] = studioNames[idx];
     const street = streets[code][(i + n) % streets[code].length];
     const listingName = `${studio} Thai Massage`;
     const listingSlug = `${studio.toLowerCase().replaceAll(" ", "-")}-${slug}`;
     const suburb = n === 0 ? name : `${name} Centre`;
-    const premium = n === 0 && ["berlin", "london", "new-york", "los-angeles", "sydney"].includes(slug) ? 1 : 0;
-    const price = code === "us" ? 89 + n * 10 : code === "uk" ? 55 + n * 8 : code === "de" ? 49 + n * 7 : 79 + n * 10;
+    const premium = n === 0 ? featuredRank[`${code}-${slug}`] ?? 0 : 0;
+    const price = code === "us" ? 89 + n * 4 : code === "uk" ? 55 + n * 3 : code === "de" ? 49 + n * 3 : 79 + n * 4;
     lines.push(`INSERT OR IGNORE INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, services, description, price_from, currency, premium, claimed, hours, image_url, source) VALUES (
       ${sql(listingSlug)},
       ${sql(listingName)},

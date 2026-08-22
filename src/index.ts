@@ -5,6 +5,7 @@ import { LEGACY_REDIRECTS } from "./lib/legacy";
 import {
   countListings,
   featuredListings,
+  featuredListingsByCountry,
   getCity,
   getCountry,
   getListing,
@@ -350,12 +351,13 @@ app.get("/:country", async (c) => {
   const country = await getCountry(c.env.DB, c.req.param("country"));
   if (!country) return html(renderNotFound(await shell(c.env, c.req.raw)), 404);
   const body = await cachedHtml(c.env, `page:/${country.code}`, async () => {
-    const [cities, keywords, listingCount] = await Promise.all([
+    const [cities, keywords, listingCount, featured] = await Promise.all([
       listCities(c.env.DB, country.code),
       keywordStats(c.env.DB, country.code),
       countListings(c.env.DB, country.code),
+      featuredListingsByCountry(c.env.DB, country.code, 2),
     ]);
-    return renderCountry(await shell(c.env, c.req.raw), country, cities, keywords, listingCount);
+    return renderCountry(await shell(c.env, c.req.raw), country, cities, keywords, listingCount, featured);
   });
   return html(body);
 });

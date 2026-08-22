@@ -94,7 +94,7 @@ export async function listListings(
 ): Promise<Listing[]> {
   const { results } = await db
     .prepare(
-      "SELECT * FROM listings WHERE country_code = ? AND city_slug = ? ORDER BY CASE source WHEN 'places' THEN 0 ELSE 1 END, premium DESC, rating DESC, claimed DESC, name ASC"
+      "SELECT * FROM listings WHERE country_code = ? AND city_slug = ? ORDER BY premium DESC, rating DESC, claimed DESC, name ASC LIMIT 20"
     )
     .bind(countryCode, citySlug)
     .all<Listing>();
@@ -276,6 +276,16 @@ export async function keywordStats(db: D1Database, countryCode?: string): Promis
 export async function featuredListings(db: D1Database): Promise<Listing[]> {
   const { results } = await db
     .prepare("SELECT * FROM listings WHERE premium >= 1 ORDER BY premium DESC, name ASC LIMIT 8")
+    .all<Listing>();
+  return results;
+}
+
+export async function featuredListingsByCountry(db: D1Database, countryCode: string, _limit = 2): Promise<Listing[]> {
+  const { results } = await db
+    .prepare(
+      "SELECT * FROM listings WHERE country_code = ? AND premium >= 1 ORDER BY premium DESC, rating DESC, name ASC LIMIT 2"
+    )
+    .bind(countryCode)
     .all<Listing>();
   return results;
 }
