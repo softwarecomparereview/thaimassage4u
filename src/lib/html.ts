@@ -137,7 +137,7 @@ ${hreflang}
   <div class="container nav">
     <a class="brand" href="/" aria-label="${escapeAttr(SITE)} home">
       <span class="brand-mark">TM</span>
-      <span>${escapeHtml(SITE)}</span>
+      <span class="brand-name">${escapeHtml(SITE)}<em>Quiet Hour</em></span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
     <nav id="primary-nav" class="nav-links" aria-label="Primary">
