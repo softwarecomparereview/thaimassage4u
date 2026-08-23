@@ -1,0 +1,57 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "thaimassageforu",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-08-23",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": true,
+  "observability": {
+    "enabled": true,
+    "logs": { "head_sampling_rate": 1 },
+    "traces": { "enabled": true, "head_sampling_rate": 0.1 }
+  },
+  "version_metadata": { "binding": "CF_VERSION_METADATA" },
+  "assets": {
+    "directory": "./dist/public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "vars": {
+    "SITE_NAME": "Thai Massage For U — Quiet Hour",
+    "SITE_URL": "https://thaimassageforu.com",
+    "CONTACT_EMAIL": "hello@thaimassageforu.com"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "thaimassageforu",
+      "database_id": "c5b8920a-cfaf-4cd7-9656-f36f65260aed",
+      "migrations_dir": "worker/migrations"
+    }
+  ],
+  "kv_namespaces": [
+    { "binding": "CACHE", "id": "a2fcf46a261644bcbf746dc29df06c74" }
+  ],
+  "r2_buckets": [
+    { "binding": "MEDIA", "bucket_name": "thaimassageforu-media" }
+  ],
+  "queues": {
+    "producers": [{ "binding": "LEADS", "queue": "thaimassageforu-leads" }],
+    "consumers": [{ "queue": "thaimassageforu-leads", "max_batch_size": 10, "max_batch_timeout": 5 }]
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "FORM_LIMITER", "class_name": "FormLimiter" }]
+  },
+  "analytics_engine_datasets": [
+    { "binding": "ANALYTICS", "dataset": "directory_events" }
+  ],
+  "workflows": [
+    { "binding": "OFFER_WORKFLOW", "name": "sale-offer-intake", "class_name": "SaleOfferWorkflow" }
+  ],
+  "browser": { "binding": "BROWSER" },
+  "triggers": { "crons": ["15 */6 * * *", "20 6 * * *"] },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["FormLimiter"] }
+  ]
+}

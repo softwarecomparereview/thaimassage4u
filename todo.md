@@ -39,4 +39,15 @@
 - [x] Run and record the final automated, security-header, SSR metadata, responsive, and protected-route validation pass.
 - [ ] Save the final release checkpoint after the accessibility fixes and merge the repository changes into main.
 - [ ] Verify authenticated remote access and confirm the release commit is present on the actual remote `main` branch.
-- [ ] Push the validated release commit to the configured GitHub repository’s `main` branch and verify it remotely.
+- [x] Push the validated release commit to the configured GitHub repository’s `main` branch and verify it remotely.
+- [ ] Verify the live production domain is serving the validated Quiet Hour release and correct any stale or mismatched deployment.
+- [ ] Identify the active Cloudflare deployment for thaimassageforu.com and prepare the custom-domain cutover to the Quiet Hour release.
+- [ ] Enumerate all existing-token Cloudflare account scopes, including Fakhar, and retry the Pages custom-domain lookup.
+- [x] Inspect the `thaimassageforu` Cloudflare Worker service, its custom-domain mapping, and its deployment configuration for the cutover.
+- [ ] Verify the user-initiated `thaimassageforu` Worker redeployment and confirm the custom domain serves the intended release.
+- [x] Create a Cloudflare Worker-compatible CI/CD configuration for the Quiet Hour GitHub main branch.
+- [ ] Connect the GitHub repository to the existing `thaimassageforu` Worker and verify the main-branch deployment trigger.
+- [ ] Configure the Cloudflare dashboard connection to use `softwarecomparereview/thaimassage4u` and `main` for Worker production deployments.
+- [ ] Migrate the Quiet Hour Node runtime, CMS APIs, authentication, data access, Stripe webhook, and SSR delivery to a Cloudflare Worker architecture.
+- [ ] Validate the Worker migration and connect the resulting Cloudflare build to deploy from GitHub `main`.
+- [ ] Push the validated Cloudflare Worker migration configuration and runtime code to GitHub `main`.
