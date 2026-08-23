@@ -1,20 +1,19 @@
-import path from "node:path";
-import { defineWorkersConfig, readD1Migrations } from "@cloudflare/vitest-pool-workers/config";
+import { defineConfig } from "vitest/config";
+import path from "path";
 
-export default defineWorkersConfig(async () => {
-  const migrations = await readD1Migrations(path.join(__dirname, "migrations"));
-  return {
-    test: {
-      setupFiles: ["./test/apply-migrations.ts"],
-      poolOptions: {
-        workers: {
-          wrangler: { configPath: "./wrangler.jsonc" },
-          isolatedStorage: false,
-          miniflare: {
-            bindings: { TEST_MIGRATIONS: migrations, ADMIN_PASSWORD: "test-admin" }
-          }
-        }
-      }
-    }
-  };
+const templateRoot = path.resolve(import.meta.dirname);
+
+export default defineConfig({
+  root: templateRoot,
+  resolve: {
+    alias: {
+      "@": path.resolve(templateRoot, "client", "src"),
+      "@shared": path.resolve(templateRoot, "shared"),
+      "@assets": path.resolve(templateRoot, "attached_assets"),
+    },
+  },
+  test: {
+    environment: "node",
+    include: ["server/**/*.test.ts", "server/**/*.spec.ts"],
+  },
 });

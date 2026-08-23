@@ -1,0 +1,42 @@
+# Quiet Hour Wellness Directory — Delivery Checklist
+
+- [x] Benchmark Fresha and comparable contemporary directories for original UX patterns.
+- [x] Document a distinct Quiet Hour design philosophy and visual system.
+- [x] Define the international country, city, locale, and localized-content architecture.
+- [x] Define verified city event, festival, seasonal wellness-timing, and data-source records.
+- [x] Add clearly labelled city-intelligence metrics without fabricating visitor demand or directory activity.
+- [x] Establish a SERP-informed expansion workflow with human-reviewed native-language page creation.
+- [ ] Implement indexable page metadata, structured data, internal linking, locale references, and social previews.
+- [x] Define Cloudflare Workers AI handoffs for translation review, query clustering, and content triage without automating publication or consent-sensitive actions.
+- [x] Define the public directory structure, CMS content model, and communications model.
+- [x] Upgrade the project for authenticated CMS, database-backed content, and managed notifications.
+- [x] Build the public wellness-service directory and booking-inquiry journey.
+- [ ] Build the CMS for services, practitioners, locations, articles, and inquiries.
+- [ ] Create templated SMS and email workflows with consent, approval, and delivery controls.
+- [x] Select and document a low-cost transactional email provider and setup path for live delivery.
+- [x] Select and document a low-cost mailbox provider for hello@thaimassageforu.com.
+- [x] Document Cloudflare edge hardening and DNS email-authentication controls for the domain.
+- [x] Add recurring premium city listings priced at US$21 per week with a secure purchase flow.
+- [x] Add recurring country-level premium listing tier priced at US$159 per month with clear scope and billing disclosure.
+- [ ] Wire partner and CMS tier controls to Stripe Checkout and confirm subscription activation through the webhook path.
+- [x] Define a small, vetted massage and recovery-products assortment and supplier due-diligence process for a later store rollout.
+- [x] Keep the premium ribbon static for one to three listings and enable slow scrolling only above three listings.
+- [x] Create and organize 20 original wellness articles.
+- [x] Process articles through the verified writing-quality API where configured.
+- [x] Review the overpayingforai repository API documentation and apply its documented humanising workflow to all 20 article drafts.
+- [x] Configure the encrypted `CONTENT_QUALITY_API_KEY` binding on the overpayingforai Cloudflare Pages project and verify its health endpoint.
+- [ ] Test responsive behaviour, core management flows, communication safeguards, and accessibility.
+- [ ] Verify public pages and the CMS at mobile, tablet, and desktop breakpoints; record and fix any layout issues.
+- [ ] Exercise CMS and partner success and error paths in the browser, including listing edits and premium-checkout controls.
+- [ ] Validate consent, message-template, authorization, and delivery-protection states before enabling live communications.
+- [ ] Complete keyboard, focus, semantic-label, and colour-contrast accessibility checks.
+- [ ] Add CMS inquiry-management actions, including status updates, detail review, and a clear next-step workflow.
+- [ ] Build message composition, consent preview, approved-template selection, queue state, and delivery/error feedback in the CMS.
+- [x] Verify contextual internal links across all public discovery and editorial routes.
+- [ ] Implement reciprocal locale references for published translated pages and add automated metadata coverage for representative routes.
+- [ ] Add direct directory-route and shared-card evidence to the route-link audit before completing internal-link validation.
+- [ ] Deliver the completed project and article collection.
+- [x] Run and record the final automated, security-header, SSR metadata, responsive, and protected-route validation pass.
+- [ ] Save the final release checkpoint after the accessibility fixes and merge the repository changes into main.
+- [ ] Verify authenticated remote access and confirm the release commit is present on the actual remote `main` branch.
+- [ ] Push the validated release commit to the configured GitHub repository’s `main` branch and verify it remotely.

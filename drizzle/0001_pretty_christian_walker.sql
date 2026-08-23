@@ -1,0 +1,1 @@
+ALTER TABLE `premiumSubscriptions` ADD `tier` enum('city','country') DEFAULT 'city' NOT NULL;
