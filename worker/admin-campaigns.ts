@@ -25,11 +25,16 @@ export async function handleCreateCampaign(request: Request, env: Env, user: Wor
 
   // Every email send always carries these two as a live check — a real send
   // is never fired blind. Added before the empty-audience check below so a
-  // deliberate test-only send (empty CSV) still goes to them.
+  // deliberate test-only send (empty CSV) still goes to them. Inherits the
+  // first real recipient's city/country instead of leaving it null — a
+  // null city_slug always renders the generic {{city_blurb}} fallback, which
+  // made a CC'd test copy look like the city-specific paragraph was broken
+  // even when real recipients were getting the right one.
   if (input.channel === "email") {
+    const preview = audience[0];
     for (const address of ALWAYS_CC) {
       if (!audience.some(r => r.email?.toLowerCase() === address.toLowerCase())) {
-        audience.push({ name: "Team", email: address, phone: null, city_slug: null, country_code: null, listing_id: null });
+        audience.push({ name: "Team", email: address, phone: null, city_slug: preview?.city_slug ?? null, country_code: preview?.country_code ?? null, listing_id: null });
       }
     }
   }

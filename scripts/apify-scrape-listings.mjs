@@ -1,10 +1,10 @@
 // Pulls real massage/spa businesses from Google Maps via the Apify actor
 // lukaskrivka/google-maps-with-contact-details, one call per city, and
-// applies the same minimum data-quality bar we defined for the OSM scrape:
-// must have a name and at least a phone or an email — a listing has to be
-// reachable to be worth including, not just a pin on a map. This actor also
-// crawls each business's own website afterward to pull a real email
-// address, which plain Google Maps data never exposes.
+// applies a minimum data-quality bar: a name, a real email (campaigns only
+// send by email — a phone-only listing isn't reachable by this system),
+// and a 4-star-plus rating. This actor crawls each business's own website
+// afterward to pull that email address, which plain Google Maps data never
+// exposes on its own.
 //
 // Auth: reads APIFY_TOKEN from the environment. Never hardcode it here.
 // Docs followed: https://apify.com/agents.md, https://apify.com/lukaskrivka/google-maps-with-contact-details
@@ -100,18 +100,40 @@ function toRecord(item, countryCode, citySlug) {
   };
 }
 
-async function scrapeCity([countryCode, citySlug, cityName, region, countryName]) {
-  const location = `${cityName}, ${countryName}`;
-  const pull = perCityPull(countryCode);
-  console.log(`Scraping ${countryCode}/${citySlug} (${location}), targeting ${pull}…`);
-  const input = { searchStringsArray: ["massage", "spa"], locationQuery: location, maxCrawledPlacesPerSearch: pull, language: "en", placeMinimumStars: MIN_RATING_ENUM };
-  let items;
+/** Each request is capped at 100, tried up to 4 times (the usage-limit error can be transient —
+ * account budget resetting or being raised mid-run), then stepped down to 50 and 25 as smaller,
+ * cheaper asks that might still fit under whatever budget remains. Only "Monthly usage hard limit
+ * exceeded" triggers a step-down retry — any other error fails the city immediately. */
+const BATCH_SIZES = [100, 100, 100, 100, 50, 25];
+
+async function attemptScrape(input) {
   try {
-    items = await runActorSync(input);
+    return await runActorSync(input);
   } catch (syncError) {
     console.warn(`  sync call failed (${syncError.message}), falling back to async run…`);
-    items = await runActorAsync(input);
+    return runActorAsync(input);
   }
+}
+
+async function scrapeCity([countryCode, citySlug, cityName, region, countryName]) {
+  const location = `${cityName}, ${countryName}`;
+  const target = perCityPull(countryCode);
+  let items = null;
+  let lastError;
+  for (const rawSize of BATCH_SIZES) {
+    const size = Math.min(rawSize, target);
+    console.log(`Scraping ${countryCode}/${citySlug} (${location}), batch of ${size}…`);
+    try {
+      items = await attemptScrape({ searchStringsArray: ["massage", "spa"], locationQuery: location, maxCrawledPlacesPerSearch: size, language: "en", placeMinimumStars: MIN_RATING_ENUM });
+      break;
+    } catch (error) {
+      lastError = error;
+      if (!/Monthly usage hard limit exceeded/.test(error.message)) throw error;
+      console.warn(`  usage limit hit at batch ${size} — stepping down…`);
+    }
+  }
+  if (!items) throw lastError ?? new Error("all batch sizes failed");
+
   const seen = new Set();
   const records = [];
   for (const item of items) {
@@ -126,10 +148,12 @@ async function scrapeCity([countryCode, citySlug, cityName, region, countryName]
   return records;
 }
 
+// Campaigns only send by email — a phone-only listing can't actually be reached by this system,
+// so email is now a hard requirement rather than "phone or email".
 function passesQualityBar(record) {
-  const hasChannel = Boolean((record.phone && record.phone.trim()) || (record.email && record.email.trim()));
+  const hasEmail = Boolean(record.email && record.email.trim());
   const hasRating = typeof record.rating === "number" && record.rating >= MIN_RATING;
-  return Boolean(record.name) && hasChannel && hasRating;
+  return Boolean(record.name) && hasEmail && hasRating;
 }
 
 function completenessScore(record) {
