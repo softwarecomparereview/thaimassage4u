@@ -90,8 +90,6 @@ app.get("/api/health", c =>
 app.get("/api/oauth/callback", c => handleOAuthCallback(c.req.raw, c.env));
 app.post("/api/stripe/webhook", c => handleStripeWebhook(c.req.raw, c.env));
 
-app.all("*", c => serveWorkerPage(c.req.raw, c.env));
-
 app.get("/api/directory/home", async c => c.json(await getDirectoryHome(c.env)));
 
 app.all("/api/trpc/*", c => handleTrpc(c.req.raw, c.env));
@@ -116,9 +114,6 @@ app.post("/api/directory/inquiry", async c => {
   return c.json(await createInquiry(c.env, { listingId: input.listingId, name: input.name.trim(), email: input.email.trim(), phone: input.phone?.trim(), message: input.message.trim(), consentEmail: Boolean(input.consentEmail), consentSms: Boolean(input.consentSms) }), 201);
 });
 
-app.all("*", async c => {
-  const asset = await c.env.ASSETS.fetch(c.req.raw);
-  return hardened(asset);
-});
+app.all("*", async c => hardened(await serveWorkerPage(c.req.raw, c.env)));
 
 export default app;
