@@ -49,8 +49,13 @@ export async function processCampaignSend(env: Env, message: QueueMessage) {
   try {
     if (recipient.channel === "email") {
       const unsubscribeUrl = `${env.SITE_URL}/api/campaigns/unsubscribe?email=${encodeURIComponent(address)}&token=${await unsubToken(env, address)}`;
-      const { providerMessageId } = await sendEmail(env, { to: address, subject: renderTemplate(recipient.subject ?? "Thai Massage For U", vars), html: renderTemplate(recipient.body, vars), unsubscribeUrl });
-      await env.DB.prepare("UPDATE qh_campaign_recipients SET status = 'sent', provider_message_id = ?, sent_at = CURRENT_TIMESTAMP WHERE id = ?").bind(providerMessageId, recipient.id).run();
+      const { delivered, bounced } = await sendEmail(env, { to: address, subject: renderTemplate(recipient.subject ?? "Thai Massage For U", vars), html: renderTemplate(recipient.body, vars), unsubscribeUrl, recipientId: recipient.id });
+      if (bounced) {
+        await env.DB.prepare("UPDATE qh_campaign_recipients SET status = 'bounced', bounced_at = CURRENT_TIMESTAMP WHERE id = ?").bind(recipient.id).run();
+        await env.DB.prepare("INSERT INTO qh_suppressions (channel, address, reason) VALUES ('email', ?, 'bounced') ON CONFLICT(channel, address) DO NOTHING").bind(address).run();
+      } else {
+        await env.DB.prepare(`UPDATE qh_campaign_recipients SET status = ?, sent_at = CURRENT_TIMESTAMP, delivered_at = CURRENT_TIMESTAMP WHERE id = ?`).bind(delivered ? "delivered" : "sent", recipient.id).run();
+      }
     } else {
       const { providerMessageId } = await sendSms(env, { to: address, body: renderTemplate(recipient.body, vars) });
       await env.DB.prepare("UPDATE qh_campaign_recipients SET status = 'sent', provider_message_id = ?, sent_at = CURRENT_TIMESTAMP WHERE id = ?").bind(providerMessageId, recipient.id).run();

@@ -7,7 +7,7 @@ import { handleAdminLogin } from "./simple-admin-auth";
 import { handleStripeWebhook, handlePublicPremiumCheckout } from "./stripe";
 import { serveWorkerPage } from "./ssr";
 import { geoHomeLocation, internationalCookie, isDirectoryCountry, countryChoiceCookie } from "./geo";
-import { handleCreateCampaign, handleSendCampaign, handleListCampaigns, handleListInbox, handleMarkInboxRead, handleUnsubscribe, handleResendWebhook, handleTwilioStatusWebhook, handleTwilioInboundWebhook } from "./admin-campaigns";
+import { handleCreateCampaign, handleSendCampaign, handleListCampaigns, handleListInbox, handleMarkInboxRead, handleUnsubscribe, handleCampaignOpen, handleCampaignClick, handleTwilioStatusWebhook, handleTwilioInboundWebhook } from "./admin-campaigns";
 import { processCampaignSend } from "./campaigns";
 
 export interface Env {
@@ -27,8 +27,8 @@ export interface Env {
   /** Shared-password fallback admin login — see simple-admin-auth.ts. */
   ADMIN_PASSWORD?: string;
   LEADS: Queue<{ recipientId: number }>;
-  RESEND_API_KEY?: string;
-  RESEND_WEBHOOK_SECRET?: string;
+  /** Cloudflare's native outbound email sending binding — no API token needed. Requires the sending domain verified in the Cloudflare dashboard (Email → Email Sending). */
+  EMAIL: SendEmail;
   TWILIO_ACCOUNT_SID?: string;
   TWILIO_AUTH_TOKEN?: string;
   TWILIO_FROM_NUMBER?: string;
@@ -162,7 +162,8 @@ app.post("/api/admin/inbox/:id/read", async c => {
 });
 
 app.get("/api/campaigns/unsubscribe", c => handleUnsubscribe(c.req.raw, c.env));
-app.post("/api/webhooks/resend", c => handleResendWebhook(c.req.raw, c.env));
+app.get("/api/campaigns/open", c => handleCampaignOpen(c.env, Number(c.req.query("r"))));
+app.get("/api/campaigns/click", c => handleCampaignClick(c.env, Number(c.req.query("r")), c.req.query("u") ?? null));
 app.post("/api/webhooks/twilio/status", c => handleTwilioStatusWebhook(c.req.raw, c.env));
 app.post("/api/webhooks/twilio/inbound", c => handleTwilioInboundWebhook(c.req.raw, c.env));
 

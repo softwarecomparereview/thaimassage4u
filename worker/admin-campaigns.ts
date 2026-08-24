@@ -1,8 +1,9 @@
 import type { Env } from "./index";
 import type { WorkerUser } from "./auth";
 import { resolveAudience, unsubToken, type CampaignRecipientRow } from "./campaigns";
-import { verifyResendSignature } from "./email";
 import { verifyTwilioSignature } from "./sms";
+
+const TRANSPARENT_PIXEL = Uint8Array.from(atob("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBTAA7"), c => c.charCodeAt(0));
 
 type CreateCampaignInput = {
   name: string;
@@ -85,28 +86,21 @@ export async function handleUnsubscribe(request: Request, env: Env) {
   return new Response("You've been unsubscribed and won't receive further emails from Thai Massage For U.", { status: 200, headers: { "content-type": "text/plain" } });
 }
 
-const RESEND_STATUS: Record<string, string | undefined> = {
-  "email.delivered": "delivered",
-  "email.opened": "opened",
-  "email.clicked": "clicked",
-  "email.bounced": "bounced",
-  "email.complained": "complained",
-};
+/**
+ * Cloudflare's Email Sending doesn't have documented delivery webhooks or
+ * open/click tracking, so both are DIY: a 1x1 pixel embedded in every send
+ * (worker/email.ts) hits this on open, and every outbound link in the
+ * email is rewritten to route through handleCampaignClick first.
+ */
+export async function handleCampaignOpen(env: Env, recipientId: number) {
+  await env.DB.prepare("UPDATE qh_campaign_recipients SET status = 'opened', opened_at = CURRENT_TIMESTAMP WHERE id = ? AND status NOT IN ('opened', 'clicked')").bind(recipientId).run();
+  return new Response(TRANSPARENT_PIXEL, { headers: { "content-type": "image/gif", "cache-control": "no-store" } });
+}
 
-export async function handleResendWebhook(request: Request, env: Env) {
-  const rawBody = await request.text();
-  if (!(await verifyResendSignature(env, request, rawBody))) return new Response("Invalid signature", { status: 401 });
-  const event = JSON.parse(rawBody) as { type: string; data: { email_id?: string; to?: string[] } };
-  const status = RESEND_STATUS[event.type];
-  if (status && event.data.email_id) {
-    const column = `${status}_at`;
-    await env.DB.prepare(`UPDATE qh_campaign_recipients SET status = ?, ${column} = CURRENT_TIMESTAMP WHERE provider_message_id = ?`).bind(status, event.data.email_id).run();
-    if (status === "bounced" || status === "complained") {
-      const to = event.data.to?.[0];
-      if (to) await env.DB.prepare("INSERT INTO qh_suppressions (channel, address, reason) VALUES ('email', ?, ?) ON CONFLICT(channel, address) DO NOTHING").bind(to, status === "bounced" ? "bounced" : "complained").run();
-    }
-  }
-  return Response.json({ received: true });
+export async function handleCampaignClick(env: Env, recipientId: number, targetUrl: string | null) {
+  if (!targetUrl) return new Response("Missing target URL", { status: 400 });
+  await env.DB.prepare("UPDATE qh_campaign_recipients SET status = 'clicked', clicked_at = CURRENT_TIMESTAMP WHERE id = ?").bind(recipientId).run();
+  return Response.redirect(targetUrl, 302);
 }
 
 export async function handleTwilioStatusWebhook(request: Request, env: Env) {

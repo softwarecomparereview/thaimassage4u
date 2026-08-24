@@ -36,6 +36,9 @@
   "r2_buckets": [
     { "binding": "MEDIA", "bucket_name": "thaimassageforu-media" }
   ],
+  "send_email": [
+    { "name": "EMAIL" }
+  ],
   "queues": {
     "producers": [{ "binding": "LEADS", "queue": "thaimassageforu-leads" }],
     "consumers": [{ "queue": "thaimassageforu-leads", "max_batch_size": 10, "max_batch_timeout": 5 }]

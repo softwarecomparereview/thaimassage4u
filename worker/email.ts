@@ -1,56 +1,43 @@
 import type { Env } from "./index";
 
 /**
- * Cloudflare has no outbound email-sending API of its own — Email Routing
- * only receives/forwards mail for a zone (used below for inbound replies).
- * Sending goes through Resend's REST API instead, the transactional-email
- * provider this project's own handover notes already pointed at. Requires
- * a RESEND_API_KEY secret (wrangler secret put RESEND_API_KEY) and the
- * sending domain (thaimassageforu.com) verified in the Resend dashboard —
- * neither of which this Worker can set up on its own.
+ * Sends via Cloudflare's own Email Sending binding
+ * (https://developers.cloudflare.com/email-service/api/send-emails/workers-api/)
+ * — no API token, no third-party provider. Requires:
+ *   1. `send_email: [{ name: "EMAIL" }]` in wrangler.jsonc (done)
+ *   2. thaimassageforu.com verified as a sending domain in the Cloudflare
+ *      dashboard (Email → Email Sending) — a dashboard step, not something
+ *      a Worker deploy can do. Sending before that's done fails with
+ *      E_SENDER_NOT_VERIFIED.
+ *
+ * Cloudflare's send call itself reports delivered/bounced synchronously
+ * (see processCampaignSend in campaigns.ts) — there's no documented
+ * webhook for delivery events. There's also no built-in open/click
+ * tracking, so both are done here: a 1x1 pixel on every send
+ * (trackingPixelUrl) and outbound links rewritten through a redirect
+ * that logs the click before forwarding (rewriteLinks).
  */
-const FROM_ADDRESS = "Thai Massage For U <hello@thaimassageforu.com>";
-const REPLY_TO = "hello@thaimassageforu.com";
+const FROM_ADDRESS = "hello@thaimassageforu.com";
+const FROM_NAME = "Thai Massage For U";
 
 export function renderTemplate(template: string, vars: Record<string, string>) {
   return template.replace(/\{\{(\w+)\}\}/g, (_, key) => vars[key] ?? "");
 }
 
-export async function sendEmail(env: Env, input: { to: string; subject: string; html: string; unsubscribeUrl: string }) {
-  if (!env.RESEND_API_KEY) throw new Error("RESEND_API_KEY is not configured");
-  const html = `${input.html}\n<hr style="margin-top:32px;border:none;border-top:1px solid #e5e5e5" />\n<p style="font-size:12px;color:#888">Thai Massage For U — a directory of independently listed wellness places.<br /><a href="${input.unsubscribeUrl}" style="color:#888">Unsubscribe</a></p>`;
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
-    body: JSON.stringify({
-      from: FROM_ADDRESS,
-      reply_to: REPLY_TO,
-      to: [input.to],
-      subject: input.subject,
-      html,
-      headers: { "List-Unsubscribe": `<${input.unsubscribeUrl}>` },
-    }),
-  });
-  const body = await response.json<{ id?: string; message?: string }>();
-  if (!response.ok) throw new Error(body.message ?? `Resend send failed (${response.status})`);
-  return { providerMessageId: body.id ?? null };
+function rewriteLinks(html: string, siteUrl: string, recipientId: number): string {
+  return html.replace(/href="(https?:\/\/[^"]+)"/g, (_, url) => `href="${siteUrl}/api/campaigns/click?r=${recipientId}&u=${encodeURIComponent(url)}"`);
 }
 
-/**
- * Resend webhooks are Svix-signed. Verifying properly needs the `svix`
- * package; this does the same HMAC check by hand to avoid the extra
- * dependency for one route. See https://resend.com/docs/dashboard/webhooks/verify-webhooks-requests
- */
-export async function verifyResendSignature(env: Env, request: Request, rawBody: string): Promise<boolean> {
-  if (!env.RESEND_WEBHOOK_SECRET) return false;
-  const id = request.headers.get("svix-id");
-  const timestamp = request.headers.get("svix-timestamp");
-  const signature = request.headers.get("svix-signature");
-  if (!id || !timestamp || !signature) return false;
-  const secretBytes = Uint8Array.from(atob(env.RESEND_WEBHOOK_SECRET.replace(/^whsec_/, "")), c => c.charCodeAt(0));
-  const key = await crypto.subtle.importKey("raw", secretBytes, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
-  const signedContent = `${id}.${timestamp}.${rawBody}`;
-  const mac = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(signedContent));
-  const expected = btoa(String.fromCharCode(...new Uint8Array(mac)));
-  return signature.split(" ").some(part => part.split(",")[1] === expected);
+export async function sendEmail(env: Env, input: { to: string; subject: string; html: string; unsubscribeUrl: string; recipientId: number }) {
+  const trackingPixel = `<img src="${env.SITE_URL}/api/campaigns/open?r=${input.recipientId}" width="1" height="1" alt="" style="display:none" />`;
+  const html = `${rewriteLinks(input.html, env.SITE_URL, input.recipientId)}\n<hr style="margin-top:32px;border:none;border-top:1px solid #e5e5e5" />\n<p style="font-size:12px;color:#888">Thai Massage For U — a directory of independently listed wellness places.<br /><a href="${input.unsubscribeUrl}" style="color:#888">Unsubscribe</a></p>${trackingPixel}`;
+  const result = await env.EMAIL.send({
+    from: `${FROM_NAME} <${FROM_ADDRESS}>`,
+    to: input.to,
+    subject: input.subject,
+    html,
+    text: input.html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(),
+  });
+  const bounced = result.permanent_bounces?.includes(input.to);
+  return { delivered: !bounced, bounced: Boolean(bounced) };
 }
