@@ -15,14 +15,19 @@ const INTRO_EMAIL_BODY = `<div style="font-family:-apple-system,Segoe UI,Helveti
     <p style="font-size:16px;line-height:1.6;margin:0 0 16px">Hi {{name}},</p>
     <p style="font-size:16px;line-height:1.6;margin:0 0 16px">Thai Massage For U is a directory of independently listed wellness places — and your studio is already live on it, alongside real listings across the US, UK, Australia and Germany.</p>
     <p style="font-size:16px;line-height:1.6;margin:0 0 20px">{{city_blurb}}</p>
-    <div style="background:#f7f2e9;border-radius:6px;padding:20px;margin:0 0 20px">
-      <p style="margin:0 0 8px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#2f4a3c">No signup needed</p>
-      <p style="margin:0;font-size:15px;line-height:1.55">Your listing went up automatically — nothing to claim, nothing to fill in. If you'd like it to stand out, premium placement in {{city}} starts at <strong>$9/week</strong>, cancel anytime, no account required.</p>
+    <div style="background:#f7f2e9;border-radius:6px;padding:22px;margin:0 0 20px;border:1px solid #e7ddc9">
+      <p style="margin:0 0 8px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#2f4a3c">Stand out in {{city}}</p>
+      <p style="margin:0 0 12px;font-size:15px;line-height:1.6">When someone in {{city}} is choosing between studios, premium placement puts you first — before they scroll to whoever's next. At <strong>$9/week</strong>, that's less than the price of a single missed booking, and it pays for itself the first time it works.</p>
+      <p style="margin:0;font-size:13px;line-height:1.5;color:#5c6e64">No account, no contract, cancel anytime — we want it to be worth it for you, not a commitment you're stuck with.</p>
     </div>
     <div style="text-align:center;margin:28px 0">
-      <a href="https://thaimassageforu.com/{{country_code}}" style="background:#2f4a3c;color:#f7f2e9;text-decoration:none;padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;display:inline-block">See your listing</a>
+      <a href="https://thaimassageforu.com/{{country_code}}" style="background:#2f4a3c;color:#f7f2e9;text-decoration:none;padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;display:inline-block">See your listing &amp; go premium</a>
     </div>
-    <p style="font-size:15px;line-height:1.6;margin:0;color:#3a4a3c">Warmly,<br />The Thai Massage For U team</p>
+    <p style="font-size:15px;line-height:1.6;margin:0 0 20px;color:#3a4a3c">Warmly,<br />The Thai Massage For U team</p>
+    <div style="border-top:1px solid #e7ddc9;margin-top:8px;padding-top:18px">
+      <p style="margin:0 0 4px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#8a6a2c">Coming soon</p>
+      <p style="margin:0;font-size:13px;line-height:1.55;color:#5c6e64">We're building AI booking and deposit collection next — a booking on your page becomes a real, paid appointment automatically, no back-and-forth. <a href="https://thaimassageforu.com/coming-soon" style="color:#2f4a3c;font-weight:600">See what's next →</a></p>
+    </div>
   </div>
 </div>`;
 

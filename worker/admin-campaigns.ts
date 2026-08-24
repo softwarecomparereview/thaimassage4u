@@ -22,9 +22,10 @@ export async function handleCreateCampaign(request: Request, env: Env, user: Wor
 
   const rows: CampaignRecipientRow[] = (input.csvRows ?? []).map(r => ({ name: r.name ?? null, email: r.email ?? null, phone: r.phone ?? null, city_slug: null, country_code: null, listing_id: null }));
   const audience = await resolveAudience(env, input.audienceSource, { rows, citySlugs: input.citySlugs, countryCode: input.countryCode }, input.channel);
-  if (!audience.length) return Response.json({ error: "No recipients found for that audience — nothing to send to." }, { status: 400 });
 
-  // Every send always carries these two as a live check — a real send is never fired blind.
+  // Every email send always carries these two as a live check — a real send
+  // is never fired blind. Added before the empty-audience check below so a
+  // deliberate test-only send (empty CSV) still goes to them.
   if (input.channel === "email") {
     for (const address of ALWAYS_CC) {
       if (!audience.some(r => r.email?.toLowerCase() === address.toLowerCase())) {
@@ -32,6 +33,8 @@ export async function handleCreateCampaign(request: Request, env: Env, user: Wor
       }
     }
   }
+
+  if (!audience.length) return Response.json({ error: "No recipients found for that audience — nothing to send to." }, { status: 400 });
 
   const campaign = await env.DB.prepare("INSERT INTO qh_campaigns (name, channel, subject, body, audience_source, audience_filter, created_by) VALUES (?, ?, ?, ?, ?, ?, ?)")
     .bind(input.name, input.channel, input.subject ?? null, input.body, input.audienceSource, JSON.stringify({ citySlugs: input.citySlugs, countryCode: input.countryCode }), user.id)
