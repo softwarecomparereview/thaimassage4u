@@ -9,6 +9,7 @@ import { serveWorkerPage } from "./ssr";
 import { geoHomeLocation, internationalCookie, isDirectoryCountry, countryChoiceCookie } from "./geo";
 import { handleCreateCampaign, handleSendCampaign, handleListCampaigns, handleListInbox, handleMarkInboxRead, handleUnsubscribe, handleCampaignOpen, handleCampaignClick, handleTwilioStatusWebhook, handleTwilioInboundWebhook } from "./admin-campaigns";
 import { processCampaignSend } from "./campaigns";
+import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing } from "./claim";
 
 export interface Env {
   ASSETS: Fetcher;
@@ -34,6 +35,7 @@ export interface Env {
   TWILIO_AUTH_TOKEN?: string;
   TWILIO_FROM_NUMBER?: string;
   CF_VERSION_METADATA?: { id?: string; tag?: string };
+  FORM_LIMITER: DurableObjectNamespace<FormLimiter>;
 }
 
 type LimiterWindow = { count: number; resetsAt: number };
@@ -176,6 +178,19 @@ app.post("/api/admin/stripe-mode", async c => {
   if (body.mode === "test" && !c.env.STRIPE_SECRET_KEY_TEST) return c.json({ error: "STRIPE_SECRET_KEY_TEST isn't set yet — add it on Cloudflare first." }, 400);
   await setStripeMode(c.env, body.mode);
   return c.json({ mode: body.mode });
+});
+
+app.post("/api/claim/start", c => handleClaimStart(c.req.raw, c.env));
+app.post("/api/claim/verify", c => handleClaimVerify(c.req.raw, c.env));
+app.get("/api/owner/listing", async c => {
+  const user = await getWorkerUser(c.req.raw, c.env);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleGetOwnerListing(c.env, user.id);
+});
+app.post("/api/owner/listing", async c => {
+  const user = await getWorkerUser(c.req.raw, c.env);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleUpdateOwnerListing(c.req.raw, c.env, user.id);
 });
 
 app.get("/api/campaigns/unsubscribe", c => handleUnsubscribe(c.req.raw, c.env));

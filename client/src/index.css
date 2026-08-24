@@ -278,6 +278,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .premium-box__tier:disabled { opacity: .6; cursor: default; }
 .premium-box__tier strong { font: 500 .95rem var(--font-display); }
 .premium-box__note { display: block; margin-top: 1rem; color: #a9b39a; font-size: .65rem; }
+.premium-box form { display: grid; gap: .75rem; }
+.premium-box form p { margin: 0 0 .3rem; color: #d7ddc9; font-size: .8rem; }
+.premium-box form input { width: 100%; padding: .76rem; border: 1px solid rgba(255,255,255,.25); border-radius: 3px; background: rgba(255,255,255,.06); color: var(--paper); font-size: .95rem; letter-spacing: .1em; }
+.premium-box form .dark-button { width: 100%; border: 0; background: var(--paper); color: var(--ink); padding: .8rem; border-radius: 3px; }
+.premium-box form .dark-button:disabled { opacity: .6; }
 
 .article-detail { max-width: 920px; padding: 5rem 2.3rem 8rem; }.article-detail > header { max-width: 760px; padding: 3rem 0; }.article-detail header h1 { margin: -.55rem 0 1.25rem; font: 500 clamp(3.1rem, 6vw, 5.8rem)/.92 var(--font-display); letter-spacing: -.065em; }.article-detail header > p:not(.eyebrow) { max-width: 610px; color: #5a6b62; font-size: 1.12rem; line-height: 1.6; }.article-detail header span { display: inline-flex; align-items: center; gap: .4rem; margin-top: 1rem; color: #6b7b72; font: .62rem var(--font-mono); }.article-cover { min-height: 450px; margin: 0 calc(460px - 50vw) 3rem; background-position: center; background-size: cover; }.article-body { max-width: 670px; margin: auto; }.article-body p { margin: 0 0 1.45rem; font-size: 1.05rem; line-height: 1.8; }
 .route-loading { max-width: 920px; min-height: 55vh; margin: auto; padding: 8rem 2.3rem; }.route-loading h1 { font: 500 clamp(2.6rem, 5vw, 4.5rem)/.95 var(--font-display); letter-spacing: -.06em; }
@@ -323,3 +328,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .cms-stripe-toggle span { flex: 1; }
 .cms-stripe-toggle button { padding: .5rem .9rem; border-radius: 999px; border: 1px solid currentColor; background: transparent; color: inherit; font-size: .72rem; font-weight: 600; cursor: pointer; }
 .cms-stripe-toggle button:disabled { opacity: .5; cursor: default; }
+.owner-listing-form { max-width: 640px; margin: 0 auto; padding: 0 2.3rem 6rem; }
+.owner-listing-form form { display: grid; gap: 1.1rem; }
+.owner-listing-form label { display: grid; gap: .4rem; color: #4a5a51; font-size: .72rem; font-weight: 600; }
+.owner-listing-form input, .owner-listing-form textarea { width: 100%; padding: .76rem; border: 1px solid var(--border); border-radius: 2px; background: transparent; color: var(--ink); font: 400 .85rem var(--font-body, inherit); }
+.owner-listing-form textarea { min-height: 130px; resize: vertical; }
+.owner-listing-form .dark-button { justify-self: start; padding: .8rem 1.6rem; }
+.owner-listing-form > .text-link { display: inline-block; margin-top: 1.2rem; }
+@media (max-width: 600px) { .owner-listing-form { padding: 0 1.25rem 4rem; } }
