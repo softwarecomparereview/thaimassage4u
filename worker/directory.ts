@@ -118,7 +118,10 @@ export async function getListing(env: Env, slug: string) {
     const listing = await env.DB.prepare("SELECT id, slug, name, country_code, city_slug, suburb, address, email, website, services, description, price_from, image_url FROM listings WHERE slug = ? LIMIT 1").bind(slug).first<LegacyListing>();
     if (!listing) return null;
     const city = await env.DB.prepare("SELECT id, country_code, slug, name, intro FROM cities WHERE slug = ? LIMIT 1").bind(listing.city_slug).first<LegacyCity>();
-    return { listing: { id: listing.id, name: listing.name, slug: listing.slug, descriptor: "Independently listed wellness place", description: listing.description, neighbourhood: listing.suburb, address: listing.address, bookingUrl: listing.website, contactEmail: listing.email, imageUrl: listing.image_url }, city: { id: city?.id ?? 0, name: city?.name ?? listing.city_slug, slug: listing.city_slug, country: city?.country_code ?? listing.country_code, countryCode: city?.country_code ?? listing.country_code, primaryLocale: "en", introduction: city?.intro ?? null, isActive: true }, category, services: parseServices(listing.services) };
+    // qh_listings is the separate, slug-joined copy the claim/premium flows read — see worker/claim.ts and worker/stripe.ts.
+    const qhListing = await env.DB.prepare("SELECT id, owner_id AS ownerId FROM qh_listings WHERE slug = ? LIMIT 1").bind(slug).first<{ id: number; ownerId: number | null }>();
+    const isPremium = qhListing ? Boolean(await env.DB.prepare("SELECT 1 FROM qh_premium_subscriptions WHERE listing_id = ? AND placement_eligible = 1 LIMIT 1").bind(qhListing.id).first()) : false;
+    return { listing: { id: listing.id, name: listing.name, slug: listing.slug, descriptor: "Independently listed wellness place", description: listing.description, neighbourhood: listing.suburb, address: listing.address, bookingUrl: listing.website, contactEmail: listing.email, imageUrl: listing.image_url, isPremium, isClaimed: Boolean(qhListing?.ownerId) }, city: { id: city?.id ?? 0, name: city?.name ?? listing.city_slug, slug: listing.city_slug, country: city?.country_code ?? listing.country_code, countryCode: city?.country_code ?? listing.country_code, primaryLocale: "en", introduction: city?.intro ?? null, isActive: true }, category, services: parseServices(listing.services) };
   } catch {
     return null;
   }

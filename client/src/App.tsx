@@ -9,6 +9,7 @@ import Directory from "@/pages/Directory";
 import Journal from "@/pages/Journal";
 import ListingDetail from "@/pages/ListingDetail";
 import ListYourPlace from "@/pages/ListYourPlace";
+import MyListing from "@/pages/MyListing";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -31,6 +32,7 @@ function Router() {
       <Route path={"/journal/:slug"} component={ArticleDetail} />
       <Route path={"/list-your-place"} component={ListYourPlace} />
       <Route path={"/coming-soon"} component={ComingSoon} />
+      <Route path={"/my-listing"} component={MyListing} />
       <Route path={"/cms"} component={Cms} />
       <Route path={"/cms/:section"} component={Cms} />
       <Route path={"/404"} component={NotFound} />

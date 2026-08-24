@@ -91,5 +91,6 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
     return { title: `${data.title} — ${SITE}`, description: data.excerpt || DEFAULT_DESCRIPTION, canonicalPath: path, alternates: [{ locale: "en", path }], ogType: "article", ogImage: data.coverImageUrl || undefined, jsonLd: { "@context": "https://schema.org", "@type": "Article", headline: data.title, description: data.excerpt || DEFAULT_DESCRIPTION, image: data.coverImageUrl || undefined, mainEntityOfPage: `https://thaimassageforu.com${path}`, publisher: { "@type": "Organization", name: SITE } } };
   }
   if (path === "/cms" || path.startsWith("/cms/")) return { title: "Quiet Hour CMS", description: "Quiet Hour management workspace.", noindex: true };
+  if (path === "/my-listing") return { title: "Manage your listing — Quiet Hour", description: "Claim and update your listing on Quiet Hour.", canonicalPath: path, noindex: true };
   return { title: SITE, description: DEFAULT_DESCRIPTION, notFound: true };
 }
