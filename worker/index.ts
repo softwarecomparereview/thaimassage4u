@@ -116,4 +116,10 @@ app.post("/api/directory/inquiry", async c => {
 
 app.all("*", async c => hardened(await serveWorkerPage(c.req.raw, c.env)));
 
-export default app;
+export default {
+  fetch: app.fetch,
+  /** No producer currently sends to `thaimassageforu-leads`; this satisfies Cloudflare's requirement that a declared consumer have a handler. */
+  async queue(batch: MessageBatch, _env: Env) {
+    for (const message of batch.messages) message.ack();
+  },
+};
