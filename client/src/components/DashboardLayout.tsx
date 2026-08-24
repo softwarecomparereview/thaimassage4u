@@ -19,13 +19,80 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { startLogin } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
 import { Building2, FileText, Languages, LayoutDashboard, LogOut, Map, MessageCircleMore, PanelLeft } from "lucide-react";
-import { CSSProperties, useEffect, useRef, useState } from "react";
+import { CSSProperties, FormEvent, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+
+/**
+ * The Manus-portal OAuth login (`startLogin()` in @/const) needs a working
+ * `VITE_OAUTH_PORTAL_URL`/`VITE_APP_ID` app registration on Manus's own
+ * platform, which this deployment doesn't have — so it's unusable here.
+ * This posts straight to the Worker's password-based fallback instead
+ * (see worker/simple-admin-auth.ts).
+ */
+function PasswordSignIn() {
+  const { refresh } = useAuth();
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    setSubmitting(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+      if (!response.ok) {
+        const body: { error?: string } = await response.json().catch(() => ({}));
+        setError(body.error ?? "Sign in failed.");
+        return;
+      }
+      await refresh();
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <form onSubmit={handleSubmit} className="flex flex-col items-center gap-8 p-8 max-w-md w-full">
+        <div className="flex flex-col items-center gap-6">
+          <h1 className="text-2xl font-semibold tracking-tight text-center">
+            Sign in to continue
+          </h1>
+          <p className="text-sm text-muted-foreground text-center max-w-sm">
+            Access to this dashboard requires the admin password.
+          </p>
+        </div>
+        <Input
+          type="password"
+          autoFocus
+          placeholder="Admin password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          className="text-center"
+        />
+        {error ? <p className="text-sm text-destructive text-center">{error}</p> : null}
+        <Button
+          type="submit"
+          size="lg"
+          disabled={submitting || !password}
+          className="w-full shadow-lg hover:shadow-xl transition-all"
+        >
+          {submitting ? "Signing in…" : "Sign in"}
+        </Button>
+      </form>
+    </div>
+  );
+}
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Overview", path: "/cms" },
@@ -62,27 +129,7 @@ export default function DashboardLayout({
   }
 
   if (!user) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="flex flex-col items-center gap-8 p-8 max-w-md w-full">
-          <div className="flex flex-col items-center gap-6">
-            <h1 className="text-2xl font-semibold tracking-tight text-center">
-              Sign in to continue
-            </h1>
-            <p className="text-sm text-muted-foreground text-center max-w-sm">
-              Access to this dashboard requires authentication. Continue to launch the login flow.
-            </p>
-          </div>
-          <Button
-            onClick={() => startLogin()}
-            size="lg"
-            className="w-full shadow-lg hover:shadow-xl transition-all"
-          >
-            Sign in
-          </Button>
-        </div>
-      </div>
-    );
+    return <PasswordSignIn />;
   }
 
   return (
