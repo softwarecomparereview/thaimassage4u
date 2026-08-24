@@ -3,6 +3,7 @@ import { DurableObject, WorkflowEntrypoint, type WorkflowEvent, type WorkflowSte
 import { createInquiry, getCityGuide, getDirectoryHome, getListing } from "./directory";
 import { handleTrpc } from "./trpc";
 import { handleOAuthCallback } from "./auth";
+import { handleAdminLogin } from "./simple-admin-auth";
 import { handleStripeWebhook } from "./stripe";
 import { serveWorkerPage } from "./ssr";
 
@@ -20,6 +21,8 @@ export interface Env {
   OWNER_OPEN_ID: string;
   STRIPE_SECRET_KEY: string;
   STRIPE_WEBHOOK_SECRET: string;
+  /** Shared-password fallback admin login — see simple-admin-auth.ts. */
+  ADMIN_PASSWORD?: string;
   CF_VERSION_METADATA?: { id?: string; tag?: string };
 }
 
@@ -88,6 +91,7 @@ app.get("/api/health", c =>
 );
 
 app.get("/api/oauth/callback", c => handleOAuthCallback(c.req.raw, c.env));
+app.post("/api/admin/login", c => handleAdminLogin(c.req.raw, c.env));
 app.post("/api/stripe/webhook", c => handleStripeWebhook(c.req.raw, c.env));
 
 app.get("/api/directory/home", async c => c.json(await getDirectoryHome(c.env)));
