@@ -4,7 +4,7 @@ import { createInquiry, getCityGuide, getDirectoryHome, getListing } from "./dir
 import { handleTrpc } from "./trpc";
 import { handleOAuthCallback, getWorkerUser } from "./auth";
 import { handleAdminLogin } from "./simple-admin-auth";
-import { handleStripeWebhook, handlePublicPremiumCheckout } from "./stripe";
+import { handleStripeWebhook, handlePublicPremiumCheckout, getStripeMode, setStripeMode } from "./stripe";
 import { serveWorkerPage } from "./ssr";
 import { geoHomeLocation, internationalCookie, isDirectoryCountry, countryChoiceCookie } from "./geo";
 import { handleCreateCampaign, handleSendCampaign, handleListCampaigns, handleListInbox, handleMarkInboxRead, handleUnsubscribe, handleCampaignOpen, handleCampaignClick, handleTwilioStatusWebhook, handleTwilioInboundWebhook } from "./admin-campaigns";
@@ -23,6 +23,7 @@ export interface Env {
   JWT_SECRET: string;
   OWNER_OPEN_ID: string;
   STRIPE_SECRET_KEY: string;
+  STRIPE_SECRET_KEY_TEST?: string;
   STRIPE_WEBHOOK_SECRET: string;
   /** Shared-password fallback admin login — see simple-admin-auth.ts. */
   ADMIN_PASSWORD?: string;
@@ -159,6 +160,22 @@ app.post("/api/admin/inbox/:id/read", async c => {
   const user = await requireAdmin(c);
   if (!user) return c.json({ error: "Unauthorized" }, 401);
   return handleMarkInboxRead(c.env, Number(c.req.param("id")));
+});
+
+app.get("/api/admin/stripe-mode", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return c.json({ mode: await getStripeMode(c.env), hasTestKey: Boolean(c.env.STRIPE_SECRET_KEY_TEST), hasLiveKey: Boolean(c.env.STRIPE_SECRET_KEY) });
+});
+app.post("/api/admin/stripe-mode", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  const body = await c.req.json<{ mode?: string }>().catch(() => ({}) as { mode?: string });
+  if (body.mode !== "test" && body.mode !== "live") return c.json({ error: "mode must be 'test' or 'live'" }, 400);
+  if (body.mode === "live" && !c.env.STRIPE_SECRET_KEY) return c.json({ error: "STRIPE_SECRET_KEY (live) isn't set yet." }, 400);
+  if (body.mode === "test" && !c.env.STRIPE_SECRET_KEY_TEST) return c.json({ error: "STRIPE_SECRET_KEY_TEST isn't set yet — add it on Cloudflare first." }, 400);
+  await setStripeMode(c.env, body.mode);
+  return c.json({ mode: body.mode });
 });
 
 app.get("/api/campaigns/unsubscribe", c => handleUnsubscribe(c.req.raw, c.env));

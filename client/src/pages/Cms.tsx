@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
-import { CheckCircle2, CircleAlert, FileText, Globe2, MapPinned, MessageSquareText, Plus, Send, Sparkles, Store } from "lucide-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { CheckCircle2, CircleAlert, CreditCard, FileText, Globe2, MapPinned, MessageSquareText, Plus, Send, Sparkles, Store } from "lucide-react";
 import { FormEvent, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
@@ -64,8 +65,41 @@ export default function Cms() {
   </div></DashboardLayout>;
 }
 
+function StripeModeToggle() {
+  const queryClient = useQueryClient();
+  const status = useQuery({ queryKey: ["stripe-mode"], queryFn: () => fetch("/api/admin/stripe-mode").then(r => r.json()) });
+  const [busy, setBusy] = useState(false);
+
+  async function flip() {
+    if (!status.data) return;
+    const next = status.data.mode === "live" ? "test" : "live";
+    setBusy(true);
+    try {
+      const response = await fetch("/api/admin/stripe-mode", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ mode: next }) });
+      const body = await response.json();
+      if (!response.ok) { toast.error(body.error ?? "Couldn't switch Stripe mode."); return; }
+      toast.success(`Stripe is now in ${next.toUpperCase()} mode.`);
+      queryClient.invalidateQueries({ queryKey: ["stripe-mode"] });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (status.isLoading || !status.data) return null;
+  const isLive = status.data.mode === "live";
+  return (
+    <div className={`cms-stripe-toggle ${isLive ? "is-live" : "is-test"}`}>
+      <CreditCard size={16} />
+      <span>Stripe is in <strong>{isLive ? "LIVE" : "TEST"}</strong> mode — real charges {isLive ? "are" : "are not"} happening.</span>
+      <button type="button" onClick={flip} disabled={busy || (isLive ? !status.data.hasTestKey : !status.data.hasLiveKey)}>
+        {busy ? "Switching…" : `Flip to ${isLive ? "TEST" : "LIVE"}`}
+      </button>
+    </div>
+  );
+}
+
 function CmsOverview({ cards, data }: { cards: any[]; data: any }) {
-  return <div className="cms-stack"><section className="cms-kpis">{cards.map(card => <article key={card.label}><card.icon size={18} /><span>{card.label}</span><strong>{card.value}</strong></article>)}</section><section className="cms-two-up"><article className="cms-panel"><div className="cms-panel__head"><div><p className="eyebrow">City desk</p><h2>Review queue</h2></div><MapPinned size={20} /></div><div className="cms-list">{data.events.length ? data.events.slice(0, 4).map((event: any) => <div key={event.id}><span>{event.title}</span><small className={statusTone(event.status)}>{event.status}</small></div>) : <CmsEmpty label="No city events have been entered." />}</div></article><article className="cms-panel"><div className="cms-panel__head"><div><p className="eyebrow">Localization</p><h2>Native review</h2></div><Globe2 size={20} /></div><div className="cms-list">{data.localizedContent.length ? data.localizedContent.slice(0, 4).map((item: any) => <div key={item.id}><span>{item.title}</span><small className={statusTone(item.status)}>{item.locale} · {item.status}</small></div>) : <CmsEmpty label="Translation records will appear here after a locale draft is created." />}</div></article></section><section className="cms-panel cms-panel--wide"><div className="cms-panel__head"><div><p className="eyebrow">Inbox</p><h2>Latest directory inquiries</h2></div><MessageSquareText size={20} /></div><div className="cms-table">{data.inquiries.length ? data.inquiries.slice(0, 6).map((inquiry: any) => <div key={inquiry.id}><span>{inquiry.name}</span><span>{inquiry.email}</span><span className={statusTone(inquiry.status)}>{inquiry.status.replaceAll("_", " ")}</span></div>) : <CmsEmpty label="No inquiries yet. The public directory form will place new enquiries here." />}</div></section></div>;
+  return <div className="cms-stack"><StripeModeToggle /><section className="cms-kpis">{cards.map(card => <article key={card.label}><card.icon size={18} /><span>{card.label}</span><strong>{card.value}</strong></article>)}</section><section className="cms-two-up"><article className="cms-panel"><div className="cms-panel__head"><div><p className="eyebrow">City desk</p><h2>Review queue</h2></div><MapPinned size={20} /></div><div className="cms-list">{data.events.length ? data.events.slice(0, 4).map((event: any) => <div key={event.id}><span>{event.title}</span><small className={statusTone(event.status)}>{event.status}</small></div>) : <CmsEmpty label="No city events have been entered." />}</div></article><article className="cms-panel"><div className="cms-panel__head"><div><p className="eyebrow">Localization</p><h2>Native review</h2></div><Globe2 size={20} /></div><div className="cms-list">{data.localizedContent.length ? data.localizedContent.slice(0, 4).map((item: any) => <div key={item.id}><span>{item.title}</span><small className={statusTone(item.status)}>{item.locale} · {item.status}</small></div>) : <CmsEmpty label="Translation records will appear here after a locale draft is created." />}</div></article></section><section className="cms-panel cms-panel--wide"><div className="cms-panel__head"><div><p className="eyebrow">Inbox</p><h2>Latest directory inquiries</h2></div><MessageSquareText size={20} /></div><div className="cms-table">{data.inquiries.length ? data.inquiries.slice(0, 6).map((inquiry: any) => <div key={inquiry.id}><span>{inquiry.name}</span><span>{inquiry.email}</span><span className={statusTone(inquiry.status)}>{inquiry.status.replaceAll("_", " ")}</span></div>) : <CmsEmpty label="No inquiries yet. The public directory form will place new enquiries here." />}</div></section></div>;
 }
 
 function CmsListings({ listings, cities, categories, practitioners, services }: { listings: any[]; cities: any[]; categories: any[]; practitioners: any[]; services: any[] }) {

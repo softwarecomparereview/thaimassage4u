@@ -9,9 +9,28 @@ export const PREMIUM_TIER = {
   country: { amount: 4900, interval: "month" as const, label: "Premium Country Listing", description: "Country-level discoverability and priority placement, billed monthly. Launch pricing." },
 } as const;
 
-function stripe(env: Env) {
-  if (!env.STRIPE_SECRET_KEY) throw new Error("Stripe is not configured");
-  return new Stripe(env.STRIPE_SECRET_KEY);
+/**
+ * qh_settings.stripe_mode picks which secret to use — STRIPE_SECRET_KEY
+ * holds the live key (set directly on Cloudflare), STRIPE_SECRET_KEY_TEST
+ * holds the test one (a separate secret, since Cloudflare can't have two
+ * values under one secret name and secrets can't be read back once set).
+ * Defaults to "test" if the row is ever missing — a missing setting
+ * should never silently mean "charge real cards".
+ */
+export async function getStripeMode(env: Env): Promise<"test" | "live"> {
+  const row = await env.DB.prepare("SELECT value FROM qh_settings WHERE key = 'stripe_mode'").first<{ value: string }>();
+  return row?.value === "live" ? "live" : "test";
+}
+
+export async function setStripeMode(env: Env, mode: "test" | "live"): Promise<void> {
+  await env.DB.prepare("INSERT INTO qh_settings (key, value, updated_at) VALUES ('stripe_mode', ?, CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = CURRENT_TIMESTAMP").bind(mode).run();
+}
+
+async function stripe(env: Env) {
+  const mode = await getStripeMode(env);
+  const key = mode === "live" ? env.STRIPE_SECRET_KEY : env.STRIPE_SECRET_KEY_TEST;
+  if (!key) throw new Error(mode === "live" ? "STRIPE_SECRET_KEY is not configured" : "STRIPE_SECRET_KEY_TEST is not configured — add it as a Worker secret to use test mode");
+  return new Stripe(key);
 }
 
 /**
@@ -23,7 +42,7 @@ function stripe(env: Env) {
  */
 export async function createPremiumCheckout(env: Env, input: { listingId: number; listingSlug: string; origin: string; tier: "city" | "country"; customerEmail?: string | null; userId?: number | null }) {
   const plan = PREMIUM_TIER[input.tier];
-  const session = await stripe(env).checkout.sessions.create({
+  const session = await (await stripe(env)).checkout.sessions.create({
     mode: "subscription",
     customer_email: input.customerEmail || undefined,
     client_reference_id: input.userId ? input.userId.toString() : undefined,
@@ -58,7 +77,7 @@ export async function handleStripeWebhook(request: Request, env: Env) {
   if (!signature || !env.STRIPE_WEBHOOK_SECRET) return Response.json({ error: "Stripe webhook is not configured" }, { status: 400 });
   let event: Stripe.Event;
   try {
-    event = stripe(env).webhooks.constructEvent(await request.text(), signature, env.STRIPE_WEBHOOK_SECRET);
+    event = (await stripe(env)).webhooks.constructEvent(await request.text(), signature, env.STRIPE_WEBHOOK_SECRET);
   } catch {
     return Response.json({ error: "Webhook signature verification failed" }, { status: 400 });
   }
