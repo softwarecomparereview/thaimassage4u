@@ -109,6 +109,9 @@ temp/
 # Webdev artifacts (checkpoint zips, migrations, etc.)
 .webdev/
 
+# Wrangler local dev/deploy state (dry-run cache, local D1/KV emulation)
+.wrangler/
+
 # Manus version file (auto-generated, not part of source)
 client/public/__manus__/version.json
 .project-config.json
