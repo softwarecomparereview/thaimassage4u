@@ -22,6 +22,15 @@ export const CITY_BLURBS: Record<string, string> = {
   miami: "Miami's searches mix residents and hotel guests across Brickell, South Beach and Wynwood — a lot of it from people with no existing studio in mind and very little patience for a bad website. A clear listing wins that moment.",
   "san-francisco": "San Francisco's demand concentrates in SoMa, the Mission and the Financial District, with a strong lunchtime and after-work booking pattern — people deciding fast, right when they search. Being easy to find in that window is what gets the booking.",
   "las-vegas": "Las Vegas mixes Strip-adjacent visitor traffic with locals booking between shifts, two very different searches that both land on the same \"massage near me\" query. A proper listing reaches both instead of just whichever one your existing site happens to target.",
+  brisbane: "Brisbane's demand is spread across a subtropical, river-split city where commuters search for relaxation massage after outdoor workdays — a pattern that peaks with the humidity, not on a fixed schedule. A studio that shows up reliably wins that search regardless of when it happens.",
+  perth: "Perth is isolated enough from the rest of Australia that a focused local listing carries real weight — there's less competing directory noise here than on the east coast, so a clear profile ranks and gets found faster.",
+  adelaide: "Adelaide has lower search competition for \"Thai massage\" than the larger Australian capitals, which makes a proper listing punch above its weight here — less noise to get lost in.",
+  london: "London is the densest, most competitive Thai massage market we cover — hundreds of storefronts competing for the same searches across Shoreditch, Chelsea, Soho and beyond. A studio without a clear listing gets lost in that volume fast.",
+  manchester: "Manchester has real, concentrated demand around the Northern Quarter, Deansgate and Spinningfields — office workers and visitors searching on their phones between meetings. Being easy to find in that moment is what gets the booking.",
+  birmingham: "Birmingham's searches come from the city centre, the Jewellery Quarter and commuters across the West Midlands — a wide catchment that a single storefront's own website rarely reaches on its own.",
+  edinburgh: "Edinburgh has real year-round demand with sharp spikes during festival season, when visitor search volume for \"Thai massage\" multiplies well beyond what a local studio's own site is built to capture.",
+  glasgow: "Glasgow's studio base is growing, concentrated around the West End and city centre, with strong mobile \"massage near me\" search — the kind of query a directory catches and a standalone website usually misses.",
+  bristol: "Bristol's Thai massage searches are smaller than London's but far less competitive, which makes a clear listing a genuinely practical win here rather than a fight for scraps.",
 };
 const DEFAULT_CITY_BLURB = "We're building a straightforward, city-first wellness directory so people searching for a real studio — not a franchise — can actually find you.";
 
