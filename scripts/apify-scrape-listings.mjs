@@ -27,10 +27,14 @@ const ACTOR = "lukaskrivka~google-maps-with-contact-details";
 const MIN_RATING = 4;
 const MIN_RATING_ENUM = { 2: "two", 2.5: "twoAndHalf", 3: "three", 3.5: "threeAndHalf", 4: "four", 4.5: "fourAndHalf" }[MIN_RATING];
 
-// Per-country targets for this pull — de/us/au only, run in this order; uk isn't part of this batch.
-const COUNTRY_TARGETS = { de: 400, us: 400, au: 200 };
+// Per-country targets for this pull — de/us/au only, run in this order (au first, per request);
+// uk isn't part of this batch. de is 196 (not 400) because Berlin/Munich/Hamburg already ran and
+// their 204 quality-passed listings are already imported — SKIP_ALREADY_DONE below skips
+// re-scraping those three cities, so only Frankfurt/Cologne split the remaining de budget.
+const COUNTRY_TARGETS = { au: 200, de: 196, us: 400 };
+const SKIP_ALREADY_DONE = new Set(["de/berlin", "de/munich", "de/hamburg"]);
 const RUN_CITIES = cities
-  .filter(([countryCode]) => countryCode in COUNTRY_TARGETS)
+  .filter(([countryCode, citySlug]) => countryCode in COUNTRY_TARGETS && !SKIP_ALREADY_DONE.has(`${countryCode}/${citySlug}`))
   .sort((a, b) => Object.keys(COUNTRY_TARGETS).indexOf(a[0]) - Object.keys(COUNTRY_TARGETS).indexOf(b[0]));
 const citiesByCountry = {};
 for (const city of RUN_CITIES) (citiesByCountry[city[0]] ??= []).push(city);
