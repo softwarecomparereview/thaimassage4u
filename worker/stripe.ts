@@ -5,8 +5,8 @@ import type { Env } from "./index";
 // first cold ask, before any studio has evidence the placement earns its
 // keep. Revisit once the first cohort has seen real leads land.
 export const PREMIUM_TIER = {
-  city: { amount: 900, interval: "week" as const, label: "Premium City Listing", description: "Featured city placement, billed weekly. Launch pricing." },
-  country: { amount: 4900, interval: "month" as const, label: "Premium Country Listing", description: "Country-level discoverability and priority placement, billed monthly. Launch pricing." },
+  city: { amount: 900, interval: "week" as const, label: "TMFU Premium City Listing", description: "Featured city placement on Thai Massage For U (TMFU), billed weekly. Launch pricing." },
+  country: { amount: 4900, interval: "month" as const, label: "TMFU Premium Country Listing", description: "Country-level discoverability and priority placement on Thai Massage For U (TMFU), billed monthly. Launch pricing." },
 } as const;
 
 /**
