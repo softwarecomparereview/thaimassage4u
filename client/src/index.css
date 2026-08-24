@@ -89,7 +89,20 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .site-nav a { font-size: .82rem; font-weight: 500; transition: color 160ms ease; }
 .site-nav a:hover { color: var(--clay); }
 .site-header__actions { display: flex; align-items: center; gap: .6rem; }
-.language-pill { align-items: center; display: inline-flex; gap: .35rem; color: var(--ink-2); font: .62rem var(--font-mono); letter-spacing: .06em; }
+.language-pill { align-items: center; display: inline-flex; gap: .35rem; color: var(--ink-2); font: .62rem var(--font-mono); letter-spacing: .06em; background: none; border: none; cursor: pointer; padding: 0; }
+.mobile-country-switch { display: flex; flex-wrap: wrap; gap: .6rem; padding: .85rem .25rem; border-bottom: 1px solid rgba(25,55,47,.1); }
+.mobile-country-switch a { font-size: .85rem; padding: .4rem .7rem; border: 1px solid var(--border); border-radius: 999px; }
+.country-section { max-width: 1280px; margin: 0 auto; padding: 1rem 2.3rem 5rem; }
+.country-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.country-card { display: flex; flex-direction: column; align-items: flex-start; gap: .5rem; padding: 1.6rem; border: 1px solid var(--border); border-radius: 18px; transition: transform 160ms ease, border-color 160ms ease; }
+.country-card:hover { transform: translateY(-3px); border-color: var(--ink); }
+.country-card__flag { font-size: 1.8rem; }
+.country-card h3 { margin: 0; font: 500 1.4rem/1 var(--font-display); letter-spacing: -.03em; }
+.country-switch { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.25rem; }
+.country-switch__item { font: .68rem var(--font-mono); letter-spacing: .04em; padding: .45rem .8rem; border: 1px solid var(--border); border-radius: 999px; }
+.country-switch__item.is-active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+@media (max-width: 900px) { .country-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .country-section { padding-left: 1.25rem; padding-right: 1.25rem; } .country-grid { grid-template-columns: 1fr; } }
 .menu-button { display: none; background: transparent; border: 0; color: var(--ink); padding: .35rem; }
 .mobile-nav { background: var(--paper); border-top: 1px solid var(--border); padding: .75rem 1.25rem 1.25rem; }
 .mobile-nav a { display: flex; align-items: center; justify-content: space-between; padding: .85rem .25rem; border-bottom: 1px solid rgba(25,55,47,.1); font-size: 1.1rem; }

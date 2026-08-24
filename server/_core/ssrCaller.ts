@@ -11,5 +11,6 @@ export async function buildSsrPrefetch(req: Request, res: Response): Promise<Ssr
     listingBySlug: slug => caller.directory.listingBySlug({ slug }),
     articleBySlug: slug => caller.directory.articleBySlug({ slug }),
     cityBySlug: slug => caller.directory.cityBySlug({ slug }),
+    countryBySlug: code => caller.directory.countryBySlug({ code }),
   };
 }

@@ -4,7 +4,7 @@ import superjson from "superjson";
 import { z } from "zod";
 import { getWorkerUser, type WorkerUser } from "./auth";
 import { checkoutPremium, cmsSchemas, getCmsSummary, queueMessage, saveArticle, saveCity, saveListing, savePractitioner, saveService, saveTemplate, updateInquiryStatus } from "./cms";
-import { createInquiry, getArticle, getCityGuide, getDirectoryHome, getListing } from "./directory";
+import { createInquiry, getArticle, getCityGuide, getCountryGuide, getDirectoryHome, getListing } from "./directory";
 import type { Env } from "./index";
 
 type Context = { env: Env; request: Request; user: WorkerUser | null };
@@ -15,6 +15,11 @@ const directory = t.router({
   cityBySlug: t.procedure.input(z.object({ slug: z.string().min(1).max(140) })).query(async ({ ctx, input }) => {
     const guide = await getCityGuide(ctx.env, input.slug);
     if (!guide) throw new TRPCError({ code: "NOT_FOUND", message: "This city guide is not available." });
+    return guide;
+  }),
+  countryBySlug: t.procedure.input(z.object({ code: z.string().min(2).max(2) })).query(async ({ ctx, input }) => {
+    const guide = await getCountryGuide(ctx.env, input.code);
+    if (!guide) throw new TRPCError({ code: "NOT_FOUND", message: "This country guide is not available." });
     return guide;
   }),
   listingBySlug: t.procedure.input(z.object({ slug: z.string().min(1).max(180) })).query(async ({ ctx, input }) => {

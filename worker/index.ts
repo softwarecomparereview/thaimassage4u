@@ -6,6 +6,7 @@ import { handleOAuthCallback } from "./auth";
 import { handleAdminLogin } from "./simple-admin-auth";
 import { handleStripeWebhook } from "./stripe";
 import { serveWorkerPage } from "./ssr";
+import { geoHomeLocation, internationalCookie, isDirectoryCountry, countryChoiceCookie } from "./geo";
 
 export interface Env {
   ASSETS: Fetcher;
@@ -116,6 +117,23 @@ app.post("/api/directory/inquiry", async c => {
   const allowance = await limiter.allow();
   if (!allowance.ok) return c.json({ error: "Please wait before sending another inquiry." }, 429, { "Retry-After": allowance.retryAfter.toString() });
   return c.json(await createInquiry(c.env, { listingId: input.listingId, name: input.name.trim(), email: input.email.trim(), phone: input.phone?.trim(), message: input.message.trim(), consentEmail: Boolean(input.consentEmail), consentSms: Boolean(input.consentSms) }), 201);
+});
+
+app.get("/", async c => {
+  const destination = geoHomeLocation(c.req.raw);
+  if (destination) return c.redirect(destination, 302);
+  const response = hardened(await serveWorkerPage(c.req.raw, c.env));
+  // Remember an explicit "show me every country" choice so / doesn't keep redirecting.
+  if (new URL(c.req.url).searchParams.get("intl") === "1") response.headers.append("set-cookie", internationalCookie());
+  return response;
+});
+
+app.get("/:country", async (c, next) => {
+  const country = c.req.param("country");
+  if (!isDirectoryCountry(country)) return next();
+  const response = hardened(await serveWorkerPage(c.req.raw, c.env));
+  if (response.status < 400) response.headers.append("set-cookie", countryChoiceCookie(country));
+  return response;
 });
 
 app.all("*", async c => hardened(await serveWorkerPage(c.req.raw, c.env)));

@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ArticleDetail from "@/pages/ArticleDetail";
 import CityGuide from "@/pages/CityGuide";
+import CountryGuide from "@/pages/CountryGuide";
 import Cms from "@/pages/Cms";
 import Directory from "@/pages/Directory";
 import Journal from "@/pages/Journal";
@@ -19,6 +20,10 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/directory"} component={Directory} />
+      <Route path={"/us"} component={CountryGuide} />
+      <Route path={"/uk"} component={CountryGuide} />
+      <Route path={"/au"} component={CountryGuide} />
+      <Route path={"/de"} component={CountryGuide} />
       <Route path={"/city/:slug"} component={CityGuide} />
       <Route path={"/listing/:slug"} component={ListingDetail} />
       <Route path={"/journal"} component={Journal} />

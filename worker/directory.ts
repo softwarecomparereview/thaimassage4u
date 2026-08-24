@@ -1,4 +1,5 @@
 import type { Env } from "./index";
+import { COUNTRY_NAMES, isDirectoryCountry } from "./geo";
 
 type LegacyCity = {
   id: number;
@@ -52,6 +53,7 @@ function toPlaceCard(row: LegacyListing, cityName?: string) {
     isFeatured: false,
     cityName: cityName ?? row.city_slug,
     citySlug: row.city_slug,
+    countryCode: row.country_code,
     categoryName: category.name,
     categorySlug: category.slug,
   };
@@ -87,6 +89,25 @@ export async function getCityGuide(env: Env, slug: string) {
     if (!city) return null;
     const listings = await env.DB.prepare("SELECT id, slug, name, country_code, city_slug, suburb, address, email, website, services, description, price_from, image_url FROM listings WHERE city_slug = ? ORDER BY premium DESC, created_at DESC LIMIT 100").bind(slug).all<LegacyListing>();
     return { city: { id: city.id, name: city.name, slug: city.slug, country: city.country_code, countryCode: city.country_code, primaryLocale: "en", introduction: city.intro, isActive: true }, listings: listings.results.map(row => toPlaceCard(row, city.name)), events: [], metrics: [] };
+  } catch {
+    return null;
+  }
+}
+
+export async function getCountryGuide(env: Env, code: string) {
+  if (!isDirectoryCountry(code)) return null;
+  try {
+    const [cities, listings] = await Promise.all([
+      env.DB.prepare("SELECT id, country_code, slug, name, intro FROM cities WHERE country_code = ? ORDER BY name").bind(code).all<LegacyCity>(),
+      env.DB.prepare("SELECT id, slug, name, country_code, city_slug, suburb, address, email, website, services, description, price_from, image_url FROM listings WHERE country_code = ? ORDER BY premium DESC, created_at DESC").bind(code).all<LegacyListing>(),
+    ]);
+    if (!cities.results.length && !listings.results.length) return null;
+    const cityNames = new Map(cities.results.map(city => [city.slug, city.name]));
+    return {
+      country: { code, name: COUNTRY_NAMES[code] ?? code.toUpperCase(), listingCount: listings.results.length },
+      cities: cities.results.map(city => ({ id: city.id, name: city.name, slug: city.slug, country: city.country_code, countryCode: city.country_code, primaryLocale: "en", introduction: city.intro, isActive: true })),
+      listings: listings.results.map(row => toPlaceCard(row, cityNames.get(row.city_slug))),
+    };
   } catch {
     return null;
   }

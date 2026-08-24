@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { createInquiry, getArticleBySlug, getCityGuideBySlug, getDirectoryData, getListingBySlug } from "../db";
+import { createInquiry, getArticleBySlug, getCityGuideBySlug, getCountryGuideBySlug, getDirectoryData, getListingBySlug } from "../db";
 import { publicProcedure, router } from "../_core/trpc";
 
 export const directoryRouter = router({
@@ -8,6 +8,11 @@ export const directoryRouter = router({
   cityBySlug: publicProcedure.input(z.object({ slug: z.string().min(1).max(140) })).query(async ({ input }) => {
     const guide = await getCityGuideBySlug(input.slug);
     if (!guide) throw new TRPCError({ code: "NOT_FOUND", message: "This city guide is not available." });
+    return guide;
+  }),
+  countryBySlug: publicProcedure.input(z.object({ code: z.string().min(2).max(2) })).query(async ({ input }) => {
+    const guide = await getCountryGuideBySlug(input.code);
+    if (!guide) throw new TRPCError({ code: "NOT_FOUND", message: "This country guide is not available." });
     return guide;
   }),
   listingBySlug: publicProcedure.input(z.object({ slug: z.string().min(1).max(180) })).query(async ({ input }) => {

@@ -1,4 +1,6 @@
-import { ArrowUpRight, Globe2, Menu, X } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { COUNTRIES, setCountryChoice } from "@/lib/country";
+import { ArrowUpRight, ChevronDown, Globe2, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 
@@ -7,6 +9,36 @@ const navItems = [
   { href: "/journal", label: "Journal" },
   { href: "/list-your-place", label: "For studios" },
 ];
+
+function CountrySwitcher({ mobile = false }: { mobile?: boolean }) {
+  if (mobile) {
+    return (
+      <div className="mobile-country-switch">
+        {COUNTRIES.map(country => (
+          <Link key={country.code} href={`/${country.code}`} onClick={() => setCountryChoice(country.code)}>
+            {country.flag} {country.name}
+          </Link>
+        ))}
+      </div>
+    );
+  }
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button type="button" className="language-pill">
+          <Globe2 size={14} /> Country <ChevronDown size={13} />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        {COUNTRIES.map(country => (
+          <DropdownMenuItem key={country.code} asChild>
+            <Link href={`/${country.code}`} onClick={() => setCountryChoice(country.code)}>{country.flag} {country.name}</Link>
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 export function Wordmark({ inverted = false }: { inverted?: boolean }) {
   return (
@@ -28,7 +60,7 @@ export function SiteHeader() {
           {navItems.map(item => <Link key={item.href} href={item.href}>{item.label}</Link>)}
         </nav>
         <div className="site-header__actions">
-          <Link href="/directory" className="language-pill"><Globe2 size={14} /> EN <span>•</span> TH</Link>
+          <CountrySwitcher />
           <Link href="/list-your-place" className="header-cta">List your place <ArrowUpRight size={15} /></Link>
           <button type="button" className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open}>
             {open ? <X size={20} /> : <Menu size={21} />}
@@ -38,7 +70,7 @@ export function SiteHeader() {
       {open && (
         <nav className="mobile-nav" aria-label="Mobile navigation">
           {navItems.map(item => <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>{item.label}<ArrowUpRight size={17} /></Link>)}
-          <Link href="/directory" onClick={() => setOpen(false)}><Globe2 size={16} /> English / ไทย</Link>
+          <CountrySwitcher mobile />
         </nav>
       )}
     </header>

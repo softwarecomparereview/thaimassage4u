@@ -1,7 +1,7 @@
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { TRPCError } from "@trpc/server";
 import { prefetchForPath, type HeadMeta } from "../client/src/ssr/prefetch";
-import { getArticle, getCityGuide, getDirectoryHome, getListing } from "./directory";
+import { getArticle, getCityGuide, getCountryGuide, getDirectoryHome, getListing } from "./directory";
 import type { Env } from "./index";
 
 const siteName = "Quiet Hour";
@@ -31,6 +31,7 @@ async function getHead(pathAndSearch: string, env: Env) {
     listingBySlug: async slug => { const value = await getListing(env, slug); if (!value) throw new TRPCError({ code: "NOT_FOUND" }); return value as any; },
     articleBySlug: async slug => { const value = await getArticle(env, slug); if (!value) throw new TRPCError({ code: "NOT_FOUND" }); return value as any; },
     cityBySlug: async slug => { const value = await getCityGuide(env, slug); if (!value) throw new TRPCError({ code: "NOT_FOUND" }); return value as any; },
+    countryBySlug: async code => { const value = await getCountryGuide(env, code); if (!value) throw new TRPCError({ code: "NOT_FOUND" }); return value as any; },
   });
   return { head, state: dehydrate(queryClient) };
 }
@@ -41,6 +42,12 @@ async function renderPublicBody(path: string, env: Env) {
     const article = await getArticle(env, articleMatch[1]);
     if (!article) return `<main class="worker-ssr"><h1>Page not found</h1><p>This article is not available.</p></main>`;
     return `<main class="worker-ssr"><nav><a href="/">Quiet Hour</a><a href="/journal">Journal</a></nav><article><p class="eyebrow">${escape(String(article.topic ?? "Wellness"))}</p><h1>${escape(String(article.title))}</h1><p class="lede">${escape(String(article.excerpt ?? ""))}</p>${markdown(String(article.body ?? ""))}</article></main>`;
+  }
+  const countryMatch = path.match(/^\/(us|uk|au|de)$/);
+  if (countryMatch) {
+    const guide = await getCountryGuide(env, countryMatch[1]);
+    if (!guide) return `<main class="worker-ssr"><h1>Page not found</h1></main>`;
+    return `<main class="worker-ssr"><nav><a href="/">Quiet Hour</a><a href="/directory">Explore</a></nav><h1>Wellness in ${escape(guide.country.name)}</h1><ul>${guide.cities.map(city => `<li><a href="/city/${escape(city.slug)}">${escape(city.name)}</a></li>`).join("")}</ul><ul>${guide.listings.map(item => `<li><a href="/listing/${escape(item.slug)}">${escape(item.name)}</a></li>`).join("")}</ul></main>`;
   }
   const cityMatch = path.match(/^\/city\/([^/]+)$/);
   if (cityMatch) {

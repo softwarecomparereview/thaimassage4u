@@ -22,6 +22,7 @@ export type SsrPrefetch = {
   listingBySlug: (slug: string) => Promise<Outputs["directory"]["listingBySlug"]>;
   articleBySlug: (slug: string) => Promise<Outputs["directory"]["articleBySlug"]>;
   cityBySlug: (slug: string) => Promise<Outputs["directory"]["cityBySlug"]>;
+  countryBySlug: (code: string) => Promise<Outputs["directory"]["countryBySlug"]>;
 };
 
 const SITE = "Quiet Hour";
@@ -57,6 +58,13 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
   }
   if (path === "/list-your-place") {
     return { title: "List your wellness studio — Quiet Hour", description: "A considered listing for independent wellness studios, therapists, and recovery spaces.", canonicalPath: path, alternates: [{ locale: "en", path }] };
+  }
+  const country = path.match(/^\/(us|uk|au|de)$/);
+  if (country) {
+    const data = await genuineMiss(() => prefetch.countryBySlug(country[1]));
+    if (!data) return { title: SITE, description: DEFAULT_DESCRIPTION, notFound: true };
+    seeded(queryClient, getQueryKey(trpc.directory.countryBySlug, { code: country[1] }, "query"), data);
+    return { title: `Wellness in ${data.country.name} — ${SITE}`, description: `${data.country.listingCount} independently listed wellness places across ${data.cities.length} cities in ${data.country.name}.`, canonicalPath: path, alternates: [{ locale: "en", path }], jsonLd: { "@context": "https://schema.org", "@type": "CollectionPage", name: `Wellness in ${data.country.name}`, url: `https://thaimassageforu.com${path}` } };
   }
   const city = path.match(/^\/city\/([^/]+)$/);
   if (city) {

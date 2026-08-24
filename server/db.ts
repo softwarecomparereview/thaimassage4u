@@ -117,6 +117,24 @@ export async function getCityGuideBySlug(slug: string) {
   return { city: city[0], listings: placeCards, events: verifiedEvents, metrics: publishedMetrics };
 }
 
+const COUNTRY_NAMES: Record<string, string> = { us: "United States", uk: "United Kingdom", au: "Australia", de: "Germany" };
+
+export async function getCountryGuideBySlug(code: string) {
+  const db = await getDb();
+  if (!db || !COUNTRY_NAMES[code]) return undefined;
+  const countryCities = await db.select().from(cities).where(and(eq(cities.countryCode, code), eq(cities.isActive, true))).orderBy(cities.name);
+  const cityIds = countryCities.map(city => city.id);
+  if (!cityIds.length) return undefined;
+  const placeCards = await db
+    .select({ id: listings.id, name: listings.name, slug: listings.slug, descriptor: listings.descriptor, neighbourhood: listings.neighbourhood, imageUrl: listings.imageUrl, cityName: cities.name, citySlug: cities.slug, categoryName: categories.name })
+    .from(listings)
+    .innerJoin(cities, eq(listings.cityId, cities.id))
+    .innerJoin(categories, eq(listings.categoryId, categories.id))
+    .where(and(eq(cities.countryCode, code), eq(listings.status, "published")))
+    .orderBy(desc(listings.isFeatured), desc(listings.createdAt));
+  return { country: { code, name: COUNTRY_NAMES[code], listingCount: placeCards.length }, cities: countryCities, listings: placeCards };
+}
+
 export async function getPremiumListings() {
   const db = await getDb();
   if (!db) return [];

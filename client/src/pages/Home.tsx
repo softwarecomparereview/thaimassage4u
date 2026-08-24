@@ -1,5 +1,6 @@
 import { DirectoryPlaceCard } from "@/components/DirectoryPlaceCard";
 import { SiteFooter, SiteHeader } from "@/components/SiteFrame";
+import { COUNTRIES, setCountryChoice } from "@/lib/country";
 import { trpc } from "@/lib/trpc";
 import { ArrowDownRight, ArrowUpRight, CalendarDays, Compass, MapPin, Search, Sparkles } from "lucide-react";
 import { Link, useLocation } from "wouter";
@@ -29,6 +30,17 @@ export default function Home() {
     </section>
 
     <section className="manifesto-section"><p className="eyebrow">A slower index for busy places</p><div><h2>The best wellness recommendations are <em>felt</em>, not force-fed.</h2><p>Quiet Hour holds room for the studio down a side street, the practitioner people return to, and the small rituals that make a new city feel less unfamiliar. No noisy ratings. No false urgency. Just a clearer way to choose well.</p><Link href="/journal" className="text-link">Read the point of view <ArrowUpRight size={16} /></Link></div></section>
+
+    <section className="country-section">
+      <div className="section-heading"><div><p className="eyebrow">Where are you looking from?</p><h2>Choose your country.</h2></div></div>
+      <div className="country-grid">
+        {COUNTRIES.map(country => (
+          <Link href={`/${country.code}`} onClick={() => setCountryChoice(country.code)} className="country-card" key={country.code}>
+            <span className="country-card__flag">{country.flag}</span><h3>{country.name}</h3><ArrowUpRight size={20} />
+          </Link>
+        ))}
+      </div>
+    </section>
 
     <section className="explore-section"><div className="section-heading"><div><p className="eyebrow">Start close to home</p><h2>Every city has a different rhythm.</h2></div><Link href="/directory" className="text-link">See all places <ArrowUpRight size={16} /></Link></div><div className="city-list">{cities.length ? cities.slice(0, 4).map((city: any, index: number) => <Link href={`/city/${city.slug}`} className="city-row" key={city.id}><span>0{index + 1}</span><h3>{city.name}</h3><p>{city.country}</p><ArrowUpRight size={20} /></Link>) : <div className="city-row city-row--placeholder"><span>01</span><h3>Your first city, carefully mapped.</h3><p>City guides open once their local information is ready to be useful.</p><ArrowUpRight size={20} /></div>}</div></section>
 
