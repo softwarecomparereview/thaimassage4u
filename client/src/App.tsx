@@ -4,6 +4,7 @@ import ArticleDetail from "@/pages/ArticleDetail";
 import CityGuide from "@/pages/CityGuide";
 import CountryGuide from "@/pages/CountryGuide";
 import Cms from "@/pages/Cms";
+import ComingSoon from "@/pages/ComingSoon";
 import Directory from "@/pages/Directory";
 import Journal from "@/pages/Journal";
 import ListingDetail from "@/pages/ListingDetail";
@@ -29,6 +30,7 @@ function Router() {
       <Route path={"/journal"} component={Journal} />
       <Route path={"/journal/:slug"} component={ArticleDetail} />
       <Route path={"/list-your-place"} component={ListYourPlace} />
+      <Route path={"/coming-soon"} component={ComingSoon} />
       <Route path={"/cms"} component={Cms} />
       <Route path={"/cms/:section"} component={Cms} />
       <Route path={"/404"} component={NotFound} />

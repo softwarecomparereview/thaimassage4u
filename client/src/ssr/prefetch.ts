@@ -59,6 +59,9 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
   if (path === "/list-your-place") {
     return { title: "List your wellness studio — Quiet Hour", description: "A considered listing for independent wellness studios, therapists, and recovery spaces.", canonicalPath: path, alternates: [{ locale: "en", path }] };
   }
+  if (path === "/coming-soon") {
+    return { title: "What we're building next — Quiet Hour", description: "AI booking, deposit collection, and more on the Quiet Hour roadmap.", canonicalPath: path, alternates: [{ locale: "en", path }] };
+  }
   const country = path.match(/^\/(us|uk|au|de)$/);
   if (country) {
     const data = await genuineMiss(() => prefetch.countryBySlug(country[1]));

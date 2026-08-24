@@ -8,6 +8,7 @@ const navItems = [
   { href: "/directory", label: "Explore" },
   { href: "/journal", label: "Journal" },
   { href: "/list-your-place", label: "For studios" },
+  { href: "/coming-soon", label: "Roadmap" },
 ];
 
 function CountrySwitcher({ mobile = false }: { mobile?: boolean }) {

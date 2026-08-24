@@ -6,12 +6,25 @@ import { Mail, MessageSquare, Send, Upload } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "sonner";
 
-const INTRO_EMAIL_SUBJECT = "You're already listed on Thai Massage For U — here's what that means";
-const INTRO_EMAIL_BODY = `<p>Hi {{name}},</p>
-<p>Thai Massage For U (thaimassageforu.com) is a directory of independently listed wellness places — and your studio is already on it, alongside real listings across the US, UK, Australia and Germany.</p>
-<p>No signup was needed to get listed. If you'd like your page to stand out — appear first in your city, or across all of {{country}} — premium placement now starts at just <strong>$9/week</strong>, no account required, cancel anytime.</p>
-<p><a href="https://thaimassageforu.com">See how the directory looks</a></p>
-<p>Warmly,<br />The Thai Massage For U team</p>`;
+const INTRO_EMAIL_SUBJECT = "You're already listed on Thai Massage For U";
+const INTRO_EMAIL_BODY = `<div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1c261f">
+  <div style="background:#1f3527;padding:28px 32px;border-radius:8px 8px 0 0">
+    <span style="color:#f7f2e9;font-size:20px;font-weight:700;letter-spacing:-0.02em">Thai Massage For U</span>
+  </div>
+  <div style="background:#fffdf8;padding:32px;border:1px solid #e7ddc9;border-top:none">
+    <p style="font-size:16px;line-height:1.6;margin:0 0 16px">Hi {{name}},</p>
+    <p style="font-size:16px;line-height:1.6;margin:0 0 16px">Thai Massage For U is a directory of independently listed wellness places — and your studio is already live on it, alongside real listings across the US, UK, Australia and Germany.</p>
+    <p style="font-size:16px;line-height:1.6;margin:0 0 20px">{{city_blurb}}</p>
+    <div style="background:#f7f2e9;border-radius:6px;padding:20px;margin:0 0 20px">
+      <p style="margin:0 0 8px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#2f4a3c">No signup needed</p>
+      <p style="margin:0;font-size:15px;line-height:1.55">Your listing went up automatically — nothing to claim, nothing to fill in. If you'd like it to stand out, premium placement in {{city}} starts at <strong>$9/week</strong>, cancel anytime, no account required.</p>
+    </div>
+    <div style="text-align:center;margin:28px 0">
+      <a href="https://thaimassageforu.com/{{country_code}}" style="background:#2f4a3c;color:#f7f2e9;text-decoration:none;padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;display:inline-block">See your listing</a>
+    </div>
+    <p style="font-size:15px;line-height:1.6;margin:0;color:#3a4a3c">Warmly,<br />The Thai Massage For U team</p>
+  </div>
+</div>`;
 
 const INTRO_SMS_BODY = `Hi {{name}}, your studio is now listed on Thai Massage For U (thaimassageforu.com) — a wellness directory across the US/UK/AU/DE. Want to stand out? Premium placement from $9/wk, no signup needed. Reply STOP to opt out.`;
 
@@ -33,8 +46,8 @@ export default function CmsCampaigns({ cities }: { cities: any[] }) {
   const [name, setName] = useState("Launch announcement");
   const [subject, setSubject] = useState(INTRO_EMAIL_SUBJECT);
   const [body, setBody] = useState(INTRO_EMAIL_BODY);
-  const [audienceSource, setAudienceSource] = useState<"csv" | "city" | "country">("country");
-  const [citySlug, setCitySlug] = useState("");
+  const [audienceSource, setAudienceSource] = useState<"csv" | "city" | "country">("city");
+  const [citySlugs, setCitySlugs] = useState<string[]>([]);
   const [countryCode, setCountryCode] = useState("us");
   const [csvRows, setCsvRows] = useState<{ name?: string; email?: string; phone?: string }[]>([]);
   const [busy, setBusy] = useState(false);
@@ -43,6 +56,10 @@ export default function CmsCampaigns({ cities }: { cities: any[] }) {
     setChannel(next);
     setBody(next === "email" ? INTRO_EMAIL_BODY : INTRO_SMS_BODY);
     setSubject(next === "email" ? INTRO_EMAIL_SUBJECT : "");
+  }
+
+  function toggleCity(slug: string) {
+    setCitySlugs(current => current.includes(slug) ? current.filter(s => s !== slug) : [...current, slug]);
   }
 
   async function handleCsvFile(event: ChangeEvent<HTMLInputElement>) {
@@ -60,7 +77,7 @@ export default function CmsCampaigns({ cities }: { cities: any[] }) {
       const createResponse = await fetch("/api/admin/campaigns", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ name, channel, subject: channel === "email" ? subject : undefined, body, audienceSource, citySlug: audienceSource === "city" ? citySlug : undefined, countryCode: audienceSource === "country" ? countryCode : undefined, csvRows: audienceSource === "csv" ? csvRows : undefined }),
+        body: JSON.stringify({ name, channel, subject: channel === "email" ? subject : undefined, body, audienceSource, citySlugs: audienceSource === "city" ? citySlugs : undefined, countryCode: audienceSource === "country" ? countryCode : undefined, csvRows: audienceSource === "csv" ? csvRows : undefined }),
       });
       const created: { campaignId?: number; recipientCount?: number; error?: string } = await createResponse.json();
       if (!createResponse.ok || !created.campaignId) { toast.error(created.error ?? "Couldn't create campaign."); return; }
@@ -83,12 +100,13 @@ export default function CmsCampaigns({ cities }: { cities: any[] }) {
         </div>
         <Input placeholder="Campaign name" value={name} onChange={e => setName(e.target.value)} required />
         {channel === "email" && <Input placeholder="Subject" value={subject} onChange={e => setSubject(e.target.value)} required />}
-        <Textarea placeholder="Message body" value={body} onChange={e => setBody(e.target.value)} rows={channel === "email" ? 10 : 4} required />
-        <p className="cms-hint">Placeholders: <code>{"{{name}}"}</code> <code>{"{{city}}"}</code> <code>{"{{country}}"}</code></p>
+        <Textarea placeholder="Message body" value={body} onChange={e => setBody(e.target.value)} rows={channel === "email" ? 12 : 4} required />
+        <p className="cms-hint">Placeholders: <code>{"{{name}}"}</code> <code>{"{{city}}"}</code> <code>{"{{country}}"}</code> <code>{"{{city_blurb}}"}</code></p>
+        {channel === "email" && <p className="cms-hint">Every send always CCs aniruddhp@gmail.com and hello@thaimassageforu.com as a live check.</p>}
 
         <div className="cms-audience-picker">
-          <label><input type="radio" checked={audienceSource === "country"} onChange={() => setAudienceSource("country")} /> By country</label>
           <label><input type="radio" checked={audienceSource === "city"} onChange={() => setAudienceSource("city")} /> By city</label>
+          <label><input type="radio" checked={audienceSource === "country"} onChange={() => setAudienceSource("country")} /> By country</label>
           <label><input type="radio" checked={audienceSource === "csv"} onChange={() => setAudienceSource("csv")} /> Upload CSV</label>
         </div>
         {audienceSource === "country" && (
@@ -97,10 +115,11 @@ export default function CmsCampaigns({ cities }: { cities: any[] }) {
           </select>
         )}
         {audienceSource === "city" && (
-          <select value={citySlug} onChange={e => setCitySlug(e.target.value)} required>
-            <option value="">Choose a city…</option>
-            {cities.map((city: any) => <option key={city.id} value={city.slug}>{city.name}</option>)}
-          </select>
+          <div className="cms-city-checklist">
+            {cities.map((city: any) => (
+              <label key={city.id}><input type="checkbox" checked={citySlugs.includes(city.slug)} onChange={() => toggleCity(city.slug)} /> {city.name}</label>
+            ))}
+          </div>
         )}
         {audienceSource === "csv" && (
           <label className="cms-csv-upload">

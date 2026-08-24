@@ -1,6 +1,6 @@
 import type { Env } from "./index";
 import type { WorkerUser } from "./auth";
-import { resolveAudience, unsubToken, type CampaignRecipientRow } from "./campaigns";
+import { resolveAudience, unsubToken, ALWAYS_CC, type CampaignRecipientRow } from "./campaigns";
 import { verifyTwilioSignature } from "./sms";
 
 const TRANSPARENT_PIXEL = Uint8Array.from(atob("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBTAA7"), c => c.charCodeAt(0));
@@ -11,7 +11,7 @@ type CreateCampaignInput = {
   subject?: string;
   body: string;
   audienceSource: "csv" | "city" | "country";
-  citySlug?: string;
+  citySlugs?: string[];
   countryCode?: string;
   csvRows?: { name?: string; email?: string; phone?: string }[];
 };
@@ -21,11 +21,20 @@ export async function handleCreateCampaign(request: Request, env: Env, user: Wor
   if (!input?.name || !input.body || !input.channel) return Response.json({ error: "name, channel, and body are required." }, { status: 400 });
 
   const rows: CampaignRecipientRow[] = (input.csvRows ?? []).map(r => ({ name: r.name ?? null, email: r.email ?? null, phone: r.phone ?? null, city_slug: null, country_code: null, listing_id: null }));
-  const audience = await resolveAudience(env, input.audienceSource, { rows, citySlug: input.citySlug, countryCode: input.countryCode }, input.channel);
+  const audience = await resolveAudience(env, input.audienceSource, { rows, citySlugs: input.citySlugs, countryCode: input.countryCode }, input.channel);
   if (!audience.length) return Response.json({ error: "No recipients found for that audience — nothing to send to." }, { status: 400 });
 
+  // Every send always carries these two as a live check — a real send is never fired blind.
+  if (input.channel === "email") {
+    for (const address of ALWAYS_CC) {
+      if (!audience.some(r => r.email?.toLowerCase() === address.toLowerCase())) {
+        audience.push({ name: "Team", email: address, phone: null, city_slug: null, country_code: null, listing_id: null });
+      }
+    }
+  }
+
   const campaign = await env.DB.prepare("INSERT INTO qh_campaigns (name, channel, subject, body, audience_source, audience_filter, created_by) VALUES (?, ?, ?, ?, ?, ?, ?)")
-    .bind(input.name, input.channel, input.subject ?? null, input.body, input.audienceSource, JSON.stringify({ citySlug: input.citySlug, countryCode: input.countryCode }), user.id)
+    .bind(input.name, input.channel, input.subject ?? null, input.body, input.audienceSource, JSON.stringify({ citySlugs: input.citySlugs, countryCode: input.countryCode }), user.id)
     .run();
   const campaignId = Number(campaign.meta.last_row_id);
 

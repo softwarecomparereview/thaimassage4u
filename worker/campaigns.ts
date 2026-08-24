@@ -4,14 +4,25 @@ import { sendSms } from "./sms";
 
 export type CampaignRecipientRow = { name: string | null; email: string | null; phone: string | null; city_slug: string | null; country_code: string | null; listing_id: number | null };
 
+/** Always copied on every send so a real send is never fired blind. */
+export const ALWAYS_CC = ["aniruddhp@gmail.com", "hello@thaimassageforu.com"];
+
+/** A few honest, city-specific lines on why the directory is useful there — used as {{city_blurb}} in templates. Falls back to a generic line for any city not listed here. */
+export const CITY_BLURBS: Record<string, string> = {
+  melbourne: "Melbourne's wellness scene is dense and word-of-mouth driven — a lot of great studios in the CBD, Southbank and the inner suburbs never show up for someone searching from a hotel or new to the area. We're building a straightforward, city-first directory so people looking for a proper Thai massage in Melbourne can actually find you.",
+  sydney: "Sydney has more visitors and transplants searching \"massage near me\" on any given day than almost any other city we cover — CBD workers, tourists around Circular Quay and Bondi, people between meetings. Most of that search traffic never reaches an independent studio's own website. That's the gap we're filling.",
+};
+const DEFAULT_CITY_BLURB = "We're building a straightforward, city-first wellness directory so people searching for a real studio — not a franchise — can actually find you.";
+
 /** Legacy `listings`/`cities` is the real contact-data source — it has
  * both phone and email for the 494+4 real businesses; qh_listings (synced
  * for the CMS dashboard) only carries contact_email. */
-export async function resolveAudience(env: Env, source: "csv" | "city" | "country", filter: { rows?: CampaignRecipientRow[]; citySlug?: string; countryCode?: string }, channel: "email" | "sms"): Promise<CampaignRecipientRow[]> {
+export async function resolveAudience(env: Env, source: "csv" | "city" | "country", filter: { rows?: CampaignRecipientRow[]; citySlugs?: string[]; countryCode?: string }, channel: "email" | "sms"): Promise<CampaignRecipientRow[]> {
   if (source === "csv") return filter.rows ?? [];
   const column = channel === "email" ? "email" : "phone";
-  if (source === "city" && filter.citySlug) {
-    const { results } = await env.DB.prepare(`SELECT id AS listing_id, name, email, phone, city_slug, country_code FROM listings WHERE city_slug = ? AND ${column} IS NOT NULL AND ${column} != ''`).bind(filter.citySlug).all<CampaignRecipientRow & { name: string; listing_id: number }>();
+  if (source === "city" && filter.citySlugs?.length) {
+    const placeholders = filter.citySlugs.map(() => "?").join(",");
+    const { results } = await env.DB.prepare(`SELECT id AS listing_id, name, email, phone, city_slug, country_code FROM listings WHERE city_slug IN (${placeholders}) AND ${column} IS NOT NULL AND ${column} != ''`).bind(...filter.citySlugs).all<CampaignRecipientRow & { name: string; listing_id: number }>();
     return results.map(r => ({ ...r, name: r.name }));
   }
   if (source === "country" && filter.countryCode) {
@@ -45,7 +56,8 @@ export async function processCampaignSend(env: Env, message: QueueMessage) {
     return;
   }
 
-  const vars = { name: recipient.name ?? "there", city: recipient.city_slug ?? "", country: (recipient.country_code ?? "").toUpperCase() };
+  const cityName = recipient.city_slug ? recipient.city_slug.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()) : "";
+  const vars = { name: recipient.name ?? "there", city: cityName, country: (recipient.country_code ?? "").toUpperCase(), country_code: (recipient.country_code ?? "").toLowerCase(), city_blurb: recipient.city_slug ? (CITY_BLURBS[recipient.city_slug] ?? DEFAULT_CITY_BLURB) : DEFAULT_CITY_BLURB };
   try {
     if (recipient.channel === "email") {
       const unsubscribeUrl = `${env.SITE_URL}/api/campaigns/unsubscribe?email=${encodeURIComponent(address)}&token=${await unsubToken(env, address)}`;
