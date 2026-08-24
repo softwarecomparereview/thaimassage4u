@@ -1,11 +1,13 @@
 // Pulls real massage/spa businesses from Google Maps via the Apify actor
-// scrapier/google-maps-scraper, one call per city, and applies the same
-// minimum data-quality bar we defined for the OSM scrape: must have a name
-// and at least a phone or an email — a listing has to be reachable to be
-// worth including, not just a pin on a map.
+// lukaskrivka/google-maps-with-contact-details, one call per city, and
+// applies the same minimum data-quality bar we defined for the OSM scrape:
+// must have a name and at least a phone or an email — a listing has to be
+// reachable to be worth including, not just a pin on a map. This actor also
+// crawls each business's own website afterward to pull a real email
+// address, which plain Google Maps data never exposes.
 //
 // Auth: reads APIFY_TOKEN from the environment. Never hardcode it here.
-// Docs followed: https://apify.com/agents.md, https://apify.com/scrapier/google-maps-scraper
+// Docs followed: https://apify.com/agents.md, https://apify.com/lukaskrivka/google-maps-with-contact-details
 //
 // Usage: APIFY_TOKEN=xxx node scripts/apify-scrape-listings.mjs
 
@@ -64,23 +66,23 @@ function isAdultServiceMatch(name) {
 }
 
 function toRecord(item, countryCode, citySlug) {
-  const name = item.name?.trim();
+  const name = item.title?.trim();
   if (!name || isAdultServiceMatch(name)) return null;
   return {
     countryCode,
     citySlug,
     name,
-    phone: item.phone ?? null,
-    email: item.email ?? null, // rarely present from Google Maps directly — kept in case the actor enriches it from the business's own website
+    phone: item.phone ?? item.phoneUnformatted ?? null,
+    email: Array.isArray(item.emails) ? (item.emails[0] ?? null) : (item.emails ?? null),
     website: item.website ?? null,
-    address: item.fullAddress ?? item.address ?? null,
+    address: item.address ?? null,
     street: item.street ?? null,
     suburb: item.city ?? null,
-    postcode: item.postalCode ?? item.zip ?? null,
-    lat: item.location?.lat ?? item.lat ?? null,
-    lon: item.location?.lng ?? item.lng ?? null,
-    rating: item.totalScore ?? item.rating ?? null,
-    reviewCount: item.reviewsCount ?? item.reviewCount ?? null,
+    postcode: item.postalCode ?? null,
+    lat: item.location?.lat ?? null,
+    lon: item.location?.lng ?? null,
+    rating: item.totalScore ?? null,
+    reviewCount: item.reviewsCount ?? null,
     openingHours: item.openingHours ?? null,
     placeId: item.placeId ?? null,
   };
@@ -89,7 +91,7 @@ function toRecord(item, countryCode, citySlug) {
 async function scrapeCity([countryCode, citySlug, cityName, region, countryName]) {
   const location = `${cityName}, ${countryName}`;
   console.log(`Scraping ${countryCode}/${citySlug} (${location})…`);
-  const input = { locations: [location], keywords: ["massage", "spa"], maxResults: PER_CITY_PULL, proxyConfiguration: { useApifyProxy: true } };
+  const input = { searchStringsArray: ["massage", "spa"], locationQuery: location, maxCrawledPlacesPerSearch: PER_CITY_PULL, language: "en" };
   let items;
   try {
     items = await runActorSync(input);
@@ -135,7 +137,7 @@ async function main() {
   mkdirSync(new URL("../data", import.meta.url), { recursive: true });
   writeFileSync(
     new URL("../data/apify-listings.json", import.meta.url),
-    JSON.stringify({ generatedAt: new Date().toISOString(), source: "Apify scrapier/google-maps-scraper", raw: all.length, passedQualityBar: passed.length, kept: trimmed.length, listings: trimmed }, null, 2) + "\n",
+    JSON.stringify({ generatedAt: new Date().toISOString(), source: "Apify lukaskrivka/google-maps-with-contact-details", raw: all.length, passedQualityBar: passed.length, kept: trimmed.length, listings: trimmed }, null, 2) + "\n",
   );
 
   console.log(`\nRaw pulled: ${all.length}`);
