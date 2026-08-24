@@ -20,7 +20,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/useMobile";
-import { Building2, FileText, Languages, LayoutDashboard, LogOut, Map, MessageCircleMore, PanelLeft } from "lucide-react";
+import { Building2, FileText, Inbox, Languages, LayoutDashboard, LogOut, Map, MessageCircleMore, PanelLeft, Send } from "lucide-react";
 import { CSSProperties, FormEvent, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -101,6 +101,8 @@ const menuItems = [
   { icon: FileText, label: "Journal", path: "/cms/content" },
   { icon: Languages, label: "Locales", path: "/cms/locales" },
   { icon: MessageCircleMore, label: "Messages", path: "/cms/messages" },
+  { icon: Send, label: "Campaigns", path: "/cms/campaigns" },
+  { icon: Inbox, label: "Inbox", path: "/cms/inbox" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";

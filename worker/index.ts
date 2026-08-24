@@ -2,11 +2,13 @@ import { Hono } from "hono";
 import { DurableObject, WorkflowEntrypoint, type WorkflowEvent, type WorkflowStep } from "cloudflare:workers";
 import { createInquiry, getCityGuide, getDirectoryHome, getListing } from "./directory";
 import { handleTrpc } from "./trpc";
-import { handleOAuthCallback } from "./auth";
+import { handleOAuthCallback, getWorkerUser } from "./auth";
 import { handleAdminLogin } from "./simple-admin-auth";
 import { handleStripeWebhook, handlePublicPremiumCheckout } from "./stripe";
 import { serveWorkerPage } from "./ssr";
 import { geoHomeLocation, internationalCookie, isDirectoryCountry, countryChoiceCookie } from "./geo";
+import { handleCreateCampaign, handleSendCampaign, handleListCampaigns, handleListInbox, handleMarkInboxRead, handleUnsubscribe, handleResendWebhook, handleTwilioStatusWebhook, handleTwilioInboundWebhook } from "./admin-campaigns";
+import { processCampaignSend } from "./campaigns";
 
 export interface Env {
   ASSETS: Fetcher;
@@ -24,6 +26,12 @@ export interface Env {
   STRIPE_WEBHOOK_SECRET: string;
   /** Shared-password fallback admin login — see simple-admin-auth.ts. */
   ADMIN_PASSWORD?: string;
+  LEADS: Queue<{ recipientId: number }>;
+  RESEND_API_KEY?: string;
+  RESEND_WEBHOOK_SECRET?: string;
+  TWILIO_ACCOUNT_SID?: string;
+  TWILIO_AUTH_TOKEN?: string;
+  TWILIO_FROM_NUMBER?: string;
   CF_VERSION_METADATA?: { id?: string; tag?: string };
 }
 
@@ -120,6 +128,44 @@ app.post("/api/directory/inquiry", async c => {
   return c.json(await createInquiry(c.env, { listingId: input.listingId, name: input.name.trim(), email: input.email.trim(), phone: input.phone?.trim(), message: input.message.trim(), consentEmail: Boolean(input.consentEmail), consentSms: Boolean(input.consentSms) }), 201);
 });
 
+/** Same admin gate as the tRPC cms.* procedures, for the plain HTTP campaign routes. */
+async function requireAdmin(c: { req: { raw: Request }; env: Env }) {
+  const user = await getWorkerUser(c.req.raw, c.env);
+  if (!user || user.role !== "admin") return null;
+  return user;
+}
+
+app.post("/api/admin/campaigns", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleCreateCampaign(c.req.raw, c.env, user);
+});
+app.post("/api/admin/campaigns/:id/send", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleSendCampaign(c.env, Number(c.req.param("id")));
+});
+app.get("/api/admin/campaigns", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleListCampaigns(c.env);
+});
+app.get("/api/admin/inbox", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleListInbox(c.env);
+});
+app.post("/api/admin/inbox/:id/read", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleMarkInboxRead(c.env, Number(c.req.param("id")));
+});
+
+app.get("/api/campaigns/unsubscribe", c => handleUnsubscribe(c.req.raw, c.env));
+app.post("/api/webhooks/resend", c => handleResendWebhook(c.req.raw, c.env));
+app.post("/api/webhooks/twilio/status", c => handleTwilioStatusWebhook(c.req.raw, c.env));
+app.post("/api/webhooks/twilio/inbound", c => handleTwilioInboundWebhook(c.req.raw, c.env));
+
 app.get("/", async c => {
   const destination = geoHomeLocation(c.req.raw);
   if (destination) return c.redirect(destination, 302);
@@ -141,8 +187,34 @@ app.all("*", async c => hardened(await serveWorkerPage(c.req.raw, c.env)));
 
 export default {
   fetch: app.fetch,
-  /** No producer currently sends to `thaimassageforu-leads`; this satisfies Cloudflare's requirement that a declared consumer have a handler. */
-  async queue(batch: MessageBatch, _env: Env) {
-    for (const message of batch.messages) message.ack();
+  /** Consumes campaign send jobs enqueued by handleSendCampaign — one message per recipient, so a slow/rate-limited provider or a transient failure can't block the rest of a send (Queues retry failed messages automatically). */
+  async queue(batch: MessageBatch<{ recipientId: number }>, env: Env) {
+    for (const message of batch.messages) {
+      await processCampaignSend(env, message.body);
+      message.ack();
+    }
+  },
+  /**
+   * Cloudflare Email Routing inbound handler — captures replies to
+   * hello@thaimassageforu.com. Requires Email Routing to be enabled for
+   * the zone (Cloudflare dashboard → thaimassageforu.com → Email →
+   * Email Routing) with a route sending hello@ to this Worker; that
+   * dashboard/DNS step can't be done from here.
+   */
+  async email(message: ForwardableEmailMessage, env: Env) {
+    const PostalMime = (await import("postal-mime")).default;
+    const raw = new Response(message.raw);
+    const parsed = await PostalMime.parse(await raw.arrayBuffer());
+    await env.DB.prepare("INSERT INTO qh_inbound_messages (channel, from_address, to_address, subject, body) VALUES ('email', ?, ?, ?, ?)")
+      .bind(message.from, message.to, parsed.subject ?? "", parsed.text ?? parsed.html ?? "")
+      .run();
+    // Also forward to a real inbox so replies aren't only visible in /cms.
+    if (env.CONTACT_EMAIL && env.CONTACT_EMAIL !== message.to) {
+      try {
+        await message.forward(env.CONTACT_EMAIL);
+      } catch {
+        // forward() throws if the destination isn't a verified Email Routing address — the D1 copy above is unaffected.
+      }
+    }
   },
 };

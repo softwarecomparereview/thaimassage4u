@@ -7,6 +7,8 @@ import { CheckCircle2, CircleAlert, FileText, Globe2, MapPinned, MessageSquareTe
 import { FormEvent, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
+import CmsCampaigns from "./CmsCampaigns";
+import CmsInbox from "./CmsInbox";
 
 const sectionTitles: Record<string, { eyebrow: string; title: string; description: string }> = {
   overview: { eyebrow: "Operations / index health", title: "A calm view of the directory.", description: "Manage what the public sees, verify city signals, and keep the content layers useful." },
@@ -15,6 +17,8 @@ const sectionTitles: Record<string, { eyebrow: string; title: string; descriptio
   content: { eyebrow: "Journal / editorial desk", title: "Publish guidance with a point of view.", description: "Create drafts, send them to review, and publish only when the article is ready to serve a reader." },
   locales: { eyebrow: "International / native review", title: "Global pages, written like they belong there.", description: "Translation drafts wait for native-language review before they can become public locale pages." },
   messages: { eyebrow: "Communications / consent first", title: "Introduce Quiet Hour without losing the human note.", description: "Keep email and SMS templates orderly, explicit, and ready for the selected delivery provider." },
+  campaigns: { eyebrow: "Outreach / email & SMS", title: "Announce the directory, city by city.", description: "Send from hello@thaimassageforu.com or an SMS number, to a CSV upload or every listing in a city or country." },
+  inbox: { eyebrow: "Outreach / replies", title: "Every reply, in one place.", description: "Email replies and inbound SMS both land here, whether or not you're checking that mailbox." },
 };
 
 function statusTone(status: string) { return `cms-status cms-status--${status.replaceAll("_", "-")}`; }
@@ -54,6 +58,8 @@ export default function Cms() {
       {section === "content" && <CmsContent form={articleForm} setForm={setArticleForm} submit={submitArticle} saving={saveArticle.isPending} articles={data.articles} />}
       {section === "locales" && <CmsLocales translations={data.localizedContent} />}
       {section === "messages" && <CmsMessages form={templateForm} setForm={setTemplateForm} submit={submitTemplate} saving={saveTemplate.isPending} templates={data.templates} inquiries={data.inquiries} outbox={data.outbox} />}
+      {section === "campaigns" && <CmsCampaigns cities={data.cities} />}
+      {section === "inbox" && <CmsInbox />}
     </>}
   </div></DashboardLayout>;
 }
