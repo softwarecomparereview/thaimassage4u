@@ -20,12 +20,24 @@ if (!TOKEN) {
   process.exit(1);
 }
 
-// Pay-per-event, no monthly rental (~$1.50/1k places, plus its website-crawl
+// Pay-per-event, no monthly rental (~$2.10/1k places, plus its website-crawl
 // enrichment for emails). Swap this one constant if a different actor is picked —
 // nothing else in this script is actor-specific beyond the input/output field names below.
 const ACTOR = "lukaskrivka~google-maps-with-contact-details";
-const TOTAL_TARGET = 1000;
-const PER_CITY_PULL = Math.ceil((TOTAL_TARGET / cities.length) * 1.3); // pull a little extra per city to absorb quality-filter losses
+const MIN_RATING = 4;
+const MIN_RATING_ENUM = { 2: "two", 2.5: "twoAndHalf", 3: "three", 3.5: "threeAndHalf", 4: "four", 4.5: "fourAndHalf" }[MIN_RATING];
+
+// Per-country targets for this pull — de/us/au only, run in this order; uk isn't part of this batch.
+const COUNTRY_TARGETS = { de: 400, us: 400, au: 200 };
+const RUN_CITIES = cities
+  .filter(([countryCode]) => countryCode in COUNTRY_TARGETS)
+  .sort((a, b) => Object.keys(COUNTRY_TARGETS).indexOf(a[0]) - Object.keys(COUNTRY_TARGETS).indexOf(b[0]));
+const citiesByCountry = {};
+for (const city of RUN_CITIES) (citiesByCountry[city[0]] ??= []).push(city);
+// Pull a third more than the target per city to absorb quality-filter losses (name+phone/email+4-star bar).
+function perCityPull(countryCode) {
+  return Math.ceil((COUNTRY_TARGETS[countryCode] / citiesByCountry[countryCode].length) * 1.3);
+}
 
 async function runActorSync(input) {
   const response = await fetch(`https://api.apify.com/v2/actors/${ACTOR}/run-sync-get-dataset-items?timeout=280`, {
@@ -90,8 +102,9 @@ function toRecord(item, countryCode, citySlug) {
 
 async function scrapeCity([countryCode, citySlug, cityName, region, countryName]) {
   const location = `${cityName}, ${countryName}`;
-  console.log(`Scraping ${countryCode}/${citySlug} (${location})…`);
-  const input = { searchStringsArray: ["massage", "spa"], locationQuery: location, maxCrawledPlacesPerSearch: PER_CITY_PULL, language: "en" };
+  const pull = perCityPull(countryCode);
+  console.log(`Scraping ${countryCode}/${citySlug} (${location}), targeting ${pull}…`);
+  const input = { searchStringsArray: ["massage", "spa"], locationQuery: location, maxCrawledPlacesPerSearch: pull, language: "en", placeMinimumStars: MIN_RATING_ENUM };
   let items;
   try {
     items = await runActorSync(input);
@@ -114,7 +127,9 @@ async function scrapeCity([countryCode, citySlug, cityName, region, countryName]
 }
 
 function passesQualityBar(record) {
-  return Boolean(record.name) && Boolean((record.phone && record.phone.trim()) || (record.email && record.email.trim()));
+  const hasChannel = Boolean((record.phone && record.phone.trim()) || (record.email && record.email.trim()));
+  const hasRating = typeof record.rating === "number" && record.rating >= MIN_RATING;
+  return Boolean(record.name) && hasChannel && hasRating;
 }
 
 function completenessScore(record) {
@@ -123,7 +138,7 @@ function completenessScore(record) {
 
 async function main() {
   const all = [];
-  for (const city of cities) {
+  for (const city of RUN_CITIES) {
     try {
       all.push(...(await scrapeCity(city)));
     } catch (error) {
@@ -131,21 +146,27 @@ async function main() {
     }
   }
 
-  const passed = all.filter(passesQualityBar).sort((a, b) => completenessScore(b) - completenessScore(a));
-  const trimmed = passed.slice(0, TOTAL_TARGET);
+  const passed = all.filter(passesQualityBar);
+  // Trim per country to that country's own target, not one global cap — otherwise a big
+  // early country (de, scraped first) could crowd out us/au's share of a shared 1000 cap.
+  const trimmed = [];
+  const keptByCountry = {};
+  for (const countryCode of Object.keys(COUNTRY_TARGETS)) {
+    const countryPassed = passed.filter(r => r.countryCode === countryCode).sort((a, b) => completenessScore(b) - completenessScore(a) || b.rating - a.rating);
+    const countryTrimmed = countryPassed.slice(0, COUNTRY_TARGETS[countryCode]);
+    trimmed.push(...countryTrimmed);
+    keptByCountry[countryCode] = countryTrimmed.length;
+  }
 
   mkdirSync(new URL("../data", import.meta.url), { recursive: true });
   writeFileSync(
     new URL("../data/apify-listings.json", import.meta.url),
-    JSON.stringify({ generatedAt: new Date().toISOString(), source: "Apify lukaskrivka/google-maps-with-contact-details", raw: all.length, passedQualityBar: passed.length, kept: trimmed.length, listings: trimmed }, null, 2) + "\n",
+    JSON.stringify({ generatedAt: new Date().toISOString(), source: "Apify lukaskrivka/google-maps-with-contact-details", minRating: MIN_RATING, targets: COUNTRY_TARGETS, raw: all.length, passedQualityBar: passed.length, kept: trimmed.length, listings: trimmed }, null, 2) + "\n",
   );
 
   console.log(`\nRaw pulled: ${all.length}`);
-  console.log(`Passed name+phone/email bar: ${passed.length}`);
-  console.log(`Kept (capped at ${TOTAL_TARGET}): ${trimmed.length}`);
-  const byCountry = {};
-  for (const record of trimmed) byCountry[record.countryCode] = (byCountry[record.countryCode] ?? 0) + 1;
-  console.log("By country:", byCountry);
+  console.log(`Passed name+phone/email+${MIN_RATING}★ bar: ${passed.length}`);
+  console.log(`Kept per country target:`, keptByCountry, `(total ${trimmed.length})`);
 }
 
 main().catch(error => {

@@ -14,19 +14,32 @@ export const CITY_BLURBS: Record<string, string> = {
 };
 const DEFAULT_CITY_BLURB = "We're building a straightforward, city-first wellness directory so people searching for a real studio — not a franchise — can actually find you.";
 
+/** Excludes anyone a previous campaign already successfully reached on this channel — checked
+ * against qh_campaign_recipients.sent_at, which every send already stamps (see processCampaignSend
+ * below). Keeps a city/country audience from re-hitting the same businesses on a later campaign.
+ * 'queued'/'sending'/'failed'/'bounced'/'unsubscribed' don't count as "already emailed" — only a
+ * send that actually went out does. CSV audiences bypass this on purpose: that list was hand-picked
+ * for this send, so it's not silently filtered. */
+const ALREADY_CONTACTED_CLAUSE = `NOT EXISTS (
+    SELECT 1 FROM qh_campaign_recipients cr
+    JOIN qh_campaigns c ON c.id = cr.campaign_id
+    WHERE c.channel = ? AND cr.__COLUMN__ = listings.__COLUMN__ AND cr.status IN ('sent', 'delivered', 'opened', 'clicked')
+  )`;
+
 /** Legacy `listings`/`cities` is the real contact-data source — it has
  * both phone and email for the 494+4 real businesses; qh_listings (synced
  * for the CMS dashboard) only carries contact_email. */
 export async function resolveAudience(env: Env, source: "csv" | "city" | "country", filter: { rows?: CampaignRecipientRow[]; citySlugs?: string[]; countryCode?: string }, channel: "email" | "sms"): Promise<CampaignRecipientRow[]> {
   if (source === "csv") return filter.rows ?? [];
   const column = channel === "email" ? "email" : "phone";
+  const alreadyContacted = ALREADY_CONTACTED_CLAUSE.replaceAll("__COLUMN__", column);
   if (source === "city" && filter.citySlugs?.length) {
     const placeholders = filter.citySlugs.map(() => "?").join(",");
-    const { results } = await env.DB.prepare(`SELECT id AS listing_id, name, email, phone, city_slug, country_code FROM listings WHERE city_slug IN (${placeholders}) AND ${column} IS NOT NULL AND ${column} != ''`).bind(...filter.citySlugs).all<CampaignRecipientRow & { name: string; listing_id: number }>();
+    const { results } = await env.DB.prepare(`SELECT id AS listing_id, name, email, phone, city_slug, country_code FROM listings WHERE city_slug IN (${placeholders}) AND ${column} IS NOT NULL AND ${column} != '' AND ${alreadyContacted}`).bind(...filter.citySlugs, channel).all<CampaignRecipientRow & { name: string; listing_id: number }>();
     return results.map(r => ({ ...r, name: r.name }));
   }
   if (source === "country" && filter.countryCode) {
-    const { results } = await env.DB.prepare(`SELECT id AS listing_id, name, email, phone, city_slug, country_code FROM listings WHERE country_code = ? AND ${column} IS NOT NULL AND ${column} != ''`).bind(filter.countryCode).all<CampaignRecipientRow & { name: string; listing_id: number }>();
+    const { results } = await env.DB.prepare(`SELECT id AS listing_id, name, email, phone, city_slug, country_code FROM listings WHERE country_code = ? AND ${column} IS NOT NULL AND ${column} != '' AND ${alreadyContacted}`).bind(filter.countryCode, channel).all<CampaignRecipientRow & { name: string; listing_id: number }>();
     return results.map(r => ({ ...r, name: r.name }));
   }
   return [];
