@@ -1,9 +1,12 @@
 import Stripe from "stripe";
 import type { Env } from "./index";
 
+// Introductory launch pricing — cheap enough to remove hesitation on a
+// first cold ask, before any studio has evidence the placement earns its
+// keep. Revisit once the first cohort has seen real leads land.
 export const PREMIUM_TIER = {
-  city: { amount: 2100, interval: "week" as const, label: "Premium City Listing", description: "Featured city placement, billed weekly." },
-  country: { amount: 15900, interval: "month" as const, label: "Premium Country Listing", description: "Country-level discoverability and priority placement, billed monthly." },
+  city: { amount: 900, interval: "week" as const, label: "Premium City Listing", description: "Featured city placement, billed weekly. Launch pricing." },
+  country: { amount: 4900, interval: "month" as const, label: "Premium Country Listing", description: "Country-level discoverability and priority placement, billed monthly. Launch pricing." },
 } as const;
 
 function stripe(env: Env) {
@@ -11,20 +14,43 @@ function stripe(env: Env) {
   return new Stripe(env.STRIPE_SECRET_KEY);
 }
 
-export async function createPremiumCheckout(env: Env, input: { listingId: number; userId: number; userEmail?: string | null; userName?: string | null; origin: string; tier: "city" | "country" }) {
+/**
+ * Deliberately ownerless: a studio can buy premium placement for its own
+ * listing straight from the public listing page, with no account and no
+ * claim flow. metadata.listing_id is all the webhook needs to activate it
+ * (see handleStripeWebhook below) — client_reference_id/userId are just
+ * for later matching to a real account if/when this listing gets claimed.
+ */
+export async function createPremiumCheckout(env: Env, input: { listingId: number; listingSlug: string; origin: string; tier: "city" | "country"; customerEmail?: string | null; userId?: number | null }) {
   const plan = PREMIUM_TIER[input.tier];
   const session = await stripe(env).checkout.sessions.create({
     mode: "subscription",
-    customer_email: input.userEmail || undefined,
-    client_reference_id: input.userId.toString(),
+    customer_email: input.customerEmail || undefined,
+    client_reference_id: input.userId ? input.userId.toString() : undefined,
     allow_promotion_codes: true,
-    metadata: { listing_id: input.listingId.toString(), tier: input.tier, user_id: input.userId.toString(), customer_email: input.userEmail || "", customer_name: input.userName || "" },
+    metadata: { listing_id: input.listingId.toString(), tier: input.tier },
     line_items: [{ price_data: { currency: "usd", product_data: { name: plan.label, description: plan.description }, unit_amount: plan.amount, recurring: { interval: plan.interval, interval_count: 1 } }, quantity: 1 }],
-    success_url: `${input.origin}/cms?checkout=success&listing=${input.listingId}`,
-    cancel_url: `${input.origin}/list-your-place?checkout=cancelled`,
+    success_url: `${input.origin}/listing/${input.listingSlug}?premium=success`,
+    cancel_url: `${input.origin}/listing/${input.listingSlug}?premium=cancelled`,
   });
   if (!session.url) throw new Error("Stripe did not provide a checkout URL");
-  return session.url;
+  return { url: session.url, livemode: session.livemode };
+}
+
+/**
+ * Public, no-login checkout — the whole point of this route is that a
+ * studio owner can pay for premium placement straight from their own
+ * listing page (or a link in an announcement email) without creating an
+ * account or claiming anything first.
+ */
+export async function handlePublicPremiumCheckout(request: Request, env: Env) {
+  const body = await request.json<{ listingSlug?: string; tier?: string; email?: string }>().catch(() => ({}) as { listingSlug?: string; tier?: string; email?: string });
+  const tier = body.tier === "country" ? "country" : body.tier === "city" ? "city" : null;
+  if (!body.listingSlug || !tier) return Response.json({ error: "listingSlug and tier are required." }, { status: 400 });
+  const listing = await env.DB.prepare("SELECT id, slug FROM qh_listings WHERE slug = ? LIMIT 1").bind(body.listingSlug).first<{ id: number; slug: string }>();
+  if (!listing) return Response.json({ error: "That listing isn't in the directory yet." }, { status: 404 });
+  const { url } = await createPremiumCheckout(env, { listingId: listing.id, listingSlug: listing.slug, origin: new URL(request.url).origin, tier, customerEmail: body.email });
+  return Response.json({ checkoutUrl: url });
 }
 
 export async function handleStripeWebhook(request: Request, env: Env) {

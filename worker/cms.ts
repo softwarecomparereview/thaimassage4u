@@ -108,7 +108,8 @@ export async function queueMessage(env: Env, user: WorkerUser, input: { template
 }
 
 export async function checkoutPremium(env: Env, request: Request, user: WorkerUser, input: { listingId: number; tier: "city" | "country" }) {
-  const listing = await env.DB.prepare("SELECT owner_id FROM qh_listings WHERE id=? LIMIT 1").bind(input.listingId).first<{ owner_id: number | null }>();
+  const listing = await env.DB.prepare("SELECT slug, owner_id FROM qh_listings WHERE id=? LIMIT 1").bind(input.listingId).first<{ slug: string; owner_id: number | null }>();
   if (!listing || (listing.owner_id !== user.id && user.role !== "admin")) throw new TRPCError({ code: "FORBIDDEN", message: "You can only purchase a listing you manage." });
-  return { checkoutUrl: await createPremiumCheckout(env, { listingId: input.listingId, userId: user.id, userEmail: user.email, userName: user.name, origin: new URL(request.url).origin, tier: input.tier }) };
+  const { url } = await createPremiumCheckout(env, { listingId: input.listingId, listingSlug: listing.slug, userId: user.id, customerEmail: user.email, origin: new URL(request.url).origin, tier: input.tier });
+  return { checkoutUrl: url };
 }

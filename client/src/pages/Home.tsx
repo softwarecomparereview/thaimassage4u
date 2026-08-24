@@ -5,9 +5,12 @@ import { trpc } from "@/lib/trpc";
 import { ArrowDownRight, ArrowUpRight, CalendarDays, Compass, MapPin, Search, Sparkles } from "lucide-react";
 import { Link, useLocation } from "wouter";
 
-const heroImage = "/manus-storage/quiet-hour-hero_b39a15ad.jpg";
-const directoryImage = "/manus-storage/quiet-hour-directory_b168d1bb.jpg";
-const editorialImage = "/manus-storage/quiet-hour-editorial_f5c1d05f.jpg";
+// The /manus-storage/*.jpg paths these pointed to were never actually
+// uploaded to the deployed asset store — every image on the site was a
+// broken 404. Swapped for real photos already vetted for this project.
+const heroImage = "/images/hero-homepage.jpg";
+const directoryImage = "/images/spa/hero.jpg";
+const editorialImage = "/images/spa/spa-8.jpg";
 
 export default function Home() {
   const { data, isLoading } = trpc.directory.home.useQuery();

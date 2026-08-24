@@ -1,0 +1,21 @@
+-- Assign real spa/wellness photos as journal article covers — these were all NULL, so the journal showed no images at all.
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-1.jpg' WHERE id = 1;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-2.jpg' WHERE id = 2;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-3.jpg' WHERE id = 3;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-4.jpg' WHERE id = 4;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-5.jpg' WHERE id = 5;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-6.jpg' WHERE id = 6;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-7.jpg' WHERE id = 7;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-8.jpg' WHERE id = 8;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-10.jpg' WHERE id = 9;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-11.jpg' WHERE id = 10;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-12.jpg' WHERE id = 11;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-13.jpg' WHERE id = 12;
+UPDATE qh_articles SET cover_image_url = '/images/spa/hero.jpg' WHERE id = 13;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-1.jpg' WHERE id = 14;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-2.jpg' WHERE id = 15;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-3.jpg' WHERE id = 16;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-4.jpg' WHERE id = 17;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-5.jpg' WHERE id = 18;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-6.jpg' WHERE id = 19;
+UPDATE qh_articles SET cover_image_url = '/images/spa/spa-7.jpg' WHERE id = 20;

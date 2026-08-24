@@ -4,7 +4,7 @@ import { createInquiry, getCityGuide, getDirectoryHome, getListing } from "./dir
 import { handleTrpc } from "./trpc";
 import { handleOAuthCallback } from "./auth";
 import { handleAdminLogin } from "./simple-admin-auth";
-import { handleStripeWebhook } from "./stripe";
+import { handleStripeWebhook, handlePublicPremiumCheckout } from "./stripe";
 import { serveWorkerPage } from "./ssr";
 import { geoHomeLocation, internationalCookie, isDirectoryCountry, countryChoiceCookie } from "./geo";
 
@@ -94,6 +94,7 @@ app.get("/api/health", c =>
 app.get("/api/oauth/callback", c => handleOAuthCallback(c.req.raw, c.env));
 app.post("/api/admin/login", c => handleAdminLogin(c.req.raw, c.env));
 app.post("/api/stripe/webhook", c => handleStripeWebhook(c.req.raw, c.env));
+app.post("/api/premium/checkout", c => handlePublicPremiumCheckout(c.req.raw, c.env));
 
 app.get("/api/directory/home", async c => c.json(await getDirectoryHome(c.env)));
 
