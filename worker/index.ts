@@ -10,6 +10,7 @@ import { geoHomeLocation, internationalCookie, isDirectoryCountry, countryChoice
 import { handleCreateCampaign, handleSendCampaign, handleListCampaigns, handleListInbox, handleMarkInboxRead, handleUnsubscribe, handleCampaignOpen, handleCampaignClick, handleTwilioStatusWebhook, handleTwilioInboundWebhook } from "./admin-campaigns";
 import { processCampaignSend } from "./campaigns";
 import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing } from "./claim";
+import { handleSitemapIndex, handleSitemapStatic, handleSitemapCities, handleSitemapListings, handleSitemapJournal, handleRobotsTxt } from "./sitemap";
 
 export interface Env {
   ASSETS: Fetcher;
@@ -198,6 +199,13 @@ app.get("/api/campaigns/open", c => handleCampaignOpen(c.env, Number(c.req.query
 app.get("/api/campaigns/click", c => handleCampaignClick(c.env, Number(c.req.query("r")), c.req.query("u") ?? null));
 app.post("/api/webhooks/twilio/status", c => handleTwilioStatusWebhook(c.req.raw, c.env));
 app.post("/api/webhooks/twilio/inbound", c => handleTwilioInboundWebhook(c.req.raw, c.env));
+
+app.get("/robots.txt", c => handleRobotsTxt(c.env));
+app.get("/sitemap.xml", c => handleSitemapIndex(c.env));
+app.get("/sitemap-static.xml", c => handleSitemapStatic(c.env));
+app.get("/sitemap-cities.xml", c => handleSitemapCities(c.env));
+app.get("/sitemap-listings.xml", c => handleSitemapListings(c.env));
+app.get("/sitemap-journal.xml", c => handleSitemapJournal(c.env));
 
 app.get("/", async c => {
   const destination = geoHomeLocation(c.req.raw);
