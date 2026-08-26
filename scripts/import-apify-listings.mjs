@@ -11,6 +11,7 @@
 //       "SELECT name, city_slug, address FROM listings WHERE country_code='de'"
 
 import { readFileSync, writeFileSync } from "node:fs";
+import { isAdultServiceMatch } from "./brand-safety.mjs";
 
 const [, , existingPath, outPath] = process.argv;
 if (!existingPath || !outPath) {
@@ -95,10 +96,18 @@ function isRelevant(name) {
 const kept = [];
 const skippedDuplicates = [];
 const skippedIrrelevant = [];
+const skippedAdultService = [];
 const seenThisBatch = new Set(); // guards against the same place appearing twice within this pull
 for (const listing of pull.listings) {
   if (!isRelevant(listing.name)) {
     skippedIrrelevant.push(listing);
+    continue;
+  }
+  // Second gate, independent of whichever scrape script produced this JSON — catches a clean
+  // name with a giveaway contact domain (see brand-safety.mjs) even if the source script's own
+  // gate somehow let it through.
+  if (isAdultServiceMatch(listing.name, listing.website, listing.email)) {
+    skippedAdultService.push(listing);
     continue;
   }
   const nameCityKey = `${listing.citySlug}::${normalizeName(listing.name)}`;
@@ -149,9 +158,14 @@ for (const listing of kept) {
 writeFileSync(outPath, lines.join("\n") + "\n");
 console.log(`Pull had ${pull.listings.length} listings.`);
 console.log(`Skipped as not actually massage/spa businesses: ${skippedIrrelevant.length}`);
+console.log(`Skipped as likely adult-services businesses (name/domain match): ${skippedAdultService.length}`);
 console.log(`Skipped as likely duplicates of existing listings: ${skippedDuplicates.length}`);
 console.log(`New listings to insert: ${kept.length}`);
 console.log(`SQL written to ${outPath}`);
+if (skippedAdultService.length) {
+  console.log("\nSkipped (adult-services match) names — review before assuming this list is exhaustive:");
+  for (const d of skippedAdultService) console.log(`  - ${d.name} (${d.citySlug}) — ${d.website ?? d.email ?? "no contact on file"}`);
+}
 if (skippedDuplicates.length) {
   console.log("\nSkipped (duplicate) names:");
   for (const d of skippedDuplicates) console.log(`  - ${d.name} (${d.citySlug})`);

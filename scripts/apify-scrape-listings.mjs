@@ -13,6 +13,7 @@
 
 import { writeFileSync, mkdirSync } from "node:fs";
 import { cities } from "./cities.mjs";
+import { isAdultServiceMatch } from "./brand-safety.mjs";
 
 const TOKEN = process.env.APIFY_TOKEN;
 if (!TOKEN) {
@@ -87,19 +88,16 @@ async function runActorAsync(input) {
   return itemsResponse.json();
 }
 
-function isAdultServiceMatch(name) {
-  return /tantra|erotic|escort|happy ending|sensual/i.test(name);
-}
-
 function toRecord(item, countryCode, citySlug) {
   const name = item.title?.trim();
-  if (!name || isAdultServiceMatch(name)) return null;
+  const email = Array.isArray(item.emails) ? (item.emails[0] ?? null) : (item.emails ?? null);
+  if (!name || isAdultServiceMatch(name, item.website, email)) return null;
   return {
     countryCode,
     citySlug,
     name,
     phone: item.phone ?? item.phoneUnformatted ?? null,
-    email: Array.isArray(item.emails) ? (item.emails[0] ?? null) : (item.emails ?? null),
+    email,
     website: item.website ?? null,
     address: item.address ?? null,
     street: item.street ?? null,
