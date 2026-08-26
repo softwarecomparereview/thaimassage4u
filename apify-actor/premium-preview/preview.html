@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  :root {
+    --font-display: Georgia, "Playfair Display", serif;
+    --font-mono: "Courier New", monospace;
+    --ink: #19372f;
+    --paper: #f7f4ee;
+    --sage: #c7d1a3;
+    --clay: #9b5d43;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); font-family: Arial, sans-serif; padding: 3rem 2.3rem; }
+  .eyebrow { margin: 0 0 1rem; font-family: var(--font-mono); font-size: .68rem; font-weight: 500; letter-spacing: .085em; line-height: 1.3; text-transform: uppercase; color: var(--ink); }
+  .premium-section { max-width: 1000px; margin: 0 auto; }
+  .premium-section__heading { display: grid; grid-template-columns: .9fr 1.3fr; gap: 2rem; align-items: end; margin-bottom: 2rem; }
+  .premium-section__heading h2 { margin: 0; font: 500 2.6rem/.98 var(--font-display); letter-spacing: -.05em; color: var(--ink); }
+  .premium-section__heading > p { margin: 0; color: #596b61; font-size: .9rem; line-height: 1.65; }
+  .premium-ribbon { min-height: 95px; display: flex; align-items: stretch; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+  .premium-ribbon__item { display: flex; align-items: center; gap: .8rem; min-width: 275px; padding: 0 1.4rem; border-right: 1px solid var(--ink); }
+  .premium-ribbon__item.is-example { background: var(--sage); }
+  .premium-ribbon__item strong { font: 500 1.2rem var(--font-display); letter-spacing: -.035em; color: var(--ink); }
+  .premium-ribbon__item small { display: block; margin-top: .2rem; color: #617066; font: .6rem var(--font-mono); letter-spacing: .04em; text-transform: uppercase; }
+  .premium-dot { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto; background: var(--clay); }
+  .premium-ribbon__arrow { margin-left: auto; color: var(--ink); font-size: 1.1rem; }
+  .callout { max-width: 1000px; margin: 2.2rem auto 0; padding: 1.1rem 1.4rem; background: var(--ink); color: var(--paper); border-radius: 4px; font-size: .82rem; line-height: 1.6; }
+  .callout strong { color: var(--sage); }
+</style>
+</head>
+<body>
+  <section class="premium-section">
+    <div class="premium-section__heading">
+      <div><p class="eyebrow">Quietly premium</p><h2>Places taking a little<br/>more room in the city.</h2></div>
+      <p>Premium placement puts a listing in this scrolling ribbon at the top of the homepage — above the regular directory grid — plus a highlighted position on its city and country pages.</p>
+    </div>
+    <div class="premium-ribbon">
+      <div class="premium-ribbon__item is-example">
+        <span class="premium-dot"></span>
+        <div><strong>Aurora Botanica Spa</strong><small>Melbourne · Massage &amp; wellness</small></div>
+        <span class="premium-ribbon__arrow">↗</span>
+      </div>
+      <div class="premium-ribbon__item">
+        <span class="premium-dot"></span>
+        <div><strong>Willow &amp; Stone Wellness</strong><small>Sydney · Massage &amp; wellness</small></div>
+        <span class="premium-ribbon__arrow">↗</span>
+      </div>
+      <div class="premium-ribbon__item">
+        <span class="premium-dot"></span>
+        <div><strong>North Bank Bodywork</strong><small>Brisbane · Massage &amp; wellness</small></div>
+        <span class="premium-ribbon__arrow">↗</span>
+      </div>
+    </div>
+    <div class="callout">Example only — <strong>Aurora Botanica Spa</strong> is a placeholder, not a real listing. This is what your business's name and city would look like in that top spot.</div>
+  </section>
+</body>
+</html>
