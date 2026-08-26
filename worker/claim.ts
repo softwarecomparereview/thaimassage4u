@@ -4,14 +4,16 @@ import { sendTransactionalEmail } from "./email";
 import { sendSms } from "./sms";
 
 /**
- * Self-service ownership claim for premium listings — "give them login to
- * update their own listing, keep it simple, sms or email code" (no
- * passwords, no separate signup). A claim only ever sends a code to the
- * contact channel already on file for that listing (qh_listings.contact_email,
- * or the legacy `listings.phone` row joined by slug — see campaigns.ts for
- * why phone lives there and not on qh_listings) — never to an address the
- * caller types in — so completing the flow is proof the claimant actually
- * controls that channel, not just that they know a listing's slug.
+ * Self-service ownership claim — free for any unclaimed listing, not just
+ * premium ones (premium is a separate upsell once you're logged in, not a
+ * gate on claiming) — "give them login to update their own listing, keep it
+ * simple, sms or email code" (no passwords, no separate signup). A claim
+ * only ever sends a code to the contact channel already on file for that
+ * listing (qh_listings.contact_email, or the legacy `listings.phone` row
+ * joined by slug — see campaigns.ts for why phone lives there and not on
+ * qh_listings) — never to an address the caller types in — so completing
+ * the flow is proof the claimant actually controls that channel, not just
+ * that they know a listing's slug.
  */
 
 const COOKIE_NAME = "app_session_id";
@@ -41,11 +43,6 @@ async function findListing(env: Env, slug: string): Promise<ListingRow | null> {
   return env.DB.prepare("SELECT id, slug, name, owner_id, contact_email FROM qh_listings WHERE slug = ? LIMIT 1").bind(slug).first<ListingRow>();
 }
 
-async function isPremium(env: Env, listingId: number): Promise<boolean> {
-  const row = await env.DB.prepare("SELECT 1 FROM qh_premium_subscriptions WHERE listing_id = ? AND placement_eligible = 1 LIMIT 1").bind(listingId).first();
-  return Boolean(row);
-}
-
 /** Legacy `listings` carries phone; qh_listings doesn't — joined by slug, same as resolveAudience in campaigns.ts. */
 async function legacyPhone(env: Env, slug: string): Promise<string | null> {
   const row = await env.DB.prepare("SELECT phone FROM listings WHERE slug = ? AND phone IS NOT NULL AND phone != '' LIMIT 1").bind(slug).first<{ phone: string }>();
@@ -65,7 +62,6 @@ export async function handleClaimStart(request: Request, env: Env) {
   const listing = await findListing(env, body.listingSlug);
   if (!listing) return Response.json({ error: "That listing isn't in the directory." }, { status: 404 });
   if (listing.owner_id) return Response.json({ error: "This listing has already been claimed. Contact us if that's wrong." }, { status: 409 });
-  if (!(await isPremium(env, listing.id))) return Response.json({ error: "Claiming is available for listings with active premium placement." }, { status: 403 });
 
   const address = channel === "email" ? listing.contact_email : await legacyPhone(env, listing.slug);
   if (!address) {
@@ -183,4 +179,29 @@ export async function handleUpdateOwnerListing(request: Request, env: Env, userI
     .run();
   if (!result.meta.changes) return Response.json({ error: "You haven't claimed a listing yet." }, { status: 404 });
   return Response.json({ success: true });
+}
+
+/** Looks up a listing by name so an owner can find and claim it from a general page (home,
+ * a country page) that doesn't already know which listing is theirs. Shows already-claimed
+ * matches too (flagged, not hidden) so a real result isn't mistaken for "we don't have you". */
+export async function handleClaimSearch(request: Request, env: Env) {
+  const url = new URL(request.url);
+  const q = (url.searchParams.get("q") ?? "").trim();
+  const country = (url.searchParams.get("country") ?? "").trim().toLowerCase();
+  if (q.length < 2) return Response.json({ results: [] });
+
+  const query = country
+    ? env.DB.prepare(
+        `SELECT ql.slug, ql.name, qc.slug AS citySlug, qc.country_code AS countryCode, ql.owner_id AS ownerId
+         FROM qh_listings ql JOIN qh_cities qc ON qc.id = ql.city_id
+         WHERE ql.name LIKE ? AND qc.country_code = ? ORDER BY ql.name LIMIT 15`,
+      ).bind(`%${q}%`, country)
+    : env.DB.prepare(
+        `SELECT ql.slug, ql.name, qc.slug AS citySlug, qc.country_code AS countryCode, ql.owner_id AS ownerId
+         FROM qh_listings ql JOIN qh_cities qc ON qc.id = ql.city_id
+         WHERE ql.name LIKE ? ORDER BY ql.name LIMIT 15`,
+      ).bind(`%${q}%`);
+
+  const { results } = await query.all<{ slug: string; name: string; citySlug: string; countryCode: string; ownerId: number | null }>();
+  return Response.json({ results: results.map(r => ({ slug: r.slug, name: r.name, citySlug: r.citySlug, countryCode: r.countryCode, claimed: Boolean(r.ownerId) })) });
 }

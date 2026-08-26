@@ -9,7 +9,7 @@ import { serveWorkerPage } from "./ssr";
 import { geoHomeLocation, internationalCookie, isDirectoryCountry, countryChoiceCookie } from "./geo";
 import { handleCreateCampaign, handleSendCampaign, handleListCampaigns, handleListInbox, handleMarkInboxRead, handleUnsubscribe, handleCampaignOpen, handleCampaignClick, handleTwilioStatusWebhook, handleTwilioInboundWebhook } from "./admin-campaigns";
 import { processCampaignSend } from "./campaigns";
-import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing } from "./claim";
+import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing, handleClaimSearch } from "./claim";
 import { handleSitemapIndex, handleSitemapStatic, handleSitemapCities, handleSitemapListings, handleSitemapJournal, handleRobotsTxt } from "./sitemap";
 
 export interface Env {
@@ -181,6 +181,7 @@ app.post("/api/admin/stripe-mode", async c => {
   return c.json({ mode: body.mode });
 });
 
+app.get("/api/claim/search", c => handleClaimSearch(c.req.raw, c.env));
 app.post("/api/claim/start", c => handleClaimStart(c.req.raw, c.env));
 app.post("/api/claim/verify", c => handleClaimVerify(c.req.raw, c.env));
 app.get("/api/owner/listing", async c => {
