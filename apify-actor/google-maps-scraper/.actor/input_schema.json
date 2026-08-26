@@ -1,0 +1,43 @@
+{
+  "title": "Google Maps scraper input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "searchStringsArray": {
+      "title": "Search terms",
+      "type": "array",
+      "editor": "stringList",
+      "description": "One or more search terms, e.g. [\"massage\", \"spa\"]",
+      "prefill": ["massage", "spa"]
+    },
+    "locationQuery": {
+      "title": "Location",
+      "type": "string",
+      "editor": "textfield",
+      "description": "e.g. \"Melbourne, Australia\""
+    },
+    "maxCrawledPlacesPerSearch": {
+      "title": "Max places per search term",
+      "type": "integer",
+      "editor": "number",
+      "description": "How many places to crawl per search term.",
+      "default": 60
+    },
+    "language": {
+      "title": "Language",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Google Maps UI language code, e.g. \"en\".",
+      "default": "en"
+    },
+    "placeMinimumStars": {
+      "title": "Minimum star rating",
+      "type": "string",
+      "editor": "select",
+      "description": "Skip places rated below this. Leave blank for no filter.",
+      "enum": ["", "two", "twoAndHalf", "three", "threeAndHalf", "four", "fourAndHalf"],
+      "default": ""
+    }
+  },
+  "required": ["searchStringsArray", "locationQuery"]
+}

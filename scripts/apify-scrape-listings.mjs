@@ -23,15 +23,23 @@ if (!TOKEN) {
 // Pay-per-event, no monthly rental (~$2.10/1k places, plus its website-crawl
 // enrichment for emails). Swap this one constant if a different actor is picked —
 // nothing else in this script is actor-specific beyond the input/output field names below.
-const ACTOR = "lukaskrivka~google-maps-with-contact-details";
-const MIN_RATING = 4;
+// This account's Creator/CUSTOM plan can't run that public Store actor ("doesn't include
+// permission to run public Actors") — default to the in-house one built under
+// apify-actor/google-maps-scraper, deployed to this account as a private actor. Its output
+// uses the same field names on purpose. Override with APIFY_ACTOR env var if needed.
+const ACTOR = process.env.APIFY_ACTOR || "0wvCeRnRcrfUKYm5q";
+const MIN_RATING = Number(process.env.MIN_RATING || 4);
 const MIN_RATING_ENUM = { 2: "two", 2.5: "twoAndHalf", 3: "three", 3.5: "threeAndHalf", 4: "four", 4.5: "fourAndHalf" }[MIN_RATING];
 
 // Per-country targets for this pull — de/us/au only, run in this order (au first, per request);
 // uk isn't part of this batch. de is 196 (not 400) because Berlin/Munich/Hamburg already ran and
 // their 204 quality-passed listings are already imported — SKIP_ALREADY_DONE below skips
 // re-scraping those three cities, so only Frankfurt/Cologne split the remaining de budget.
-const COUNTRY_TARGETS = { au: 200, de: 196, us: 400 };
+const ALL_COUNTRY_TARGETS = { au: 200, de: 196, us: 400 };
+const ONLY_COUNTRIES = process.env.SCRAPE_COUNTRIES ? process.env.SCRAPE_COUNTRIES.split(",").map(s => s.trim()) : null;
+const COUNTRY_TARGETS = ONLY_COUNTRIES
+  ? Object.fromEntries(Object.entries(ALL_COUNTRY_TARGETS).filter(([code]) => ONLY_COUNTRIES.includes(code)))
+  : ALL_COUNTRY_TARGETS;
 const SKIP_ALREADY_DONE = new Set(["de/berlin", "de/munich", "de/hamburg"]);
 const RUN_CITIES = cities
   .filter(([countryCode, citySlug]) => countryCode in COUNTRY_TARGETS && !SKIP_ALREADY_DONE.has(`${countryCode}/${citySlug}`))
@@ -64,7 +72,9 @@ async function runActorAsync(input) {
   const { data: run } = await startResponse.json();
   let status = run.status;
   let runId = run.id;
-  const deadline = Date.now() + 10 * 60 * 1000;
+  // The custom actor's default run timeout is 1800s, and a full city batch (dozens of places,
+  // each with a website+email lookup) can genuinely take most of that — 10 minutes wasn't enough.
+  const deadline = Date.now() + 32 * 60 * 1000;
   while (!["SUCCEEDED", "FAILED", "TIMED-OUT", "ABORTED"].includes(status) && Date.now() < deadline) {
     await new Promise(resolve => setTimeout(resolve, 5000));
     const pollResponse = await fetch(`https://api.apify.com/v2/actor-runs/${runId}`, { headers: { authorization: `Bearer ${TOKEN}` } });
