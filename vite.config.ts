@@ -150,7 +150,17 @@ function vitePluginManusDebugCollector(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
+/**
+ * jsxLocPlugin, the Manus runtime and the debug collector are development
+ * tooling. Left in the production build, vitePluginManusRuntime inlines a
+ * ~367 KB script — carrying its own copy of React — into index.html, so every
+ * page shipped ~106 KB gzipped of uncacheable dev runtime on top of the app
+ * bundle, and the browser parsed React twice. Development keeps all three.
+ */
+const isProduction = process.env.NODE_ENV === "production";
+const plugins = isProduction
+  ? [react(), tailwindcss()]
+  : [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
 
 export default defineConfig({
   plugins,
