@@ -1,0 +1,14 @@
+{
+  "name": "quiet-hour-google-maps-scraper",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Custom Google Maps business scraper (name/address/phone/rating/website + best-effort email from the business's own site). Built in-house because the Apify plan on this account can only run private actors, not public Store ones.",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "apify": "^3.2.6",
+    "playwright": "*"
+  }
+}

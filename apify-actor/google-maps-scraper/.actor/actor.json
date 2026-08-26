@@ -1,0 +1,9 @@
+{
+  "actorSpecification": 1,
+  "name": "quiet-hour-google-maps-scraper",
+  "title": "Quiet Hour — Google Maps business scraper",
+  "description": "Searches Google Maps for a query in a location, extracts each place's name/address/phone/rating/website, then does a best-effort crawl of the place's own website to find a contact email.",
+  "version": "0.1",
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile"
+}
