@@ -1,4 +1,4 @@
-import { PUBLIC_ARTICLE_STATUSES } from "./directory";
+import { PUBLIC_ARTICLE_STATUSES, PUBLISHED } from "./directory";
 import type { Env } from "./index";
 
 /** Every URL a search engine should be able to find, generated fresh from the same tables the
@@ -42,7 +42,7 @@ export async function handleSitemapCities(env: Env) {
 
 export async function handleSitemapListings(env: Env) {
   const origin = env.SITE_URL.replace(/\/$/, "");
-  const { results } = await env.DB.prepare("SELECT slug, created_at FROM listings ORDER BY id").all<{ slug: string; created_at: string | null }>();
+  const { results } = await env.DB.prepare(`SELECT slug, created_at FROM listings WHERE ${PUBLISHED} ORDER BY id`).all<{ slug: string; created_at: string | null }>();
   const urls = results.map(row => urlEntry(`${origin}/listing/${row.slug}`, row.created_at));
   return sitemapResponse(urls);
 }

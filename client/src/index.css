@@ -382,3 +382,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .cms-table td { font-variant-numeric: tabular-nums; }
 .cms-problem-list { margin: 1.2rem 0 0; padding-left: 1.1rem; color: #5c6d64; font-size: .8rem; line-height: 1.7; }
 .cms-status--running, .cms-status--capped, .cms-status--disabled { opacity: .8; }
+
+/* CMS — publishing panel */
+.cms-search-input { display: flex; align-items: center; gap: .5rem; padding: .55rem .65rem; border: 1px solid var(--border); border-radius: 2px; }
+.cms-search-input input { border: 0; background: transparent; outline: none; font-size: .8rem; width: 100%; color: var(--ink); text-transform: none; letter-spacing: 0; }
+.cms-tag { margin-left: .5rem; padding: .1rem .4rem; font: .58rem var(--font-mono); letter-spacing: .06em; text-transform: uppercase; background: var(--border); border-radius: 2px; }
+.cms-tag--premium { background: var(--clay); color: #fffdf8; }
+.cms-warn { color: #a6412f; }
+.cms-table__actions { text-align: right; white-space: nowrap; }
+.cms-pager { display: flex; align-items: center; gap: 1rem; margin-top: 1.2rem; font: .72rem var(--font-mono); color: #5c6d64; }

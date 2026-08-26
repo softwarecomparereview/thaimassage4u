@@ -51,6 +51,9 @@ const category = { id: 1, name: "Massage & wellness", slug: "massage-wellness" }
 const LISTING_COLUMNS =
   "id, slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, price_from, currency, rating, review_count, premium, claimed, image_url";
 
+/** Every public read filters on this. See worker/migrations/0010_listing_publish_status.sql. */
+export const PUBLISHED = "status = 'published'";
+
 function parseServices(raw: string) {
   try {
     const parsed = JSON.parse(raw);
@@ -95,7 +98,7 @@ export async function getDirectoryHome(env: Env) {
   try {
     const [cities, listings, articles] = await Promise.all([
       env.DB.prepare("SELECT id, country_code, slug, name, intro FROM cities ORDER BY name LIMIT 250").all<LegacyCity>(),
-      env.DB.prepare(`SELECT ${LISTING_COLUMNS} FROM listings ORDER BY premium DESC, created_at DESC LIMIT 180`).all<LegacyListing>(),
+      env.DB.prepare(`SELECT ${LISTING_COLUMNS} FROM listings WHERE ${PUBLISHED} ORDER BY premium DESC, created_at DESC LIMIT 180`).all<LegacyListing>(),
       env.DB.prepare(`SELECT id, title, slug, excerpt, body, topic, cover_image_url AS coverImageUrl, status, published_at AS publishedAt, created_at AS createdAt, updated_at AS updatedAt FROM qh_articles WHERE status IN (${PUBLIC_ARTICLE_STATUSES}) ORDER BY created_at DESC`).all(),
     ]);
     const cityNames = new Map(cities.results.map(city => [city.slug, city.name]));
@@ -119,7 +122,7 @@ export async function getCityGuide(env: Env, slug: string) {
   try {
     const city = await env.DB.prepare("SELECT id, country_code, slug, name, intro FROM cities WHERE slug = ? LIMIT 1").bind(slug).first<LegacyCity>();
     if (!city) return null;
-    const listings = await env.DB.prepare(`SELECT ${LISTING_COLUMNS} FROM listings WHERE city_slug = ? ORDER BY premium DESC, created_at DESC LIMIT 100`).bind(slug).all<LegacyListing>();
+    const listings = await env.DB.prepare(`SELECT ${LISTING_COLUMNS} FROM listings WHERE city_slug = ? AND ${PUBLISHED} ORDER BY premium DESC, created_at DESC LIMIT 100`).bind(slug).all<LegacyListing>();
     const cards = listings.results.map(row => toPlaceCard(row, city.name));
     return { city: { id: city.id, name: city.name, slug: city.slug, country: city.country_code, countryCode: city.country_code, primaryLocale: "en", introduction: city.intro, isActive: true }, listings: cards, premiumListings: cards.filter(card => card.isFeatured), events: [], metrics: [] };
   } catch {
@@ -132,7 +135,7 @@ export async function getCountryGuide(env: Env, code: string) {
   try {
     const [cities, listings] = await Promise.all([
       env.DB.prepare("SELECT id, country_code, slug, name, intro FROM cities WHERE country_code = ? ORDER BY name").bind(code).all<LegacyCity>(),
-      env.DB.prepare(`SELECT ${LISTING_COLUMNS} FROM listings WHERE country_code = ? ORDER BY premium DESC, created_at DESC`).bind(code).all<LegacyListing>(),
+      env.DB.prepare(`SELECT ${LISTING_COLUMNS} FROM listings WHERE country_code = ? AND ${PUBLISHED} ORDER BY premium DESC, created_at DESC`).bind(code).all<LegacyListing>(),
     ]);
     if (!cities.results.length && !listings.results.length) return null;
     const cityNames = new Map(cities.results.map(city => [city.slug, city.name]));
@@ -148,7 +151,8 @@ export async function getCountryGuide(env: Env, code: string) {
 
 export async function getListing(env: Env, slug: string) {
   try {
-    const listing = await env.DB.prepare(`SELECT ${LISTING_COLUMNS} FROM listings WHERE slug = ? LIMIT 1`).bind(slug).first<LegacyListing>();
+    // A held-back listing 404s outright, same as a slug that never existed — publish status is not a lesser "hidden from lists" state.
+    const listing = await env.DB.prepare(`SELECT ${LISTING_COLUMNS} FROM listings WHERE slug = ? AND ${PUBLISHED} LIMIT 1`).bind(slug).first<LegacyListing>();
     if (!listing) return null;
     const city = await env.DB.prepare("SELECT id, country_code, slug, name, intro FROM cities WHERE slug = ? LIMIT 1").bind(listing.city_slug).first<LegacyCity>();
     // qh_listings is the separate, slug-joined copy the claim/premium flows read — see worker/claim.ts and worker/stripe.ts.
