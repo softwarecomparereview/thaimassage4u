@@ -2,7 +2,7 @@ import { DirectoryPlaceCard } from "@/components/DirectoryPlaceCard";
 import { SiteFooter, SiteHeader } from "@/components/SiteFrame";
 import { COUNTRIES, setCountryChoice } from "@/lib/country";
 import { trpc } from "@/lib/trpc";
-import { ArrowUpRight, MapPinned } from "lucide-react";
+import { ArrowUpRight, KeyRound, MapPinned } from "lucide-react";
 import { Link, useRoute } from "wouter";
 
 export default function CountryGuide() {
@@ -52,5 +52,7 @@ export default function CountryGuide() {
         {listings.length ? listings.map((place: any, index: number) => <DirectoryPlaceCard key={place.id} place={place} index={index} />) : <div className="home-place-empty"><h3>No published places yet in {country.name}.</h3></div>}
       </div>
     </section>
+
+    <section className="claim-cta"><KeyRound size={22} /><div><h2>See your business here?</h2><p>Claim your listing in {country.name} to keep it up to date — no account to set up, just a one-time code to the contact details already on file.</p></div><Link href={`/claim?country=${country.code}`} className="dark-button">Claim your listing <ArrowUpRight size={16} /></Link></section>
   </main><SiteFooter /></>;
 }

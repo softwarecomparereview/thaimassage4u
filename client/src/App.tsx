@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ArticleDetail from "@/pages/ArticleDetail";
 import CityGuide from "@/pages/CityGuide";
+import ClaimSearch from "@/pages/ClaimSearch";
 import CountryGuide from "@/pages/CountryGuide";
 import Cms from "@/pages/Cms";
 import ComingSoon from "@/pages/ComingSoon";
@@ -33,6 +34,7 @@ function Router() {
       <Route path={"/list-your-place"} component={ListYourPlace} />
       <Route path={"/coming-soon"} component={ComingSoon} />
       <Route path={"/my-listing"} component={MyListing} />
+      <Route path={"/claim"} component={ClaimSearch} />
       <Route path={"/cms"} component={Cms} />
       <Route path={"/cms/:section"} component={Cms} />
       <Route path={"/404"} component={NotFound} />

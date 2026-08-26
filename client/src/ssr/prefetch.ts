@@ -92,5 +92,6 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
   }
   if (path === "/cms" || path.startsWith("/cms/")) return { title: "Quiet Hour CMS", description: "Quiet Hour management workspace.", noindex: true };
   if (path === "/my-listing") return { title: "Manage your listing — Quiet Hour", description: "Claim and update your listing on Quiet Hour.", canonicalPath: path, noindex: true };
+  if (path === "/claim") return { title: "Claim your listing — Quiet Hour", description: "Find your business and claim it — a one-time code, no account to set up.", canonicalPath: path, noindex: true };
   return { title: SITE, description: DEFAULT_DESCRIPTION, notFound: true };
 }
