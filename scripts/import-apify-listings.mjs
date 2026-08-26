@@ -89,16 +89,38 @@ const existingSlugs = new Set(existing.map(r => r.slug).filter(Boolean));
 // some real wellness places whose name doesn't say either word — but that's the safer failure mode
 // for a directory that's explicit about never listing something it can't stand behind.
 function isRelevant(name) {
-  return /massage|\bspa\b/i.test(name);
+  if (!/massage|\bspa\b/i.test(name)) return false;
+  // "Spa" in a name is not evidence of massage. Nail salons were the whole of
+  // the off-category residue in the 2026-08-26 listing audit — CITY NAILS &
+  // SPA, Mia Nails & Spa, BS Nails Cosmetic Spa, Sofia Spa Nails & Beauty,
+  // Lovey Nail — so a name that says nails and never says massage is out.
+  if (/nail|nagelstudio/i.test(name) && !/massage|thai|wellness/i.test(name)) return false;
+  return true;
+}
+
+/**
+ * A listing nobody can act on is worse than no listing: a visitor cannot call,
+ * visit or book, a crawler gets a contentless page, and the claim flow has no
+ * address to send its one-time code to, so the business can never fix it
+ * either. The 2026-08-26 audit quarantined 38 such rows; this keeps the next
+ * import from adding more.
+ */
+function isContactable(listing) {
+  return Boolean(listing.phone || listing.website || listing.email || listing.address);
 }
 
 const kept = [];
 const skippedDuplicates = [];
 const skippedIrrelevant = [];
 const seenThisBatch = new Set(); // guards against the same place appearing twice within this pull
+const skippedUnactionable = [];
 for (const listing of pull.listings) {
   if (!isRelevant(listing.name)) {
     skippedIrrelevant.push(listing);
+    continue;
+  }
+  if (!isContactable(listing)) {
+    skippedUnactionable.push(listing);
     continue;
   }
   const nameCityKey = `${listing.citySlug}::${normalizeName(listing.name)}`;
@@ -149,6 +171,7 @@ for (const listing of kept) {
 writeFileSync(outPath, lines.join("\n") + "\n");
 console.log(`Pull had ${pull.listings.length} listings.`);
 console.log(`Skipped as not actually massage/spa businesses: ${skippedIrrelevant.length}`);
+console.log(`Skipped as unactionable (no phone, website, email or address): ${skippedUnactionable.length}`);
 console.log(`Skipped as likely duplicates of existing listings: ${skippedDuplicates.length}`);
 console.log(`New listings to insert: ${kept.length}`);
 console.log(`SQL written to ${outPath}`);
