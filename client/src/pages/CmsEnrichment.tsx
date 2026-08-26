@@ -16,6 +16,16 @@ type Run = { id: number; trigger: string; status: string; attempted: number; suc
 type Item = { id: number; listing_slug: string; listing_name: string | null; status: string; source_url: string | null; generated_description: string | null; error: string | null; created_at: string };
 type Status = { settings: Settings; models: string[]; usedToday: number; backlog: number; totals: Record<string, number>; runs: Run[]; items: Item[] };
 
+/** The deep pass (worker/enrich.ts): descriptor + services + og:image per listing, stamped via listings.enriched_at. */
+type DeepStatus = {
+  total: number;
+  done: number;
+  succeeded: number;
+  withImage: number;
+  byCountry: Array<{ country: string; total: number; enriched: number }>;
+  recent: Array<{ slug: string; name: string; city_slug: string; descriptor: string; enriched_at: string }>;
+};
+
 const TARGETS: Array<{ value: Settings["target"]; label: string; hint: string }> = [
   { value: "thin", label: "Thin descriptions", hint: "Under 240 characters — the importer stubs." },
   { value: "missing", label: "Missing only", hint: "Listings with no description at all." },
@@ -36,6 +46,11 @@ export default function CmsEnrichment() {
     queryFn: () => fetch("/api/admin/enrichment").then(response => response.json()),
     // A run started here finishes on the Worker, so the panel polls rather than
     // holding the request open.
+    refetchInterval: 15_000,
+  });
+  const deep = useQuery<DeepStatus>({
+    queryKey: ["enrichment-deep"],
+    queryFn: () => fetch("/api/admin/enrich").then(response => response.json()),
     refetchInterval: 15_000,
   });
   const refresh = () => queryClient.invalidateQueries({ queryKey: ["enrichment"] });
@@ -95,6 +110,36 @@ export default function CmsEnrichment() {
         <div><dt>Used today</dt><dd>{usedToday}{settings.dailyCap ? ` / ${settings.dailyCap}` : ""}</dd></div>
       </dl>
     </section>
+
+    {deep.data && <section className="cms-card">
+      <header className="cms-card__head">
+        <div>
+          <p className="eyebrow">Worker / deep profiles</p>
+          <h2>{deep.data.succeeded} of {deep.data.total} listings carry an AI-written profile.</h2>
+          <p>The deep pass reads each studio's own website and writes the descriptor, description, services list and photo the listing pages and search snippets use. It runs on the same cron and goes quiet once every listing is covered.</p>
+        </div>
+      </header>
+      <dl className="cms-stat-row">
+        <div><dt>Profiled</dt><dd>{deep.data.succeeded}</dd></div>
+        <div><dt>Remaining</dt><dd>{deep.data.total - deep.data.done}</dd></div>
+        <div><dt>With photo</dt><dd>{deep.data.withImage}</dd></div>
+        {deep.data.byCountry.map(row => <div key={row.country}><dt>{row.country.toUpperCase()}</dt><dd>{row.enriched}/{row.total}</dd></div>)}
+      </dl>
+      <div className="cms-table-wrap">
+        <table className="cms-table">
+          <thead><tr><th>Enriched</th><th>Listing</th><th>City</th><th>Descriptor it wrote</th></tr></thead>
+          <tbody>
+            {deep.data.recent.length === 0 && <tr><td colSpan={4}>Nothing enriched yet.</td></tr>}
+            {deep.data.recent.map(row => <tr key={row.slug}>
+              <td>{row.enriched_at}</td>
+              <td><a href={`/listing/${row.slug}`} target="_blank" rel="noreferrer noopener">{row.name}</a></td>
+              <td>{row.city_slug}</td>
+              <td>{row.descriptor}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+    </section>}
 
     <section className="cms-card">
       <p className="eyebrow">Worker attributes</p>

@@ -29,6 +29,13 @@ type LegacyListing = {
   premium: number | null;
   claimed: number | null;
   image_url: string | null;
+  /** AI-written one-liner (worker/enrich.ts); null until a listing has been enriched. */
+  descriptor: string | null;
+  phone: string | null;
+  lat: number | null;
+  lon: number | null;
+  rating: number | null;
+  review_count: number | null;
 };
 
 /**
@@ -49,7 +56,7 @@ const category = { id: 1, name: "Massage & wellness", slug: "massage-wellness" }
  * happening again.
  */
 const LISTING_COLUMNS =
-  "id, slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, price_from, currency, rating, review_count, premium, claimed, image_url";
+  "id, slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, descriptor, price_from, currency, rating, review_count, premium, claimed, image_url, lat, lon";
 
 /** Every public read filters on this. See worker/migrations/0010_listing_publish_status.sql. */
 export const PUBLISHED = "status = 'published'";
@@ -74,7 +81,7 @@ function toPlaceCard(row: LegacyListing, cityName?: string) {
     id: row.id,
     name: row.name,
     slug: row.slug,
-    descriptor: "Independently listed wellness place",
+    descriptor: row.descriptor || "Independently listed wellness place",
     neighbourhood: row.suburb,
     imageUrl: row.image_url,
     phone: row.phone,
@@ -161,7 +168,7 @@ export async function getListing(env: Env, slug: string) {
     // `listings.premium` is what every public ORDER BY reads, so it is the column
     // that decides placement; the subscription row is the billing record behind it.
     const isPremium = Boolean(listing.premium) || subscribed;
-    return { listing: { id: listing.id, name: listing.name, slug: listing.slug, descriptor: "Independently listed wellness place", description: listing.description, neighbourhood: listing.suburb, address: listing.address, phone: listing.phone, bookingUrl: listing.website, contactEmail: listing.email, imageUrl: listing.image_url, rating: listing.rating, reviewCount: listing.review_count, priceFrom: listing.price_from, currency: listing.currency ?? "USD", isPremium, isClaimed: Boolean(listing.claimed) || Boolean(qhListing?.ownerId) }, city: { id: city?.id ?? 0, name: city?.name ?? listing.city_slug, slug: listing.city_slug, country: city?.country_code ?? listing.country_code, countryCode: city?.country_code ?? listing.country_code, primaryLocale: "en", introduction: city?.intro ?? null, isActive: true }, category, services: parseServices(listing.services) };
+    return { listing: { id: listing.id, name: listing.name, slug: listing.slug, descriptor: listing.descriptor || "Independently listed wellness place", description: listing.description, neighbourhood: listing.suburb, address: listing.address, phone: listing.phone, bookingUrl: listing.website, contactEmail: listing.email, imageUrl: listing.image_url, rating: listing.rating, reviewCount: listing.review_count, priceFrom: listing.price_from, currency: listing.currency ?? "USD", lat: listing.lat, lon: listing.lon, isPremium, isClaimed: Boolean(listing.claimed) || Boolean(qhListing?.ownerId) }, city: { id: city?.id ?? 0, name: city?.name ?? listing.city_slug, slug: listing.city_slug, country: city?.country_code ?? listing.country_code, countryCode: city?.country_code ?? listing.country_code, primaryLocale: "en", introduction: city?.intro ?? null, isActive: true }, category, services: parseServices(listing.services) };
   } catch {
     return null;
   }

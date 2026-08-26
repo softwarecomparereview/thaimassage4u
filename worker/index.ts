@@ -11,6 +11,7 @@ import { handleCreateCampaign, handleSendCampaign, handleListCampaigns, handleLi
 import { processCampaignSend } from "./campaigns";
 import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing, handleClaimSearch } from "./claim";
 import { handleSitemapIndex, handleSitemapStatic, handleSitemapCities, handleSitemapListings, handleSitemapJournal, handleRobotsTxt } from "./sitemap";
+import { enrichBatch, handleEnrichRun, handleEnrichStatus } from "./enrich";
 import { approveAllProposals, getEnrichmentStatus, reviewProposal, runEnrichmentBatch, updateEnrichmentSettings, type EnrichmentTarget } from "./enrichment";
 import { isPublishStatus, listPublishQueue, setListingStatus, setStatusForFilter, type PublishStatus } from "./publish";
 
@@ -19,6 +20,8 @@ export interface Env {
   DB: D1Database;
   CACHE: KVNamespace;
   MEDIA: R2Bucket;
+  /** Workers AI — listing enrichment (worker/enrich.ts). */
+  AI: Ai;
   SITE_NAME: string;
   SITE_URL: string;
   CONTACT_EMAIL: string;
@@ -157,6 +160,16 @@ app.get("/api/admin/campaigns", async c => {
   const user = await requireAdmin(c);
   if (!user) return c.json({ error: "Unauthorized" }, 401);
   return handleListCampaigns(c.env);
+});
+app.post("/api/admin/enrich", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleEnrichRun(c.req.raw, c.env);
+});
+app.get("/api/admin/enrich", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleEnrichStatus(c.env);
 });
 app.get("/api/admin/inbox", async c => {
   const user = await requireAdmin(c);
@@ -300,9 +313,15 @@ export default {
   /**
    * wrangler.jsonc has declared cron triggers since the Worker migration, but
    * no scheduled() handler was ever exported — so every firing hit a Worker
-   * that could not answer it. This is that handler. Enrichment is the only job
-   * on the schedule today, and it returns immediately unless an admin has
-   * started it in the CMS.
+   * that could not answer it. This is that handler. Two enrichment jobs share
+   * the schedule and cannot fight over rows:
+   *  - runEnrichmentBatch: description proposals, CMS-governed (worker/enrichment.ts);
+   *    returns immediately unless an admin has started it in the CMS. Skips
+   *    anything the deep pass already wrote (those descriptions exceed its
+   *    "thin" threshold).
+   *  - enrichBatch: the deep pass (worker/enrich.ts) — descriptor + services +
+   *    og:image + description, stamped via listings.enriched_at, so once the
+   *    backlog is done it selects zero rows and costs nothing.
    */
   async scheduled(event: ScheduledController, env: Env, ctx: ExecutionContext) {
     ctx.waitUntil(
@@ -310,6 +329,7 @@ export default {
         .then(result => console.log(`[Worker cron ${event.cron}] enrichment: ${result.status} — ${result.note}`))
         .catch(error => console.error(`[Worker cron ${event.cron}] enrichment failed`, error)),
     );
+    ctx.waitUntil(enrichBatch(env, 15).catch(() => {}));
   },
   /** Consumes campaign send jobs enqueued by handleSendCampaign — one message per recipient, so a slow/rate-limited provider or a transient failure can't block the rest of a send (Queues retry failed messages automatically). */
   async queue(batch: MessageBatch<{ recipientId: number }>, env: Env) {
