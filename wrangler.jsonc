@@ -53,6 +53,7 @@
     { "binding": "OFFER_WORKFLOW", "name": "sale-offer-intake", "class_name": "SaleOfferWorkflow" }
   ],
   "browser": { "binding": "BROWSER" },
+  "ai": { "binding": "AI" },
   "triggers": { "crons": ["15 */6 * * *", "20 6 * * *"] },
   "migrations": [
     { "tag": "v1", "new_sqlite_classes": ["FormLimiter"] }

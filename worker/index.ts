@@ -11,12 +11,15 @@ import { handleCreateCampaign, handleSendCampaign, handleListCampaigns, handleLi
 import { processCampaignSend } from "./campaigns";
 import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing, handleClaimSearch } from "./claim";
 import { handleSitemapIndex, handleSitemapStatic, handleSitemapCities, handleSitemapListings, handleSitemapJournal, handleRobotsTxt } from "./sitemap";
+import { enrichBatch, handleEnrichRun, handleEnrichStatus } from "./enrich";
 
 export interface Env {
   ASSETS: Fetcher;
   DB: D1Database;
   CACHE: KVNamespace;
   MEDIA: R2Bucket;
+  /** Workers AI — listing enrichment (worker/enrich.ts). */
+  AI: Ai;
   SITE_NAME: string;
   SITE_URL: string;
   CONTACT_EMAIL: string;
@@ -154,6 +157,16 @@ app.get("/api/admin/campaigns", async c => {
   if (!user) return c.json({ error: "Unauthorized" }, 401);
   return handleListCampaigns(c.env);
 });
+app.post("/api/admin/enrich", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleEnrichRun(c.req.raw, c.env);
+});
+app.get("/api/admin/enrich", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleEnrichStatus(c.env);
+});
 app.get("/api/admin/inbox", async c => {
   const user = await requireAdmin(c);
   if (!user) return c.json({ error: "Unauthorized" }, 401);
@@ -229,6 +242,17 @@ app.all("*", async c => hardened(await serveWorkerPage(c.req.raw, c.env)));
 
 export default {
   fetch: app.fetch,
+  /**
+   * The crons in wrangler.jsonc were firing into a Worker with no scheduled
+   * handler at all (leftover scaffold). Now each firing enriches a small batch
+   * of listings via Workers AI (worker/enrich.ts), so the whole directory
+   * converges to real descriptions/images in the background — ~15 listings
+   * x 5 firings/day chews through a fresh 300-listing scrape in a few days
+   * with no one pushing a button.
+   */
+  async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext) {
+    ctx.waitUntil(enrichBatch(env, 15).catch(() => {}));
+  },
   /** Consumes campaign send jobs enqueued by handleSendCampaign — one message per recipient, so a slow/rate-limited provider or a transient failure can't block the rest of a send (Queues retry failed messages automatically). */
   async queue(batch: MessageBatch<{ recipientId: number }>, env: Env) {
     for (const message of batch.messages) {

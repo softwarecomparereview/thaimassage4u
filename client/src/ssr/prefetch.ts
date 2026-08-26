@@ -81,7 +81,29 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
     const data = await genuineMiss(() => prefetch.listingBySlug(listing[1]));
     if (!data) return { title: SITE, description: DEFAULT_DESCRIPTION, notFound: true };
     seeded(queryClient, getQueryKey(trpc.directory.listingBySlug, { slug: listing[1] }, "query"), data);
-    return { title: `${data.listing.name} — ${SITE}`, description: data.listing.descriptor || data.listing.description || `Find ${data.listing.name} in the Quiet Hour directory.`, canonicalPath: path, alternates: [{ locale: data.city.primaryLocale, path }], ogImage: data.listing.imageUrl || undefined, jsonLd: { "@context": "https://schema.org", "@type": "HealthAndBeautyBusiness", name: data.listing.name, description: data.listing.descriptor || data.listing.description || undefined, url: `https://thaimassageforu.com${path}`, image: data.listing.imageUrl || undefined } };
+    // The deployed Worker's getListing returns contact/geo fields the shared server router types don't know about yet.
+    const rich = data.listing as typeof data.listing & { phone?: string | null; lat?: number | null; lon?: number | null };
+    const business: Record<string, unknown> = {
+      "@context": "https://schema.org",
+      "@type": "HealthAndBeautyBusiness",
+      name: data.listing.name,
+      description: data.listing.descriptor || data.listing.description || undefined,
+      url: `https://thaimassageforu.com${path}`,
+      image: data.listing.imageUrl || undefined,
+    };
+    if (data.listing.address) business.address = { "@type": "PostalAddress", streetAddress: data.listing.address, addressLocality: data.city.name, addressCountry: data.city.countryCode?.toUpperCase() };
+    if (rich.phone) business.telephone = rich.phone;
+    if (typeof rich.lat === "number" && typeof rich.lon === "number") business.geo = { "@type": "GeoCoordinates", latitude: rich.lat, longitude: rich.lon };
+    const breadcrumbs = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Quiet Hour", item: "https://thaimassageforu.com/" },
+        { "@type": "ListItem", position: 2, name: data.city.name, item: `https://thaimassageforu.com/city/${data.city.slug}` },
+        { "@type": "ListItem", position: 3, name: data.listing.name, item: `https://thaimassageforu.com${path}` },
+      ],
+    };
+    return { title: `${data.listing.name} — massage & wellness in ${data.city.name} — ${SITE}`, description: data.listing.descriptor || data.listing.description || `Find ${data.listing.name} in the Quiet Hour directory.`, canonicalPath: path, alternates: [{ locale: data.city.primaryLocale, path }], ogImage: data.listing.imageUrl || undefined, jsonLd: [business, breadcrumbs] };
   }
   const article = path.match(/^\/journal\/([^/]+)$/);
   if (article) {
