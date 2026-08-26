@@ -9,6 +9,7 @@ import { FormEvent, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 import CmsCampaigns from "./CmsCampaigns";
+import CmsEnrichment from "./CmsEnrichment";
 import CmsInbox from "./CmsInbox";
 
 const sectionTitles: Record<string, { eyebrow: string; title: string; description: string }> = {
@@ -19,6 +20,7 @@ const sectionTitles: Record<string, { eyebrow: string; title: string; descriptio
   locales: { eyebrow: "International / native review", title: "Global pages, written like they belong there.", description: "Translation drafts wait for native-language review before they can become public locale pages." },
   messages: { eyebrow: "Communications / consent first", title: "Introduce Quiet Hour without losing the human note.", description: "Keep email and SMS templates orderly, explicit, and ready for the selected delivery provider." },
   campaigns: { eyebrow: "Outreach / email & SMS", title: "Announce the directory, city by city.", description: "Send from hello@thaimassageforu.com or an SMS number, to a CSV upload or every listing in a city or country." },
+  enrichment: { eyebrow: "Worker / listing enrichment", title: "Let the Worker write the descriptions.", description: "Reads each studio's own website with Workers AI and proposes a real description. Start it, stop it, tune it, and review what it wrote — all from here." },
   inbox: { eyebrow: "Outreach / replies", title: "Every reply, in one place.", description: "Email replies and inbound SMS both land here, whether or not you're checking that mailbox." },
 };
 
@@ -60,6 +62,7 @@ export default function Cms() {
       {section === "locales" && <CmsLocales translations={data.localizedContent} />}
       {section === "messages" && <CmsMessages form={templateForm} setForm={setTemplateForm} submit={submitTemplate} saving={saveTemplate.isPending} templates={data.templates} inquiries={data.inquiries} outbox={data.outbox} />}
       {section === "campaigns" && <CmsCampaigns cities={data.cities} />}
+      {section === "enrichment" && <CmsEnrichment />}
       {section === "inbox" && <CmsInbox />}
     </>}
   </div></DashboardLayout>;

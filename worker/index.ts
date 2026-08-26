@@ -11,6 +11,7 @@ import { handleCreateCampaign, handleSendCampaign, handleListCampaigns, handleLi
 import { processCampaignSend } from "./campaigns";
 import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing, handleClaimSearch } from "./claim";
 import { handleSitemapIndex, handleSitemapStatic, handleSitemapCities, handleSitemapListings, handleSitemapJournal, handleRobotsTxt } from "./sitemap";
+import { approveAllProposals, getEnrichmentStatus, reviewProposal, runEnrichmentBatch, updateEnrichmentSettings, type EnrichmentTarget } from "./enrichment";
 
 export interface Env {
   ASSETS: Fetcher;
@@ -37,6 +38,8 @@ export interface Env {
   TWILIO_FROM_NUMBER?: string;
   CF_VERSION_METADATA?: { id?: string; tag?: string };
   FORM_LIMITER: DurableObjectNamespace<FormLimiter>;
+  /** Workers AI — writes listing descriptions from a studio's own website. See worker/enrichment.ts. */
+  AI: Ai;
 }
 
 type LimiterWindow = { count: number; resetsAt: number };
@@ -201,6 +204,40 @@ app.get("/api/campaigns/click", c => handleCampaignClick(c.env, Number(c.req.que
 app.post("/api/webhooks/twilio/status", c => handleTwilioStatusWebhook(c.req.raw, c.env));
 app.post("/api/webhooks/twilio/inbound", c => handleTwilioInboundWebhook(c.req.raw, c.env));
 
+/**
+ * Listing enrichment control surface. Everything the CMS panel needs to start
+ * it, stop it, retune it, run it on demand and review what it wrote.
+ */
+app.get("/api/admin/enrichment", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return c.json(await getEnrichmentStatus(c.env));
+});
+app.post("/api/admin/enrichment/settings", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  const body = await c.req.json<{ enabled?: boolean; autoPublish?: boolean; batchSize?: number; concurrency?: number; dailyCap?: number; model?: string; target?: EnrichmentTarget }>().catch(() => ({}));
+  return c.json({ settings: await updateEnrichmentSettings(c.env, body) });
+});
+app.post("/api/admin/enrichment/run", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return c.json(await runEnrichmentBatch(c.env, "manual"));
+});
+app.post("/api/admin/enrichment/items/:id/:decision", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  const decision = c.req.param("decision");
+  if (decision !== "approve" && decision !== "reject") return c.json({ error: "decision must be 'approve' or 'reject'" }, 400);
+  const result = await reviewProposal(c.env, Number(c.req.param("id")), decision);
+  return "error" in result ? c.json(result, 400) : c.json(result);
+});
+app.post("/api/admin/enrichment/approve-all", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return c.json(await approveAllProposals(c.env));
+});
+
 app.get("/robots.txt", c => handleRobotsTxt(c.env));
 app.get("/sitemap.xml", c => handleSitemapIndex(c.env));
 app.get("/sitemap-static.xml", c => handleSitemapStatic(c.env));
@@ -229,6 +266,20 @@ app.all("*", async c => hardened(await serveWorkerPage(c.req.raw, c.env)));
 
 export default {
   fetch: app.fetch,
+  /**
+   * wrangler.jsonc has declared cron triggers since the Worker migration, but
+   * no scheduled() handler was ever exported — so every firing hit a Worker
+   * that could not answer it. This is that handler. Enrichment is the only job
+   * on the schedule today, and it returns immediately unless an admin has
+   * started it in the CMS.
+   */
+  async scheduled(event: ScheduledController, env: Env, ctx: ExecutionContext) {
+    ctx.waitUntil(
+      runEnrichmentBatch(env, "cron")
+        .then(result => console.log(`[Worker cron ${event.cron}] enrichment: ${result.status} — ${result.note}`))
+        .catch(error => console.error(`[Worker cron ${event.cron}] enrichment failed`, error)),
+    );
+  },
   /** Consumes campaign send jobs enqueued by handleSendCampaign — one message per recipient, so a slow/rate-limited provider or a transient failure can't block the rest of a send (Queues retry failed messages automatically). */
   async queue(batch: MessageBatch<{ recipientId: number }>, env: Env) {
     for (const message of batch.messages) {
