@@ -8,7 +8,11 @@
 //            language?: string, placeMinimumStars?: "" | "two" | "twoAndHalf" | ... }
 // Output (per item, pushed to the default dataset):
 //   title, phone, phoneUnformatted, emails[], website, address, street, city, postalCode,
-//   location: { lat, lng }, totalScore, reviewsCount, placeId, category
+//   location: { lat, lng }, totalScore, reviewsCount, placeId, category, openingHours[], imageUrl
+//
+// openingHours and imageUrl are ours, beyond the public actor's field list. They were the two
+// things the 2026-08-26 listing audit found missing everywhere: 0 listings showed opening
+// hours and 94% had no photo, because nothing here ever read them off the page.
 //
 // This can't be tested locally in this sandbox (its outbound proxy resets connections to
 // google.com over a real browser) — it's built defensively, deployed straight to Apify, and
@@ -104,6 +108,55 @@ async function textOf(page, selector) {
   return cleanText(raw);
 }
 
+/**
+ * Google renders the hours table collapsed behind a summary button. The whole
+ * week is in the table's aria-label ("Sunday, Closed; Monday, 10 am to 8 pm; ...")
+ * whether or not it has been expanded, which is far more robust than clicking it
+ * open and reading rows.
+ */
+async function scrapeOpeningHours(page) {
+  const labelled = page.locator('div[aria-label*=" am to "], div[aria-label*=" pm to "], div[aria-label*="Closed"]').first();
+  if (await labelled.count()) {
+    const label = await labelled.getAttribute("aria-label").catch(() => null);
+    if (label && label.includes(";")) {
+      const days = label
+        .split(";")
+        .map(part => cleanText(part))
+        .filter(part => /^(mon|tue|wed|thu|fri|sat|sun)/i.test(part));
+      if (days.length) return days;
+    }
+  }
+  // Expanded table fallback — one row per day.
+  const rows = page.locator('table tr:has(td)');
+  const count = Math.min(await rows.count().catch(() => 0), 7);
+  const out = [];
+  for (let index = 0; index < count; index++) {
+    const text = cleanText(await rows.nth(index).innerText({ timeout: 2000 }).catch(() => ""));
+    if (text) out.push(text.replace(/\n+/g, " "));
+  }
+  return out.length ? out : null;
+}
+
+/**
+ * The hero photo. Google serves it as a CSS background on the header button, so
+ * the URL has to come out of the inline style rather than an <img src>. The
+ * "=w..-h..-k-no" suffix is a size directive — widened to something usable on a
+ * listing card rather than the thumbnail Google picked for its own layout.
+ */
+async function scrapeHeroImage(page) {
+  const button = page.locator('button[jsaction*="heroHeaderImage"], button[aria-label^="Photo"], button[aria-label^="Foto"]').first();
+  if (!(await button.count())) return null;
+  const style = await button.getAttribute("style").catch(() => null);
+  const fromStyle = style && style.match(/url\(["']?(https:\/\/[^"')]+)["']?\)/);
+  let url = fromStyle ? fromStyle[1] : null;
+  if (!url) {
+    const img = button.locator("img").first();
+    if (await img.count()) url = await img.getAttribute("src").catch(() => null);
+  }
+  if (!url || !/^https:\/\//.test(url)) return null;
+  return url.replace(/=w\d+-h\d+[^=]*$/, "=w800-h600-k-no");
+}
+
 async function scrapePlaceDetail(context, url) {
   const page = await context.newPage();
   try {
@@ -139,6 +192,9 @@ async function scrapePlaceDetail(context, url) {
     const websiteEl = page.locator('a[data-item-id="authority"]').first();
     const website = (await websiteEl.count()) ? await websiteEl.getAttribute("href").catch(() => null) : null;
 
+    const openingHours = await scrapeOpeningHours(page);
+    const imageUrl = await scrapeHeroImage(page);
+
     const finalUrl = page.url();
     return {
       title: name,
@@ -154,6 +210,8 @@ async function scrapePlaceDetail(context, url) {
       totalScore,
       reviewsCount,
       placeId: extractCid(finalUrl),
+      openingHours,
+      imageUrl,
     };
   } catch (error) {
     log(`  detail scrape failed for ${url}: ${error.message}`);

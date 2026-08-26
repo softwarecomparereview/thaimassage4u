@@ -156,6 +156,11 @@ function cityDisplayName(slug) {
 function buildDescription(listing) {
   const parts = [`${listing.name} is an independently listed massage and wellness business in ${cityDisplayName(listing.citySlug)}.`];
   if (listing.address) parts.push(`Located at ${listing.address}.`);
+  // Hours are a real fact a visitor needs and the earlier OpenStreetMap import
+  // already carried them; the Apify path dropped them until the actor learned to
+  // read the hours table. `listings` has no hours column, so they live in the
+  // description like the OSM rows' "Posted hours:" sentence does.
+  if (Array.isArray(listing.openingHours) && listing.openingHours.length) parts.push(`Posted hours: ${listing.openingHours.join("; ")}.`);
   if (typeof listing.rating === "number" && listing.reviewCount) parts.push(`Rated ${listing.rating}★ from ${listing.reviewCount} reviews on Google.`);
   return parts.join(" ");
 }
@@ -164,7 +169,7 @@ const lines = [];
 for (const listing of kept) {
   const slug = uniqueSlug(listing.name, listing.citySlug);
   lines.push(
-    `INSERT INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, price_from, currency, premium, claimed, source, source_url, place_id, rating, review_count) VALUES (${sqlString(slug)}, ${sqlString(listing.name)}, ${sqlString(listing.countryCode)}, ${sqlString(listing.citySlug)}, ${sqlString(listing.suburb)}, ${sqlString(listing.address)}, ${sqlString(listing.phone)}, ${sqlString(listing.email)}, ${sqlString(listing.website)}, ${sqlString("Massage")}, ${sqlString(buildDescription(listing))}, NULL, NULL, 0, 0, 'apify_google_maps', ${sqlString(listing.website)}, ${sqlString(listing.placeId)}, ${listing.rating ?? "NULL"}, ${listing.reviewCount ?? "NULL"});`,
+    `INSERT INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, price_from, currency, premium, claimed, source, source_url, place_id, rating, review_count, image_url) VALUES (${sqlString(slug)}, ${sqlString(listing.name)}, ${sqlString(listing.countryCode)}, ${sqlString(listing.citySlug)}, ${sqlString(listing.suburb)}, ${sqlString(listing.address)}, ${sqlString(listing.phone)}, ${sqlString(listing.email)}, ${sqlString(listing.website)}, ${sqlString("Massage")}, ${sqlString(buildDescription(listing))}, NULL, NULL, 0, 0, 'apify_google_maps', ${sqlString(listing.website)}, ${sqlString(listing.placeId)}, ${listing.rating ?? "NULL"}, ${listing.reviewCount ?? "NULL"}, ${sqlString(listing.imageUrl)});`,
   );
 }
 
