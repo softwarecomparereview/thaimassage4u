@@ -90,7 +90,24 @@ const existingSlugs = new Set(existing.map(r => r.slug).filter(Boolean));
 // some real wellness places whose name doesn't say either word — but that's the safer failure mode
 // for a directory that's explicit about never listing something it can't stand behind.
 function isRelevant(name) {
-  return /massage|\bspa\b/i.test(name);
+  if (!/massage|\bspa\b/i.test(name)) return false;
+  // "Spa" in a name is not evidence of massage. Nail salons were the whole of
+  // the off-category residue in the 2026-08-26 listing audit — CITY NAILS &
+  // SPA, Mia Nails & Spa, BS Nails Cosmetic Spa, Sofia Spa Nails & Beauty,
+  // Lovey Nail — so a name that says nails and never says massage is out.
+  if (/nail|nagelstudio/i.test(name) && !/massage|thai|wellness/i.test(name)) return false;
+  return true;
+}
+
+/**
+ * A listing nobody can act on is worse than no listing: a visitor cannot call,
+ * visit or book, a crawler gets a contentless page, and the claim flow has no
+ * address to send its one-time code to, so the business can never fix it
+ * either. The 2026-08-26 audit quarantined 38 such rows; this keeps the next
+ * import from adding more.
+ */
+function isContactable(listing) {
+  return Boolean(listing.phone || listing.website || listing.email || listing.address);
 }
 
 const kept = [];
@@ -98,6 +115,7 @@ const skippedDuplicates = [];
 const skippedIrrelevant = [];
 const skippedAdultService = [];
 const seenThisBatch = new Set(); // guards against the same place appearing twice within this pull
+const skippedUnactionable = [];
 for (const listing of pull.listings) {
   if (!isRelevant(listing.name)) {
     skippedIrrelevant.push(listing);
@@ -108,6 +126,10 @@ for (const listing of pull.listings) {
   // gate somehow let it through.
   if (isAdultServiceMatch(listing.name, listing.website, listing.email)) {
     skippedAdultService.push(listing);
+    continue;
+  }
+  if (!isContactable(listing)) {
+    skippedUnactionable.push(listing);
     continue;
   }
   const nameCityKey = `${listing.citySlug}::${normalizeName(listing.name)}`;
@@ -143,6 +165,11 @@ function cityDisplayName(slug) {
 function buildDescription(listing) {
   const parts = [`${listing.name} is an independently listed massage and wellness business in ${cityDisplayName(listing.citySlug)}.`];
   if (listing.address) parts.push(`Located at ${listing.address}.`);
+  // Hours are a real fact a visitor needs and the earlier OpenStreetMap import
+  // already carried them; the Apify path dropped them until the actor learned to
+  // read the hours table. `listings` has no hours column, so they live in the
+  // description like the OSM rows' "Posted hours:" sentence does.
+  if (Array.isArray(listing.openingHours) && listing.openingHours.length) parts.push(`Posted hours: ${listing.openingHours.join("; ")}.`);
   if (typeof listing.rating === "number" && listing.reviewCount) parts.push(`Rated ${listing.rating}★ from ${listing.reviewCount} reviews on Google.`);
   return parts.join(" ");
 }
@@ -151,7 +178,7 @@ const lines = [];
 for (const listing of kept) {
   const slug = uniqueSlug(listing.name, listing.citySlug);
   lines.push(
-    `INSERT INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, price_from, currency, premium, claimed, source, source_url, place_id, rating, review_count) VALUES (${sqlString(slug)}, ${sqlString(listing.name)}, ${sqlString(listing.countryCode)}, ${sqlString(listing.citySlug)}, ${sqlString(listing.suburb)}, ${sqlString(listing.address)}, ${sqlString(listing.phone)}, ${sqlString(listing.email)}, ${sqlString(listing.website)}, ${sqlString("Massage")}, ${sqlString(buildDescription(listing))}, NULL, NULL, 0, 0, 'apify_google_maps', ${sqlString(listing.website)}, ${sqlString(listing.placeId)}, ${listing.rating ?? "NULL"}, ${listing.reviewCount ?? "NULL"});`,
+    `INSERT INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, price_from, currency, premium, claimed, source, source_url, place_id, rating, review_count, image_url) VALUES (${sqlString(slug)}, ${sqlString(listing.name)}, ${sqlString(listing.countryCode)}, ${sqlString(listing.citySlug)}, ${sqlString(listing.suburb)}, ${sqlString(listing.address)}, ${sqlString(listing.phone)}, ${sqlString(listing.email)}, ${sqlString(listing.website)}, ${sqlString("Massage")}, ${sqlString(buildDescription(listing))}, NULL, NULL, 0, 0, 'apify_google_maps', ${sqlString(listing.website)}, ${sqlString(listing.placeId)}, ${listing.rating ?? "NULL"}, ${listing.reviewCount ?? "NULL"}, ${sqlString(listing.imageUrl)});`,
   );
 }
 
@@ -159,6 +186,7 @@ writeFileSync(outPath, lines.join("\n") + "\n");
 console.log(`Pull had ${pull.listings.length} listings.`);
 console.log(`Skipped as not actually massage/spa businesses: ${skippedIrrelevant.length}`);
 console.log(`Skipped as likely adult-services businesses (name/domain match): ${skippedAdultService.length}`);
+console.log(`Skipped as unactionable (no phone, website, email or address): ${skippedUnactionable.length}`);
 console.log(`Skipped as likely duplicates of existing listings: ${skippedDuplicates.length}`);
 console.log(`New listings to insert: ${kept.length}`);
 console.log(`SQL written to ${outPath}`);

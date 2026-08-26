@@ -12,6 +12,8 @@ import { processCampaignSend } from "./campaigns";
 import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing, handleClaimSearch } from "./claim";
 import { handleSitemapIndex, handleSitemapStatic, handleSitemapCities, handleSitemapListings, handleSitemapJournal, handleRobotsTxt } from "./sitemap";
 import { enrichBatch, handleEnrichRun, handleEnrichStatus } from "./enrich";
+import { approveAllProposals, getEnrichmentStatus, reviewProposal, runEnrichmentBatch, updateEnrichmentSettings, type EnrichmentTarget } from "./enrichment";
+import { isPublishStatus, listPublishQueue, setListingStatus, setStatusForFilter, type PublishStatus } from "./publish";
 
 export interface Env {
   ASSETS: Fetcher;
@@ -40,6 +42,8 @@ export interface Env {
   TWILIO_FROM_NUMBER?: string;
   CF_VERSION_METADATA?: { id?: string; tag?: string };
   FORM_LIMITER: DurableObjectNamespace<FormLimiter>;
+  /** Workers AI — writes listing descriptions from a studio's own website. See worker/enrichment.ts. */
+  AI: Ai;
 }
 
 type LimiterWindow = { count: number; resetsAt: number };
@@ -214,6 +218,70 @@ app.get("/api/campaigns/click", c => handleCampaignClick(c.env, Number(c.req.que
 app.post("/api/webhooks/twilio/status", c => handleTwilioStatusWebhook(c.req.raw, c.env));
 app.post("/api/webhooks/twilio/inbound", c => handleTwilioInboundWebhook(c.req.raw, c.env));
 
+/**
+ * Listing enrichment control surface. Everything the CMS panel needs to start
+ * it, stop it, retune it, run it on demand and review what it wrote.
+ */
+app.get("/api/admin/enrichment", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return c.json(await getEnrichmentStatus(c.env));
+});
+app.post("/api/admin/enrichment/settings", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  const body = await c.req.json<{ enabled?: boolean; autoPublish?: boolean; batchSize?: number; concurrency?: number; dailyCap?: number; model?: string; target?: EnrichmentTarget }>().catch(() => ({}));
+  return c.json({ settings: await updateEnrichmentSettings(c.env, body) });
+});
+app.post("/api/admin/enrichment/run", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return c.json(await runEnrichmentBatch(c.env, "manual"));
+});
+app.post("/api/admin/enrichment/items/:id/:decision", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  const decision = c.req.param("decision");
+  if (decision !== "approve" && decision !== "reject") return c.json({ error: "decision must be 'approve' or 'reject'" }, 400);
+  const result = await reviewProposal(c.env, Number(c.req.param("id")), decision);
+  return "error" in result ? c.json(result, 400) : c.json(result);
+});
+app.post("/api/admin/enrichment/approve-all", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return c.json(await approveAllProposals(c.env));
+});
+
+/**
+ * Publish control for the real `listings` table. See worker/publish.ts for
+ * why this is separate from the CMS's older qh_listings-based listing form.
+ */
+app.get("/api/admin/publish", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  const query = c.req.query();
+  const status = isPublishStatus(query.status) ? query.status : query.status === "all" ? "all" : "all";
+  const page = Math.max(1, Number(query.page) || 1);
+  const pageSize = Math.min(200, Math.max(1, Number(query.pageSize) || 50));
+  return c.json(await listPublishQueue(c.env, { status, citySlug: query.city || undefined, q: query.q || undefined, thinOnly: query.thinOnly === "1" }, page, pageSize));
+});
+app.post("/api/admin/publish/status", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  const body = await c.req.json<{ slug?: string; status?: string }>().catch(() => ({}));
+  if (!body.slug || !isPublishStatus(body.status)) return c.json({ error: "slug and a valid status are required." }, 400);
+  const result = await setListingStatus(c.env, body.slug, body.status);
+  return "error" in result ? c.json(result, 404) : c.json(result);
+});
+app.post("/api/admin/publish/bulk", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  const body = await c.req.json<{ status?: PublishStatus | "all"; city?: string; q?: string; thinOnly?: boolean; newStatus?: string; protect?: boolean }>().catch(() => ({}));
+  if (!isPublishStatus(body.newStatus)) return c.json({ error: "newStatus must be published, pending or unpublished." }, 400);
+  const result = await setStatusForFilter(c.env, { status: body.status, citySlug: body.city, q: body.q, thinOnly: body.thinOnly }, body.newStatus, body.protect !== false);
+  return c.json(result);
+});
+
 app.get("/robots.txt", c => handleRobotsTxt(c.env));
 app.get("/sitemap.xml", c => handleSitemapIndex(c.env));
 app.get("/sitemap-static.xml", c => handleSitemapStatic(c.env));
@@ -243,14 +311,24 @@ app.all("*", async c => hardened(await serveWorkerPage(c.req.raw, c.env)));
 export default {
   fetch: app.fetch,
   /**
-   * The crons in wrangler.jsonc were firing into a Worker with no scheduled
-   * handler at all (leftover scaffold). Now each firing enriches a small batch
-   * of listings via Workers AI (worker/enrich.ts), so the whole directory
-   * converges to real descriptions/images in the background — ~15 listings
-   * x 5 firings/day chews through a fresh 300-listing scrape in a few days
-   * with no one pushing a button.
+   * wrangler.jsonc has declared cron triggers since the Worker migration, but
+   * no scheduled() handler was ever exported — so every firing hit a Worker
+   * that could not answer it. This is that handler. Two enrichment jobs share
+   * the schedule and cannot fight over rows:
+   *  - runEnrichmentBatch: description proposals, CMS-governed (worker/enrichment.ts);
+   *    returns immediately unless an admin has started it in the CMS. Skips
+   *    anything the deep pass already wrote (those descriptions exceed its
+   *    "thin" threshold).
+   *  - enrichBatch: the deep pass (worker/enrich.ts) — descriptor + services +
+   *    og:image + description, stamped via listings.enriched_at, so once the
+   *    backlog is done it selects zero rows and costs nothing.
    */
-  async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext) {
+  async scheduled(event: ScheduledController, env: Env, ctx: ExecutionContext) {
+    ctx.waitUntil(
+      runEnrichmentBatch(env, "cron")
+        .then(result => console.log(`[Worker cron ${event.cron}] enrichment: ${result.status} — ${result.note}`))
+        .catch(error => console.error(`[Worker cron ${event.cron}] enrichment failed`, error)),
+    );
     ctx.waitUntil(enrichBatch(env, 15).catch(() => {}));
   },
   /** Consumes campaign send jobs enqueued by handleSendCampaign — one message per recipient, so a slow/rate-limited provider or a transient failure can't block the rest of a send (Queues retry failed messages automatically). */

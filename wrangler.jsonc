@@ -54,7 +54,10 @@
   ],
   "browser": { "binding": "BROWSER" },
   "ai": { "binding": "AI" },
-  "triggers": { "crons": ["15 */6 * * *", "20 6 * * *"] },
+  // The first two crons predate the scheduled() handler in worker/index.ts and were
+  // firing into a Worker that exported none, so they did nothing at all. The third
+  // drives listing enrichment; it is a no-op unless enrichment is started in the CMS.
+  "triggers": { "crons": ["15 */6 * * *", "20 6 * * *", "*/15 * * * *"] },
   "migrations": [
     { "tag": "v1", "new_sqlite_classes": ["FormLimiter"] }
   ]

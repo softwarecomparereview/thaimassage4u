@@ -60,7 +60,8 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
     return { title: "List your wellness studio — Quiet Hour", description: "A considered listing for independent wellness studios, therapists, and recovery spaces.", canonicalPath: path, alternates: [{ locale: "en", path }] };
   }
   if (path === "/coming-soon") {
-    return { title: "What we're building next — Quiet Hour", description: "AI booking, deposit collection, and more on the Quiet Hour roadmap.", canonicalPath: path, alternates: [{ locale: "en", path }] };
+    // A roadmap teaser with no standalone search value — kept reachable, kept out of the index.
+    return { title: "What we're building next — Quiet Hour", description: "AI booking, deposit collection, and more on the Quiet Hour roadmap.", canonicalPath: path, noindex: true };
   }
   const country = path.match(/^\/(us|uk|au|de)$/);
   if (country) {
@@ -74,26 +75,58 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
     const data = await genuineMiss(() => prefetch.cityBySlug(city[1]));
     if (!data) return { title: SITE, description: DEFAULT_DESCRIPTION, notFound: true };
     seeded(queryClient, getQueryKey(trpc.directory.cityBySlug, { slug: city[1] }, "query"), data);
-    return { title: `${data.city.name} wellness guide — ${SITE}`, description: data.city.introduction || `A considered guide to wellness places and city intelligence in ${data.city.name}.`, canonicalPath: path, alternates: [{ locale: data.city.primaryLocale, path }], jsonLd: { "@context": "https://schema.org", "@type": "TouristDestination", name: `${data.city.name} wellness guide`, description: data.city.introduction || `Wellness places and local context in ${data.city.name}.`, url: `https://thaimassageforu.com${path}` } };
+    // Titles used to read "London wellness guide — Quiet Hour": no mention of
+    // massage, on a domain whose whole search intent is massage. Lead with the
+    // query and the count, which is the part a searcher scans for.
+    const cityCount = data.listings.length;
+    return {
+      title: `Massage in ${data.city.name} — ${cityCount} Studios & Reviews`,
+      description: `${cityCount} independently listed massage and wellness places in ${data.city.name}, with addresses, phone numbers and Google ratings. ${data.city.introduction ?? ""}`.trim(),
+      canonicalPath: path,
+      alternates: [{ locale: data.city.primaryLocale, path }],
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: `Massage in ${data.city.name}`,
+        description: data.city.introduction || `Massage and wellness places in ${data.city.name}.`,
+        url: `https://thaimassageforu.com${path}`,
+        mainEntity: {
+          "@type": "ItemList",
+          numberOfItems: cityCount,
+          itemListElement: data.listings.slice(0, 25).map((item: { name: string; slug: string }, index: number) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: item.name,
+            url: `https://thaimassageforu.com/listing/${item.slug}`,
+          })),
+        },
+      },
+    };
   }
   const listing = path.match(/^\/listing\/([^/]+)$/);
   if (listing) {
     const data = await genuineMiss(() => prefetch.listingBySlug(listing[1]));
     if (!data) return { title: SITE, description: DEFAULT_DESCRIPTION, notFound: true };
     seeded(queryClient, getQueryKey(trpc.directory.listingBySlug, { slug: listing[1] }, "query"), data);
-    // The deployed Worker's getListing returns contact/geo fields the shared server router types don't know about yet.
-    const rich = data.listing as typeof data.listing & { phone?: string | null; lat?: number | null; lon?: number | null };
-    const business: Record<string, unknown> = {
+    // Fields the importer has always written but no read query selected, so the
+    // structured data was name/url/image plus the same boilerplate descriptor on
+    // all 861 pages. `descriptor` is that boilerplate — prefer the real text.
+    const extra = data.listing as unknown as { phone?: string | null; rating?: number | null; reviewCount?: number | null; priceFrom?: number | null; currency?: string | null; lat?: number | null; lon?: number | null };
+    const jsonLd: Record<string, unknown> = {
       "@context": "https://schema.org",
       "@type": "HealthAndBeautyBusiness",
       name: data.listing.name,
-      description: data.listing.descriptor || data.listing.description || undefined,
+      description: data.listing.description || data.listing.descriptor || undefined,
       url: `https://thaimassageforu.com${path}`,
       image: data.listing.imageUrl || undefined,
     };
-    if (data.listing.address) business.address = { "@type": "PostalAddress", streetAddress: data.listing.address, addressLocality: data.city.name, addressCountry: data.city.countryCode?.toUpperCase() };
-    if (rich.phone) business.telephone = rich.phone;
-    if (typeof rich.lat === "number" && typeof rich.lon === "number") business.geo = { "@type": "GeoCoordinates", latitude: rich.lat, longitude: rich.lon };
+    if (data.listing.address) jsonLd.address = { "@type": "PostalAddress", streetAddress: data.listing.address, addressLocality: data.city.name, addressCountry: data.city.countryCode?.toUpperCase() };
+    if (data.listing.bookingUrl) jsonLd.sameAs = [data.listing.bookingUrl];
+    if (extra.phone) jsonLd.telephone = extra.phone;
+    if (data.listing.neighbourhood) jsonLd.areaServed = data.listing.neighbourhood;
+    if (typeof extra.lat === "number" && typeof extra.lon === "number") jsonLd.geo = { "@type": "GeoCoordinates", latitude: extra.lat, longitude: extra.lon };
+    if (extra.rating && extra.reviewCount) jsonLd.aggregateRating = { "@type": "AggregateRating", ratingValue: extra.rating, reviewCount: extra.reviewCount, bestRating: 5 };
+    // BreadcrumbList gives Google the site hierarchy for the "Home > City > Listing" trail in results.
     const breadcrumbs = {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
@@ -103,7 +136,15 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
         { "@type": "ListItem", position: 3, name: data.listing.name, item: `https://thaimassageforu.com${path}` },
       ],
     };
-    return { title: `${data.listing.name} — massage & wellness in ${data.city.name} — ${SITE}`, description: data.listing.descriptor || data.listing.description || `Find ${data.listing.name} in the Quiet Hour directory.`, canonicalPath: path, alternates: [{ locale: data.city.primaryLocale, path }], ogImage: data.listing.imageUrl || undefined, jsonLd: [business, breadcrumbs] };
+    const ratingSuffix = extra.rating ? ` Rated ${extra.rating}/5${extra.reviewCount ? ` from ${extra.reviewCount} reviews` : ""}.` : "";
+    return {
+      title: `${data.listing.name} — Massage in ${data.city.name}`,
+      description: `${data.listing.description || data.listing.descriptor || `Find ${data.listing.name} in the Quiet Hour directory.`}${ratingSuffix}`,
+      canonicalPath: path,
+      alternates: [{ locale: data.city.primaryLocale, path }],
+      ogImage: data.listing.imageUrl || undefined,
+      jsonLd: [jsonLd, breadcrumbs],
+    };
   }
   const article = path.match(/^\/journal\/([^/]+)$/);
   if (article) {

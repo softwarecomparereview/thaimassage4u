@@ -1,3 +1,4 @@
+import { PUBLIC_ARTICLE_STATUSES, PUBLISHED } from "./directory";
 import type { Env } from "./index";
 
 /** Every URL a search engine should be able to find, generated fresh from the same tables the
@@ -5,7 +6,7 @@ import type { Env } from "./index";
  * URL type via ?type= so a single request never has to hold all of them in memory at once; the
  * index file just points to each. Well under Google's 50,000-URLs-per-file limit either way. */
 
-const STATIC_PATHS = ["/", "/directory", "/journal", "/list-your-place", "/coming-soon"];
+const STATIC_PATHS = ["/", "/directory", "/journal", "/list-your-place"];
 const COUNTRY_CODES = ["us", "uk", "au", "de"];
 
 function urlEntry(loc: string, lastmod?: string | null) {
@@ -41,14 +42,18 @@ export async function handleSitemapCities(env: Env) {
 
 export async function handleSitemapListings(env: Env) {
   const origin = env.SITE_URL.replace(/\/$/, "");
-  const { results } = await env.DB.prepare("SELECT slug, created_at FROM listings ORDER BY id").all<{ slug: string; created_at: string | null }>();
+  const { results } = await env.DB.prepare(`SELECT slug, created_at FROM listings WHERE ${PUBLISHED} ORDER BY id`).all<{ slug: string; created_at: string | null }>();
   const urls = results.map(row => urlEntry(`${origin}/listing/${row.slug}`, row.created_at));
   return sitemapResponse(urls);
 }
 
 export async function handleSitemapJournal(env: Env) {
   const origin = env.SITE_URL.replace(/\/$/, "");
-  const { results } = await env.DB.prepare("SELECT slug, updated_at FROM qh_articles WHERE status = 'published' ORDER BY id").all<{ slug: string; updated_at: string | null }>();
+  // Must match the visibility rule the article pages themselves use
+  // (PUBLIC_ARTICLE_STATUSES in worker/directory.ts). While this said
+  // `status = 'published'` and the pages accepted 'review' too, all 20 live,
+  // publicly readable articles were missing from the sitemap entirely.
+  const { results } = await env.DB.prepare(`SELECT slug, updated_at FROM qh_articles WHERE status IN (${PUBLIC_ARTICLE_STATUSES}) ORDER BY id`).all<{ slug: string; updated_at: string | null }>();
   const urls = results.map(row => urlEntry(`${origin}/journal/${row.slug}`, row.updated_at));
   return sitemapResponse(urls);
 }

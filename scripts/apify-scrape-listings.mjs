@@ -108,6 +108,7 @@ function toRecord(item, countryCode, citySlug) {
     rating: item.totalScore ?? null,
     reviewCount: item.reviewsCount ?? null,
     openingHours: item.openingHours ?? null,
+    imageUrl: item.imageUrl ?? null,
     placeId: item.placeId ?? null,
   };
 }

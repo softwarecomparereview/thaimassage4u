@@ -215,8 +215,16 @@ export async function handleEnrichRun(request: Request, env: Env) {
 }
 
 export async function handleEnrichStatus(env: Env) {
-  const row = await env.DB.prepare(
-    "SELECT COUNT(*) AS total, SUM(CASE WHEN enriched_at IS NOT NULL THEN 1 ELSE 0 END) AS done, SUM(CASE WHEN enriched_at IS NOT NULL AND descriptor IS NOT NULL THEN 1 ELSE 0 END) AS succeeded FROM listings",
-  ).first<{ total: number; done: number; succeeded: number }>();
-  return Response.json(row);
+  const [summary, byCountry, recent] = await Promise.all([
+    env.DB.prepare(
+      "SELECT COUNT(*) AS total, SUM(CASE WHEN enriched_at IS NOT NULL THEN 1 ELSE 0 END) AS done, SUM(CASE WHEN enriched_at IS NOT NULL AND descriptor IS NOT NULL THEN 1 ELSE 0 END) AS succeeded, SUM(CASE WHEN image_url LIKE 'https://%' THEN 1 ELSE 0 END) AS withImage FROM listings",
+    ).first<{ total: number; done: number; succeeded: number; withImage: number }>(),
+    env.DB.prepare(
+      "SELECT country_code AS country, COUNT(*) AS total, SUM(CASE WHEN enriched_at IS NOT NULL AND descriptor IS NOT NULL THEN 1 ELSE 0 END) AS enriched FROM listings GROUP BY country_code ORDER BY country_code",
+    ).all<{ country: string; total: number; enriched: number }>(),
+    env.DB.prepare(
+      "SELECT slug, name, city_slug, descriptor, enriched_at FROM listings WHERE enriched_at IS NOT NULL AND descriptor IS NOT NULL ORDER BY enriched_at DESC LIMIT 20",
+    ).all<{ slug: string; name: string; city_slug: string; descriptor: string; enriched_at: string }>(),
+  ]);
+  return Response.json({ ...summary, byCountry: byCountry.results, recent: recent.results });
 }
