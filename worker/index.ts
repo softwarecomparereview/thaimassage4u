@@ -12,6 +12,7 @@ import { processCampaignSend } from "./campaigns";
 import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing, handleClaimSearch } from "./claim";
 import { handleSitemapIndex, handleSitemapStatic, handleSitemapCities, handleSitemapListings, handleSitemapJournal, handleRobotsTxt } from "./sitemap";
 import { approveAllProposals, getEnrichmentStatus, reviewProposal, runEnrichmentBatch, updateEnrichmentSettings, type EnrichmentTarget } from "./enrichment";
+import { isPublishStatus, listPublishQueue, setListingStatus, setStatusForFilter, type PublishStatus } from "./publish";
 
 export interface Env {
   ASSETS: Fetcher;
@@ -236,6 +237,36 @@ app.post("/api/admin/enrichment/approve-all", async c => {
   const user = await requireAdmin(c);
   if (!user) return c.json({ error: "Unauthorized" }, 401);
   return c.json(await approveAllProposals(c.env));
+});
+
+/**
+ * Publish control for the real `listings` table. See worker/publish.ts for
+ * why this is separate from the CMS's older qh_listings-based listing form.
+ */
+app.get("/api/admin/publish", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  const query = c.req.query();
+  const status = isPublishStatus(query.status) ? query.status : query.status === "all" ? "all" : "all";
+  const page = Math.max(1, Number(query.page) || 1);
+  const pageSize = Math.min(200, Math.max(1, Number(query.pageSize) || 50));
+  return c.json(await listPublishQueue(c.env, { status, citySlug: query.city || undefined, q: query.q || undefined, thinOnly: query.thinOnly === "1" }, page, pageSize));
+});
+app.post("/api/admin/publish/status", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  const body = await c.req.json<{ slug?: string; status?: string }>().catch(() => ({}));
+  if (!body.slug || !isPublishStatus(body.status)) return c.json({ error: "slug and a valid status are required." }, 400);
+  const result = await setListingStatus(c.env, body.slug, body.status);
+  return "error" in result ? c.json(result, 404) : c.json(result);
+});
+app.post("/api/admin/publish/bulk", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  const body = await c.req.json<{ status?: PublishStatus | "all"; city?: string; q?: string; thinOnly?: boolean; newStatus?: string; protect?: boolean }>().catch(() => ({}));
+  if (!isPublishStatus(body.newStatus)) return c.json({ error: "newStatus must be published, pending or unpublished." }, 400);
+  const result = await setStatusForFilter(c.env, { status: body.status, citySlug: body.city, q: body.q, thinOnly: body.thinOnly }, body.newStatus, body.protect !== false);
+  return c.json(result);
 });
 
 app.get("/robots.txt", c => handleRobotsTxt(c.env));
