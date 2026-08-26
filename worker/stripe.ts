@@ -1,13 +1,37 @@
 import Stripe from "stripe";
+import { PREMIUM_TIERS } from "../shared/pricing";
 import type { Env } from "./index";
 
 // Introductory launch pricing — cheap enough to remove hesitation on a
 // first cold ask, before any studio has evidence the placement earns its
 // keep. Revisit once the first cohort has seen real leads land.
+//
+// The amounts live in shared/pricing.ts so the marketing page, the listing-page
+// buy button and this Stripe line item cannot quote different numbers.
 export const PREMIUM_TIER = {
-  city: { amount: 900, interval: "week" as const, label: "TMFU Premium City Listing", description: "Featured city placement on Thai Massage For U (TMFU), billed weekly. Launch pricing." },
-  country: { amount: 4900, interval: "month" as const, label: "TMFU Premium Country Listing", description: "Country-level discoverability and priority placement on Thai Massage For U (TMFU), billed monthly. Launch pricing." },
+  city: { amount: PREMIUM_TIERS.city.amountCents, interval: PREMIUM_TIERS.city.interval, label: "TMFU Premium City Listing", description: "Featured city placement on Thai Massage For U (TMFU), billed weekly. Launch pricing." },
+  country: { amount: PREMIUM_TIERS.country.amountCents, interval: PREMIUM_TIERS.country.interval, label: "TMFU Premium Country Listing", description: "Country-level discoverability and priority placement on Thai Massage For U (TMFU), billed monthly. Launch pricing." },
 } as const;
+
+/**
+ * Placement is decided by `listings.premium` — that is the column every public
+ * ORDER BY reads. The subscription row in qh_premium_subscriptions is the
+ * billing record; before this, only that row was written, so a studio could pay
+ * and see no change in ranking, no featured band and no badge off its own page.
+ * The two tables are joined by slug, so both are updated together here.
+ */
+async function setPlacement(env: Env, listingId: number, active: boolean) {
+  await env.DB.prepare("UPDATE qh_premium_subscriptions SET placement_eligible = ?, updated_at = CURRENT_TIMESTAMP WHERE listing_id = ?").bind(active ? 1 : 0, listingId).run();
+  const qhListing = await env.DB.prepare("SELECT slug FROM qh_listings WHERE id = ? LIMIT 1").bind(listingId).first<{ slug: string }>();
+  if (qhListing?.slug) await env.DB.prepare("UPDATE listings SET premium = ? WHERE slug = ?").bind(active ? 1 : 0, qhListing.slug).run();
+}
+
+/** Resolves the qh_listings row a Stripe subscription belongs to. */
+async function listingForSubscription(env: Env, subscriptionId: string | null) {
+  if (!subscriptionId) return null;
+  const row = await env.DB.prepare("SELECT listing_id AS listingId FROM qh_premium_subscriptions WHERE stripe_subscription_id = ? LIMIT 1").bind(subscriptionId).first<{ listingId: number }>();
+  return row?.listingId ?? null;
+}
 
 /**
  * qh_settings.stripe_mode picks which secret to use — STRIPE_SECRET_KEY
@@ -90,7 +114,28 @@ export async function handleStripeWebhook(request: Request, env: Env) {
       await env.DB.prepare("INSERT INTO qh_premium_subscriptions (listing_id, tier, stripe_customer_id, stripe_subscription_id, placement_eligible) VALUES (?, ?, ?, ?, 1) ON CONFLICT(listing_id) DO UPDATE SET tier=excluded.tier, stripe_customer_id=excluded.stripe_customer_id, stripe_subscription_id=excluded.stripe_subscription_id, placement_eligible=1, updated_at=CURRENT_TIMESTAMP")
         .bind(listingId, tier, typeof session.customer === "string" ? session.customer : session.customer?.id ?? null, typeof session.subscription === "string" ? session.subscription : session.subscription?.id ?? null)
         .run();
+      await setPlacement(env, listingId, true);
     }
   }
+
+  // Without these, placement was granted once and never withdrawn: a cancelled
+  // or unpaid subscription kept its ranking, its featured band and its badge
+  // indefinitely.
+  if (event.type === "customer.subscription.deleted" || event.type === "customer.subscription.updated") {
+    const subscription = event.data.object as Stripe.Subscription;
+    const listingId = await listingForSubscription(env, subscription.id);
+    if (listingId) {
+      const active = subscription.status === "active" || subscription.status === "trialing";
+      await setPlacement(env, listingId, active);
+    }
+  }
+
+  if (event.type === "invoice.payment_failed") {
+    const invoice = event.data.object as Stripe.Invoice & { subscription?: string | { id: string } | null };
+    const subscriptionId = typeof invoice.subscription === "string" ? invoice.subscription : invoice.subscription?.id ?? null;
+    const listingId = await listingForSubscription(env, subscriptionId);
+    if (listingId) await setPlacement(env, listingId, false);
+  }
+
   return Response.json({ received: true });
 }

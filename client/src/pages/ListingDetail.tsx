@@ -1,14 +1,21 @@
 import { SiteFooter, SiteHeader } from "@/components/SiteFrame";
 import { trpc } from "@/lib/trpc";
-import { ArrowUpRight, CalendarCheck2, KeyRound, Mail, MapPin, Send, Sparkles } from "lucide-react";
+import { formatPremiumPrice, PREMIUM_TIERS } from "@shared/pricing";
+import { ArrowUpRight, CalendarCheck2, KeyRound, Mail, MapPin, Phone, Send, Sparkles, Star } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Link, useLocation, useRoute, useSearch } from "wouter";
 
-const PREMIUM_TIERS = [
-  { tier: "city" as const, label: "Premium city placement", price: "$9 / week" },
-  { tier: "country" as const, label: "Premium country placement", price: "$49 / month" },
-];
+/**
+ * Prices come from shared/pricing.ts. They were previously hard-coded here as
+ * $9/$49 while /list-your-place advertised $21/$159 — two public prices for the
+ * same product, and only one of them was what Stripe charged.
+ */
+const CHECKOUT_TIERS = (["city", "country"] as const).map(tier => ({
+  tier,
+  label: PREMIUM_TIERS[tier].label,
+  price: formatPremiumPrice(tier),
+}));
 
 /**
  * Buy premium placement for THIS listing with no account and no claim
@@ -45,7 +52,7 @@ function PremiumPlacementBox({ slug }: { slug: string }) {
       <h2>Get this listing seen first.</h2>
       <p>No account needed — pay once and it's live.</p>
       <div className="premium-box__tiers">
-        {PREMIUM_TIERS.map(option => (
+        {CHECKOUT_TIERS.map(option => (
           <button key={option.tier} type="button" className="premium-box__tier" disabled={pending !== null} onClick={() => buy(option.tier)}>
             <span>{option.label}</span>
             <strong>{pending === option.tier ? "Redirecting…" : option.price}</strong>
@@ -149,10 +156,11 @@ export default function ListingDetail() {
   const { listing, city, category, services } = data;
   // isPremium/isClaimed only exist on the deployed Worker's tRPC response (worker/directory.ts) —
   // the dev-only Node/Drizzle server this file's types are inferred from (server/routers/directory.ts) predates them.
-  const isPremium = Boolean((listing as unknown as { isPremium?: boolean }).isPremium);
-  const isClaimed = Boolean((listing as unknown as { isClaimed?: boolean }).isClaimed);
+  const extra = listing as unknown as { isPremium?: boolean; isClaimed?: boolean; phone?: string | null; rating?: number | null; reviewCount?: number | null };
+  const isPremium = Boolean(extra.isPremium);
+  const isClaimed = Boolean(extra.isClaimed);
   return <><SiteHeader /><main>
-    <section className="listing-hero"><div className="listing-hero__image" style={listing.imageUrl ? { backgroundImage: `url(${listing.imageUrl})` } : undefined}><span>{category.name}</span></div><div className="listing-hero__copy"><p className="eyebrow">{city.name} / {category.name}</p><h1>{listing.name}</h1><p className="listing-descriptor">{listing.descriptor || "An independently listed wellness place."}</p><p>{listing.description || "This profile is being thoughtfully completed by its owner."}</p><div className="listing-meta">{listing.neighbourhood && <span><MapPin size={16} />{listing.neighbourhood}</span>}{listing.bookingUrl && <a href={listing.bookingUrl} target="_blank" rel="noreferrer"><CalendarCheck2 size={16} /> Book direct <ArrowUpRight size={15} /></a>}</div></div></section>
-    <section className="listing-content-grid"><div><p className="eyebrow">The treatment list</p><h2>What you can book</h2><div className="service-list">{services.length ? services.map((service: any) => <article key={service.id}><div><h3>{service.title}</h3><p>{service.description}</p></div><div><span>{service.durationMinutes ? `${service.durationMinutes} min` : "By consultation"}</span>{service.priceFromCents ? <strong>from ${(service.priceFromCents / 100).toFixed(0)}</strong> : null}</div></article>) : <p className="subtle-copy">The studio’s service list is being added.</p>}</div></div><div className="listing-sidebar"><aside className="inquiry-box"><p className="eyebrow">Ask the desk</p><h2>A human introduction is a good place to start.</h2><form onSubmit={submit}><input required placeholder="Your name" value={form.name} onChange={event => setForm({ ...form, name: event.target.value })} /><input required type="email" placeholder="Email address" value={form.email} onChange={event => setForm({ ...form, email: event.target.value })} /><input placeholder="Phone, if you prefer" value={form.phone} onChange={event => setForm({ ...form, phone: event.target.value })} /><textarea required minLength={12} placeholder="Tell us what you are looking for" value={form.message} onChange={event => setForm({ ...form, message: event.target.value })} /><label className="consent-row"><input type="checkbox" checked={form.consentEmail} onChange={event => setForm({ ...form, consentEmail: event.target.checked })} /> I’m happy to hear from Quiet Hour by email.</label><label className="consent-row"><input type="checkbox" checked={form.consentSms} onChange={event => setForm({ ...form, consentSms: event.target.checked })} /> I’m happy to hear from Quiet Hour by SMS.</label><button className="dark-button" disabled={inquiry.isPending}>{inquiry.isPending ? "Sending…" : <><Send size={16} /> Send inquiry</>}</button></form><span className="inquiry-note"><Mail size={14} /> Consent is optional and recorded separately for each channel.</span></aside>{isPremium ? (!isClaimed && <ClaimListingBox slug={listing.slug} />) : <PremiumPlacementBox slug={listing.slug} />}</div></section>
+    <section className="listing-hero"><div className="listing-hero__image" style={listing.imageUrl ? { backgroundImage: `url(${listing.imageUrl})` } : undefined}><span>{category.name}</span></div><div className="listing-hero__copy"><p className="eyebrow">{city.name} / {category.name}</p><h1>{listing.name}</h1>{isPremium && <p className="listing-featured-flag">Featured — this studio pays for placement</p>}<p className="listing-descriptor">{listing.descriptor || "An independently listed wellness place."}</p><p>{listing.description || "This profile is being thoughtfully completed by its owner."}</p><div className="listing-meta">{listing.neighbourhood && <span><MapPin size={16} />{listing.neighbourhood}</span>}{extra.rating ? <span><Star size={16} />{extra.rating.toFixed(1)}{extra.reviewCount ? ` · ${extra.reviewCount} Google reviews` : ""}</span> : null}{extra.phone && <a href={`tel:${extra.phone.replace(/[^+\d]/g, "")}`}><Phone size={16} /> {extra.phone}</a>}{listing.bookingUrl && <a href={listing.bookingUrl} target="_blank" rel="noreferrer"><CalendarCheck2 size={16} /> Book direct <ArrowUpRight size={15} /></a>}</div></div></section>
+    <section className="listing-content-grid"><div><p className="eyebrow">The treatment list</p><h2>What you can book</h2><div className="service-list">{services.length ? services.map((service: any) => <article key={service.id}><div><h3>{service.title}</h3><p>{service.description}</p></div><div><span>{service.durationMinutes ? `${service.durationMinutes} min` : "By consultation"}</span>{service.priceFromCents ? <strong>from ${(service.priceFromCents / 100).toFixed(0)}</strong> : null}</div></article>) : <p className="subtle-copy">The studio’s service list is being added.</p>}</div></div><div className="listing-sidebar"><aside className="inquiry-box"><p className="eyebrow">Ask the desk</p><h2>A human introduction is a good place to start.</h2><form onSubmit={submit}><input required placeholder="Your name" value={form.name} onChange={event => setForm({ ...form, name: event.target.value })} /><input required type="email" placeholder="Email address" value={form.email} onChange={event => setForm({ ...form, email: event.target.value })} /><input placeholder="Phone, if you prefer" value={form.phone} onChange={event => setForm({ ...form, phone: event.target.value })} /><textarea required minLength={12} placeholder="Tell us what you are looking for" value={form.message} onChange={event => setForm({ ...form, message: event.target.value })} /><label className="consent-row"><input type="checkbox" checked={form.consentEmail} onChange={event => setForm({ ...form, consentEmail: event.target.checked })} /> I’m happy to hear from Quiet Hour by email.</label><label className="consent-row"><input type="checkbox" checked={form.consentSms} onChange={event => setForm({ ...form, consentSms: event.target.checked })} /> I’m happy to hear from Quiet Hour by SMS.</label><button className="dark-button" disabled={inquiry.isPending}>{inquiry.isPending ? "Sending…" : <><Send size={16} /> Send inquiry</>}</button></form><span className="inquiry-note"><Mail size={14} /> Consent is optional and recorded separately for each channel.</span></aside>{!isClaimed && <ClaimListingBox slug={listing.slug} />}{!isPremium && <PremiumPlacementBox slug={listing.slug} />}</div></section>
   </main><SiteFooter /></>;
 }

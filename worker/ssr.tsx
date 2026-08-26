@@ -1,6 +1,7 @@
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { TRPCError } from "@trpc/server";
 import { prefetchForPath, type HeadMeta } from "../client/src/ssr/prefetch";
+import { formatPremiumPrice, PREMIUM_TIERS } from "../shared/pricing";
 import { getArticle, getCityGuide, getCountryGuide, getDirectoryHome, getListing } from "./directory";
 import type { Env } from "./index";
 
@@ -36,7 +37,8 @@ async function getHead(pathAndSearch: string, env: Env) {
   return { head, state: dehydrate(queryClient) };
 }
 
-async function renderPublicBody(path: string, env: Env) {
+async function renderPublicBody(rawPath: string, env: Env) {
+  const path = rawPath !== "/" ? rawPath.replace(/\/+$/, "") : rawPath;
   const articleMatch = path.match(/^\/journal\/([^/]+)$/);
   if (articleMatch) {
     const article = await getArticle(env, articleMatch[1]);
@@ -59,7 +61,28 @@ async function renderPublicBody(path: string, env: Env) {
   if (listingMatch) {
     const detail = await getListing(env, listingMatch[1]);
     if (!detail) return `<main class="worker-ssr"><h1>Page not found</h1></main>`;
-    return `<main class="worker-ssr"><nav><a href="/">Quiet Hour</a><a href="/directory">Explore</a></nav><article><h1>${escape(detail.listing.name)}</h1><p>${escape(String(detail.listing.description ?? detail.listing.descriptor ?? ""))}</p><p>${escape(String(detail.city.name))}</p><ul>${detail.services.map(item => `<li>${escape(item.title)}</li>`).join("")}</ul></article></main>`;
+    const facts = [
+      detail.listing.address ? `<li>${escape(String(detail.listing.address))}</li>` : "",
+      detail.listing.phone ? `<li><a href="tel:${escape(String(detail.listing.phone).replace(/[^+\d]/g, ""))}">${escape(String(detail.listing.phone))}</a></li>` : "",
+      detail.listing.rating ? `<li>Rated ${escape(String(detail.listing.rating))} out of 5${detail.listing.reviewCount ? ` from ${escape(String(detail.listing.reviewCount))} Google reviews` : ""}</li>` : "",
+      detail.listing.bookingUrl ? `<li><a href="${escape(String(detail.listing.bookingUrl))}" rel="nofollow noreferrer">Visit website</a></li>` : "",
+    ].join("");
+    return `<main class="worker-ssr"><nav><a href="/">Quiet Hour</a><a href="/directory">Explore</a></nav><article><h1>${escape(detail.listing.name)}</h1><p>${escape(String(detail.listing.description ?? detail.listing.descriptor ?? ""))}</p><p><a href="/city/${escape(detail.city.slug)}">${escape(String(detail.city.name))}</a></p><ul>${facts}</ul><ul>${detail.services.map(item => `<li>${escape(item.title)}</li>`).join("")}</ul></article></main>`;
+  }
+  if (path === "/list-your-place") {
+    const tiers = (["city", "country"] as const).map(tier => `<li><strong>${escape(PREMIUM_TIERS[tier].label)}</strong> — ${escape(formatPremiumPrice(tier))}. ${escape(PREMIUM_TIERS[tier].description)}</li>`).join("");
+    return `<main class="worker-ssr"><nav><a href="/">Quiet Hour</a><a href="/directory">Explore</a></nav><h1>List your wellness studio</h1><p>Be found by people already looking for a treatment in your city. Paid placement is always labelled as featured.</p><ul>${tiers}</ul><p>Cancel anytime. Billed securely by Stripe.</p></main>`;
+  }
+  if (path === "/journal") {
+    const home = await getDirectoryHome(env);
+    const items = home.articles.map((item: any) => `<li><a href="/journal/${escape(String(item.slug))}">${escape(String(item.title))}</a> — ${escape(clean(String(item.excerpt ?? ""), 180))}</li>`).join("");
+    return `<main class="worker-ssr"><nav><a href="/">Quiet Hour</a><a href="/directory">Explore</a></nav><h1>Wellness journal</h1><ul>${items || "<li>Editorial notes are being prepared.</li>"}</ul></main>`;
+  }
+  if (path === "/directory") {
+    const home = await getDirectoryHome(env);
+    const cities = home.cities.map((city: any) => `<li><a href="/city/${escape(String(city.slug))}">${escape(String(city.name))}</a></li>`).join("");
+    const places = home.listings.slice(0, 60).map((item: any) => `<li><a href="/listing/${escape(String(item.slug))}">${escape(String(item.name))}</a> — ${escape(String(item.cityName))}</li>`).join("");
+    return `<main class="worker-ssr"><nav><a href="/">Quiet Hour</a><a href="/journal">Journal</a></nav><h1>Wellness directory</h1><h2>Cities</h2><ul>${cities}</ul><h2>Places</h2><ul>${places}</ul></main>`;
   }
   const home = await getDirectoryHome(env);
   const journalItems = home.articles.slice(0, 3).map((item: any) => `<li><a href="/journal/${escape(String(item.slug))}">${escape(String(item.title))}</a></li>`).join("");
@@ -75,10 +98,19 @@ export async function serveWorkerPage(request: Request, env: Env) {
   if (isAssetPath(url.pathname)) return env.ASSETS.fetch(request);
   if (url.pathname === "/index.html") return Response.redirect(`${url.origin}/`, 301);
   if (url.pathname !== "/" && /\/+$/u.test(url.pathname)) return Response.redirect(`${url.origin}${url.pathname.replace(/\/+$/u, "")}${url.search}`, 301);
-  const acceptsHtml = request.headers.get("accept")?.includes("text/html") || request.headers.get("user-agent")?.includes("bot");
-  if (!acceptsHtml) return env.ASSETS.fetch(request);
+  // This used to render HTML only for requests whose Accept header contained
+  // "text/html", or whose user-agent contained the lowercase string "bot".
+  // facebookexternalhit, LinkedInBot and Slurp match neither, so every link
+  // preview — and any client sending the default Accept: */* — got a zero-byte
+  // 404. A non-asset path is a page; render it regardless of what was asked for.
   const templateResponse = await env.ASSETS.fetch(new Request(new URL("/index.html", url)));
   const template = await templateResponse.text();
+  // A missing asset bundle would otherwise be served as a blank 200 page, which
+  // looks fine to a crawler and to uptime checks. Fail loudly instead.
+  if (!templateResponse.ok || !template.includes("<!--app-html-->")) {
+    console.error("[Worker SSR] index.html is missing from the asset bundle");
+    return new Response("The site is being deployed. Please try again shortly.", { status: 503, headers: { "content-type": "text/plain; charset=UTF-8", "retry-after": "60" } });
+  }
   try {
     const { head, state } = await getHead(`${url.pathname}${url.search}`, env);
     const body = await renderPublicBody(url.pathname, env);
