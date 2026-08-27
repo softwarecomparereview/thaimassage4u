@@ -156,6 +156,12 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
   if (path === "/cms" || path.startsWith("/cms/")) return { title: "Quiet Hour CMS", description: "Quiet Hour management workspace.", noindex: true };
   if (path === "/my-listing") return { title: "Manage your listing — Quiet Hour", description: "Claim and update your listing on Quiet Hour.", canonicalPath: path, noindex: true };
   if (path === "/claim") return { title: "Claim your listing — Quiet Hour", description: "Find your business and claim it — a one-time code, no account to set up.", canonicalPath: path, noindex: true };
-  if (path === "/supplies") return { title: "Massage supplies, cheapest today — Quiet Hour", description: "Daily-refreshed cheapest massage table sheets, oils, towels and equipment with local delivery — for the studios in the directory.", canonicalPath: path, alternates: [{ locale: "en", path }] };
+  if (path === "/supplies") return { title: "Massage supplies, cheapest today — Quiet Hour", description: "Daily-refreshed cheapest massage table sheets, oils, towels and equipment with local delivery — for the studios in the directory.", canonicalPath: path, noindex: true };
+  const countrySupplies = path.match(/^\/(us|uk|au|de|ca|nz|ie|ae)\/supplies$/);
+  if (countrySupplies) {
+    const names: Record<string, string> = { us: "the United States", uk: "the United Kingdom", au: "Australia", de: "Germany", ca: "Canada", nz: "New Zealand", ie: "Ireland", ae: "the UAE" };
+    const name = names[countrySupplies[1]];
+    return { title: `Massage supplies in ${name} — cheapest today — Quiet Hour`, description: `Daily-refreshed cheapest massage table sheets, oils, towels and equipment delivered in ${name} — for massage studios and clinics.`, canonicalPath: path, alternates: [{ locale: "en", path }] };
+  }
   return { title: SITE, description: DEFAULT_DESCRIPTION, notFound: true };
 }

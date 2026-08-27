@@ -6,6 +6,7 @@ import { Link } from "wouter";
 
 const navItems = [
   { href: "/directory", label: "Explore" },
+  { href: "/supplies", label: "Supplies" },
   { href: "/journal", label: "Journal" },
   { href: "/list-your-place", label: "For studios" },
   { href: "/coming-soon", label: "Roadmap" },
@@ -55,6 +56,7 @@ export function SiteHeader() {
 
   return (
     <header className="site-header">
+      <Link href="/supplies" className="supplies-ribbon">Studio owners: today's cheapest supplies, checked daily &amp; delivered locally — massage sheets from $10 <ArrowUpRight size={13} /></Link>
       <div className="site-header__inner">
         <Wordmark />
         <nav className="site-nav" aria-label="Main navigation">

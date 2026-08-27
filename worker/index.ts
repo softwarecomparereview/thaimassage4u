@@ -211,6 +211,11 @@ app.post("/api/admin/stripe-mode", async c => {
 
 app.get("/api/claim/search", c => handleClaimSearch(c.req.raw, c.env));
 app.get("/api/supplies", c => handleSupplies(c.req.raw, c.env));
+// Bare /supplies resolves to the visitor's country page, same logic as the homepage.
+app.get("/supplies", c => {
+  const destination = geoHomeLocation(c.req.raw);
+  return c.redirect(`${destination ?? "/au"}/supplies`, 302);
+});
 app.get("/api/supplies/go", c => handleSupplyClick(c.req.raw, c.env));
 app.post("/api/admin/supplies/sync", async c => {
   const user = await requireAdmin(c);

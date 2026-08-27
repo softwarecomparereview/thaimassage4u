@@ -2,7 +2,7 @@ import { SiteFooter, SiteHeader } from "@/components/SiteFrame";
 import { COUNTRIES } from "@/lib/country";
 import { ArrowUpRight, PackageOpen, Truck } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useSearch } from "wouter";
+import { Link, useRoute, useSearch } from "wouter";
 
 type Offer = { id: number; title: string; price: number; shipping: number | null; total: number; currency: string; freeShipping: boolean; url: string; image: string | null; supplier: string };
 type Category = { key: string; label: string; compareUrl: string | null; offers: Offer[] };
@@ -21,8 +21,11 @@ function money(value: number, currency: string) {
  */
 export default function Supplies() {
   const search = useSearch();
-  const initial = new URLSearchParams(search).get("country") ?? "au";
-  const [country, setCountry] = useState(initial);
+  const [, params] = useRoute("/:code/supplies");
+  const codes = new Set(COUNTRIES.map(option => option.code as string));
+  // Country comes from the path (/au/supplies); bare /supplies is geo-redirected by
+  // the Worker, but keep ?country= and an AU default as client-side fallbacks.
+  const country = (params?.code && codes.has(params.code) ? params.code : null) ?? new URLSearchParams(search).get("country") ?? "au";
   const [data, setData] = useState<SuppliesPayload | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -43,9 +46,9 @@ export default function Supplies() {
       <p>Re-checked daily across the essentials a massage business actually re-buys — sorted by total price with delivery included. Pick your country:</p>
       <div className="country-switch" role="group" aria-label="Choose country">
         {COUNTRIES.map(option => (
-          <button key={option.code} type="button" onClick={() => setCountry(option.code)} className={option.code === country ? "country-switch__item is-active" : "country-switch__item"}>
+          <Link key={option.code} href={`/${option.code}/supplies`} className={option.code === country ? "country-switch__item is-active" : "country-switch__item"}>
             {option.flag} {option.name}
-          </button>
+          </Link>
         ))}
       </div>
     </section>

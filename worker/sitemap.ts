@@ -29,7 +29,7 @@ export async function handleSitemapIndex(env: Env) {
 
 export async function handleSitemapStatic(env: Env) {
   const origin = env.SITE_URL.replace(/\/$/, "");
-  const urls = [...STATIC_PATHS, ...COUNTRY_CODES.map(code => `/${code}`)].map(path => urlEntry(`${origin}${path}`));
+  const urls = [...STATIC_PATHS, ...COUNTRY_CODES.map(code => `/${code}`), ...COUNTRY_CODES.map(code => `/${code}/supplies`)].map(path => urlEntry(`${origin}${path}`));
   return sitemapResponse(urls);
 }
 

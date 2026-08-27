@@ -41,6 +41,7 @@ function Router() {
       <Route path={"/my-listing"} component={MyListing} />
       <Route path={"/claim"} component={ClaimSearch} />
       <Route path={"/supplies"} component={Supplies} />
+      <Route path={"/:code/supplies"} component={Supplies} />
       <Route path={"/cms"} component={Cms} />
       <Route path={"/cms/:section"} component={Cms} />
       <Route path={"/404"} component={NotFound} />

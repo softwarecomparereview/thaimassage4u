@@ -410,3 +410,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .supply-disclosure { max-width: 720px; margin: 0; color: #73837a; font-size: .72rem; line-height: 1.6; }
 @media (max-width: 900px) { .supply-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) { .supply-grid { grid-template-columns: 1fr; } }
+
+/* Site-wide supplies ribbon (top of every page) */
+.supplies-ribbon { display: flex; align-items: center; justify-content: center; gap: .4rem; padding: .5rem 1rem; background: var(--ink); color: var(--sage); font: .68rem var(--font-mono); letter-spacing: .05em; text-transform: uppercase; text-align: center; transition: background-color 160ms ease; }
+.supplies-ribbon:hover { background: #234639; color: var(--paper); }
