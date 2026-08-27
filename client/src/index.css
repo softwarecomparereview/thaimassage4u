@@ -414,3 +414,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 /* Site-wide supplies ribbon (top of every page) */
 .supplies-ribbon { display: flex; align-items: center; justify-content: center; gap: .4rem; padding: .5rem 1rem; background: var(--ink); color: var(--sage); font: .68rem var(--font-mono); letter-spacing: .05em; text-transform: uppercase; text-align: center; transition: background-color 160ms ease; }
 .supplies-ribbon:hover { background: #234639; color: var(--paper); }
+.supply-lang-row { display: flex; gap: .45rem; margin-bottom: 1.4rem; }
+.supply-lang { padding: .38rem .85rem; border: 1px solid var(--border); border-radius: 999px; background: transparent; color: var(--ink); font-size: .78rem; cursor: pointer; transition: background-color 160ms ease; }
+.supply-lang:hover { background: var(--paper-warm); }
+.supply-lang.is-active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
