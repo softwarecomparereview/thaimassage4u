@@ -28,18 +28,57 @@ function rewriteLinks(html: string, siteUrl: string, recipientId: number): strin
   return html.replace(/href="(https?:\/\/[^"]+)"/g, (_, url) => `href="${siteUrl}/api/campaigns/click?r=${recipientId}&u=${encodeURIComponent(url)}"`);
 }
 
+/**
+ * Overflow providers, tried in order when Cloudflare's daily quota is hit.
+ * Both are free-tier HTTP APIs (no SMTP possible from Workers): Brevo gives
+ * 300/day forever, Mailjet 200/day (6k/mo). With Cloudflare's ~200/day that
+ * stacks to ~700/day sustained at $0. Each activates only when its secret
+ * exists; both send from the same verified hello@ address, so SPF/DKIM for
+ * these providers must be added to the domain's DNS before their sends land
+ * in inboxes rather than spam (dashboard step, noted in the session log).
+ */
+async function sendViaBrevo(env: Env, to: string, subject: string, html: string, text: string): Promise<boolean> {
+  if (!env.BREVO_API_KEY) return false;
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: { "api-key": env.BREVO_API_KEY, "content-type": "application/json" },
+    body: JSON.stringify({ sender: { name: FROM_NAME, email: FROM_ADDRESS }, to: [{ email: to }], subject, htmlContent: html, textContent: text }),
+  });
+  return response.ok;
+}
+
+async function sendViaMailjet(env: Env, to: string, subject: string, html: string, text: string): Promise<boolean> {
+  if (!env.MAILJET_API_KEY || !env.MAILJET_API_SECRET) return false;
+  const response = await fetch("https://api.mailjet.com/v3.1/send", {
+    method: "POST",
+    headers: { authorization: `Basic ${btoa(`${env.MAILJET_API_KEY}:${env.MAILJET_API_SECRET}`)}`, "content-type": "application/json" },
+    body: JSON.stringify({ Messages: [{ From: { Email: FROM_ADDRESS, Name: FROM_NAME }, To: [{ Email: to }], Subject: subject, HTMLPart: html, TextPart: text }] }),
+  });
+  return response.ok;
+}
+
 export async function sendEmail(env: Env, input: { to: string; subject: string; html: string; unsubscribeUrl: string; recipientId: number }) {
   const trackingPixel = `<img src="${env.SITE_URL}/api/campaigns/open?r=${input.recipientId}" width="1" height="1" alt="" style="display:none" />`;
   const html = `${rewriteLinks(input.html, env.SITE_URL, input.recipientId)}\n<hr style="margin-top:32px;border:none;border-top:1px solid #e5e5e5" />\n<p style="font-size:12px;color:#888">Thai Massage For U — a directory of independently listed wellness places.<br /><a href="${input.unsubscribeUrl}" style="color:#888">Unsubscribe</a></p>${trackingPixel}`;
-  const result = await env.EMAIL.send({
-    from: `${FROM_NAME} <${FROM_ADDRESS}>`,
-    to: input.to,
-    subject: input.subject,
-    html,
-    text: input.html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(),
-  });
-  const bounced = result.permanent_bounces?.includes(input.to);
-  return { delivered: !bounced, bounced: Boolean(bounced) };
+  const text = input.html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  try {
+    const result = await env.EMAIL.send({
+      from: `${FROM_NAME} <${FROM_ADDRESS}>`,
+      to: input.to,
+      subject: input.subject,
+      html,
+      text,
+    });
+    const bounced = result.permanent_bounces?.includes(input.to);
+    return { delivered: !bounced, bounced: Boolean(bounced) };
+  } catch (error) {
+    // Only the daily-quota error falls through to overflow providers — a bounce
+    // or bad address must NOT be retried elsewhere (that's how domains get burned).
+    if (!/quota/i.test(String(error))) throw error;
+    if (await sendViaBrevo(env, input.to, input.subject, html, text)) return { delivered: true, bounced: false };
+    if (await sendViaMailjet(env, input.to, input.subject, html, text)) return { delivered: true, bounced: false };
+    throw error;
+  }
 }
 
 /**

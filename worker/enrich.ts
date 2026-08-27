@@ -97,10 +97,18 @@ function buildPrompt(row: EnrichableRow, site: SiteExtract | null) {
     site?.text ? `Text from their own website (truncated): ${site.text}` : null,
   ].filter(Boolean).join("\n");
 
+  // German pages should read in German: German searchers query "thaimassage berlin"
+  // and Google serves German-language pages for German queries — the descriptor is
+  // the meta description, so this is straight SEO, not cosmetics.
+  const inGerman = row.country_code === "de";
+  const languageLine = inGerman
+    ? `- "descriptor": one sentence fragment IN GERMAN, max 85 characters, no trailing period (e.g. "Traditionelle Thai-Massage im Stadtzentrum").
+- "description": two short paragraphs (separated by \\n\\n), 60-120 words total, in plain warm GERMAN (Sie-Form). Describe what they offer and who it suits.`
+    : `- "descriptor": one sentence fragment, max 85 characters, no trailing period, describing what this place is (e.g. "Traditional Thai massage studio in the city centre").
+- "description": two short paragraphs (separated by \\n\\n), 60-120 words total, in plain warm English. Describe what they offer and who it suits.`;
   return `You write listing profiles for a quality wellness directory. Using ONLY the facts below, produce JSON with exactly these keys:
-- "descriptor": one sentence fragment, max 85 characters, no trailing period, describing what this place is (e.g. "Traditional Thai massage studio in the city centre").
-- "description": two short paragraphs (separated by \\n\\n), 60-120 words total, in plain warm English. Describe what they offer and who it suits. NEVER invent prices, awards, opening years, qualifications, or anything not in the facts. If the facts are thin, keep it short rather than padding.
-- "services": array of 3-8 short service names actually mentioned or clearly implied in the facts (e.g. "Thai massage", "Deep tissue massage", "Foot reflexology"). If nothing specific is mentioned, use ["Massage"].
+${languageLine} NEVER invent prices, awards, opening years, qualifications, or anything not in the facts. If the facts are thin, keep it short rather than padding.
+- "services": array of 3-8 short service names actually mentioned or clearly implied in the facts${inGerman ? ' IN GERMAN (e.g. "Thai-Massage", "Rückenmassage", "Fußreflexzonenmassage")' : ' (e.g. "Thai massage", "Deep tissue massage", "Foot reflexology")'}. If nothing specific is mentioned, use ["Massage"].
 
 Facts:
 ${facts}

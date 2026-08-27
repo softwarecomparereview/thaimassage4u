@@ -41,6 +41,10 @@ export interface Env {
   ALIEXPRESS_APP_KEY?: string;
   ALIEXPRESS_APP_SECRET?: string;
   ALIEXPRESS_TRACKING_ID?: string;
+  /** Email overflow providers (worker/email.ts) — free tiers stacked on top of Cloudflare's daily quota. */
+  BREVO_API_KEY?: string;
+  MAILJET_API_KEY?: string;
+  MAILJET_API_SECRET?: string;
   LEADS: Queue<{ recipientId: number }>;
   /** Cloudflare's native outbound email sending binding — no API token needed. Requires the sending domain verified in the Cloudflare dashboard (Email → Email Sending). */
   EMAIL: SendEmail;
