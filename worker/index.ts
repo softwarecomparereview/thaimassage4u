@@ -12,7 +12,7 @@ import { processCampaignSend } from "./campaigns";
 import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing, handleClaimSearch } from "./claim";
 import { handleSitemapIndex, handleSitemapStatic, handleSitemapCities, handleSitemapListings, handleSitemapJournal, handleRobotsTxt } from "./sitemap";
 import { enrichBatch, handleEnrichRun, handleEnrichStatus } from "./enrich";
-import { handleSupplies, handleSuppliesSync, refreshAliExpressOffers, syncSupplyOffers } from "./supplies";
+import { handleSupplies, handleSuppliesSync, handleSupplyClick, handleSupplyClickStats, refreshAliExpressOffers, syncSupplyOffers } from "./supplies";
 import { approveAllProposals, getEnrichmentStatus, reviewProposal, runEnrichmentBatch, updateEnrichmentSettings, type EnrichmentTarget } from "./enrichment";
 import { isPublishStatus, listPublishQueue, setListingStatus, setStatusForFilter, type PublishStatus } from "./publish";
 
@@ -48,6 +48,8 @@ export interface Env {
   TWILIO_AUTH_TOKEN?: string;
   TWILIO_FROM_NUMBER?: string;
   CF_VERSION_METADATA?: { id?: string; tag?: string };
+  /** Analytics Engine (dataset: directory_events) — supply-click datapoints among others. */
+  ANALYTICS?: AnalyticsEngineDataset;
   FORM_LIMITER: DurableObjectNamespace<FormLimiter>;
 }
 
@@ -205,10 +207,16 @@ app.post("/api/admin/stripe-mode", async c => {
 
 app.get("/api/claim/search", c => handleClaimSearch(c.req.raw, c.env));
 app.get("/api/supplies", c => handleSupplies(c.req.raw, c.env));
+app.get("/api/supplies/go", c => handleSupplyClick(c.req.raw, c.env));
 app.post("/api/admin/supplies/sync", async c => {
   const user = await requireAdmin(c);
   if (!user) return c.json({ error: "Unauthorized" }, 401);
   return handleSuppliesSync(c.env);
+});
+app.get("/api/admin/supplies/clicks", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleSupplyClickStats(c.env);
 });
 app.post("/api/claim/start", c => handleClaimStart(c.req.raw, c.env));
 app.post("/api/claim/verify", c => handleClaimVerify(c.req.raw, c.env));

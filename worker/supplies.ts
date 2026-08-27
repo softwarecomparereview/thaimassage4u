@@ -194,8 +194,8 @@ export async function handleSupplies(request: Request, env: Env) {
   if (!SUPPLY_COUNTRIES.has(country)) return Response.json({ error: "Unknown country." }, { status: 400 });
 
   const { results } = await env.DB.prepare(
-    "SELECT category_key AS categoryKey, category_label AS categoryLabel, title, price, shipping, total, currency, free_shipping AS freeShipping, url, image, supplier, fetched_at AS fetchedAt FROM qh_supply_offers WHERE country = ? ORDER BY category_key, total LIMIT 120",
-  ).bind(country).all<{ categoryKey: string; categoryLabel: string; title: string; price: number; shipping: number | null; total: number; currency: string; freeShipping: number; url: string; image: string | null; supplier: string; fetchedAt: string }>();
+    "SELECT id, category_key AS categoryKey, category_label AS categoryLabel, title, price, shipping, total, currency, free_shipping AS freeShipping, url, image, supplier, fetched_at AS fetchedAt FROM qh_supply_offers WHERE country = ? ORDER BY category_key, total LIMIT 120",
+  ).bind(country).all<{ id: number; categoryKey: string; categoryLabel: string; title: string; price: number; shipping: number | null; total: number; currency: string; freeShipping: number; url: string; image: string | null; supplier: string; fetchedAt: string }>();
 
   const categories: Record<string, { key: string; label: string; compareUrl: string | null; offers: unknown[] }> = {};
   for (const { key, label } of ALIEXPRESS_COMPARE) {
@@ -216,4 +216,28 @@ export async function handleSuppliesSync(env: Env) {
   } catch (error) {
     return Response.json({ error: String(error) }, { status: 502 });
   }
+}
+
+/** Tracked outbound redirect: /api/supplies/go?id=N → record click → 302 to the stored URL.
+ * Redirecting only to URLs already in qh_supply_offers keeps this from being an open redirect. */
+export async function handleSupplyClick(request: Request, env: Env) {
+  const id = Number(new URL(request.url).searchParams.get("id"));
+  if (!Number.isInteger(id) || id <= 0) return new Response("Bad offer id", { status: 400 });
+  const offer = await env.DB.prepare("SELECT id, country, category_key, supplier, title, url FROM qh_supply_offers WHERE id = ? LIMIT 1").bind(id)
+    .first<{ id: number; country: string; category_key: string; supplier: string; title: string; url: string }>();
+  if (!offer) return new Response("Offer not found", { status: 404 });
+  await env.DB.prepare("INSERT INTO qh_supply_clicks (offer_id, country, category_key, supplier, title, url) VALUES (?, ?, ?, ?, ?, ?)")
+    .bind(offer.id, offer.country, offer.category_key, offer.supplier, offer.title, offer.url).run();
+  env.ANALYTICS?.writeDataPoint({ blobs: ["supply_click", offer.country, offer.category_key, offer.supplier], doubles: [1], indexes: [offer.category_key] });
+  return Response.redirect(offer.url, 302);
+}
+
+/** Admin: click totals for the CMS — which categories/offers are actually being watched. */
+export async function handleSupplyClickStats(env: Env) {
+  const [byCategory, topOffers, last7] = await Promise.all([
+    env.DB.prepare("SELECT country, category_key AS categoryKey, supplier, COUNT(*) AS clicks FROM qh_supply_clicks GROUP BY country, category_key, supplier ORDER BY clicks DESC LIMIT 40").all(),
+    env.DB.prepare("SELECT title, country, supplier, COUNT(*) AS clicks FROM qh_supply_clicks GROUP BY url ORDER BY clicks DESC LIMIT 15").all(),
+    env.DB.prepare("SELECT DATE(clicked_at) AS day, COUNT(*) AS clicks FROM qh_supply_clicks WHERE clicked_at >= DATETIME('now', '-7 days') GROUP BY day ORDER BY day").all(),
+  ]);
+  return Response.json({ byCategory: byCategory.results, topOffers: topOffers.results, last7: last7.results });
 }

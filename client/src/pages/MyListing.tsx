@@ -1,5 +1,5 @@
 import { SiteFooter, SiteHeader } from "@/components/SiteFrame";
-import { CheckCircle2, KeyRound, Save } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, KeyRound, Save } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Link } from "wouter";
@@ -91,6 +91,7 @@ export default function MyListing() {
           <p className="eyebrow"><CheckCircle2 size={13} /> Signed in</p>
           <h1>{listing?.name}</h1>
           <p>Edits here go live on your public listing immediately.</p>
+          <p><Link href="/supplies" className="text-link">Today's cheapest studio supplies, delivered locally <ArrowUpRight size={15} /></Link></p>
         </section>
         <section className="owner-listing-form">
           <form onSubmit={save}>

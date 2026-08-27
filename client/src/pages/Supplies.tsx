@@ -4,7 +4,7 @@ import { ArrowUpRight, PackageOpen, Truck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSearch } from "wouter";
 
-type Offer = { title: string; price: number; shipping: number | null; total: number; currency: string; freeShipping: boolean; url: string; image: string | null; supplier: string };
+type Offer = { id: number; title: string; price: number; shipping: number | null; total: number; currency: string; freeShipping: boolean; url: string; image: string | null; supplier: string };
 type Category = { key: string; label: string; compareUrl: string | null; offers: Offer[] };
 type SuppliesPayload = { country: string; updatedAt: string | null; categories: Category[] };
 
@@ -58,7 +58,7 @@ export default function Supplies() {
           </div>
           <div className="supply-grid">
             {category.offers.map(offer => (
-              <a className="supply-card" key={offer.url} href={offer.url} target="_blank" rel="noreferrer noopener">
+              <a className="supply-card" key={offer.id} href={`/api/supplies/go?id=${offer.id}`} target="_blank" rel="noreferrer noopener">
                 {offer.image ? <div className="supply-card__image" style={{ backgroundImage: `url(${offer.image})` }} /> : <div className="supply-card__image supply-card__image--empty"><PackageOpen size={22} /></div>}
                 <div className="supply-card__body">
                   <h3>{offer.title}</h3>

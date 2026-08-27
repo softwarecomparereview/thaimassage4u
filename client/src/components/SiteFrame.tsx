@@ -91,7 +91,7 @@ export function SiteFooter() {
       <div className="site-footer__bottom">
         <Wordmark inverted />
         <p>Wellness discovery, built with a little more care.</p>
-        <div className="footer-links"><Link href="/journal">Journal</Link><Link href="/list-your-place">Studios</Link><a href="mailto:hello@thaimassageforu.com">hello@thaimassageforu.com</a></div>
+        <div className="footer-links"><Link href="/journal">Journal</Link><Link href="/list-your-place">Studios</Link><Link href="/supplies">Supplies</Link><Link href="/claim">Claim your listing</Link><a href="mailto:hello@thaimassageforu.com">hello@thaimassageforu.com</a></div>
       </div>
     </footer>
   );

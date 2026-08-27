@@ -298,6 +298,46 @@ async function run() {
     placeMinimumStars = "",
   } = input;
 
+  // Image backfill mode: input.imageBackfill = [{slug, cid?, query?}] — for each
+  // existing listing, open its Google Maps place page (by cid when we stored a
+  // place_id, else first result of a name+city search) and pull only the hero
+  // photo. Output rows: {slug, imageUrl}. Exists because ~800 already-imported
+  // listings have no photo: their own sites carry no og:image, but nearly every
+  // place has a Google hero photo the detail scraper already knows how to read.
+  if (Array.isArray(input.imageBackfill) && input.imageBackfill.length) {
+    const browser2 = await chromium.launch({ headless: true, args: ["--disable-blink-features=AutomationControlled", "--disable-dev-shm-usage", "--no-sandbox"] });
+    const context2 = await browser2.newContext({ userAgent: UA, viewport: { width: 1366, height: 900 }, locale: "en" });
+    let found = 0;
+    await mapPool(input.imageBackfill, 5, async item => {
+      const page = await context2.newPage();
+      try {
+        const target = item.cid
+          ? `https://maps.google.com/?cid=${item.cid}`
+          : `https://www.google.com/maps/search/${encodeURIComponent(item.query ?? item.slug)}`;
+        await page.goto(target, { waitUntil: "domcontentloaded", timeout: 40000 });
+        await dismissConsent(page);
+        await page.waitForTimeout(1500);
+        if (!item.cid) {
+          const first = page.locator('div[role="feed"] a[href*="/maps/place/"]').first();
+          if (await first.count()) {
+            await page.goto(await first.getAttribute("href"), { waitUntil: "domcontentloaded", timeout: 40000 });
+            await page.waitForTimeout(1200);
+          }
+        }
+        const imageUrl = await scrapeHeroImage(page);
+        if (imageUrl) { await Actor.pushData({ slug: item.slug, imageUrl }); found++; }
+      } catch (error) {
+        log(`  image backfill failed for ${item.slug}: ${error.message}`);
+      } finally {
+        await page.close().catch(() => {});
+      }
+    });
+    await browser2.close().catch(() => {});
+    log(`Image backfill done: ${found}/${input.imageBackfill.length} images found.`);
+    await Actor.exit();
+    return;
+  }
+
   if (!locationQuery) throw new Error("locationQuery is required");
   const minStars = STAR_ENUM_TO_MIN[placeMinimumStars] ?? null;
   // Default to no Apify proxy: this account's RESIDENTIAL proxy group has zero available IPs,
