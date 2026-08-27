@@ -36,7 +36,7 @@ const MIN_RATING_ENUM = { 2: "two", 2.5: "twoAndHalf", 3: "three", 3.5: "threeAn
 // uk isn't part of this batch. de is 196 (not 400) because Berlin/Munich/Hamburg already ran and
 // their 204 quality-passed listings are already imported — SKIP_ALREADY_DONE below skips
 // re-scraping those three cities, so only Frankfurt/Cologne split the remaining de budget.
-const ALL_COUNTRY_TARGETS = { au: 200, de: 196, us: 400 };
+const ALL_COUNTRY_TARGETS = { au: 200, de: 196, us: 400, ca: 250, nz: 120, ie: 120, ae: 150 };
 const ONLY_COUNTRIES = process.env.SCRAPE_COUNTRIES ? process.env.SCRAPE_COUNTRIES.split(",").map(s => s.trim()) : null;
 const COUNTRY_TARGETS = ONLY_COUNTRIES
   ? Object.fromEntries(Object.entries(ALL_COUNTRY_TARGETS).filter(([code]) => ONLY_COUNTRIES.includes(code)))

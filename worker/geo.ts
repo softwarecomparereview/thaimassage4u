@@ -4,12 +4,12 @@
  * rebuild along with the /us /uk /au /de country pages themselves.
  */
 
-const COUNTRY_CODES = new Set(["us", "uk", "au", "de"]);
+const COUNTRY_CODES = new Set(["us", "uk", "au", "de", "ca", "nz", "ie", "ae"]);
 
 const BOT =
   /googlebot|bingbot|slurp|duckduckbot|baiduspider|yandex|facebookexternalhit|twitterbot|linkedinbot|applebot|semrush|ahrefsbot|dotbot|crawler|spider/i;
 
-export function isDirectoryCountry(code: string | null | undefined): code is "us" | "uk" | "au" | "de" {
+export function isDirectoryCountry(code: string | null | undefined): code is "us" | "uk" | "au" | "de" | "ca" | "nz" | "ie" | "ae" {
   return !!code && COUNTRY_CODES.has(code);
 }
 
@@ -23,7 +23,7 @@ export function requestCountry(request: Request): string | null {
 }
 
 export function cookieCountry(request: Request): string | null {
-  const match = (request.headers.get("cookie") ?? "").match(/(?:^|;\s*)tmfu_country=(us|uk|au|de)(?:;|$)/);
+  const match = (request.headers.get("cookie") ?? "").match(/(?:^|;\s*)tmfu_country=(us|uk|au|de|ca|nz|ie|ae)(?:;|$)/);
   return match?.[1] ?? null;
 }
 
@@ -68,4 +68,8 @@ export const COUNTRY_NAMES: Record<string, string> = {
   uk: "United Kingdom",
   au: "Australia",
   de: "Germany",
+  ca: "Canada",
+  nz: "New Zealand",
+  ie: "Ireland",
+  ae: "United Arab Emirates",
 };

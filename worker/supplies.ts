@@ -25,7 +25,10 @@ const AWIN_ALIEXPRESS_ADVERTISER_ID = "26009";
 /** Countries the joined Awin AliExpress programme actually pays commission on. */
 const AWIN_PAYING_COUNTRIES = new Set(["de"]);
 
-const SUPPLY_COUNTRIES = new Set(["us", "au", "uk", "de"]);
+/** Wave 1 + wave 2 markets. ship_to + currency drive the AliExpress affiliate queries. */
+const SUPPLY_COUNTRIES = new Set(["us", "au", "uk", "de", "ca", "nz", "ie", "ae"]);
+const COUNTRY_CURRENCY: Record<string, string> = { us: "USD", au: "AUD", uk: "GBP", de: "EUR", ca: "CAD", nz: "NZD", ie: "EUR", ae: "AED" };
+const COUNTRY_SHIP_TO: Record<string, string> = { us: "US", au: "AU", uk: "GB", de: "DE", ca: "CA", nz: "NZ", ie: "IE", ae: "AE" };
 
 /** Mirrors the scanner's categories — used for the AliExpress compare links. */
 const ALIEXPRESS_COMPARE: Array<{ key: string; label: string; query: Record<string, string> }> = [
@@ -67,6 +70,78 @@ async function apifyFetch(env: Env, path: string) {
   const response = await fetch(`https://api.apify.com/v2${path}`, { headers: { authorization: `Bearer ${env.APIFY_TOKEN}` } });
   if (!response.ok) throw new Error(`Apify ${path} → HTTP ${response.status}`);
   return response.json();
+}
+
+/* ---------------- AliExpress Affiliates API (primary offer source) ----------------
+ * Official signed API (verified live): every product_detail_url it returns carries the
+ * owner's affiliate tracking, so a purchase through any card on /supplies earns
+ * commission. 6 categories x 8 countries = 48 calls per daily refresh — far inside limits. */
+
+async function signAliExpress(params: Record<string, string>, secret: string): Promise<string> {
+  const base = Object.keys(params).sort().map(key => key + params[key]).join("");
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const signature = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(base));
+  return [...new Uint8Array(signature)].map(byte => byte.toString(16).padStart(2, "0")).join("").toUpperCase();
+}
+
+type AliProduct = { product_title?: string; target_sale_price?: string; target_sale_price_currency?: string; product_detail_url?: string; product_main_image_url?: string };
+
+async function queryAliExpress(env: Env, country: string, keywords: string): Promise<AliProduct[]> {
+  if (!env.ALIEXPRESS_APP_KEY || !env.ALIEXPRESS_APP_SECRET || !env.ALIEXPRESS_TRACKING_ID) return [];
+  const params: Record<string, string> = {
+    method: "aliexpress.affiliate.product.query",
+    app_key: env.ALIEXPRESS_APP_KEY,
+    timestamp: String(Date.now()),
+    sign_method: "sha256",
+    keywords,
+    target_currency: COUNTRY_CURRENCY[country],
+    target_language: "EN",
+    tracking_id: env.ALIEXPRESS_TRACKING_ID,
+    ship_to_country: COUNTRY_SHIP_TO[country],
+    page_size: "20",
+    sort: "SALE_PRICE_ASC",
+  };
+  params.sign = await signAliExpress(params, env.ALIEXPRESS_APP_SECRET);
+  const response = await fetch("https://api-sg.aliexpress.com/sync", {
+    method: "POST",
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams(params).toString(),
+  });
+  if (!response.ok) return [];
+  const payload = (await response.json()) as { aliexpress_affiliate_product_query_response?: { resp_result?: { result?: { products?: { product?: AliProduct[] } } } } };
+  return payload.aliexpress_affiliate_product_query_response?.resp_result?.result?.products?.product ?? [];
+}
+
+/** Cheapest-first surfaces samples/spares; hold a floor per category, mirror of the eBay scanner's bar. */
+const ALIEXPRESS_MIN_PRICE: Record<string, number> = { sheets: 6, oil: 8, towels: 10, "face-cradle": 5, "massage-gun": 15, "hot-stones": 10 };
+
+export async function refreshAliExpressOffers(env: Env, countries?: string[]): Promise<{ imported: number }> {
+  const targets = (countries ?? [...SUPPLY_COUNTRIES]).filter(country => SUPPLY_COUNTRIES.has(country));
+  let imported = 0;
+  for (const country of targets) {
+    for (const category of ALIEXPRESS_COMPARE) {
+      let products: AliProduct[] = [];
+      try {
+        products = await queryAliExpress(env, country, category.query.en);
+      } catch { continue; }
+      const minPrice = ALIEXPRESS_MIN_PRICE[category.key] ?? 0;
+      const offers = products
+        .map(product => ({ title: (product.product_title ?? "").trim(), price: Number(product.target_sale_price), url: product.product_detail_url ?? "", image: product.product_main_image_url ?? null }))
+        .filter(offer => offer.title && offer.url && Number.isFinite(offer.price) && offer.price >= minPrice)
+        .slice(0, 6);
+      if (!offers.length) continue;
+      const statements = [env.DB.prepare("DELETE FROM qh_supply_offers WHERE country = ? AND category_key = ? AND supplier = 'aliexpress'").bind(country, category.key)];
+      for (const offer of offers) {
+        statements.push(
+          env.DB.prepare("INSERT INTO qh_supply_offers (country, category_key, category_label, title, price, shipping, total, currency, free_shipping, url, image, supplier) VALUES (?, ?, ?, ?, ?, NULL, ?, ?, 0, ?, ?, 'aliexpress')")
+            .bind(country, category.key, category.label, offer.title.slice(0, 160), offer.price, offer.price, COUNTRY_CURRENCY[country], offer.url, offer.image),
+        );
+      }
+      await env.DB.batch(statements);
+      imported += offers.length;
+    }
+  }
+  return { imported };
 }
 
 /** Pull the newest successful scan into D1, then start the next scan for tomorrow. */
@@ -135,7 +210,9 @@ export async function handleSupplies(request: Request, env: Env) {
 
 export async function handleSuppliesSync(env: Env) {
   try {
-    return Response.json(await syncSupplyOffers(env));
+    const aliexpress = await refreshAliExpressOffers(env);
+    const ebay = await syncSupplyOffers(env).catch(error => ({ imported: 0, startedNextRun: false, error: String(error) }));
+    return Response.json({ aliexpress, ebay });
   } catch (error) {
     return Response.json({ error: String(error) }, { status: 502 });
   }

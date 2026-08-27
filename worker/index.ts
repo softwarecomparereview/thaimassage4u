@@ -12,7 +12,7 @@ import { processCampaignSend } from "./campaigns";
 import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing, handleClaimSearch } from "./claim";
 import { handleSitemapIndex, handleSitemapStatic, handleSitemapCities, handleSitemapListings, handleSitemapJournal, handleRobotsTxt } from "./sitemap";
 import { enrichBatch, handleEnrichRun, handleEnrichStatus } from "./enrich";
-import { handleSupplies, handleSuppliesSync, syncSupplyOffers } from "./supplies";
+import { handleSupplies, handleSuppliesSync, refreshAliExpressOffers, syncSupplyOffers } from "./supplies";
 import { approveAllProposals, getEnrichmentStatus, reviewProposal, runEnrichmentBatch, updateEnrichmentSettings, type EnrichmentTarget } from "./enrichment";
 import { isPublishStatus, listPublishQueue, setListingStatus, setStatusForFilter, type PublishStatus } from "./publish";
 
@@ -37,6 +37,10 @@ export interface Env {
   ADMIN_PASSWORD?: string;
   /** Apify API token (Worker secret) — supplies sync pulls the supply-scanner actor's datasets. */
   APIFY_TOKEN?: string;
+  /** AliExpress Affiliates API (Worker secrets) — primary supplies source; links carry the owner's commission tracking. */
+  ALIEXPRESS_APP_KEY?: string;
+  ALIEXPRESS_APP_SECRET?: string;
+  ALIEXPRESS_TRACKING_ID?: string;
   LEADS: Queue<{ recipientId: number }>;
   /** Cloudflare's native outbound email sending binding — no API token needed. Requires the sending domain verified in the Cloudflare dashboard (Email → Email Sending). */
   EMAIL: SendEmail;
@@ -337,8 +341,12 @@ export default {
         .catch(error => console.error(`[Worker cron ${event.cron}] enrichment failed`, error)),
     );
     ctx.waitUntil(enrichBatch(env, 15).catch(() => {}));
-    // Supplies refresh once a day (the 06:20 firing): import yesterday's scan, start today's.
-    if (event.cron === "20 6 * * *") ctx.waitUntil(syncSupplyOffers(env).catch(() => {}));
+    // Supplies refresh once a day (the 06:20 firing): AliExpress affiliate offers (primary),
+    // then the eBay scan import (supplement) which also starts the next day's scan.
+    if (event.cron === "20 6 * * *") {
+      ctx.waitUntil(refreshAliExpressOffers(env).catch(() => {}));
+      ctx.waitUntil(syncSupplyOffers(env).catch(() => {}));
+    }
   },
   /** Consumes campaign send jobs enqueued by handleSendCampaign — one message per recipient, so a slow/rate-limited provider or a transient failure can't block the rest of a send (Queues retry failed messages automatically). */
   async queue(batch: MessageBatch<{ recipientId: number }>, env: Env) {

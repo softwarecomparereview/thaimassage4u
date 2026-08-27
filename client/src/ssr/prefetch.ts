@@ -63,7 +63,7 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
     // A roadmap teaser with no standalone search value — kept reachable, kept out of the index.
     return { title: "What we're building next — Quiet Hour", description: "AI booking, deposit collection, and more on the Quiet Hour roadmap.", canonicalPath: path, noindex: true };
   }
-  const country = path.match(/^\/(us|uk|au|de)$/);
+  const country = path.match(/^\/(us|uk|au|de|ca|nz|ie|ae)$/);
   if (country) {
     const data = await genuineMiss(() => prefetch.countryBySlug(country[1]));
     if (!data) return { title: SITE, description: DEFAULT_DESCRIPTION, notFound: true };
@@ -156,5 +156,6 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
   if (path === "/cms" || path.startsWith("/cms/")) return { title: "Quiet Hour CMS", description: "Quiet Hour management workspace.", noindex: true };
   if (path === "/my-listing") return { title: "Manage your listing — Quiet Hour", description: "Claim and update your listing on Quiet Hour.", canonicalPath: path, noindex: true };
   if (path === "/claim") return { title: "Claim your listing — Quiet Hour", description: "Find your business and claim it — a one-time code, no account to set up.", canonicalPath: path, noindex: true };
+  if (path === "/supplies") return { title: "Massage supplies, cheapest today — Quiet Hour", description: "Daily-refreshed cheapest massage table sheets, oils, towels and equipment with local delivery — for the studios in the directory.", canonicalPath: path, alternates: [{ locale: "en", path }] };
   return { title: SITE, description: DEFAULT_DESCRIPTION, notFound: true };
 }
