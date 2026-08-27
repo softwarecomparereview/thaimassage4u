@@ -56,7 +56,7 @@ export function SiteHeader() {
 
   return (
     <header className="site-header">
-      <Link href="/supplies" className="supplies-ribbon">Studio owners: today's cheapest supplies, checked daily &amp; delivered locally — massage sheets from $10 <ArrowUpRight size={13} /></Link>
+      <Link href="/supplies" className="supplies-ribbon">Studio owners: today's cheapest supplies, delivered locally — <strong>massage sheets from $10, checked daily</strong> <ArrowUpRight size={15} /></Link>
       <div className="site-header__inner">
         <Wordmark />
         <nav className="site-nav" aria-label="Main navigation">

@@ -411,9 +411,21 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width: 900px) { .supply-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) { .supply-grid { grid-template-columns: 1fr; } }
 
-/* Site-wide supplies ribbon (top of every page) */
-.supplies-ribbon { display: flex; align-items: center; justify-content: center; gap: .4rem; padding: .5rem 1rem; background: var(--ink); color: var(--sage); font: .68rem var(--font-mono); letter-spacing: .05em; text-transform: uppercase; text-align: center; transition: background-color 160ms ease; }
-.supplies-ribbon:hover { background: #234639; color: var(--paper); }
+/* Site-wide supplies ribbon (top of every page) — deliberately loud: it's the money link. */
+.supplies-ribbon { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: .5rem; padding: .85rem 1.2rem; background: linear-gradient(100deg, #142c25, #1f3527 45%, #2c5240 100%); color: var(--sage); font: 600 .82rem var(--font-mono); letter-spacing: .06em; text-transform: uppercase; text-align: center; transition: color 160ms ease; animation: ribbon-glow 2.6s ease-in-out infinite; }
+.supplies-ribbon::after { content: ""; position: absolute; top: 0; bottom: 0; left: -40%; width: 35%; background: linear-gradient(105deg, transparent, rgba(199,209,163,.28), transparent); animation: ribbon-sheen 3.2s ease-in-out infinite; }
+.supplies-ribbon strong { color: #ffd98a; font-weight: 700; }
+.supplies-ribbon:hover { color: var(--paper); }
+.supplies-ribbon:hover strong { color: #ffe9bd; }
+@keyframes ribbon-glow {
+  0%, 100% { box-shadow: inset 0 0 0 rgba(199,209,163,0); }
+  50% { box-shadow: inset 0 -2px 18px rgba(199,209,163,.22); }
+}
+@keyframes ribbon-sheen {
+  0% { left: -40%; }
+  55%, 100% { left: 110%; }
+}
+@media (prefers-reduced-motion: reduce) { .supplies-ribbon, .supplies-ribbon::after { animation: none; } }
 .supply-lang-row { display: flex; gap: .45rem; margin-bottom: 1.4rem; }
 .supply-lang { padding: .38rem .85rem; border: 1px solid var(--border); border-radius: 999px; background: transparent; color: var(--ink); font-size: .78rem; cursor: pointer; transition: background-color 160ms ease; }
 .supply-lang:hover { background: var(--paper-warm); }
