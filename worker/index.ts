@@ -12,6 +12,7 @@ import { processCampaignSend } from "./campaigns";
 import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing, handleClaimSearch } from "./claim";
 import { handleSitemapIndex, handleSitemapStatic, handleSitemapCities, handleSitemapListings, handleSitemapJournal, handleRobotsTxt } from "./sitemap";
 import { enrichBatch, handleEnrichRun, handleEnrichStatus } from "./enrich";
+import { handleSupplies, handleSuppliesSync, syncSupplyOffers } from "./supplies";
 import { approveAllProposals, getEnrichmentStatus, reviewProposal, runEnrichmentBatch, updateEnrichmentSettings, type EnrichmentTarget } from "./enrichment";
 import { isPublishStatus, listPublishQueue, setListingStatus, setStatusForFilter, type PublishStatus } from "./publish";
 
@@ -34,6 +35,8 @@ export interface Env {
   STRIPE_WEBHOOK_SECRET: string;
   /** Shared-password fallback admin login — see simple-admin-auth.ts. */
   ADMIN_PASSWORD?: string;
+  /** Apify API token (Worker secret) — supplies sync pulls the supply-scanner actor's datasets. */
+  APIFY_TOKEN?: string;
   LEADS: Queue<{ recipientId: number }>;
   /** Cloudflare's native outbound email sending binding — no API token needed. Requires the sending domain verified in the Cloudflare dashboard (Email → Email Sending). */
   EMAIL: SendEmail;
@@ -42,8 +45,6 @@ export interface Env {
   TWILIO_FROM_NUMBER?: string;
   CF_VERSION_METADATA?: { id?: string; tag?: string };
   FORM_LIMITER: DurableObjectNamespace<FormLimiter>;
-  /** Workers AI — writes listing descriptions from a studio's own website. See worker/enrichment.ts. */
-  AI: Ai;
 }
 
 type LimiterWindow = { count: number; resetsAt: number };
@@ -199,6 +200,12 @@ app.post("/api/admin/stripe-mode", async c => {
 });
 
 app.get("/api/claim/search", c => handleClaimSearch(c.req.raw, c.env));
+app.get("/api/supplies", c => handleSupplies(c.req.raw, c.env));
+app.post("/api/admin/supplies/sync", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleSuppliesSync(c.env);
+});
 app.post("/api/claim/start", c => handleClaimStart(c.req.raw, c.env));
 app.post("/api/claim/verify", c => handleClaimVerify(c.req.raw, c.env));
 app.get("/api/owner/listing", async c => {
@@ -330,6 +337,8 @@ export default {
         .catch(error => console.error(`[Worker cron ${event.cron}] enrichment failed`, error)),
     );
     ctx.waitUntil(enrichBatch(env, 15).catch(() => {}));
+    // Supplies refresh once a day (the 06:20 firing): import yesterday's scan, start today's.
+    if (event.cron === "20 6 * * *") ctx.waitUntil(syncSupplyOffers(env).catch(() => {}));
   },
   /** Consumes campaign send jobs enqueued by handleSendCampaign — one message per recipient, so a slow/rate-limited provider or a transient failure can't block the rest of a send (Queues retry failed messages automatically). */
   async queue(batch: MessageBatch<{ recipientId: number }>, env: Env) {
