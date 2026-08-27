@@ -8,7 +8,10 @@
       "type": "array",
       "editor": "stringList",
       "description": "One or more search terms, e.g. [\"massage\", \"spa\"]",
-      "prefill": ["massage", "spa"]
+      "prefill": [
+        "massage",
+        "spa"
+      ]
     },
     "locationQuery": {
       "title": "Location",
@@ -35,9 +38,23 @@
       "type": "string",
       "editor": "select",
       "description": "Skip places rated below this. Leave blank for no filter.",
-      "enum": ["", "two", "twoAndHalf", "three", "threeAndHalf", "four", "fourAndHalf"],
+      "enum": [
+        "",
+        "two",
+        "twoAndHalf",
+        "three",
+        "threeAndHalf",
+        "four",
+        "fourAndHalf"
+      ],
       "default": ""
+    },
+    "imageBackfill": {
+      "title": "Image backfill items",
+      "type": "array",
+      "editor": "json",
+      "description": "[{slug, cid?, query?}] \u2014 fetch each listing's Google Maps hero photo only; other inputs ignored."
     }
   },
-  "required": ["searchStringsArray", "locationQuery"]
+  "required": []
 }
