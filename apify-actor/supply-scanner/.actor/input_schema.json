@@ -1,0 +1,28 @@
+{
+  "title": "Supply scanner input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "countries": {
+      "title": "Countries",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Country codes to scan (us, au, uk, de).",
+      "prefill": ["us", "au", "uk", "de"]
+    },
+    "maxPerCategory": {
+      "title": "Offers kept per category",
+      "type": "integer",
+      "editor": "number",
+      "description": "How many of the cheapest parsed offers to keep per country+category.",
+      "default": 6
+    },
+    "debugCategory": {
+      "title": "Debug: dump raw HTML for this category",
+      "type": "string",
+      "editor": "textfield",
+      "description": "If set (e.g. \"us/sheets\"), pushes a raw HTML sample for that page instead of parsing everything — for parser iteration."
+    }
+  },
+  "required": []
+}

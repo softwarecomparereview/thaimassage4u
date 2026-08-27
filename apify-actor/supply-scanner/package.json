@@ -1,0 +1,14 @@
+{
+  "name": "quiet-hour-supply-scanner",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Daily massage-supply price scan across per-country eBay sites for the Quiet Hour directory's Supplies page.",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "apify": "^3.2.6",
+    "playwright": "*"
+  }
+}
