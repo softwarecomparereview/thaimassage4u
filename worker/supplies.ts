@@ -86,30 +86,58 @@ async function signAliExpress(params: Record<string, string>, secret: string): P
 
 type AliProduct = { product_title?: string; target_sale_price?: string; target_sale_price_currency?: string; product_detail_url?: string; product_main_image_url?: string };
 
-async function queryAliExpress(env: Env, country: string, keywords: string): Promise<AliProduct[]> {
+/**
+ * Ask the API to apply the price floor rather than filtering it in afterwards.
+ *
+ * Sorting SALE_PRICE_ASC and then dropping everything under ALIEXPRESS_MIN_PRICE is
+ * self-defeating: the cheapest N results are exactly the ones below the floor, so any
+ * category whose floor sat above the junk tier came back empty every single time. That is
+ * why massage-gun (floor 15) held nothing in six of eight countries and oil (8) and towels
+ * (10) held nothing in us/uk, while the two lowest floors — face-cradle (5) and sheets (6) —
+ * came through fine.
+ *
+ * min_sale_price is sent in cents. The published examples disagree on the unit (one shows
+ * `min_sale_price=15`, another `max_sale_price=3000` for earphones, which can only be cents),
+ * and AliExpress applies the filter in USD rather than target_currency — so rather than bet on
+ * either reading, the filtered query is treated as best-effort: if it comes back empty for any
+ * reason (wrong unit, unsupported param, a genuinely bare category) we re-run without it and
+ * let the caller's own floor do the filtering exactly as before. The worst case is therefore
+ * today's behaviour, never less.
+ */
+async function queryAliExpress(env: Env, country: string, keywords: string, minPrice: number): Promise<AliProduct[]> {
   if (!env.ALIEXPRESS_APP_KEY || !env.ALIEXPRESS_APP_SECRET || !env.ALIEXPRESS_TRACKING_ID) return [];
-  const params: Record<string, string> = {
-    method: "aliexpress.affiliate.product.query",
-    app_key: env.ALIEXPRESS_APP_KEY,
-    timestamp: String(Date.now()),
-    sign_method: "sha256",
-    keywords,
-    target_currency: COUNTRY_CURRENCY[country],
-    target_language: "EN",
-    tracking_id: env.ALIEXPRESS_TRACKING_ID,
-    ship_to_country: COUNTRY_SHIP_TO[country],
-    page_size: "20",
-    sort: "SALE_PRICE_ASC",
+
+  const run = async (extra: Record<string, string>): Promise<AliProduct[]> => {
+    const params: Record<string, string> = {
+      method: "aliexpress.affiliate.product.query",
+      app_key: env.ALIEXPRESS_APP_KEY!,
+      timestamp: String(Date.now()),
+      sign_method: "sha256",
+      keywords,
+      target_currency: COUNTRY_CURRENCY[country],
+      target_language: "EN",
+      tracking_id: env.ALIEXPRESS_TRACKING_ID!,
+      ship_to_country: COUNTRY_SHIP_TO[country],
+      page_size: "50",
+      sort: "SALE_PRICE_ASC",
+      ...extra,
+    };
+    params.sign = await signAliExpress(params, env.ALIEXPRESS_APP_SECRET!);
+    const response = await fetch("https://api-sg.aliexpress.com/sync", {
+      method: "POST",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(params).toString(),
+    });
+    if (!response.ok) return [];
+    const payload = (await response.json()) as { aliexpress_affiliate_product_query_response?: { resp_result?: { result?: { products?: { product?: AliProduct[] } } } } };
+    return payload.aliexpress_affiliate_product_query_response?.resp_result?.result?.products?.product ?? [];
   };
-  params.sign = await signAliExpress(params, env.ALIEXPRESS_APP_SECRET);
-  const response = await fetch("https://api-sg.aliexpress.com/sync", {
-    method: "POST",
-    headers: { "content-type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams(params).toString(),
-  });
-  if (!response.ok) return [];
-  const payload = (await response.json()) as { aliexpress_affiliate_product_query_response?: { resp_result?: { result?: { products?: { product?: AliProduct[] } } } } };
-  return payload.aliexpress_affiliate_product_query_response?.resp_result?.result?.products?.product ?? [];
+
+  if (minPrice > 0) {
+    const filtered = await run({ min_sale_price: String(Math.round(minPrice * 100)) });
+    if (filtered.length) return filtered;
+  }
+  return run({});
 }
 
 /** Cheapest-first surfaces samples/spares; hold a floor per category, mirror of the eBay scanner's bar. */
@@ -122,7 +150,7 @@ export async function refreshAliExpressOffers(env: Env, countries?: string[]): P
     for (const category of ALIEXPRESS_COMPARE) {
       let products: AliProduct[] = [];
       try {
-        products = await queryAliExpress(env, country, category.query.en);
+        products = await queryAliExpress(env, country, category.query.en, ALIEXPRESS_MIN_PRICE[category.key] ?? 0);
       } catch { continue; }
       const minPrice = ALIEXPRESS_MIN_PRICE[category.key] ?? 0;
       const offers = products
@@ -158,10 +186,17 @@ export async function syncSupplyOffers(env: Env): Promise<{ imported: number; st
     if (valid.length) {
       // Wholesale-replace only the country+category pairs this run actually produced —
       // a partially-blocked scan must not wipe categories that still hold usable data.
+      //
+      // Scoped to supplier <> 'aliexpress' as well, because the two sources share this table and
+      // handleSuppliesSync refreshes AliExpress first. An unscoped delete meant every category the
+      // eBay scan touched lost its AliExpress rows and kept only eBay's — which is why us/sheets
+      // and four whole de categories showed eBay alone, and why a thin eBay result (au/towels
+      // returned 2) replaced six good AliExpress ones. The two suppliers now coexist and the
+      // cheapest across both wins.
       const touched = [...new Set(valid.map(item => `${item.country}::${item.categoryKey}`))];
       const statements = touched.map(pair => {
         const [country, categoryKey] = pair.split("::");
-        return env.DB.prepare("DELETE FROM qh_supply_offers WHERE country = ? AND category_key = ?").bind(country, categoryKey);
+        return env.DB.prepare("DELETE FROM qh_supply_offers WHERE country = ? AND category_key = ? AND supplier <> 'aliexpress'").bind(country, categoryKey);
       });
       for (const item of valid) {
         statements.push(
@@ -194,15 +229,21 @@ export async function handleSupplies(request: Request, env: Env) {
   if (!SUPPLY_COUNTRIES.has(country)) return Response.json({ error: "Unknown country." }, { status: 400 });
 
   const { results } = await env.DB.prepare(
-    "SELECT id, category_key AS categoryKey, category_label AS categoryLabel, title, price, shipping, total, currency, free_shipping AS freeShipping, url, image, supplier, fetched_at AS fetchedAt FROM qh_supply_offers WHERE country = ? ORDER BY category_key, total LIMIT 120",
+    "SELECT id, category_key AS categoryKey, category_label AS categoryLabel, title, price, shipping, total, currency, free_shipping AS freeShipping, url, image, supplier, fetched_at AS fetchedAt FROM qh_supply_offers WHERE country = ? ORDER BY category_key, total LIMIT 240",
   ).bind(country).all<{ id: number; categoryKey: string; categoryLabel: string; title: string; price: number; shipping: number | null; total: number; currency: string; freeShipping: number; url: string; image: string | null; supplier: string; fetchedAt: string }>();
 
   const categories: Record<string, { key: string; label: string; compareUrl: string | null; offers: unknown[] }> = {};
   for (const { key, label } of ALIEXPRESS_COMPARE) {
     categories[key] = { key, label, compareUrl: aliexpressCompareUrl(country, key), offers: [] };
   }
+  // Both suppliers now hold rows for the same country+category, so take the six cheapest across
+  // the two rather than every row — the query is already ordered by category then total, so the
+  // first six of each bucket are the cheapest six regardless of which source they came from.
+  const OFFERS_PER_CATEGORY = 6;
   for (const row of results) {
-    (categories[row.categoryKey] ??= { key: row.categoryKey, label: row.categoryLabel, compareUrl: aliexpressCompareUrl(country, row.categoryKey), offers: [] }).offers.push({ ...row, freeShipping: Boolean(row.freeShipping) });
+    const bucket = (categories[row.categoryKey] ??= { key: row.categoryKey, label: row.categoryLabel, compareUrl: aliexpressCompareUrl(country, row.categoryKey), offers: [] });
+    if (bucket.offers.length >= OFFERS_PER_CATEGORY) continue;
+    bucket.offers.push({ ...row, freeShipping: Boolean(row.freeShipping) });
   }
   const updatedAt = results[0]?.fetchedAt ?? null;
   return Response.json({ country, updatedAt, categories: Object.values(categories) });
