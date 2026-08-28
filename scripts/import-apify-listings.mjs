@@ -11,7 +11,7 @@
 //       "SELECT name, city_slug, address FROM listings WHERE country_code='de'"
 
 import { readFileSync, writeFileSync } from "node:fs";
-import { isAdultServiceMatch } from "./brand-safety.mjs";
+import { isAdultServiceMatch, scanSiteForAdultMarkers } from "./brand-safety.mjs";
 
 const [, , existingPath, outPath] = process.argv;
 if (!existingPath || !outPath) {
@@ -143,6 +143,24 @@ for (const listing of pull.listings) {
   kept.push(listing);
 }
 
+// Third gate, and the only one that reads the business's own website: a clean name and a
+// clean domain still tell you nothing about what a place actually advertises. The 2026-08-28
+// UAE pull had six survivors of both earlier gates ("Kerala Spa Sharjah", "Corniche Spa
+// Ajman", "Meena Thai Spa", …) whose service menus disqualified them outright. Run last and
+// only over survivors, so the network cost is one fetch per listing we were about to publish.
+const siteFlagged = [];
+const SCAN_CONCURRENCY = 12;
+const toScan = kept.filter(listing => listing.website);
+for (let offset = 0; offset < toScan.length; offset += SCAN_CONCURRENCY) {
+  const slice = toScan.slice(offset, offset + SCAN_CONCURRENCY);
+  const verdicts = await Promise.all(slice.map(listing => scanSiteForAdultMarkers(listing.website)));
+  slice.forEach((listing, index) => {
+    if (verdicts[index].length) siteFlagged.push({ listing, markers: verdicts[index] });
+  });
+}
+const siteFlaggedSet = new Set(siteFlagged.map(entry => entry.listing));
+const publishable = kept.filter(listing => !siteFlaggedSet.has(listing));
+
 const usedSlugs = new Set(existingSlugs);
 function uniqueSlug(name, citySlug) {
   const base = `${slugify(name)}-${citySlug}`;
@@ -175,7 +193,7 @@ function buildDescription(listing) {
 }
 
 const lines = [];
-for (const listing of kept) {
+for (const listing of publishable) {
   const slug = uniqueSlug(listing.name, listing.citySlug);
   lines.push(
     `INSERT INTO listings (slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, price_from, currency, premium, claimed, source, source_url, place_id, rating, review_count, image_url) VALUES (${sqlString(slug)}, ${sqlString(listing.name)}, ${sqlString(listing.countryCode)}, ${sqlString(listing.citySlug)}, ${sqlString(listing.suburb)}, ${sqlString(listing.address)}, ${sqlString(listing.phone)}, ${sqlString(listing.email)}, ${sqlString(listing.website)}, ${sqlString("Massage")}, ${sqlString(buildDescription(listing))}, NULL, NULL, 0, 0, 'apify_google_maps', ${sqlString(listing.website)}, ${sqlString(listing.placeId)}, ${listing.rating ?? "NULL"}, ${listing.reviewCount ?? "NULL"}, ${sqlString(listing.imageUrl)});`,
@@ -188,8 +206,13 @@ console.log(`Skipped as not actually massage/spa businesses: ${skippedIrrelevant
 console.log(`Skipped as likely adult-services businesses (name/domain match): ${skippedAdultService.length}`);
 console.log(`Skipped as unactionable (no phone, website, email or address): ${skippedUnactionable.length}`);
 console.log(`Skipped as likely duplicates of existing listings: ${skippedDuplicates.length}`);
-console.log(`New listings to insert: ${kept.length}`);
+console.log(`Skipped on their own website's service menu: ${siteFlagged.length} (of ${toScan.length} sites read)`);
+console.log(`New listings to insert: ${publishable.length}`);
 console.log(`SQL written to ${outPath}`);
+if (siteFlagged.length) {
+  console.log("\nSkipped (website advertises adult services):");
+  for (const { listing, markers } of siteFlagged) console.log(`  - ${listing.name} (${listing.citySlug}) — ${listing.website} → ${markers.join(", ")}`);
+}
 if (skippedAdultService.length) {
   console.log("\nSkipped (adult-services match) names — review before assuming this list is exhaustive:");
   for (const d of skippedAdultService) console.log(`  - ${d.name} (${d.citySlug}) — ${d.website ?? d.email ?? "no contact on file"}`);
