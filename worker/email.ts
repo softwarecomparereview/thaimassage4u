@@ -30,13 +30,27 @@ function rewriteLinks(html: string, siteUrl: string, recipientId: number): strin
 
 /**
  * Overflow providers, tried in order when Cloudflare's daily quota is hit.
- * Both are free-tier HTTP APIs (no SMTP possible from Workers): Brevo gives
- * 300/day forever, Mailjet 200/day (6k/mo). With Cloudflare's ~200/day that
- * stacks to ~700/day sustained at $0. Each activates only when its secret
- * exists; both send from the same verified hello@ address, so SPF/DKIM for
- * these providers must be added to the domain's DNS before their sends land
- * in inboxes rather than spam (dashboard step, noted in the session log).
+ * All three are free-tier HTTP APIs (no SMTP possible from Workers): Resend gives
+ * 100/day (3k/mo), Brevo 300/day forever, Mailjet 200/day (6k/mo). Stacked on
+ * Cloudflare's ~200/day that's ~800/day sustained at $0. Each activates only when
+ * its secret exists; all three send from the same verified hello@ address, so
+ * SPF/DKIM/DMARC for each provider must be added to the domain's DNS before their
+ * sends land in inboxes rather than spam — that's a dashboard/DNS step, not
+ * something a Worker deploy can do (see the DNS records each provider's own
+ * domain-verification page gives you). Resend is tried first among the three: it
+ * was the first added, its free-tier ceiling is the lowest of the three, and its
+ * deliverability reputation from a freshly verified domain is generally strong.
  */
+async function sendViaResend(env: Env, to: string, subject: string, html: string, text: string): Promise<boolean> {
+  if (!env.RESEND_API_KEY) return false;
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
+    body: JSON.stringify({ from: `${FROM_NAME} <${FROM_ADDRESS}>`, to: [to], subject, html, text }),
+  });
+  return response.ok;
+}
+
 async function sendViaBrevo(env: Env, to: string, subject: string, html: string, text: string): Promise<boolean> {
   if (!env.BREVO_API_KEY) return false;
   const response = await fetch("https://api.brevo.com/v3/smtp/email", {
@@ -75,6 +89,7 @@ export async function sendEmail(env: Env, input: { to: string; subject: string; 
     // Only the daily-quota error falls through to overflow providers — a bounce
     // or bad address must NOT be retried elsewhere (that's how domains get burned).
     if (!/quota/i.test(String(error))) throw error;
+    if (await sendViaResend(env, input.to, input.subject, html, text)) return { delivered: true, bounced: false };
     if (await sendViaBrevo(env, input.to, input.subject, html, text)) return { delivered: true, bounced: false };
     if (await sendViaMailjet(env, input.to, input.subject, html, text)) return { delivered: true, bounced: false };
     throw error;

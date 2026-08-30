@@ -42,6 +42,7 @@ export interface Env {
   ALIEXPRESS_APP_SECRET?: string;
   ALIEXPRESS_TRACKING_ID?: string;
   /** Email overflow providers (worker/email.ts) — free tiers stacked on top of Cloudflare's daily quota. */
+  RESEND_API_KEY?: string;
   BREVO_API_KEY?: string;
   MAILJET_API_KEY?: string;
   MAILJET_API_SECRET?: string;
