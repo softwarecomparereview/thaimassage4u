@@ -6,6 +6,16 @@ import { Mail, MessageSquare, Send, Upload } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "sonner";
 
+/**
+ * The lead action here is claiming, not premium — deliberately, after a 2026-08-30 audit found
+ * `claims` and `qh_otp_codes` both sitting at 0 rows across the entire directory: nobody has ever
+ * started a claim. Campaign #18 sent under the previous version of this template, whose only
+ * button read "See your listing & go premium" — a paid ask, first contact, to an owner who'd
+ * never heard of the directory. It drew opens and clicks with nothing to show downstream. Premium
+ * still gets a mention, but as a secondary line, not the one button in the email — matching the
+ * reorder on the listing page itself (ListingDetail.tsx), where ClaimListingBox now renders ahead
+ * of the enquiry form for the same reason.
+ */
 const INTRO_EMAIL_SUBJECT = "You're already listed on Thai Massage For U";
 const INTRO_EMAIL_BODY = `<div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1c261f">
   <div style="background:#1f3527;padding:28px 32px;border-radius:8px 8px 0 0">
@@ -16,12 +26,15 @@ const INTRO_EMAIL_BODY = `<div style="font-family:-apple-system,Segoe UI,Helveti
     <p style="font-size:16px;line-height:1.6;margin:0 0 16px">Thai Massage For U is a directory of independently listed wellness places — and your studio is already live on it, alongside real listings across the US, UK, Australia and Germany.</p>
     <p style="font-size:16px;line-height:1.6;margin:0 0 20px">{{city_blurb}}</p>
     <div style="background:#f7f2e9;border-radius:6px;padding:22px;margin:0 0 20px;border:1px solid #e7ddc9">
-      <p style="margin:0 0 8px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#2f4a3c">Stand out in {{city}}</p>
-      <p style="margin:0 0 12px;font-size:15px;line-height:1.6">When someone in {{city}} is choosing between studios, premium placement puts you first — before they scroll to whoever's next. At <strong>$9/week</strong>, that's less than the price of a single missed booking, and it pays for itself the first time it works.</p>
-      <p style="margin:0;font-size:13px;line-height:1.5;color:#5c6e64">No account, no contract, cancel anytime — we want it to be worth it for you, not a commitment you're stuck with.</p>
+      <p style="margin:0 0 8px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#2f4a3c">Is this your business?</p>
+      <p style="margin:0 0 14px;font-size:15px;line-height:1.6">Claiming your listing is free — a one-time code to the phone or email already on file, no account or password to set up. Takes about two minutes, and once it's yours you can fix anything we got wrong.</p>
     </div>
     <div style="text-align:center;margin:28px 0">
-      <a href="https://thaimassageforu.com/{{country_code}}" style="background:#2f4a3c;color:#f7f2e9;text-decoration:none;padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;display:inline-block">See your listing &amp; go premium</a>
+      <a href="{{listing_url}}" style="background:#2f4a3c;color:#f7f2e9;text-decoration:none;padding:14px 28px;border-radius:999px;font-size:15px;font-weight:600;display:inline-block">Claim your listing — it's free</a>
+    </div>
+    <div style="border-radius:6px;padding:16px 20px;margin:0 0 20px;border:1px solid #e7ddc9">
+      <p style="margin:0 0 6px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#2f4a3c">Already claimed, or want more?</p>
+      <p style="margin:0;font-size:14px;line-height:1.6">Once your listing is yours, premium placement in {{city}} — front of the homepage ribbon, from $9/week, no contract — is one click away on the same page.</p>
     </div>
     <p style="font-size:15px;line-height:1.6;margin:0 0 20px;color:#3a4a3c">Warmly,<br />The Thai Massage For U team</p>
     <div style="border-top:1px solid #e7ddc9;margin-top:8px;padding-top:18px">
@@ -31,7 +44,7 @@ const INTRO_EMAIL_BODY = `<div style="font-family:-apple-system,Segoe UI,Helveti
   </div>
 </div>`;
 
-const INTRO_SMS_BODY = `Hi {{name}}, your studio is now listed on Thai Massage For U (thaimassageforu.com) — a wellness directory across the US/UK/AU/DE. Want to stand out? Premium placement from $9/wk, no signup needed. Reply STOP to opt out.`;
+const INTRO_SMS_BODY = `Hi {{name}}, your studio is now listed on Thai Massage For U (thaimassageforu.com) — a wellness directory across the US/UK/AU/DE. Claiming it is free, takes 2 min: {{listing_url}}. Reply STOP to opt out.`;
 
 function parseCsv(text: string): { name?: string; email?: string; phone?: string }[] {
   const lines = text.trim().split(/\r?\n/).filter(Boolean);

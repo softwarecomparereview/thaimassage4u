@@ -7,7 +7,7 @@ import type { Env } from "./index";
  * index file just points to each. Well under Google's 50,000-URLs-per-file limit either way. */
 
 const STATIC_PATHS = ["/", "/directory", "/journal", "/list-your-place"];
-const COUNTRY_CODES = ["us", "uk", "au", "de"];
+const COUNTRY_CODES = ["us", "uk", "au", "de", "ca", "nz", "ie", "ae"];
 
 function urlEntry(loc: string, lastmod?: string | null) {
   return `<url><loc>${loc}</loc>${lastmod ? `<lastmod>${lastmod.slice(0, 10)}</lastmod>` : ""}</url>`;
@@ -29,7 +29,7 @@ export async function handleSitemapIndex(env: Env) {
 
 export async function handleSitemapStatic(env: Env) {
   const origin = env.SITE_URL.replace(/\/$/, "");
-  const urls = [...STATIC_PATHS, ...COUNTRY_CODES.map(code => `/${code}`)].map(path => urlEntry(`${origin}${path}`));
+  const urls = [...STATIC_PATHS, ...COUNTRY_CODES.map(code => `/${code}`), ...COUNTRY_CODES.map(code => `/${code}/supplies`)].map(path => urlEntry(`${origin}${path}`));
   return sitemapResponse(urls);
 }
 

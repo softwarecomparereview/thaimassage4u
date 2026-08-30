@@ -76,7 +76,7 @@ type QueueMessage = { recipientId: number };
 export async function processCampaignSend(env: Env, message: QueueMessage) {
   const recipient = await env.DB.prepare("SELECT qh_campaign_recipients.*, qh_campaigns.channel, qh_campaigns.subject, qh_campaigns.body FROM qh_campaign_recipients JOIN qh_campaigns ON qh_campaigns.id = qh_campaign_recipients.campaign_id WHERE qh_campaign_recipients.id = ?")
     .bind(message.recipientId)
-    .first<{ id: number; campaign_id: number; name: string | null; email: string | null; phone: string | null; city_slug: string | null; country_code: string | null; channel: "email" | "sms"; subject: string | null; body: string }>();
+    .first<{ id: number; campaign_id: number; listing_id: number | null; name: string | null; email: string | null; phone: string | null; city_slug: string | null; country_code: string | null; channel: "email" | "sms"; subject: string | null; body: string }>();
   if (!recipient) return;
 
   const address = recipient.channel === "email" ? recipient.email : recipient.phone;
@@ -90,7 +90,16 @@ export async function processCampaignSend(env: Env, message: QueueMessage) {
   }
 
   const cityName = recipient.city_slug ? recipient.city_slug.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()) : "";
-  const vars = { name: recipient.name ?? "there", city: cityName, country: (recipient.country_code ?? "").toUpperCase(), country_code: (recipient.country_code ?? "").toLowerCase(), city_blurb: recipient.city_slug ? (CITY_BLURBS[recipient.city_slug] ?? DEFAULT_CITY_BLURB) : DEFAULT_CITY_BLURB };
+  // {{listing_url}}: deep link to the recipient's OWN listing page — the page with their
+  // claim box and premium checkout on it. Every earlier campaign linked the generic country
+  // page instead, leaving each owner to scroll and find themselves before they could act.
+  // Falls back to the country page for recipients with no listing on file (e.g. ALWAYS_CC).
+  let listingUrl = `${env.SITE_URL}/${(recipient.country_code ?? "").toLowerCase()}`;
+  if (recipient.listing_id) {
+    const listingRow = await env.DB.prepare("SELECT slug FROM listings WHERE id = ? LIMIT 1").bind(recipient.listing_id).first<{ slug: string }>();
+    if (listingRow) listingUrl = `${env.SITE_URL}/listing/${listingRow.slug}`;
+  }
+  const vars = { name: recipient.name ?? "there", city: cityName, country: (recipient.country_code ?? "").toUpperCase(), country_code: (recipient.country_code ?? "").toLowerCase(), listing_url: listingUrl, city_blurb: recipient.city_slug ? (CITY_BLURBS[recipient.city_slug] ?? DEFAULT_CITY_BLURB) : DEFAULT_CITY_BLURB };
   try {
     if (recipient.channel === "email") {
       const unsubscribeUrl = `${env.SITE_URL}/api/campaigns/unsubscribe?email=${encodeURIComponent(address)}&token=${await unsubToken(env, address)}`;

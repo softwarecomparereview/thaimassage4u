@@ -11,8 +11,11 @@ import { join, relative } from "node:path";
 const TOKEN = process.env.APIFY_TOKEN;
 if (!TOKEN) { console.error("APIFY_TOKEN not set"); process.exit(1); }
 
-const ACTOR_NAME = "quiet-hour-google-maps-scraper";
-const ROOT = new URL("../apify-actor/google-maps-scraper", import.meta.url).pathname;
+// Deploys any actor under apify-actor/. Pass the directory name as argv[2];
+// defaults to the original google-maps-scraper for backwards compatibility.
+const ACTOR_DIR = process.argv[2] || "google-maps-scraper";
+const ACTOR_NAME = `quiet-hour-${ACTOR_DIR}`;
+const ROOT = new URL(`../apify-actor/${ACTOR_DIR}`, import.meta.url).pathname;
 
 function listFiles(dir) {
   let out = [];

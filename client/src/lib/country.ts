@@ -1,10 +1,14 @@
-export type CountryOption = { code: "us" | "uk" | "au" | "de"; name: string; flag: string };
+export type CountryOption = { code: "us" | "uk" | "au" | "de" | "ca" | "nz" | "ie" | "ae"; name: string; flag: string };
 
 export const COUNTRIES: CountryOption[] = [
   { code: "us", name: "United States", flag: "🇺🇸" },
   { code: "uk", name: "United Kingdom", flag: "🇬🇧" },
   { code: "au", name: "Australia", flag: "🇦🇺" },
   { code: "de", name: "Germany", flag: "🇩🇪" },
+  { code: "ca", name: "Canada", flag: "🇨🇦" },
+  { code: "nz", name: "New Zealand", flag: "🇳🇿" },
+  { code: "ie", name: "Ireland", flag: "🇮🇪" },
+  { code: "ae", name: "UAE", flag: "🇦🇪" },
 ];
 
 /**

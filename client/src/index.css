@@ -391,3 +391,42 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .cms-warn { color: #a6412f; }
 .cms-table__actions { text-align: right; white-space: nowrap; }
 .cms-pager { display: flex; align-items: center; gap: 1rem; margin-top: 1.2rem; font: .72rem var(--font-mono); color: #5c6d64; }
+
+/* Supplies page */
+.supplies-section { padding-top: 0; padding-bottom: 4.5rem; }
+.supply-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+.supply-card { display: flex; flex-direction: column; background: #fffdf8; border: 1px solid var(--border); transition: transform 160ms ease, box-shadow 160ms ease; }
+.supply-card:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(25,55,47,.10); }
+.supply-card__image { aspect-ratio: 1.6; background-position: center; background-size: cover; background-color: #ece5da; }
+.supply-card__image--empty { display: flex; align-items: center; justify-content: center; color: #8c9f6b; }
+.supply-card__body { display: flex; flex-direction: column; gap: .45rem; padding: 1rem 1.1rem 1.2rem; }
+.supply-card__body h3 { margin: 0; font: 500 1.02rem/1.3 var(--font-display); letter-spacing: -.02em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.supply-card__price { margin: 0; font: 600 1.15rem var(--font-display); }
+.supply-card__ship { margin-left: .55rem; display: inline-flex; align-items: center; gap: .25rem; color: #5c6e64; font: .62rem var(--font-mono); letter-spacing: .04em; text-transform: uppercase; }
+.supply-card__source { margin-top: auto; display: inline-flex; align-items: center; gap: .25rem; color: var(--clay); font: .62rem var(--font-mono); letter-spacing: .05em; text-transform: uppercase; }
+.supply-compare-row { display: flex; flex-wrap: wrap; gap: .7rem; }
+.supply-compare-pill { display: inline-flex; align-items: center; gap: .35rem; padding: .6rem 1rem; border: 1px solid var(--ink); border-radius: 999px; font-size: .8rem; transition: background-color 160ms ease; }
+.supply-compare-pill:hover { background: var(--sage); }
+.supply-disclosure { max-width: 720px; margin: 0; color: #73837a; font-size: .72rem; line-height: 1.6; }
+@media (max-width: 900px) { .supply-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .supply-grid { grid-template-columns: 1fr; } }
+
+/* Site-wide supplies ribbon (top of every page) — deliberately loud: it's the money link. */
+.supplies-ribbon { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: .5rem; padding: .85rem 1.2rem; background: linear-gradient(100deg, #142c25, #1f3527 45%, #2c5240 100%); color: var(--sage); font: 600 .82rem var(--font-mono); letter-spacing: .06em; text-transform: uppercase; text-align: center; transition: color 160ms ease; animation: ribbon-glow 2.6s ease-in-out infinite; }
+.supplies-ribbon::after { content: ""; position: absolute; top: 0; bottom: 0; left: -40%; width: 35%; background: linear-gradient(105deg, transparent, rgba(199,209,163,.28), transparent); animation: ribbon-sheen 3.2s ease-in-out infinite; }
+.supplies-ribbon strong { color: #ffd98a; font-weight: 700; }
+.supplies-ribbon:hover { color: var(--paper); }
+.supplies-ribbon:hover strong { color: #ffe9bd; }
+@keyframes ribbon-glow {
+  0%, 100% { box-shadow: inset 0 0 0 rgba(199,209,163,0); }
+  50% { box-shadow: inset 0 -2px 18px rgba(199,209,163,.22); }
+}
+@keyframes ribbon-sheen {
+  0% { left: -40%; }
+  55%, 100% { left: 110%; }
+}
+@media (prefers-reduced-motion: reduce) { .supplies-ribbon, .supplies-ribbon::after { animation: none; } }
+.supply-lang-row { display: flex; gap: .45rem; margin-bottom: 1.4rem; }
+.supply-lang { padding: .38rem .85rem; border: 1px solid var(--border); border-radius: 999px; background: transparent; color: var(--ink); font-size: .78rem; cursor: pointer; transition: background-color 160ms ease; }
+.supply-lang:hover { background: var(--paper-warm); }
+.supply-lang.is-active { background: var(--ink); color: var(--paper); border-color: var(--ink); }

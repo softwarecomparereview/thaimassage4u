@@ -12,6 +12,7 @@ import CmsCampaigns from "./CmsCampaigns";
 import CmsEnrichment from "./CmsEnrichment";
 import CmsPublishing from "./CmsPublishing";
 import CmsInbox from "./CmsInbox";
+import CmsSupplies from "./CmsSupplies";
 
 const sectionTitles: Record<string, { eyebrow: string; title: string; description: string }> = {
   overview: { eyebrow: "Operations / index health", title: "A calm view of the directory.", description: "Manage what the public sees, verify city signals, and keep the content layers useful." },
@@ -23,6 +24,7 @@ const sectionTitles: Record<string, { eyebrow: string; title: string; descriptio
   campaigns: { eyebrow: "Outreach / email & SMS", title: "Announce the directory, city by city.", description: "Send from hello@thaimassageforu.com or an SMS number, to a CSV upload or every listing in a city or country." },
   publishing: { eyebrow: "Worker / directory publishing", title: "Choose what's live, not just what's scraped.", description: "Every scraped listing has been public since import, with no gate. Hold listings back by status, city or thin description, individually or in bulk — claimed and featured listings are never touched." },
   enrichment: { eyebrow: "Worker / listing enrichment", title: "Let the Worker write the descriptions.", description: "Reads each studio's own website with Workers AI and proposes a real description. Start it, stop it, tune it, and review what it wrote — all from here." },
+  supplies: { eyebrow: "Monetization / supplies", title: "Which offers earn their place.", description: "Daily-refreshed affiliate offers on /supplies, and the outbound clicks they actually get." },
   inbox: { eyebrow: "Outreach / replies", title: "Every reply, in one place.", description: "Email replies and inbound SMS both land here, whether or not you're checking that mailbox." },
 };
 
@@ -66,6 +68,7 @@ export default function Cms() {
       {section === "campaigns" && <CmsCampaigns cities={data.cities} />}
       {section === "publishing" && <CmsPublishing />}
       {section === "enrichment" && <CmsEnrichment />}
+      {section === "supplies" && <CmsSupplies />}
       {section === "inbox" && <CmsInbox />}
     </>}
   </div></DashboardLayout>;

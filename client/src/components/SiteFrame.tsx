@@ -6,6 +6,7 @@ import { Link } from "wouter";
 
 const navItems = [
   { href: "/directory", label: "Explore" },
+  { href: "/supplies", label: "Supplies" },
   { href: "/journal", label: "Journal" },
   { href: "/list-your-place", label: "For studios" },
   { href: "/coming-soon", label: "Roadmap" },
@@ -55,6 +56,7 @@ export function SiteHeader() {
 
   return (
     <header className="site-header">
+      <Link href="/supplies" className="supplies-ribbon">Studio owners: today's cheapest supplies, delivered locally — <strong>massage sheets from $10, checked daily</strong> <ArrowUpRight size={15} /></Link>
       <div className="site-header__inner">
         <Wordmark />
         <nav className="site-nav" aria-label="Main navigation">
@@ -91,7 +93,7 @@ export function SiteFooter() {
       <div className="site-footer__bottom">
         <Wordmark inverted />
         <p>Wellness discovery, built with a little more care.</p>
-        <div className="footer-links"><Link href="/journal">Journal</Link><Link href="/list-your-place">Studios</Link><a href="mailto:hello@thaimassageforu.com">hello@thaimassageforu.com</a></div>
+        <div className="footer-links"><Link href="/journal">Journal</Link><Link href="/list-your-place">Studios</Link><Link href="/supplies">Supplies</Link><Link href="/claim">Claim your listing</Link><a href="mailto:hello@thaimassageforu.com">hello@thaimassageforu.com</a></div>
       </div>
     </footer>
   );

@@ -11,6 +11,7 @@ import Journal from "@/pages/Journal";
 import ListingDetail from "@/pages/ListingDetail";
 import ListYourPlace from "@/pages/ListYourPlace";
 import MyListing from "@/pages/MyListing";
+import Supplies from "@/pages/Supplies";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -27,6 +28,10 @@ function Router() {
       <Route path={"/uk"} component={CountryGuide} />
       <Route path={"/au"} component={CountryGuide} />
       <Route path={"/de"} component={CountryGuide} />
+      <Route path={"/ca"} component={CountryGuide} />
+      <Route path={"/nz"} component={CountryGuide} />
+      <Route path={"/ie"} component={CountryGuide} />
+      <Route path={"/ae"} component={CountryGuide} />
       <Route path={"/city/:slug"} component={CityGuide} />
       <Route path={"/listing/:slug"} component={ListingDetail} />
       <Route path={"/journal"} component={Journal} />
@@ -35,6 +40,8 @@ function Router() {
       <Route path={"/coming-soon"} component={ComingSoon} />
       <Route path={"/my-listing"} component={MyListing} />
       <Route path={"/claim"} component={ClaimSearch} />
+      <Route path={"/supplies"} component={Supplies} />
+      <Route path={"/:code/supplies"} component={Supplies} />
       <Route path={"/cms"} component={Cms} />
       <Route path={"/cms/:section"} component={Cms} />
       <Route path={"/404"} component={NotFound} />

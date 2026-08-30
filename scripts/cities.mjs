@@ -22,6 +22,23 @@ export const cities = [
   ["de", "hamburg", "Hamburg", "Hamburg", "Germany"],
   ["de", "frankfurt", "Frankfurt", "Hesse", "Germany"],
   ["de", "cologne", "Cologne", "North Rhine-Westphalia", "Germany"],
+  // Expansion wave 2 (2026-08 market research): CA, NZ, IE, AE.
+  ["ca", "toronto", "Toronto", "ON", "Canada"],
+  ["ca", "vancouver", "Vancouver", "BC", "Canada"],
+  ["ca", "montreal", "Montreal", "QC", "Canada"],
+  ["ca", "calgary", "Calgary", "AB", "Canada"],
+  ["ca", "ottawa", "Ottawa", "ON", "Canada"],
+  ["nz", "auckland", "Auckland", "Auckland", "New Zealand"],
+  ["nz", "wellington", "Wellington", "Wellington", "New Zealand"],
+  ["nz", "christchurch", "Christchurch", "Canterbury", "New Zealand"],
+  ["nz", "queenstown", "Queenstown", "Otago", "New Zealand"],
+  ["ie", "dublin", "Dublin", "Leinster", "Ireland"],
+  ["ie", "cork", "Cork", "Munster", "Ireland"],
+  ["ie", "galway", "Galway", "Connacht", "Ireland"],
+  ["ie", "limerick", "Limerick", "Munster", "Ireland"],
+  ["ae", "dubai", "Dubai", "Dubai", "United Arab Emirates"],
+  ["ae", "abu-dhabi", "Abu Dhabi", "Abu Dhabi", "United Arab Emirates"],
+  ["ae", "sharjah", "Sharjah", "Sharjah", "United Arab Emirates"],
 ];
 
-export const currencyFor = { us: "USD", uk: "GBP", au: "AUD", de: "EUR" };
+export const currencyFor = { us: "USD", uk: "GBP", au: "AUD", de: "EUR", ca: "CAD", nz: "NZD", ie: "EUR", ae: "AED" };

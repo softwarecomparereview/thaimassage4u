@@ -1,0 +1,9 @@
+{
+  "actorSpecification": 1,
+  "name": "quiet-hour-supply-scanner",
+  "title": "Quiet Hour — daily massage-supply price scanner",
+  "description": "Scans per-country eBay search pages for massage business supplies (table sheets, oils, towels, guns) and returns the cheapest buy-it-now offers with local delivery, for the directory's Supplies page.",
+  "version": "0.1",
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile"
+}

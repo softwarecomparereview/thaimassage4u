@@ -20,7 +20,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/useMobile";
-import { Building2, FileText, Inbox, Languages, LayoutDashboard, LogOut, Map, MessageCircleMore, PanelLeft, Radar, Send, Wand2 } from "lucide-react";
+import { Building2, FileText, Inbox, Languages, LayoutDashboard, LogOut, Map, MessageCircleMore, PanelLeft, Radar, Send, Wand2, ShoppingBag } from "lucide-react";
 import { CSSProperties, FormEvent, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -104,6 +104,7 @@ const menuItems = [
   { icon: Send, label: "Campaigns", path: "/cms/campaigns" },
   { icon: Radar, label: "Publishing", path: "/cms/publishing" },
   { icon: Wand2, label: "Enrichment", path: "/cms/enrichment" },
+  { icon: ShoppingBag, label: "Supplies", path: "/cms/supplies" },
   { icon: Inbox, label: "Inbox", path: "/cms/inbox" },
 ];
 
