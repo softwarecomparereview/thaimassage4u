@@ -1,3 +1,4 @@
+import { Concierge } from "@/components/Concierge";
 import { DirectoryPlaceCard } from "@/components/DirectoryPlaceCard";
 import { SiteFooter, SiteHeader } from "@/components/SiteFrame";
 import { trpc } from "@/lib/trpc";
@@ -15,7 +16,7 @@ export default function CityGuide() {
   if (isLoading) return <><SiteHeader /><main className="route-loading">Loading city guide…</main></>;
   if (error || !data) return <><SiteHeader /><main className="route-loading"><p className="eyebrow">City guide</p><h1>This guide is still being mapped.</h1><Link href="/directory" className="text-link">Return to the directory <ArrowUpRight size={16} /></Link></main><SiteFooter /></>;
   const { city, listings, events, metrics } = data;
-  return <><SiteHeader /><main>
+  return <><Concierge /><SiteHeader /><main>
     <section className="city-hero">
       <div><p className="eyebrow">{city.country} / {city.primaryLocale.toUpperCase()}</p><h1>{city.name}, at a softer pace.</h1></div>
       <p>{city.introduction || "A city guide is being assembled with local context, verified sources, and careful wellness discovery."}</p>

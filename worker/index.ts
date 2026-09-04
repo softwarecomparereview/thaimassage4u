@@ -11,6 +11,7 @@ import { handleCreateCampaign, handleSendCampaign, handleListCampaigns, handleLi
 import { processCampaignSend } from "./campaigns";
 import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing, handleClaimSearch } from "./claim";
 import { handleSitemapIndex, handleSitemapStatic, handleSitemapCities, handleSitemapListings, handleSitemapJournal, handleRobotsTxt } from "./sitemap";
+import { handleConciergeEvent, handleConciergeParse } from "./concierge";
 import { handleSupplies, handleSuppliesSync, handleSupplyClick, handleSupplyClickStats, refreshAliExpressOffers, syncSupplyOffers } from "./supplies";
 import { approveAllProposals, getEnrichmentStatus, reviewProposal, runEnrichmentBatch, updateEnrichmentSettings, type EnrichmentTarget } from "./enrichment";
 import { isPublishStatus, listPublishQueue, setListingStatus, setStatusForFilter, type PublishStatus } from "./publish";
@@ -299,6 +300,9 @@ app.post("/api/admin/publish/bulk", async c => {
   const result = await setStatusForFilter(c.env, { status: body.status, citySlug: body.city, q: body.q, thinOnly: body.thinOnly }, body.newStatus, body.protect !== false);
   return c.json(result);
 });
+
+app.post("/api/concierge/events", c => handleConciergeEvent(c.req.raw, c.env));
+app.post("/api/concierge/parse", () => handleConciergeParse());
 
 app.get("/robots.txt", c => handleRobotsTxt(c.env));
 app.get("/sitemap.xml", c => handleSitemapIndex(c.env));
