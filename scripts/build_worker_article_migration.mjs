@@ -13,9 +13,14 @@ const records = fs.readdirSync(inputDir)
 
 const statements = records.map(markdown => {
   const [, rawFrontmatter = "", body = ""] = markdown.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/) ?? [];
+  // Naive key: value parsing, not real YAML — a value written as `slug: "foo-bar"`
+  // keeps its quote marks verbatim otherwise, and they flow straight into the SQL
+  // insert. Three of the twenty articles shipped with quoted slugs in their live
+  // URL (/journal/"foo-bar") before this was caught.
+  const unquote = (value) => value.replace(/^(['"])(.*)\1$/, "$2");
   const fields = Object.fromEntries(rawFrontmatter.split("\n").map(line => {
     const pivot = line.indexOf(":");
-    return pivot === -1 ? [line.trim(), ""] : [line.slice(0, pivot).trim(), line.slice(pivot + 1).trim()];
+    return pivot === -1 ? [line.trim(), ""] : [line.slice(0, pivot).trim(), unquote(line.slice(pivot + 1).trim())];
   }));
   const title = fields.title || "Untitled article";
   const slug = fields.slug || title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");

@@ -1,16 +1,19 @@
 import type { Env } from "./index";
 
 /**
- * Background listing enrichment.
+ * Background listing enrichment — reconciled from two separate, unreconciled
+ * jobs (worker/enrich.ts and this file, as it was before) that were built
+ * concurrently on diverged branches and merged without either side noticing
+ * the other existed. See worker/migrations/0012_enrichment_proposal_fields.sql
+ * for the detail of what each one did wrong.
  *
- * 94% of listings carry a description of about 190 characters assembled from
- * whatever fields the importer happened to have. This reads the studio's own
- * website and asks Workers AI to write two or three useful sentences from what
- * is actually on that page.
- *
- * The Worker drives it on a cron. The CMS starts it, stops it, tunes it and
- * watches it — see the admin routes in worker/index.ts and the Enrichment
- * section of the CMS. Nothing here blocks a request or needs anyone watching.
+ * This is now one engine: it fetches the studio's own website, extracts what
+ * a page actually says (title, meta description, visible text, og:image),
+ * and asks Workers AI for a descriptor, a two-paragraph description, and a
+ * services list — grounded only in those facts, in German for German-market
+ * listings since that's what German searchers type into Google. The Worker
+ * drives it on a cron. The CMS starts it, stops it, tunes it and reviews what
+ * it wrote — see the admin routes in worker/index.ts and /cms/enrichment.
  */
 
 export type EnrichmentSettings = {
@@ -23,38 +26,50 @@ export type EnrichmentSettings = {
   target: EnrichmentTarget;
 };
 
-export type EnrichmentTarget = "thin" | "missing" | "all";
+/**
+ * unenriched — never attempted (the normal, converging target: every listing
+ *   gets exactly one pass, same as the old enrich.ts's `enriched_at IS NULL`).
+ * thin — attempted before but the result (or the original stub) is still
+ *   under the quality floor; for re-running after a prompt or model change.
+ * all — ignore history entirely; a full re-run.
+ */
+export type EnrichmentTarget = "unenriched" | "thin" | "all";
 
 /**
- * Only text-generation models that are actually cheap enough to run across
- * hundreds of listings. An admin picks from this list, so a typo in the CMS
- * cannot send every request to a model nobody costed.
+ * Only text-generation models that are actually affordable across hundreds of
+ * listings. llama-3.3-70b-fp8-fast is first because it's what enrich.ts had
+ * already proven in production before this merge; the 8b model is the cheaper
+ * fallback. An admin picks from this list, so a typo in the CMS can't send
+ * every request to a model nobody priced.
  */
 export const ENRICHMENT_MODELS = [
-  "@cf/meta/llama-3.1-8b-instruct",
   "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+  "@cf/meta/llama-3.1-8b-instruct",
   "@cf/mistral/mistral-7b-instruct-v0.2",
   "@cf/qwen/qwen1.5-14b-chat-awq",
 ] as const;
 
 const DEFAULTS: EnrichmentSettings = {
-  enabled: false,
-  autoPublish: false,
-  batchSize: 8,
+  // enrich.ts ran unconditionally in production with no switch at all and
+  // produced the richer per-listing descriptors already live on the site —
+  // proven, working behaviour. Defaulting to "on, auto-publishing" continues
+  // that rather than silently reverting it to an unreviewed backlog nobody
+  // was going to work through by hand; /cms/enrichment can turn either off.
+  enabled: true,
+  autoPublish: true,
+  batchSize: 15,
   concurrency: 3,
-  dailyCap: 200,
+  dailyCap: 400,
   model: ENRICHMENT_MODELS[0],
-  target: "thin",
+  target: "unenriched",
 };
 
 /** A description this short is a stub the importer assembled, not a description. */
 const THIN_DESCRIPTION_CHARS = 240;
-/** Enough of a page to describe it; beyond this is nav, footer and cookie banner. */
 const MAX_PAGE_CHARS = 6000;
-/** A page with less than this much text said nothing worth summarising. */
 const MIN_PAGE_CHARS = 200;
 const FETCH_TIMEOUT_MS = 8000;
-const MAX_FETCH_BYTES = 600_000;
+const MAX_FETCH_BYTES = 400_000;
 
 const clampInt = (value: unknown, min: number, max: number, fallback: number) => {
   const parsed = Number(value);
@@ -68,13 +83,13 @@ export async function getEnrichmentSettings(env: Env): Promise<EnrichmentSetting
   const model = raw.enrichment_model;
   const target = raw.enrichment_target;
   return {
-    enabled: raw.enrichment_enabled === "1",
-    autoPublish: raw.enrichment_auto_publish === "1",
+    enabled: raw.enrichment_enabled ? raw.enrichment_enabled === "1" : DEFAULTS.enabled,
+    autoPublish: raw.enrichment_auto_publish ? raw.enrichment_auto_publish === "1" : DEFAULTS.autoPublish,
     batchSize: clampInt(raw.enrichment_batch_size, 1, 50, DEFAULTS.batchSize),
     concurrency: clampInt(raw.enrichment_concurrency, 1, 8, DEFAULTS.concurrency),
     dailyCap: clampInt(raw.enrichment_daily_cap, 0, 5000, DEFAULTS.dailyCap),
     model: (ENRICHMENT_MODELS as readonly string[]).includes(model) ? model : DEFAULTS.model,
-    target: target === "missing" || target === "all" ? target : DEFAULTS.target,
+    target: target === "thin" || target === "all" || target === "unenriched" ? target : DEFAULTS.target,
   };
 }
 
@@ -89,69 +104,93 @@ export async function updateEnrichmentSettings(env: Env, patch: Partial<Enrichme
   if (patch.concurrency !== undefined) put("enrichment_concurrency", String(clampInt(patch.concurrency, 1, 8, DEFAULTS.concurrency)));
   if (patch.dailyCap !== undefined) put("enrichment_daily_cap", String(clampInt(patch.dailyCap, 0, 5000, DEFAULTS.dailyCap)));
   if (patch.model !== undefined && (ENRICHMENT_MODELS as readonly string[]).includes(patch.model)) put("enrichment_model", patch.model);
-  if (patch.target !== undefined && ["thin", "missing", "all"].includes(patch.target)) put("enrichment_target", patch.target);
+  if (patch.target !== undefined && ["unenriched", "thin", "all"].includes(patch.target)) put("enrichment_target", patch.target);
 
   if (writes.length) await env.DB.batch(writes);
   return getEnrichmentSettings(env);
 }
 
-type Candidate = { slug: string; name: string; website: string; address: string | null; suburb: string | null; city_slug: string; description: string | null };
+type Candidate = {
+  slug: string;
+  name: string;
+  website: string | null;
+  address: string | null;
+  suburb: string | null;
+  city_slug: string;
+  country_code: string;
+  rating: number | null;
+  review_count: number | null;
+  services: string | null;
+  description: string | null;
+  image_url: string | null;
+};
 
-/**
- * A listing is worth enriching only if it has a website to read. Anything
- * already proposed, published or rejected is left alone, so a run never spends
- * twice on the same listing or overwrites an admin's decision.
- */
 async function selectCandidates(env: Env, settings: EnrichmentSettings, limit: number): Promise<Candidate[]> {
   const targetClause =
     settings.target === "all" ? "1 = 1"
-    : settings.target === "missing" ? "TRIM(COALESCE(l.description, '')) = ''"
-    : `LENGTH(TRIM(COALESCE(l.description, ''))) < ${THIN_DESCRIPTION_CHARS}`;
+    : settings.target === "thin" ? `LENGTH(TRIM(COALESCE(l.description, ''))) < ${THIN_DESCRIPTION_CHARS}`
+    : "l.enriched_at IS NULL";
   const { results } = await env.DB.prepare(
-    `SELECT l.slug, l.name, l.website, l.address, l.suburb, l.city_slug, l.description
+    `SELECT l.slug, l.name, l.website, l.address, l.suburb, l.city_slug, l.country_code, l.rating, l.review_count, l.services, l.description, l.image_url
      FROM listings l
-     WHERE TRIM(COALESCE(l.website, '')) <> ''
-       AND ${targetClause}
+     WHERE ${targetClause}
        AND NOT EXISTS (
          SELECT 1 FROM qh_enrichment_items i
          WHERE i.listing_slug = l.slug AND i.status IN ('proposed', 'published', 'rejected')
        )
-     ORDER BY l.id
+     ORDER BY (l.website IS NULL), l.premium DESC, l.id
      LIMIT ?`,
   ).bind(limit).all<Candidate>();
   return results;
 }
 
-/** Strips a page to readable text — no DOM parser needed, and none available here. */
-export function htmlToText(html: string): string {
-  return html
-    .replace(/<(script|style|noscript|svg|head)[\s\S]*?<\/\1>/gi, " ")
-    .replace(/<!--[\s\S]*?-->/g, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/gi, " ")
-    .replace(/&amp;/gi, "&")
-    .replace(/&lt;/gi, "<")
-    .replace(/&gt;/gi, ">")
-    .replace(/&#39;|&apos;/gi, "'")
-    .replace(/&quot;/gi, '"')
-    .replace(/\s+/g, " ")
-    .trim();
-}
+type SiteExtract = { text: string; title: string | null; metaDescription: string | null; ogImage: string | null };
 
-async function fetchPageText(website: string): Promise<string | null> {
+/** No DOM parser is available here, so this is a plain-text/regex extraction — same approach enrich.ts proved in production. */
+async function fetchSite(website: string): Promise<SiteExtract | null> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   try {
     const response = await fetch(website, {
       signal: controller.signal,
       redirect: "follow",
-      headers: { "user-agent": "ThaiMassageForU-Directory/1.0 (+https://thaimassageforu.com)", accept: "text/html" },
+      headers: { "user-agent": "Mozilla/5.0 (compatible; QuietHourBot/1.0; +https://thaimassageforu.com)", accept: "text/html" },
     });
-    if (!response.ok) return null;
-    if (!(response.headers.get("content-type") ?? "").includes("text/html")) return null;
-    const body = (await response.text()).slice(0, MAX_FETCH_BYTES);
-    const text = htmlToText(body);
-    return text.length >= MIN_PAGE_CHARS ? text.slice(0, MAX_PAGE_CHARS) : null;
+    if (!response.ok || !(response.headers.get("content-type") ?? "").includes("text/html")) return null;
+    const html = (await response.text()).slice(0, MAX_FETCH_BYTES);
+
+    const title = html.match(/<title[^>]*>([^<]{1,200})<\/title>/i)?.[1]?.trim() ?? null;
+    const metaDescription =
+      html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']{1,400})["']/i)?.[1]?.trim() ??
+      html.match(/<meta[^>]+content=["']([^"']{1,400})["'][^>]+name=["']description["']/i)?.[1]?.trim() ?? null;
+    let ogImage =
+      html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']{1,500})["']/i)?.[1] ??
+      html.match(/<meta[^>]+content=["']([^"']{1,500})["'][^>]+property=["']og:image["']/i)?.[1] ?? null;
+    if (ogImage) {
+      try {
+        ogImage = new URL(ogImage, response.url).toString();
+        if (!ogImage.startsWith("https://")) ogImage = null;
+      } catch {
+        ogImage = null;
+      }
+    }
+
+    const text = html
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<noscript[\s\S]*?<\/noscript>/gi, " ")
+      .replace(/<!--[\s\S]*?-->/g, " ")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/&nbsp;/gi, " ")
+      .replace(/&amp;/gi, "&")
+      .replace(/&lt;/gi, "<")
+      .replace(/&gt;/gi, ">")
+      .replace(/&#39;|&apos;/gi, "'")
+      .replace(/&quot;/gi, '"')
+      .replace(/\s+/g, " ")
+      .trim();
+    if (text.length < MIN_PAGE_CHARS) return { text: "", title, metaDescription, ogImage };
+    return { text: text.slice(0, MAX_PAGE_CHARS), title, metaDescription, ogImage };
   } catch {
     return null;
   } finally {
@@ -159,62 +198,103 @@ async function fetchPageText(website: string): Promise<string | null> {
   }
 }
 
-/**
- * The whole point of this directory's audit was that it must not state things
- * it cannot stand behind, so the prompt forbids exactly the inventions a model
- * reaches for on a thin page: prices, hours, ratings, awards and credentials.
- */
-function buildPrompt(listing: Candidate, cityName: string, pageText: string) {
-  const place = [listing.suburb, cityName].filter(Boolean).join(", ");
-  return [
-    {
-      role: "system",
-      content:
-        "You write short, factual entries for a massage and wellness directory. " +
-        "You are given the text of a business's own website. Write 2 to 3 sentences, 40 to 70 words, in plain British English, third person, present tense. " +
-        "Describe only what the page actually says: the treatments offered, the style of the place, and who it suits. " +
-        "NEVER state a price, an opening time, a rating, a review count, a year established, an award, or a therapist's qualification unless that exact fact appears in the page text. " +
-        "Do not use marketing language, do not address the reader as 'you', do not open with the words 'Nestled' or 'Discover', and do not mention the website or this directory. " +
-        "If the page text does not describe a massage or wellness business, reply with exactly: INSUFFICIENT",
-    },
-    {
-      role: "user",
-      content: `Business name: ${listing.name}\nLocation: ${place || cityName}\n\nWebsite text:\n${pageText}`,
-    },
-  ];
+function buildPrompt(listing: Candidate, cityName: string, site: SiteExtract | null) {
+  const facts = [
+    `Business name: ${listing.name}`,
+    `City: ${cityName} (${listing.country_code.toUpperCase()})`,
+    listing.suburb ? `Suburb/neighbourhood: ${listing.suburb}` : null,
+    listing.address ? `Address: ${listing.address}` : null,
+    typeof listing.rating === "number" && listing.review_count ? `Google rating: ${listing.rating} stars from ${listing.review_count} reviews` : null,
+    listing.services ? `Known services: ${listing.services}` : null,
+    site?.title ? `Their website title: ${site.title}` : null,
+    site?.metaDescription ? `Their website meta description: ${site.metaDescription}` : null,
+    site?.text ? `Text from their own website (truncated): ${site.text}` : null,
+  ].filter(Boolean).join("\n");
+
+  // German searchers query "thaimassage berlin" and Google serves German-language
+  // results for German queries — the descriptor becomes the meta description, so
+  // this is SEO, not cosmetics.
+  const inGerman = listing.country_code === "de";
+  const languageLine = inGerman
+    ? `- "descriptor": one sentence fragment IN GERMAN, max 85 characters, no trailing period (e.g. "Traditionelle Thai-Massage im Stadtzentrum").
+- "description": two short paragraphs (separated by \\n\\n), 60-120 words total, in plain warm GERMAN (Sie-Form). Describe what they offer and who it suits.`
+    : `- "descriptor": one sentence fragment, max 85 characters, no trailing period, describing what this place is (e.g. "Traditional Thai massage studio in the city centre").
+- "description": two short paragraphs (separated by \\n\\n), 60-120 words total, in plain warm English. Describe what they offer and who it suits.`;
+
+  return `You write listing profiles for a quality wellness directory. Using ONLY the facts below, produce JSON with exactly these keys:
+${languageLine} NEVER invent prices, awards, opening years, qualifications, or anything not in the facts. If the facts are thin, keep it short rather than padding.
+- "services": array of 3-8 short service names actually mentioned or clearly implied in the facts${inGerman ? ' IN GERMAN (e.g. "Thai-Massage", "Rückenmassage", "Fußreflexzonenmassage")' : ' (e.g. "Thai massage", "Deep tissue massage", "Foot reflexology")'}. If nothing specific is mentioned, use ["Massage"].
+
+If the facts do not describe a massage, spa or wellness business — a nail salon, a hotel, a gym with no treatments, anything else — set "descriptor" to exactly "SKIP" and leave the other fields empty.
+
+Facts:
+${facts}
+
+Reply with ONLY the JSON object, no markdown fences, no commentary.`;
 }
 
-/** Rejects an answer that is empty, a refusal, or the model narrating itself. */
-function usableDescription(raw: string): string | null {
-  const text = raw.replace(/\s+/g, " ").trim().replace(/^["']|["']$/g, "");
-  if (!text || /^INSUFFICIENT/i.test(text)) return null;
-  if (text.length < 60 || text.length > 900) return null;
-  if (/^(sure|certainly|here('s| is)|as an ai|i cannot|i'm sorry)/i.test(text)) return null;
-  return text;
+type ParsedResult = { descriptor: string; description: string; services: string[] };
+
+function parseModelJson(rawInput: unknown): ParsedResult | null {
+  // Workers AI models are inconsistent here: some return `response` as a string,
+  // others hand back an already-parsed JSON object.
+  const raw = typeof rawInput === "string" ? rawInput : JSON.stringify(rawInput ?? "");
+  const match = raw.match(/\{[\s\S]*\}/);
+  if (!match) return null;
+  try {
+    const parsed = JSON.parse(match[0]);
+    const descriptorRaw = typeof parsed.descriptor === "string" ? parsed.descriptor.trim() : "";
+    if (/^SKIP$/i.test(descriptorRaw)) return null;
+    const descriptor = descriptorRaw.replace(/\.$/, "").slice(0, 90);
+    const description = typeof parsed.description === "string" ? parsed.description.trim() : "";
+    const services = Array.isArray(parsed.services)
+      ? parsed.services.filter((value: unknown) => typeof value === "string" && value.trim().length > 1).map((value: string) => value.trim().slice(0, 60)).slice(0, 8)
+      : [];
+    if (descriptor.length < 10 || description.length < 80 || description.length > 1200 || !services.length) return null;
+    if (/as an ai|i cannot|i can't|language model|the facts (provided|below)/i.test(descriptor + " " + description)) return null;
+    return { descriptor, description, services };
+  } catch {
+    return null;
+  }
 }
 
-type ItemOutcome = { status: "proposed" | "published" | "failed" | "skipped"; description?: string; error?: string };
+type ItemOutcome = { status: "proposed" | "published" | "failed" | "skipped"; result?: ParsedResult; imageUrl?: string | null; error?: string };
+
+/** Thrown only for a real infrastructure failure (AI call itself rejected) — distinct from a model reply that just didn't parse, which is a normal "skipped". */
+class EnrichmentAborted extends Error {}
 
 async function enrichOne(env: Env, listing: Candidate, settings: EnrichmentSettings, cityName: string): Promise<ItemOutcome> {
-  const pageText = await fetchPageText(listing.website);
-  if (!pageText) return { status: "skipped", error: "website unreachable or too little text to summarise" };
-  let raw: string;
+  const site = listing.website ? await fetchSite(listing.website) : null;
+  let raw: unknown;
   try {
-    const response = (await env.AI.run(settings.model as never, { messages: buildPrompt(listing, cityName, pageText), max_tokens: 220 } as never)) as { response?: string };
-    raw = typeof response?.response === "string" ? response.response : "";
+    const response = (await env.AI.run(settings.model as never, {
+      messages: [
+        { role: "system", content: "You write concise, honest business profiles. You never fabricate facts. You reply with pure JSON only." },
+        { role: "user", content: buildPrompt(listing, cityName, site) },
+      ],
+      max_tokens: 600,
+    } as never)) as { response?: unknown };
+    raw = response?.response;
   } catch (error) {
-    return { status: "failed", error: `model call failed: ${error instanceof Error ? error.message : String(error)}` };
+    // A quota outage or model error, not a bad row — abort the whole batch rather
+    // than stamp every remaining row as a failure it never actually attempted.
+    throw new EnrichmentAborted(error instanceof Error ? error.message : String(error));
   }
-  const description = usableDescription(raw);
-  if (!description) return { status: "skipped", error: "model returned nothing usable for this page" };
+  const result = parseModelJson(raw);
+  const newImage = !listing.image_url && site?.ogImage ? site.ogImage : null;
+  if (!result) return { status: "skipped", imageUrl: newImage, error: "model returned nothing usable for this page" };
   if (settings.autoPublish) {
-    await env.DB.prepare("UPDATE listings SET description = ? WHERE slug = ?").bind(description, listing.slug).run();
-    return { status: "published", description };
+    await env.DB.batch([
+      env.DB.prepare("UPDATE listings SET descriptor = ?, description = ?, services = ?, image_url = COALESCE(?, image_url), enriched_at = CURRENT_TIMESTAMP WHERE slug = ?")
+        .bind(result.descriptor, result.description, JSON.stringify(result.services), newImage, listing.slug),
+      env.DB.prepare("UPDATE qh_listings SET descriptor = ?, description = ?, image_url = COALESCE(?, image_url), updated_at = CURRENT_TIMESTAMP WHERE slug = ?")
+        .bind(result.descriptor, result.description, newImage, listing.slug),
+    ]);
+    return { status: "published", result, imageUrl: newImage };
   }
-  return { status: "proposed", description };
+  return { status: "proposed", result, imageUrl: newImage };
 }
 
-/** Runs `workers` at a time over `items`, preserving nothing but completion. */
 async function pool<T>(items: T[], size: number, worker: (item: T) => Promise<void>) {
   let cursor = 0;
   const runners = Array.from({ length: Math.min(size, items.length) }, async () => {
@@ -227,14 +307,16 @@ async function pool<T>(items: T[], size: number, worker: (item: T) => Promise<vo
 }
 
 async function usedToday(env: Env): Promise<number> {
-  const row = await env.DB.prepare("SELECT COUNT(*) AS n FROM qh_enrichment_items WHERE DATE(created_at) = DATE('now')").first<{ n: number }>();
+  const row = await env.DB.prepare(
+    "SELECT (SELECT COUNT(*) FROM qh_enrichment_items WHERE DATE(created_at) = DATE('now')) + (SELECT COUNT(*) FROM listings WHERE DATE(enriched_at) = DATE('now')) AS n",
+  ).first<{ n: number }>();
   return row?.n ?? 0;
 }
 
 /**
  * One batch. Safe to call from the cron handler or from the CMS's "Run now"
- * button; a run always records why it did nothing, so the dashboard never shows
- * an unexplained gap.
+ * button; a run always records why it did nothing, so the dashboard never
+ * shows an unexplained gap.
  */
 export async function runEnrichmentBatch(env: Env, trigger: "cron" | "manual") {
   const settings = await getEnrichmentSettings(env);
@@ -265,41 +347,53 @@ export async function runEnrichmentBatch(env: Env, trigger: "cron" | "manual") {
   const cityNames = new Map(cityRows.results.map(row => [row.slug, row.name]));
 
   const counts = { succeeded: 0, failed: 0, skipped: 0 };
+  let aborted: string | null = null;
   await pool(candidates, settings.concurrency, async listing => {
+    if (aborted) return; // an earlier item already hit a real outage — stop spending on this run
     let outcome: ItemOutcome;
     try {
       outcome = await enrichOne(env, listing, settings, cityNames.get(listing.city_slug) ?? listing.city_slug);
     } catch (error) {
+      if (error instanceof EnrichmentAborted) { aborted = error.message; return; }
       outcome = { status: "failed", error: error instanceof Error ? error.message : String(error) };
     }
     if (outcome.status === "failed") counts.failed++;
     else if (outcome.status === "skipped") counts.skipped++;
     else counts.succeeded++;
-    await env.DB.prepare(
-      "INSERT INTO qh_enrichment_items (run_id, listing_slug, listing_name, status, model, source_url, generated_description, previous_description, error) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    ).bind(runId, listing.slug, listing.name, outcome.status, settings.model, listing.website, outcome.description ?? null, listing.description ?? null, outcome.error ?? null).run();
+    await env.DB.batch([
+      env.DB.prepare(
+        "INSERT INTO qh_enrichment_items (run_id, listing_slug, listing_name, status, model, source_url, generated_description, generated_descriptor, generated_services, generated_image_url, previous_description, error) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      ).bind(
+        runId, listing.slug, listing.name, outcome.status, settings.model, listing.website,
+        outcome.result?.description ?? null, outcome.result?.descriptor ?? null,
+        outcome.result ? JSON.stringify(outcome.result.services) : null, outcome.imageUrl ?? null,
+        listing.description ?? null, outcome.error ?? null,
+      ),
+      // Stamped on every attempt, success or not, so the "unenriched" target never
+      // retries the same stubborn row forever — a real infra outage (aborted below,
+      // not reached here) is the one case that must NOT stamp this.
+      env.DB.prepare("UPDATE listings SET enriched_at = COALESCE(enriched_at, CURRENT_TIMESTAMP) WHERE slug = ?").bind(listing.slug),
+    ]);
   });
 
-  const note = `${counts.succeeded} written, ${counts.skipped} skipped, ${counts.failed} failed.`;
-  await env.DB.prepare("UPDATE qh_enrichment_runs SET status = 'ok', attempted = ?, succeeded = ?, failed = ?, skipped = ?, note = ?, finished_at = CURRENT_TIMESTAMP WHERE id = ?")
-    .bind(candidates.length, counts.succeeded, counts.failed, counts.skipped, note, runId)
+  const note = aborted
+    ? `Stopped after an AI error: ${aborted}. ${counts.succeeded} written, ${counts.skipped} skipped before that.`
+    : `${counts.succeeded} written, ${counts.skipped} skipped, ${counts.failed} failed.`;
+  await env.DB.prepare("UPDATE qh_enrichment_runs SET status = ?, attempted = ?, succeeded = ?, failed = ?, skipped = ?, note = ?, finished_at = CURRENT_TIMESTAMP WHERE id = ?")
+    .bind(aborted ? "error" : "ok", candidates.length, counts.succeeded, counts.failed, counts.skipped, note, runId)
     .run();
-  return { status: "ok" as const, runId, attempted: candidates.length, ...counts, note };
+  return { status: (aborted ? "error" : "ok") as "ok" | "error", runId, attempted: candidates.length, ...counts, note };
 }
 
 /** Everything the CMS panel renders, in one round trip. */
 export async function getEnrichmentStatus(env: Env) {
   const settings = await getEnrichmentSettings(env);
-  const [runs, items, totals, backlog] = await env.DB.batch([
+  const [runs, items, totals, backlog, deepStats] = await env.DB.batch([
     env.DB.prepare("SELECT * FROM qh_enrichment_runs ORDER BY id DESC LIMIT 12"),
-    env.DB.prepare("SELECT id, listing_slug, listing_name, status, source_url, generated_description, error, created_at FROM qh_enrichment_items ORDER BY id DESC LIMIT 40"),
+    env.DB.prepare("SELECT id, listing_slug, listing_name, status, source_url, generated_description, generated_descriptor, generated_services, generated_image_url, error, created_at FROM qh_enrichment_items ORDER BY id DESC LIMIT 40"),
     env.DB.prepare("SELECT status, COUNT(*) AS count FROM qh_enrichment_items GROUP BY status"),
-    env.DB.prepare(
-      `SELECT COUNT(*) AS count FROM listings l
-       WHERE TRIM(COALESCE(l.website, '')) <> ''
-         AND LENGTH(TRIM(COALESCE(l.description, ''))) < ${THIN_DESCRIPTION_CHARS}
-         AND NOT EXISTS (SELECT 1 FROM qh_enrichment_items i WHERE i.listing_slug = l.slug AND i.status IN ('proposed', 'published', 'rejected'))`,
-    ),
+    env.DB.prepare("SELECT COUNT(*) AS count FROM listings WHERE enriched_at IS NULL"),
+    env.DB.prepare("SELECT COUNT(*) AS total, SUM(CASE WHEN enriched_at IS NOT NULL THEN 1 ELSE 0 END) AS done, SUM(CASE WHEN descriptor IS NOT NULL THEN 1 ELSE 0 END) AS withDescriptor FROM listings"),
   ]);
   return {
     settings,
@@ -307,14 +401,17 @@ export async function getEnrichmentStatus(env: Env) {
     usedToday: await usedToday(env),
     backlog: (backlog.results[0] as { count: number } | undefined)?.count ?? 0,
     totals: Object.fromEntries((totals.results as Array<{ status: string; count: number }>).map(row => [row.status, row.count])),
+    directory: deepStats.results[0] as { total: number; done: number; withDescriptor: number } | undefined,
     runs: runs.results,
     items: items.results,
   };
 }
 
-/** Publishes a proposal onto the live listing. */
+/** Publishes a proposal onto the live listing — descriptor, description, services and any new image, together. */
 export async function reviewProposal(env: Env, id: number, decision: "approve" | "reject") {
-  const item = await env.DB.prepare("SELECT listing_slug, generated_description, status FROM qh_enrichment_items WHERE id = ?").bind(id).first<{ listing_slug: string; generated_description: string | null; status: string }>();
+  const item = await env.DB.prepare(
+    "SELECT listing_slug, generated_description, generated_descriptor, generated_services, generated_image_url, status FROM qh_enrichment_items WHERE id = ?",
+  ).bind(id).first<{ listing_slug: string; generated_description: string | null; generated_descriptor: string | null; generated_services: string | null; generated_image_url: string | null; status: string }>();
   if (!item) return { error: "That proposal no longer exists." };
   if (item.status !== "proposed") return { error: `This proposal is already ${item.status}.` };
   if (decision === "reject") {
@@ -323,7 +420,10 @@ export async function reviewProposal(env: Env, id: number, decision: "approve" |
   }
   if (!item.generated_description) return { error: "That proposal has no description to publish." };
   await env.DB.batch([
-    env.DB.prepare("UPDATE listings SET description = ? WHERE slug = ?").bind(item.generated_description, item.listing_slug),
+    env.DB.prepare("UPDATE listings SET description = ?, descriptor = COALESCE(?, descriptor), services = COALESCE(?, services), image_url = COALESCE(?, image_url) WHERE slug = ?")
+      .bind(item.generated_description, item.generated_descriptor, item.generated_services, item.generated_image_url, item.listing_slug),
+    env.DB.prepare("UPDATE qh_listings SET description = ?, descriptor = COALESCE(?, descriptor), image_url = COALESCE(?, image_url), updated_at = CURRENT_TIMESTAMP WHERE slug = ?")
+      .bind(item.generated_description, item.generated_descriptor, item.generated_image_url, item.listing_slug),
     env.DB.prepare("UPDATE qh_enrichment_items SET status = 'published', reviewed_at = CURRENT_TIMESTAMP WHERE id = ?").bind(id),
   ]);
   return { ok: true, status: "published" as const };
@@ -331,12 +431,15 @@ export async function reviewProposal(env: Env, id: number, decision: "approve" |
 
 /** Publishes every outstanding proposal — the bulk path, for once the sample reads well. */
 export async function approveAllProposals(env: Env) {
-  const { results } = await env.DB.prepare("SELECT id, listing_slug, generated_description FROM qh_enrichment_items WHERE status = 'proposed' AND generated_description IS NOT NULL").all<{ id: number; listing_slug: string; generated_description: string }>();
+  const { results } = await env.DB.prepare(
+    "SELECT id, listing_slug, generated_description, generated_descriptor, generated_services, generated_image_url FROM qh_enrichment_items WHERE status = 'proposed' AND generated_description IS NOT NULL",
+  ).all<{ id: number; listing_slug: string; generated_description: string; generated_descriptor: string | null; generated_services: string | null; generated_image_url: string | null }>();
   if (!results.length) return { approved: 0 };
-  for (let index = 0; index < results.length; index += 40) {
-    const slice = results.slice(index, index + 40);
+  for (let index = 0; index < results.length; index += 20) {
+    const slice = results.slice(index, index + 20);
     await env.DB.batch(slice.flatMap(row => [
-      env.DB.prepare("UPDATE listings SET description = ? WHERE slug = ?").bind(row.generated_description, row.listing_slug),
+      env.DB.prepare("UPDATE listings SET description = ?, descriptor = COALESCE(?, descriptor), services = COALESCE(?, services), image_url = COALESCE(?, image_url) WHERE slug = ?")
+        .bind(row.generated_description, row.generated_descriptor, row.generated_services, row.generated_image_url, row.listing_slug),
       env.DB.prepare("UPDATE qh_enrichment_items SET status = 'published', reviewed_at = CURRENT_TIMESTAMP WHERE id = ?").bind(row.id),
     ]));
   }
