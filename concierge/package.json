@@ -1,0 +1,16 @@
+{
+  "name": "concierge-monorepo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "build:quiet-hour": "pnpm --filter @concierge/build run build -- --site sites/quiet-hour --out ../../client/public/concierge"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.1",
+    "esbuild": "^0.24.0",
+    "tsx": "^4.23.13",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.9"
+  }
+}

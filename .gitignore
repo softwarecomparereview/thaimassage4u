@@ -6,6 +6,9 @@
 dist/
 build/
 *.dist
+# concierge/packages/build is a real source package (the concierge-build CLI), not a build
+# output — the blanket build/ rule above catches it by accident on the name alone.
+!concierge/packages/build/
 
 # Environment variables
 .env

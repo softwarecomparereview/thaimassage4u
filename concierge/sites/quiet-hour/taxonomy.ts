@@ -1,0 +1,48 @@
+import type { SiteTaxonomy } from "@concierge/core";
+
+// Copied verbatim from the build brief §4.
+export const taxonomy: SiteTaxonomy = {
+  site: "quiet-hour",
+  placeKey: "city",
+  facets: [
+    {
+      key: "service", label: "Treatment", askAs: "chips", weight: 1.0,
+      values: [
+        { slug: "thai", label: "Traditional Thai", synonyms: ["thai massage", "nuad", "stretching", "traditional"] },
+        { slug: "deep-tissue", label: "Deep tissue", synonyms: ["deep", "sports", "knots", "tension", "back pain", "sore"] },
+        { slug: "oil", label: "Oil / Swedish", synonyms: ["swedish", "relaxation", "oil massage", "aromatherapy", "aroma"] },
+        { slug: "foot", label: "Foot reflexology", synonyms: ["foot", "feet", "reflexology"] },
+        { slug: "head-spa", label: "Head spa", synonyms: ["head spa", "scalp", "hair spa"] },
+        { slug: "hot-stone", label: "Hot stone", synonyms: ["stone", "hot stones"] },
+        { slug: "facial", label: "Facial / skin", synonyms: ["facial", "skin", "skincare", "med spa"] },
+        { slug: "couples", label: "Couples room", synonyms: ["couple", "couples", "two of us", "partner", "anniversary", "date"] },
+        { slug: "prenatal", label: "Prenatal", synonyms: ["pregnant", "pregnancy", "prenatal", "maternity"] },
+      ],
+    },
+    {
+      key: "audience", label: "For", askAs: "chips", weight: 0.8,
+      values: [
+        { slug: "men", label: "Men", synonyms: ["men", "for men", "male", "guys"] },
+        { slug: "women-only", label: "Women only", synonyms: ["women only", "ladies only", "female therapist"] },
+        { slug: "groups", label: "Groups", synonyms: ["group", "hens", "bachelorette", "team"] },
+      ],
+    },
+    {
+      key: "setting", label: "Setting", askAs: "never", weight: 0.5,
+      values: [
+        { slug: "day-spa", label: "Day spa", synonyms: ["day spa", "spa", "sauna", "steam", "jacuzzi"] },
+        { slug: "studio", label: "Studio", synonyms: ["studio", "walk-in", "walk in", "quick"] },
+        { slug: "hotel", label: "Hotel spa", synonyms: ["hotel", "resort", "luxury", "five star"] },
+        { slug: "mobile", label: "Comes to you", synonyms: ["mobile", "home visit", "in-home", "outcall", "at my hotel"] },
+      ],
+    },
+    {
+      key: "budget", label: "Budget", askAs: "chips", weight: 0.6,
+      values: [
+        { slug: "low", label: "Under $80", synonyms: ["cheap", "budget", "affordable", "under 80", "inexpensive"] },
+        { slug: "mid", label: "$80–150", synonyms: ["mid", "reasonable", "normal"] },
+        { slug: "high", label: "Premium", synonyms: ["luxury", "splurge", "high end", "best", "premium", "treat"] },
+      ],
+    },
+  ],
+};

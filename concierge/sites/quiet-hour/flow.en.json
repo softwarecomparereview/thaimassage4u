@@ -1,0 +1,24 @@
+{
+  "greet": [
+    "Hi — I can find you a good match in a few seconds. Where are you looking",
+    "Let's find your place",
+    "Tell me what you're after, or pick a city to start"
+  ],
+  "ask": {
+    "place": { "q": "Which city?" },
+    "service": { "q": "What kind of treatment?", "skip": "Any" },
+    "audience": { "q": "Anything specific — for a group, or women-only?", "skip": "No preference" },
+    "budget": { "q": "Any budget in mind?", "skip": "Doesn't matter" }
+  },
+  "askOrder": ["place", "service", "audience", "budget"],
+  "maxQuestions": 3,
+  "results": {
+    "intro": "Here's what I'd pick:",
+    "more": "A few more:",
+    "refine": "Updated:",
+    "none": "Nothing matches that exactly yet. Try a nearby city, or tell me a bit more.",
+    "near": "Nothing quite like that in {place} — here's what's nearby:"
+  },
+  "featuredLabel": "Featured",
+  "noun": "massage"
+}
