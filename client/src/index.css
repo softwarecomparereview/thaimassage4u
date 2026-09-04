@@ -430,3 +430,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .supply-lang { padding: .38rem .85rem; border: 1px solid var(--border); border-radius: 999px; background: transparent; color: var(--ink); font-size: .78rem; cursor: pointer; transition: background-color 160ms ease; }
 .supply-lang:hover { background: var(--paper-warm); }
 .supply-lang.is-active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+.cms-proposal__descriptor { margin: 0 0 .3rem; font-weight: 500; color: var(--clay); }
+.cms-proposal__services { margin: 0 0 .4rem; font: .68rem var(--font-mono); letter-spacing: .04em; color: #6c7c73; }

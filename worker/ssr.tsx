@@ -98,6 +98,15 @@ export async function serveWorkerPage(request: Request, env: Env) {
   if (isAssetPath(url.pathname)) return env.ASSETS.fetch(request);
   if (url.pathname === "/index.html") return Response.redirect(`${url.origin}/`, 301);
   if (url.pathname !== "/" && /\/+$/u.test(url.pathname)) return Response.redirect(`${url.origin}${url.pathname.replace(/\/+$/u, "")}${url.search}`, 301);
+  // Three journal slugs were imported with literal quote characters (see
+  // worker/migrations/0013_data_fixes.sql) — the quoted URL used to be what
+  // actually resolved, so anything already indexed or bookmarked at that URL
+  // needs a real redirect, not just a fixed database row.
+  const quotedArticle = url.pathname.match(/^\/journal\/(.+)$/);
+  if (quotedArticle && /['"]/.test(quotedArticle[1])) {
+    const clean = quotedArticle[1].replace(/^['"]+|['"]+$/g, "");
+    return Response.redirect(`${url.origin}/journal/${clean}${url.search}`, 301);
+  }
   // This used to render HTML only for requests whose Accept header contained
   // "text/html", or whose user-agent contained the lowercase string "bot".
   // facebookexternalhit, LinkedInBot and Slurp match neither, so every link

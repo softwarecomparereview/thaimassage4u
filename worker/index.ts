@@ -11,7 +11,6 @@ import { handleCreateCampaign, handleSendCampaign, handleListCampaigns, handleLi
 import { processCampaignSend } from "./campaigns";
 import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing, handleClaimSearch } from "./claim";
 import { handleSitemapIndex, handleSitemapStatic, handleSitemapCities, handleSitemapListings, handleSitemapJournal, handleRobotsTxt } from "./sitemap";
-import { enrichBatch, handleEnrichRun, handleEnrichStatus } from "./enrich";
 import { handleSupplies, handleSuppliesSync, handleSupplyClick, handleSupplyClickStats, refreshAliExpressOffers, syncSupplyOffers } from "./supplies";
 import { approveAllProposals, getEnrichmentStatus, reviewProposal, runEnrichmentBatch, updateEnrichmentSettings, type EnrichmentTarget } from "./enrichment";
 import { isPublishStatus, listPublishQueue, setListingStatus, setStatusForFilter, type PublishStatus } from "./publish";
@@ -21,7 +20,7 @@ export interface Env {
   DB: D1Database;
   CACHE: KVNamespace;
   MEDIA: R2Bucket;
-  /** Workers AI — listing enrichment (worker/enrich.ts). */
+  /** Workers AI — listing enrichment. See worker/enrichment.ts. */
   AI: Ai;
   SITE_NAME: string;
   SITE_URL: string;
@@ -172,16 +171,6 @@ app.get("/api/admin/campaigns", async c => {
   const user = await requireAdmin(c);
   if (!user) return c.json({ error: "Unauthorized" }, 401);
   return handleListCampaigns(c.env);
-});
-app.post("/api/admin/enrich", async c => {
-  const user = await requireAdmin(c);
-  if (!user) return c.json({ error: "Unauthorized" }, 401);
-  return handleEnrichRun(c.req.raw, c.env);
-});
-app.get("/api/admin/enrich", async c => {
-  const user = await requireAdmin(c);
-  if (!user) return c.json({ error: "Unauthorized" }, 401);
-  return handleEnrichStatus(c.env);
 });
 app.get("/api/admin/inbox", async c => {
   const user = await requireAdmin(c);
@@ -342,15 +331,13 @@ export default {
   /**
    * wrangler.jsonc has declared cron triggers since the Worker migration, but
    * no scheduled() handler was ever exported — so every firing hit a Worker
-   * that could not answer it. This is that handler. Two enrichment jobs share
-   * the schedule and cannot fight over rows:
-   *  - runEnrichmentBatch: description proposals, CMS-governed (worker/enrichment.ts);
-   *    returns immediately unless an admin has started it in the CMS. Skips
-   *    anything the deep pass already wrote (those descriptions exceed its
-   *    "thin" threshold).
-   *  - enrichBatch: the deep pass (worker/enrich.ts) — descriptor + services +
-   *    og:image + description, stamped via listings.enriched_at, so once the
-   *    backlog is done it selects zero rows and costs nothing.
+   * that could not answer it. This is that handler.
+   *
+   * Enrichment used to be two separate, unreconciled jobs here (worker/enrich.ts
+   * and worker/enrichment.ts, built concurrently on diverged branches and merged
+   * without either side noticing the other existed) racing to enrich the same
+   * rows on the same schedule. They're one engine now — see worker/enrichment.ts
+   * and worker/migrations/0012_enrichment_proposal_fields.sql.
    */
   async scheduled(event: ScheduledController, env: Env, ctx: ExecutionContext) {
     ctx.waitUntil(
@@ -358,7 +345,6 @@ export default {
         .then(result => console.log(`[Worker cron ${event.cron}] enrichment: ${result.status} — ${result.note}`))
         .catch(error => console.error(`[Worker cron ${event.cron}] enrichment failed`, error)),
     );
-    ctx.waitUntil(enrichBatch(env, 15).catch(() => {}));
     // Supplies refresh once a day (the 06:20 firing): AliExpress affiliate offers (primary),
     // then the eBay scan import (supplement) which also starts the next day's scan.
     if (event.cron === "20 6 * * *") {
