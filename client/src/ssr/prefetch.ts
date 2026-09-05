@@ -111,7 +111,7 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
     // Fields the importer has always written but no read query selected, so the
     // structured data was name/url/image plus the same boilerplate descriptor on
     // all 861 pages. `descriptor` is that boilerplate — prefer the real text.
-    const extra = data.listing as unknown as { phone?: string | null; rating?: number | null; reviewCount?: number | null; priceFrom?: number | null; currency?: string | null; lat?: number | null; lon?: number | null };
+    const extra = data.listing as unknown as { phone?: string | null; rating?: number | null; reviewCount?: number | null; priceFrom?: number | null; currency?: string | null; lat?: number | null; lon?: number | null; hours?: string[] | null };
     const jsonLd: Record<string, unknown> = {
       "@context": "https://schema.org",
       "@type": "HealthAndBeautyBusiness",
@@ -126,6 +126,7 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
     if (data.listing.neighbourhood) jsonLd.areaServed = data.listing.neighbourhood;
     if (typeof extra.lat === "number" && typeof extra.lon === "number") jsonLd.geo = { "@type": "GeoCoordinates", latitude: extra.lat, longitude: extra.lon };
     if (extra.rating && extra.reviewCount) jsonLd.aggregateRating = { "@type": "AggregateRating", ratingValue: extra.rating, reviewCount: extra.reviewCount, bestRating: 5 };
+    if (extra.hours?.length) jsonLd.openingHours = extra.hours;
     // BreadcrumbList gives Google the site hierarchy for the "Home > City > Listing" trail in results.
     const breadcrumbs = {
       "@context": "https://schema.org",

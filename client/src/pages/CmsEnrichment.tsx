@@ -25,7 +25,7 @@ type Item = {
 };
 type Status = {
   settings: Settings; models: string[]; usedToday: number; backlog: number; totals: Record<string, number>;
-  directory: { total: number; done: number; withDescriptor: number } | null;
+  directory: { total: number; done: number; withDescriptor: number; withHours: number } | null;
   runs: Run[]; items: Item[];
 };
 
@@ -106,6 +106,8 @@ export default function CmsEnrichment() {
 
       <dl className="cms-stat-row">
         <div><dt>Directory covered</dt><dd>{directory ? `${directory.withDescriptor}/${directory.total}` : "—"}</dd></div>
+        {/* Would have caught the 0017 bug (hours silently destroyed by the AI description rewrite) on day one — see worker/enrichment.ts's getEnrichmentStatus(). */}
+        <div><dt>With hours</dt><dd>{directory ? `${directory.withHours}/${directory.total}` : "—"}</dd></div>
         <div><dt>Backlog</dt><dd>{backlog}</dd></div>
         <div><dt>Awaiting review</dt><dd>{totals.proposed ?? 0}</dd></div>
         <div><dt>Published</dt><dd>{totals.published ?? 0}</dd></div>

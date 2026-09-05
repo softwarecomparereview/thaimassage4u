@@ -1,0 +1,16 @@
+-- listings.hours: opening hours, stored as their own column instead of interpolated into
+-- free-text `description`. The importer used to append "Posted hours: ..." into description
+-- (scripts/import-apify-listings.mjs buildDescription()), but worker/enrichment.ts's AI
+-- rewrite of description then silently destroyed that text on every listing's first
+-- enrichment pass — 0 of 1,564 published listings show hours anywhere today (verified live,
+-- 2026-09-04) despite the scraper (apify-actor/google-maps-scraper/main.js
+-- scrapeOpeningHours()) capturing them since the audit that motivated building that actor.
+-- Giving hours their own column means the AI description rewrite can never touch them again.
+--
+-- Shape: a JSON array of day-strings (e.g. ["Monday, 10 am to 8 pm", "Tuesday, Closed"]),
+-- exactly what scrapeOpeningHours() already returns — the same JSON-array-in-TEXT-column
+-- convention `listings.services` already uses, parsed the same defensive way
+-- parseServices() is. Not a fully structured {mon:{open,close}} schema: Google's copy varies
+-- too much to re-parse reliably ("Closed", "Open 24 hours", German localisations), and this
+-- form maps directly onto schema.org's openingHours property for JSON-LD.
+ALTER TABLE listings ADD COLUMN hours TEXT;

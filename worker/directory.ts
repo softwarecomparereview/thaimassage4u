@@ -36,6 +36,8 @@ type LegacyListing = {
   lon: number | null;
   rating: number | null;
   review_count: number | null;
+  /** JSON array of day-strings from the scraper, e.g. ["Monday, 10 am to 8 pm", ...]. Null until a listing has hours on file. */
+  hours: string | null;
 };
 
 /**
@@ -56,10 +58,21 @@ const category = { id: 1, name: "Massage & wellness", slug: "massage-wellness" }
  * happening again.
  */
 const LISTING_COLUMNS =
-  "id, slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, descriptor, price_from, currency, rating, review_count, premium, claimed, image_url, lat, lon";
+  "id, slug, name, country_code, city_slug, suburb, address, phone, email, website, services, description, descriptor, price_from, currency, rating, review_count, premium, claimed, image_url, lat, lon, hours";
 
 /** Every public read filters on this. See worker/migrations/0010_listing_publish_status.sql. */
 export const PUBLISHED = "status = 'published'";
+
+/** hours is a plain JSON array of day-strings (see 0017_listing_hours.sql) — never guessed if absent or malformed. */
+function parseHours(raw: string | null): string[] | null {
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) && parsed.every(item => typeof item === "string") ? parsed : null;
+  } catch {
+    return null;
+  }
+}
 
 function parseServices(raw: string) {
   try {
@@ -87,6 +100,7 @@ function toPlaceCard(row: LegacyListing, cityName?: string) {
     phone: row.phone,
     rating: row.rating,
     reviewCount: row.review_count,
+    hours: parseHours(row.hours),
     /** Raw `listings.price_from`; unit is unverified in the legacy table and every row is currently NULL, so nothing renders it yet. */
     priceFrom: row.price_from,
     currency: row.currency ?? "USD",
@@ -168,7 +182,7 @@ export async function getListing(env: Env, slug: string) {
     // `listings.premium` is what every public ORDER BY reads, so it is the column
     // that decides placement; the subscription row is the billing record behind it.
     const isPremium = Boolean(listing.premium) || subscribed;
-    return { listing: { id: listing.id, name: listing.name, slug: listing.slug, descriptor: listing.descriptor || "Independently listed wellness place", description: listing.description, neighbourhood: listing.suburb, address: listing.address, phone: listing.phone, bookingUrl: listing.website, contactEmail: listing.email, imageUrl: listing.image_url, rating: listing.rating, reviewCount: listing.review_count, priceFrom: listing.price_from, currency: listing.currency ?? "USD", lat: listing.lat, lon: listing.lon, isPremium, isClaimed: Boolean(listing.claimed) || Boolean(qhListing?.ownerId) }, city: { id: city?.id ?? 0, name: city?.name ?? listing.city_slug, slug: listing.city_slug, country: city?.country_code ?? listing.country_code, countryCode: city?.country_code ?? listing.country_code, primaryLocale: "en", introduction: city?.intro ?? null, isActive: true }, category, services: parseServices(listing.services) };
+    return { listing: { id: listing.id, name: listing.name, slug: listing.slug, descriptor: listing.descriptor || "Independently listed wellness place", description: listing.description, neighbourhood: listing.suburb, address: listing.address, phone: listing.phone, bookingUrl: listing.website, contactEmail: listing.email, imageUrl: listing.image_url, rating: listing.rating, reviewCount: listing.review_count, hours: parseHours(listing.hours), priceFrom: listing.price_from, currency: listing.currency ?? "USD", lat: listing.lat, lon: listing.lon, isPremium, isClaimed: Boolean(listing.claimed) || Boolean(qhListing?.ownerId) }, city: { id: city?.id ?? 0, name: city?.name ?? listing.city_slug, slug: listing.city_slug, country: city?.country_code ?? listing.country_code, countryCode: city?.country_code ?? listing.country_code, primaryLocale: "en", introduction: city?.intro ?? null, isActive: true }, category, services: parseServices(listing.services) };
   } catch {
     return null;
   }

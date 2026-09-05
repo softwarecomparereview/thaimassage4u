@@ -263,6 +263,11 @@ type ItemOutcome = { status: "proposed" | "published" | "failed" | "skipped"; re
 /** Thrown only for a real infrastructure failure (AI call itself rejected) — distinct from a model reply that just didn't parse, which is a normal "skipped". */
 class EnrichmentAborted extends Error {}
 
+// This function may EVER ONLY write descriptor/description/services/image_url. Any other
+// structured column (hours, price_from, phone, rating) must never appear in buildPrompt() or
+// the UPDATE statements below — see 0017_listing_hours.sql for the bug this guards against
+// (the AI description rewrite silently destroyed every listing's scraped hours for its entire
+// life until hours got its own column, undetected because nothing counted it).
 async function enrichOne(env: Env, listing: Candidate, settings: EnrichmentSettings, cityName: string): Promise<ItemOutcome> {
   const site = listing.website ? await fetchSite(listing.website) : null;
   let raw: unknown;
@@ -393,7 +398,9 @@ export async function getEnrichmentStatus(env: Env) {
     env.DB.prepare("SELECT id, listing_slug, listing_name, status, source_url, generated_description, generated_descriptor, generated_services, generated_image_url, error, created_at FROM qh_enrichment_items ORDER BY id DESC LIMIT 40"),
     env.DB.prepare("SELECT status, COUNT(*) AS count FROM qh_enrichment_items GROUP BY status"),
     env.DB.prepare("SELECT COUNT(*) AS count FROM listings WHERE enriched_at IS NULL"),
-    env.DB.prepare("SELECT COUNT(*) AS total, SUM(CASE WHEN enriched_at IS NOT NULL THEN 1 ELSE 0 END) AS done, SUM(CASE WHEN descriptor IS NOT NULL THEN 1 ELSE 0 END) AS withDescriptor FROM listings"),
+    // withHours is the counter that would have caught the 0017 bug (hours silently destroyed by
+    // the description rewrite) on day one instead of it sitting at 0/1564 unnoticed indefinitely.
+    env.DB.prepare("SELECT COUNT(*) AS total, SUM(CASE WHEN enriched_at IS NOT NULL THEN 1 ELSE 0 END) AS done, SUM(CASE WHEN descriptor IS NOT NULL THEN 1 ELSE 0 END) AS withDescriptor, SUM(CASE WHEN hours IS NOT NULL THEN 1 ELSE 0 END) AS withHours FROM listings"),
   ]);
   return {
     settings,
@@ -401,7 +408,7 @@ export async function getEnrichmentStatus(env: Env) {
     usedToday: await usedToday(env),
     backlog: (backlog.results[0] as { count: number } | undefined)?.count ?? 0,
     totals: Object.fromEntries((totals.results as Array<{ status: string; count: number }>).map(row => [row.status, row.count])),
-    directory: deepStats.results[0] as { total: number; done: number; withDescriptor: number } | undefined,
+    directory: deepStats.results[0] as { total: number; done: number; withDescriptor: number; withHours: number } | undefined,
     runs: runs.results,
     items: items.results,
   };

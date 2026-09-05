@@ -157,6 +157,16 @@ async function scrapeHeroImage(page) {
   return url.replace(/=w\d+-h\d+[^=]*$/, "=w800-h600-k-no");
 }
 
+/** Extracted out of scrapePlaceDetail so the image/hours backfill mode can reuse it without opening a second page for the same fact. */
+async function scrapePhone(page) {
+  const phoneEl = page.locator('button[data-item-id^="phone:tel:"]').first();
+  if (!(await phoneEl.count())) return null;
+  const phone = cleanText(await phoneEl.innerText({ timeout: 3000 }).catch(() => ""));
+  if (phone) return phone;
+  const itemId = await phoneEl.getAttribute("data-item-id").catch(() => null);
+  return itemId ? decodeURIComponent(itemId.replace("phone:tel:", "")) : null;
+}
+
 async function scrapePlaceDetail(context, url) {
   const page = await context.newPage();
   try {
@@ -180,15 +190,7 @@ async function scrapePlaceDetail(context, url) {
     const reviewsCount = reviewsMatch ? Number(reviewsMatch[1].replace(/[.,]/g, "")) : null;
 
     const address = await textOf(page, 'button[data-item-id="address"]');
-    const phoneEl = page.locator('button[data-item-id^="phone:tel:"]').first();
-    let phone = null;
-    if (await phoneEl.count()) {
-      phone = cleanText(await phoneEl.innerText({ timeout: 3000 }).catch(() => ""));
-      if (!phone) {
-        const itemId = await phoneEl.getAttribute("data-item-id").catch(() => null);
-        phone = itemId ? decodeURIComponent(itemId.replace("phone:tel:", "")) : null;
-      }
-    }
+    const phone = await scrapePhone(page);
     const websiteEl = page.locator('a[data-item-id="authority"]').first();
     const website = (await websiteEl.count()) ? await websiteEl.getAttribute("href").catch(() => null) : null;
 
@@ -300,10 +302,16 @@ async function run() {
 
   // Image backfill mode: input.imageBackfill = [{slug, cid?, query?}] — for each
   // existing listing, open its Google Maps place page (by cid when we stored a
-  // place_id, else first result of a name+city search) and pull only the hero
-  // photo. Output rows: {slug, imageUrl}. Exists because ~800 already-imported
-  // listings have no photo: their own sites carry no og:image, but nearly every
-  // place has a Google hero photo the detail scraper already knows how to read.
+  // place_id, else first result of a name+city search) and pull the hero photo,
+  // opening hours and phone off that same already-open page — one page visit,
+  // three facts. Output rows: {slug, imageUrl, openingHours, phone}, each present
+  // only when actually found (scripts/backfill-images.mjs writes each column
+  // independently and only when the existing value is NULL, so a row missing one
+  // fact doesn't block writing the others). Exists because ~800 already-imported
+  // listings have no photo (their own sites carry no og:image), and separately
+  // every published listing has no hours on file at all (see 0017_listing_hours.sql)
+  // — but nearly every place has all three on Google, which the detail scraper
+  // already knows how to read.
   if (Array.isArray(input.imageBackfill) && input.imageBackfill.length) {
     const browser2 = await chromium.launch({ headless: true, args: ["--disable-blink-features=AutomationControlled", "--disable-dev-shm-usage", "--no-sandbox"] });
     const context2 = await browser2.newContext({ userAgent: UA, viewport: { width: 1366, height: 900 }, locale: "en" });
@@ -325,7 +333,12 @@ async function run() {
           }
         }
         const imageUrl = await scrapeHeroImage(page);
-        if (imageUrl) { await Actor.pushData({ slug: item.slug, imageUrl }); found++; }
+        const openingHours = await scrapeOpeningHours(page);
+        const phone = await scrapePhone(page);
+        if (imageUrl || openingHours || phone) {
+          await Actor.pushData({ slug: item.slug, ...(imageUrl ? { imageUrl } : {}), ...(openingHours ? { openingHours } : {}), ...(phone ? { phone } : {}) });
+          found++;
+        }
       } catch (error) {
         log(`  image backfill failed for ${item.slug}: ${error.message}`);
       } finally {
