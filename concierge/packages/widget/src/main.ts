@@ -4,7 +4,7 @@
 // at the bottom, which only wires event listeners eagerly.
 
 import {
-  openGreeting, step, stepAsync,
+  openGreeting, parse, step, stepAsync,
   type DialogDeps, type DialogInput, type DialogState, type Flow, type IndexListing,
   type IndexManifest, type PageContext, type Scored, type SiteTaxonomy,
 } from "@concierge/core";
@@ -362,11 +362,25 @@ class ConciergeWidget {
     if (!this.state) return;
     if (input.kind === "chip" && input.slotKey === "place" && input.value) await this.ensurePlaceLoaded(input.value);
     if (input.kind === "text" && input.value) {
-      const place = this.state.slots.place;
-      if (place) await this.ensurePlaceLoaded(place);
+      const knownPlace = this.state.slots.place;
+      if (knownPlace) {
+        await this.ensurePlaceLoaded(knownPlace);
+      } else if (this.manifest) {
+        // A place named for the first time lives only in this text, not yet in state — the old
+        // code only checked the ALREADY-known place here, then loaded the newly-found one only
+        // AFTER stepAsync had already run the dialog engine against an empty (not-yet-fetched)
+        // shard. listingsForPlace() returned [] for it, so the ranker and relaxation ladder both
+        // correctly found nothing and rendered "Nothing matches that exactly yet" for a real,
+        // populated city — reproduced and confirmed before this fix. Parsing here first (a pure,
+        // synchronous, cheap call — re-parsed again inside step()/stepAsync, which is fine) means
+        // the shard is in cache before the dialog engine ever looks for it.
+        const preview = parse(input.value, this.manifest, { pagePlace: this.state.slots.place, near: this.state.slots.near });
+        if (preview.slots.place) await this.ensurePlaceLoaded(preview.slots.place);
+      }
     }
     const result = await stepAsync(this.state, input, this.deps());
-    // A place chosen via free text needs its shard loaded before results render correctly.
+    // Belt-and-braces: covers any other path (e.g. a future hybrid-LLM-resolved place) that
+    // still lands on a place the block above didn't anticipate.
     if (result.state.slots.place && result.state.slots.place !== this.state.slots.place) {
       await this.ensurePlaceLoaded(result.state.slots.place);
     }
