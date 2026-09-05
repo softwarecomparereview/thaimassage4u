@@ -13,6 +13,7 @@ import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdat
 import { handleSitemapIndex, handleSitemapStatic, handleSitemapCities, handleSitemapListings, handleSitemapJournal, handleRobotsTxt } from "./sitemap";
 import { handleConciergeEvent, handleConciergeParse } from "./concierge";
 import { handleSupplies, handleSuppliesSync, handleSupplyClick, handleSupplyClickStats, refreshAliExpressOffers, syncSupplyOffers } from "./supplies";
+import { handleListingClick, handleListingClickStats } from "./outbound";
 import { approveAllProposals, getEnrichmentStatus, reviewProposal, runEnrichmentBatch, updateEnrichmentSettings, type EnrichmentTarget } from "./enrichment";
 import { isPublishStatus, listPublishQueue, setListingStatus, setStatusForFilter, type PublishStatus } from "./publish";
 
@@ -41,6 +42,8 @@ export interface Env {
   ALIEXPRESS_APP_KEY?: string;
   ALIEXPRESS_APP_SECRET?: string;
   ALIEXPRESS_TRACKING_ID?: string;
+  /** Amazon Associates tracking tag — unset today, so /supplies' Amazon compare links are real, working search links with no commission tag appended. Set this the day an Amazon Associates account exists and every existing link starts earning with no other code change (see amazonCompareUrl() in worker/supplies.ts). */
+  AMAZON_ASSOCIATES_TAG?: string;
   /** Email overflow providers (worker/email.ts) — free tiers stacked on top of Cloudflare's daily quota. */
   RESEND_API_KEY?: string;
   BREVO_API_KEY?: string;
@@ -208,6 +211,12 @@ app.get("/supplies", c => {
   return c.redirect(`${destination ?? "/au"}/supplies`, 302);
 });
 app.get("/api/supplies/go", c => handleSupplyClick(c.req.raw, c.env));
+app.get("/api/directory/go", c => handleListingClick(c.req.raw, c.env));
+app.get("/api/admin/listing-clicks", async c => {
+  const user = await requireAdmin(c);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleListingClickStats(c.env);
+});
 app.post("/api/admin/supplies/sync", async c => {
   const user = await requireAdmin(c);
   if (!user) return c.json({ error: "Unauthorized" }, 401);

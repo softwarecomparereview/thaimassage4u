@@ -69,7 +69,10 @@ async function renderPublicBody(rawPath: string, env: Env) {
       detail.listing.address ? `<li>${escape(String(detail.listing.address))}</li>` : "",
       detail.listing.phone ? `<li><a href="tel:${escape(String(detail.listing.phone).replace(/[^+\d]/g, ""))}">${escape(String(detail.listing.phone))}</a></li>` : "",
       detail.listing.rating ? `<li>Rated ${escape(String(detail.listing.rating))} out of 5${detail.listing.reviewCount ? ` from ${escape(String(detail.listing.reviewCount))} Google reviews` : ""}</li>` : "",
-      detail.listing.bookingUrl ? `<li><a href="${escape(String(detail.listing.bookingUrl))}" rel="nofollow noreferrer">Visit website</a></li>` : "",
+      // Routed through the tracked redirect (worker/outbound.ts) — same link a hydrated client
+      // renders (client/src/pages/ListingDetail.tsx) — so a crawler that never executes JS still
+      // only ever sees the trackable URL, not the bare bookingUrl.
+      detail.listing.bookingUrl ? `<li><a href="/api/directory/go?slug=${escape(listingMatch[1])}" rel="nofollow noreferrer">Visit website</a></li>` : "",
     ].join("");
     return `<main class="worker-ssr"><nav><a href="/">Quiet Hour</a><a href="/directory">Explore</a></nav><article><h1>${escape(detail.listing.name)}</h1><p>${escape(String(detail.listing.description ?? detail.listing.descriptor ?? ""))}</p><p><a href="/city/${escape(detail.city.slug)}">${escape(String(detail.city.name))}</a></p><ul>${facts}</ul><ul>${detail.services.map(item => `<li>${escape(item.title)}</li>`).join("")}</ul></article></main>`;
   }

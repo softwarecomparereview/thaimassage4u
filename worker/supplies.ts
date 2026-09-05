@@ -51,6 +51,23 @@ function aliexpressCompareUrl(country: string, key: string): string | null {
   return destination;
 }
 
+/** Amazon has no real storefront for nz/ie/ae, so those countries get no Amazon compare link
+ * rather than one pointed at the wrong marketplace. */
+const AMAZON_DOMAIN: Record<string, string> = { us: "amazon.com", uk: "amazon.co.uk", au: "amazon.com.au", de: "amazon.de", ca: "amazon.ca" };
+
+/** Reuses the same curated categories AliExpress already compares against — no new product
+ * list to maintain. AMAZON_ASSOCIATES_TAG is unset today, so this returns a real, working Amazon
+ * search link with no commission tag; the day a real Associates account exists, setting that one
+ * secret makes every existing link start earning with no further code change. */
+function amazonCompareUrl(env: Env, country: string, key: string): string | null {
+  const domain = AMAZON_DOMAIN[country];
+  const category = ALIEXPRESS_COMPARE.find(c => c.key === key);
+  if (!domain || !category) return null;
+  const params = new URLSearchParams({ k: category.query.en });
+  if (env.AMAZON_ASSOCIATES_TAG) params.set("tag", env.AMAZON_ASSOCIATES_TAG);
+  return `https://www.${domain}/s?${params.toString()}`;
+}
+
 type ScannerOffer = {
   country: string;
   categoryKey: string;
@@ -232,16 +249,16 @@ export async function handleSupplies(request: Request, env: Env) {
     "SELECT id, category_key AS categoryKey, category_label AS categoryLabel, title, price, shipping, total, currency, free_shipping AS freeShipping, url, image, supplier, fetched_at AS fetchedAt FROM qh_supply_offers WHERE country = ? ORDER BY category_key, total LIMIT 240",
   ).bind(country).all<{ id: number; categoryKey: string; categoryLabel: string; title: string; price: number; shipping: number | null; total: number; currency: string; freeShipping: number; url: string; image: string | null; supplier: string; fetchedAt: string }>();
 
-  const categories: Record<string, { key: string; label: string; compareUrl: string | null; offers: unknown[] }> = {};
+  const categories: Record<string, { key: string; label: string; compareUrl: string | null; amazonUrl: string | null; offers: unknown[] }> = {};
   for (const { key, label } of ALIEXPRESS_COMPARE) {
-    categories[key] = { key, label, compareUrl: aliexpressCompareUrl(country, key), offers: [] };
+    categories[key] = { key, label, compareUrl: aliexpressCompareUrl(country, key), amazonUrl: amazonCompareUrl(env, country, key), offers: [] };
   }
   // Both suppliers now hold rows for the same country+category, so take the six cheapest across
   // the two rather than every row — the query is already ordered by category then total, so the
   // first six of each bucket are the cheapest six regardless of which source they came from.
   const OFFERS_PER_CATEGORY = 6;
   for (const row of results) {
-    const bucket = (categories[row.categoryKey] ??= { key: row.categoryKey, label: row.categoryLabel, compareUrl: aliexpressCompareUrl(country, row.categoryKey), offers: [] });
+    const bucket = (categories[row.categoryKey] ??= { key: row.categoryKey, label: row.categoryLabel, compareUrl: aliexpressCompareUrl(country, row.categoryKey), amazonUrl: amazonCompareUrl(env, country, row.categoryKey), offers: [] });
     if (bucket.offers.length >= OFFERS_PER_CATEGORY) continue;
     bucket.offers.push({ ...row, freeShipping: Boolean(row.freeShipping) });
   }
