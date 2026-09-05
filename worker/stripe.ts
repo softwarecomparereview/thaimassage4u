@@ -71,12 +71,6 @@ export async function createPremiumCheckout(env: Env, input: { listingId: number
     customer_email: input.customerEmail || undefined,
     client_reference_id: input.userId ? input.userId.toString() : undefined,
     allow_promotion_codes: true,
-    // Without this, Stripe Checkout defaults to card only. This turns on every wallet Stripe can
-    // offer for the buyer's device/browser/region (Apple Pay, Google Pay, Link) with zero
-    // pricing or backend risk — same amount, same currency, just fewer taps to pay on a phone,
-    // which is exactly how the "book/buy on a phone between meetings" pattern in the site's own
-    // country guides shows up.
-    automatic_payment_methods: { enabled: true },
     metadata: { listing_id: input.listingId.toString(), tier: input.tier },
     line_items: [{ price_data: { currency: "usd", product_data: { name: plan.label, description: plan.description }, unit_amount: plan.amount, recurring: { interval: plan.interval, interval_count: 1 } }, quantity: 1 }],
     success_url: `${input.origin}/listing/${input.listingSlug}?premium=success`,
