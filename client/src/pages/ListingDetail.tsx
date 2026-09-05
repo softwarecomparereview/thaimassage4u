@@ -1,7 +1,8 @@
 import { Concierge } from "@/components/Concierge";
 import { SiteFooter, SiteHeader } from "@/components/SiteFrame";
+import { langForCountry, STRINGS, type Lang } from "@/lib/i18n";
 import { trpc } from "@/lib/trpc";
-import { formatPremiumPrice, PREMIUM_TIERS } from "@shared/pricing";
+import { formatPremiumPrice } from "@shared/pricing";
 import { ArrowUpRight, CalendarCheck2, KeyRound, Mail, MapPin, Phone, Send, Sparkles, Star } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -11,12 +12,20 @@ import { Link, useLocation, useRoute, useSearch } from "wouter";
  * Prices come from shared/pricing.ts. They were previously hard-coded here as
  * $9/$49 while /list-your-place advertised $21/$159 — two public prices for the
  * same product, and only one of them was what Stripe charged.
+ *
+ * Tier labels are localized client-side (STRINGS[lang].premiumBox.tierLabels) — the tier CODE
+ * ("city"/"country") sent to Stripe never changes, only the on-screen text. shared/pricing.ts's
+ * own labels stay English-only on purpose: they also name the Stripe product/line-item, which
+ * this session deliberately leaves untouched rather than risk drifting from what Stripe's own
+ * dashboard shows for reconciliation.
  */
-const CHECKOUT_TIERS = (["city", "country"] as const).map(tier => ({
-  tier,
-  label: PREMIUM_TIERS[tier].label,
-  price: formatPremiumPrice(tier),
-}));
+function checkoutTiers(lang: Lang) {
+  return (["city", "country"] as const).map(tier => ({
+    tier,
+    label: STRINGS[lang].premiumBox.tierLabels[tier],
+    price: formatPremiumPrice(tier),
+  }));
+}
 
 /**
  * Buy premium placement for THIS listing with no account and no claim
@@ -24,8 +33,10 @@ const CHECKOUT_TIERS = (["city", "country"] as const).map(tier => ({
  * hands the browser off to Stripe. Anyone who can see this listing page
  * (e.g. via an emailed link) can pay for it directly.
  */
-function PremiumPlacementBox({ slug }: { slug: string }) {
+function PremiumPlacementBox({ slug, lang }: { slug: string; lang: Lang }) {
   const [pending, setPending] = useState<"city" | "country" | null>(null);
+  const t = STRINGS[lang].premiumBox;
+  const tiers = checkoutTiers(lang);
 
   async function buy(tier: "city" | "country") {
     setPending(tier);
@@ -37,30 +48,30 @@ function PremiumPlacementBox({ slug }: { slug: string }) {
       });
       const body: { checkoutUrl?: string; error?: string } = await response.json().catch(() => ({}));
       if (!response.ok || !body.checkoutUrl) {
-        toast.error(body.error ?? "Couldn't start checkout — please try again.");
+        toast.error(body.error ?? t.checkoutError);
         return;
       }
       window.location.href = body.checkoutUrl;
     } catch {
-      toast.error("Couldn't start checkout — please try again.");
+      toast.error(t.checkoutError);
       setPending(null);
     }
   }
 
   return (
     <aside className="premium-box">
-      <p className="eyebrow"><Sparkles size={14} /> Premium placement</p>
-      <h2>Get this listing seen first.</h2>
-      <p>No account needed — pay once and it's live.</p>
+      <p className="eyebrow"><Sparkles size={14} /> {t.eyebrow}</p>
+      <h2>{t.headline}</h2>
+      <p>{t.subhead}</p>
       <div className="premium-box__tiers">
-        {CHECKOUT_TIERS.map(option => (
+        {tiers.map(option => (
           <button key={option.tier} type="button" className="premium-box__tier" disabled={pending !== null} onClick={() => buy(option.tier)}>
             <span>{option.label}</span>
-            <strong>{pending === option.tier ? "Redirecting…" : option.price}</strong>
+            <strong>{pending === option.tier ? t.redirecting : option.price}</strong>
           </button>
         ))}
       </div>
-      <span className="premium-box__note">Cancel anytime. Billed securely by Stripe.</span>
+      <span className="premium-box__note">{t.note}</span>
     </aside>
   );
 }
@@ -72,13 +83,14 @@ function PremiumPlacementBox({ slug }: { slug: string }) {
  * on file for the listing (see worker/claim.ts), so successfully entering
  * it is proof of ownership, not just proof of knowing the listing's slug.
  */
-function ClaimListingBox({ slug }: { slug: string }) {
+function ClaimListingBox({ slug, lang }: { slug: string; lang: Lang }) {
   const [, navigate] = useLocation();
   const [step, setStep] = useState<"start" | "code">("start");
   const [channel, setChannel] = useState<"email" | "sms">("email");
   const [maskedAddress, setMaskedAddress] = useState("");
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
+  const t = STRINGS[lang].claimBox;
 
   async function sendCode(pickedChannel: "email" | "sms") {
     setChannel(pickedChannel);
@@ -86,12 +98,12 @@ function ClaimListingBox({ slug }: { slug: string }) {
     try {
       const response = await fetch("/api/claim/start", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ listingSlug: slug, channel: pickedChannel }) });
       const body: { maskedAddress?: string; error?: string } = await response.json().catch(() => ({}));
-      if (!response.ok) { toast.error(body.error ?? "Couldn't send a code — please try again."); return; }
+      if (!response.ok) { toast.error(body.error ?? t.sendError); return; }
       setMaskedAddress(body.maskedAddress ?? "");
       setStep("code");
-      toast.success(`Code sent — check ${pickedChannel === "email" ? "your email" : "your phone"}.`);
+      toast.success(t.sendSuccess(pickedChannel));
     } catch {
-      toast.error("Couldn't send a code — please try again.");
+      toast.error(t.sendError);
     } finally {
       setBusy(false);
     }
@@ -103,11 +115,11 @@ function ClaimListingBox({ slug }: { slug: string }) {
     try {
       const response = await fetch("/api/claim/verify", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ listingSlug: slug, channel, code }) });
       const body: { success?: boolean; error?: string } = await response.json().catch(() => ({}));
-      if (!response.ok || !body.success) { toast.error(body.error ?? "That code didn't work — please try again."); return; }
-      toast.success("Listing claimed — you're logged in.");
+      if (!response.ok || !body.success) { toast.error(body.error ?? t.verifyError); return; }
+      toast.success(t.verifySuccess);
       navigate("/my-listing");
     } catch {
-      toast.error("Something went wrong — please try again.");
+      toast.error(t.genericError);
     } finally {
       setBusy(false);
     }
@@ -115,24 +127,24 @@ function ClaimListingBox({ slug }: { slug: string }) {
 
   return (
     <aside className="premium-box">
-      <p className="eyebrow"><KeyRound size={14} /> Own this place?</p>
-      <h2>Claim this listing.</h2>
+      <p className="eyebrow"><KeyRound size={14} /> {t.eyebrow}</p>
+      <h2>{t.headline}</h2>
       {step === "start" ? (
         <>
-          <p>We'll text or email a one-time code to the contact details already on file.</p>
+          <p>{t.startIntro}</p>
           <div className="premium-box__tiers">
-            <button type="button" className="premium-box__tier" disabled={busy} onClick={() => sendCode("email")}><span>Email me a code</span></button>
-            <button type="button" className="premium-box__tier" disabled={busy} onClick={() => sendCode("sms")}><span>Text me a code</span></button>
+            <button type="button" className="premium-box__tier" disabled={busy} onClick={() => sendCode("email")}><span>{t.emailButton}</span></button>
+            <button type="button" className="premium-box__tier" disabled={busy} onClick={() => sendCode("sms")}><span>{t.smsButton}</span></button>
           </div>
         </>
       ) : (
         <form onSubmit={verify}>
-          <p>Enter the code sent to {maskedAddress}.</p>
-          <input required inputMode="numeric" maxLength={6} placeholder="6-digit code" value={code} onChange={event => setCode(event.target.value)} />
-          <button className="dark-button" type="submit" disabled={busy || code.length < 6}>{busy ? "Verifying…" : "Verify & claim"}</button>
+          <p>{t.codeIntro(maskedAddress)}</p>
+          <input required inputMode="numeric" maxLength={6} placeholder={t.codePlaceholder} value={code} onChange={event => setCode(event.target.value)} />
+          <button className="dark-button" type="submit" disabled={busy || code.length < 6}>{busy ? t.verifying : t.verifyButton}</button>
         </form>
       )}
-      <span className="premium-box__note">One listing per code. No password to remember.</span>
+      <span className="premium-box__note">{t.note}</span>
     </aside>
   );
 }
@@ -155,6 +167,7 @@ export default function ListingDetail() {
   if (isLoading) return <><SiteHeader /><main className="route-loading">Loading listing…</main></>;
   if (error || !data) return <><SiteHeader /><main className="route-loading"><p className="eyebrow">Directory listing</p><h1>This place is not currently available.</h1><Link href="/directory" className="text-link">Return to the directory <ArrowUpRight size={16} /></Link></main><SiteFooter /></>;
   const { listing, city, category, services } = data;
+  const lang = langForCountry(city.countryCode);
   // isPremium/isClaimed only exist on the deployed Worker's tRPC response (worker/directory.ts) —
   // the dev-only Node/Drizzle server this file's types are inferred from (server/routers/directory.ts) predates them.
   const extra = listing as unknown as { isPremium?: boolean; isClaimed?: boolean; phone?: string | null; rating?: number | null; reviewCount?: number | null };
@@ -169,6 +182,6 @@ export default function ListingDetail() {
   const isClaimed = Boolean(extra.isClaimed);
   return <><Concierge /><SiteHeader /><main>
     <section className="listing-hero"><div className="listing-hero__image" style={listing.imageUrl ? { backgroundImage: `url(${listing.imageUrl})` } : undefined}><span>{category.name}</span></div><div className="listing-hero__copy"><p className="eyebrow">{city.name} / {category.name}</p><h1>{listing.name}</h1>{isPremium && <p className="listing-featured-flag">Featured — this studio pays for placement</p>}<p className="listing-descriptor">{listing.descriptor || "An independently listed wellness place."}</p><p>{listing.description || "This profile is being thoughtfully completed by its owner."}</p><div className="listing-meta">{listing.neighbourhood && <span><MapPin size={16} />{listing.neighbourhood}</span>}{extra.rating ? <span><Star size={16} />{extra.rating.toFixed(1)}{extra.reviewCount ? ` · ${extra.reviewCount} Google reviews` : ""}</span> : null}{extra.phone && <a href={`tel:${extra.phone.replace(/[^+\d]/g, "")}`}><Phone size={16} /> {extra.phone}</a>}{listing.bookingUrl && <a href={`/api/directory/go?slug=${encodeURIComponent(slug)}`} target="_blank" rel="noreferrer"><CalendarCheck2 size={16} /> Book direct <ArrowUpRight size={15} /></a>}</div></div></section>
-    <section className="listing-content-grid"><div><p className="eyebrow">The treatment list</p><h2>What you can book</h2><div className="service-list">{services.length ? services.map((service: any) => <article key={service.id}><div><h3>{service.title}</h3><p>{service.description}</p></div><div><span>{service.durationMinutes ? `${service.durationMinutes} min` : "By consultation"}</span>{service.priceFromCents ? <strong>from ${(service.priceFromCents / 100).toFixed(0)}</strong> : null}</div></article>) : <p className="subtle-copy">The studio’s service list is being added.</p>}</div></div><div className="listing-sidebar">{!isClaimed && <ClaimListingBox slug={listing.slug} />}<aside className="inquiry-box"><p className="eyebrow">Ask the desk</p><h2>A human introduction is a good place to start.</h2><form onSubmit={submit}><input required placeholder="Your name" value={form.name} onChange={event => setForm({ ...form, name: event.target.value })} /><input required type="email" placeholder="Email address" value={form.email} onChange={event => setForm({ ...form, email: event.target.value })} /><input placeholder="Phone, if you prefer" value={form.phone} onChange={event => setForm({ ...form, phone: event.target.value })} /><textarea required minLength={12} placeholder="Tell us what you are looking for" value={form.message} onChange={event => setForm({ ...form, message: event.target.value })} /><label className="consent-row"><input type="checkbox" checked={form.consentEmail} onChange={event => setForm({ ...form, consentEmail: event.target.checked })} /> I’m happy to hear from Quiet Hour by email.</label><label className="consent-row"><input type="checkbox" checked={form.consentSms} onChange={event => setForm({ ...form, consentSms: event.target.checked })} /> I’m happy to hear from Quiet Hour by SMS.</label><button className="dark-button" disabled={inquiry.isPending}>{inquiry.isPending ? "Sending…" : <><Send size={16} /> Send inquiry</>}</button></form><span className="inquiry-note"><Mail size={14} /> Consent is optional and recorded separately for each channel.</span></aside>{!isPremium && <PremiumPlacementBox slug={listing.slug} />}</div></section>
+    <section className="listing-content-grid"><div><p className="eyebrow">The treatment list</p><h2>What you can book</h2><div className="service-list">{services.length ? services.map((service: any) => <article key={service.id}><div><h3>{service.title}</h3><p>{service.description}</p></div><div><span>{service.durationMinutes ? `${service.durationMinutes} min` : "By consultation"}</span>{service.priceFromCents ? <strong>from ${(service.priceFromCents / 100).toFixed(0)}</strong> : null}</div></article>) : <p className="subtle-copy">The studio’s service list is being added.</p>}</div></div><div className="listing-sidebar">{!isClaimed && <ClaimListingBox slug={listing.slug} lang={lang} />}<aside className="inquiry-box"><p className="eyebrow">Ask the desk</p><h2>A human introduction is a good place to start.</h2><form onSubmit={submit}><input required placeholder="Your name" value={form.name} onChange={event => setForm({ ...form, name: event.target.value })} /><input required type="email" placeholder="Email address" value={form.email} onChange={event => setForm({ ...form, email: event.target.value })} /><input placeholder="Phone, if you prefer" value={form.phone} onChange={event => setForm({ ...form, phone: event.target.value })} /><textarea required minLength={12} placeholder="Tell us what you are looking for" value={form.message} onChange={event => setForm({ ...form, message: event.target.value })} /><label className="consent-row"><input type="checkbox" checked={form.consentEmail} onChange={event => setForm({ ...form, consentEmail: event.target.checked })} /> I’m happy to hear from Quiet Hour by email.</label><label className="consent-row"><input type="checkbox" checked={form.consentSms} onChange={event => setForm({ ...form, consentSms: event.target.checked })} /> I’m happy to hear from Quiet Hour by SMS.</label><button className="dark-button" disabled={inquiry.isPending}>{inquiry.isPending ? "Sending…" : <><Send size={16} /> Send inquiry</>}</button></form><span className="inquiry-note"><Mail size={14} /> Consent is optional and recorded separately for each channel.</span></aside>{!isPremium && <PremiumPlacementBox slug={listing.slug} lang={lang} />}</div></section>
   </main><SiteFooter /></>;
 }

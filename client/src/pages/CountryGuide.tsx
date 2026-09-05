@@ -1,6 +1,7 @@
 import { DirectoryPlaceCard } from "@/components/DirectoryPlaceCard";
 import { SiteFooter, SiteHeader } from "@/components/SiteFrame";
 import { COUNTRIES, setCountryChoice } from "@/lib/country";
+import { langForCountry, STRINGS } from "@/lib/i18n";
 import { trpc } from "@/lib/trpc";
 import { ArrowUpRight, KeyRound, MapPinned } from "lucide-react";
 import { Link, useRoute } from "wouter";
@@ -53,6 +54,6 @@ export default function CountryGuide() {
       </div>
     </section>
 
-    <section className="claim-cta"><KeyRound size={22} /><div><h2>See your business here?</h2><p>Claim your listing in {country.name} to keep it up to date — no account to set up, just a one-time code to the contact details already on file.</p></div><Link href={`/claim?country=${country.code}`} className="dark-button">Claim your listing <ArrowUpRight size={16} /></Link></section>
+    <section className="claim-cta"><KeyRound size={22} /><div><h2>{STRINGS[langForCountry(country.code)].claimCta.headline}</h2><p>{STRINGS[langForCountry(country.code)].claimCta.bodyCountry(country.name)}</p></div><Link href={`/claim?country=${country.code}`} className="dark-button">{STRINGS[langForCountry(country.code)].claimCta.button} <ArrowUpRight size={16} /></Link></section>
   </main><SiteFooter /></>;
 }
