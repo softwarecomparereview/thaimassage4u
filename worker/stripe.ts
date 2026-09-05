@@ -71,6 +71,12 @@ export async function createPremiumCheckout(env: Env, input: { listingId: number
     customer_email: input.customerEmail || undefined,
     client_reference_id: input.userId ? input.userId.toString() : undefined,
     allow_promotion_codes: true,
+    // Without this, Stripe Checkout defaults to card only. This turns on every wallet Stripe can
+    // offer for the buyer's device/browser/region (Apple Pay, Google Pay, Link) with zero
+    // pricing or backend risk — same amount, same currency, just fewer taps to pay on a phone,
+    // which is exactly how the "book/buy on a phone between meetings" pattern in the site's own
+    // country guides shows up.
+    automatic_payment_methods: { enabled: true },
     metadata: { listing_id: input.listingId.toString(), tier: input.tier },
     line_items: [{ price_data: { currency: "usd", product_data: { name: plan.label, description: plan.description }, unit_amount: plan.amount, recurring: { interval: plan.interval, interval_count: 1 } }, quantity: 1 }],
     success_url: `${input.origin}/listing/${input.listingSlug}?premium=success`,
@@ -86,11 +92,39 @@ export async function createPremiumCheckout(env: Env, input: { listingId: number
  * listing page (or a link in an announcement email) without creating an
  * account or claiming anything first.
  */
+/**
+ * qh_listings is a separate, older mirror of the real `listings` table (see worker/directory.ts's
+ * header comment) that stopped tracking new imports after a one-time sync — 407 of 1,564
+ * published listings (26%) had no row there at all, so the buy button on every one of those
+ * pages 404'd with "That listing isn't in the directory yet" even though the listing was live and
+ * fully published. Backfilled once (worker/migrations/0019_backfill_qh_listings.sql), but that
+ * only fixes listings that already existed — any future import hits the same gap the moment it's
+ * published, since nothing keeps the two tables in sync. Self-healing here (create the missing
+ * mirror row on the fly, from the real listing + its city) means a broken checkout button can
+ * never recur for any published listing, present or future, regardless of import-pipeline drift.
+ */
+async function ensureQhListing(env: Env, slug: string): Promise<{ id: number; slug: string } | null> {
+  const existing = await env.DB.prepare("SELECT id, slug FROM qh_listings WHERE slug = ? LIMIT 1").bind(slug).first<{ id: number; slug: string }>();
+  if (existing) return existing;
+  const listing = await env.DB.prepare("SELECT name, slug, descriptor, description, suburb, address, website, email, image_url, city_slug FROM listings WHERE slug = ? AND status = 'published' LIMIT 1")
+    .bind(slug)
+    .first<{ name: string; slug: string; descriptor: string | null; description: string | null; suburb: string | null; address: string | null; website: string | null; email: string | null; image_url: string | null; city_slug: string }>();
+  if (!listing) return null;
+  const city = await env.DB.prepare("SELECT id FROM qh_cities WHERE slug = ? LIMIT 1").bind(listing.city_slug).first<{ id: number }>();
+  if (!city) return null; // No matching city row — genuinely can't place it; caller reports the same 404 as before.
+  const inserted = await env.DB.prepare(
+    "INSERT INTO qh_listings (city_id, category_id, name, slug, descriptor, description, neighbourhood, address, booking_url, contact_email, image_url, status) VALUES (?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'published')",
+  )
+    .bind(city.id, listing.name, listing.slug, listing.descriptor, listing.description, listing.suburb, listing.address, listing.website, listing.email, listing.image_url)
+    .run();
+  return { id: Number(inserted.meta.last_row_id), slug: listing.slug };
+}
+
 export async function handlePublicPremiumCheckout(request: Request, env: Env) {
   const body = await request.json<{ listingSlug?: string; tier?: string; email?: string }>().catch(() => ({}) as { listingSlug?: string; tier?: string; email?: string });
   const tier = body.tier === "country" ? "country" : body.tier === "city" ? "city" : null;
   if (!body.listingSlug || !tier) return Response.json({ error: "listingSlug and tier are required." }, { status: 400 });
-  const listing = await env.DB.prepare("SELECT id, slug FROM qh_listings WHERE slug = ? LIMIT 1").bind(body.listingSlug).first<{ id: number; slug: string }>();
+  const listing = await ensureQhListing(env, body.listingSlug);
   if (!listing) return Response.json({ error: "That listing isn't in the directory yet." }, { status: 404 });
   const { url } = await createPremiumCheckout(env, { listingId: listing.id, listingSlug: listing.slug, origin: new URL(request.url).origin, tier, customerEmail: body.email });
   return Response.json({ checkoutUrl: url });
