@@ -394,6 +394,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* Supplies page */
 .supplies-section { padding-top: 0; padding-bottom: 4.5rem; }
+.supply-compare-links { display: flex; flex-wrap: wrap; gap: .6rem 1.4rem; align-items: center; }
 .supply-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
 .supply-card { display: flex; flex-direction: column; background: #fffdf8; border: 1px solid var(--border); transition: transform 160ms ease, box-shadow 160ms ease; }
 .supply-card:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(25,55,47,.10); }

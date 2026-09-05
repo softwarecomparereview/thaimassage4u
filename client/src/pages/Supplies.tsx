@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Link, useRoute, useSearch } from "wouter";
 
 type Offer = { id: number; title: string; price: number; shipping: number | null; total: number; currency: string; freeShipping: boolean; url: string; image: string | null; supplier: string };
-type Category = { key: string; label: string; compareUrl: string | null; offers: Offer[] };
+type Category = { key: string; label: string; compareUrl: string | null; amazonUrl: string | null; offers: Offer[] };
 type SuppliesPayload = { country: string; updatedAt: string | null; categories: Category[] };
 
 const SYMBOLS: Record<string, string> = { USD: "$", AUD: "A$", GBP: "£", EUR: "€", CAD: "C$", NZD: "NZ$", AED: "AED " };
@@ -30,6 +30,7 @@ const STRINGS: Record<Lang, Record<string, string>> = {
     freeDelivery: "free delivery",
     inclDelivery: "incl.",
     compare: "Compare on AliExpress",
+    amazon: "Compare on Amazon",
     more: "Also worth comparing.",
     empty: "Today's scan hasn't landed for this country yet.",
     emptyHint: "Prices refresh daily — check back shortly.",
@@ -43,6 +44,7 @@ const STRINGS: Record<Lang, Record<string, string>> = {
     freeDelivery: "ส่งฟรี",
     inclDelivery: "รวมค่าส่ง",
     compare: "เปรียบเทียบราคาบน AliExpress",
+    amazon: "เปรียบเทียบราคาบน Amazon",
     more: "หมวดอื่นที่น่าเปรียบเทียบ",
     empty: "ยังไม่มีข้อมูลราคาของวันนี้สำหรับประเทศนี้",
     emptyHint: "ราคาอัปเดตทุกวัน — กลับมาดูอีกครั้งเร็วๆ นี้",
@@ -56,6 +58,7 @@ const STRINGS: Record<Lang, Record<string, string>> = {
     freeDelivery: "免运费",
     inclDelivery: "含运费",
     compare: "在全球速卖通比价",
+    amazon: "在亚马逊比价",
     more: "其他值得比较的品类",
     empty: "今天该国家的价格数据尚未更新",
     emptyHint: "价格每日刷新 — 请稍后再来",
@@ -126,7 +129,10 @@ export default function Supplies() {
       {populated.map(category => (
         <section className="places-section supplies-section" key={category.key}>
           <div className="section-heading"><div><p className="eyebrow">{t("eyebrow")}</p><h2>{t(category.key) === category.key ? category.label : t(category.key)}</h2></div>
-            {category.compareUrl && <a href={category.compareUrl} target="_blank" rel="noreferrer noopener sponsored" className="text-link">{t("compare")} <ArrowUpRight size={16} /></a>}
+            <div className="supply-compare-links">
+              {category.compareUrl && <a href={category.compareUrl} target="_blank" rel="noreferrer noopener sponsored" className="text-link">{t("compare")} <ArrowUpRight size={16} /></a>}
+              {category.amazonUrl && <a href={category.amazonUrl} target="_blank" rel="noreferrer noopener sponsored" className="text-link">{t("amazon")} <ArrowUpRight size={16} /></a>}
+            </div>
           </div>
           <div className="supply-grid">
             {category.offers.map(offer => (
