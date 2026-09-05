@@ -63,15 +63,25 @@ const LISTING_COLUMNS =
 /** Every public read filters on this. See worker/migrations/0010_listing_publish_status.sql. */
 export const PUBLISHED = "status = 'published'";
 
-/** hours is a plain JSON array of day-strings (see 0017_listing_hours.sql) — never guessed if absent or malformed. */
+/**
+ * `hours` holds two real, different shapes discovered live after this column was already
+ * populated by an earlier OSM import, before the Apify-scraper JSON-array convention this file
+ * was written against: a JSON array of day-strings (new Apify rows, e.g.
+ * ["Monday, 10 am to 8 pm", ...]) OR a single OSM-style opening_hours summary string (e.g.
+ * "Mo-Su 10:00-24:00", "Mo-Fr 10:00-20:00; Sa-Su 10:00-18:00") — 235 published listings carry
+ * the latter. Treating a plain string as invalid and returning null would silently throw away
+ * every one of those real, already-there values, which is exactly the class of bug 0017 exists
+ * to stop — so a non-JSON string is kept, not discarded, as a single-item array.
+ */
 function parseHours(raw: string | null): string[] | null {
   if (!raw) return null;
   try {
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.every(item => typeof item === "string") ? parsed : null;
+    if (Array.isArray(parsed) && parsed.every(item => typeof item === "string")) return parsed;
   } catch {
-    return null;
+    // Not JSON — the OSM-import plain-string shape below.
   }
+  return raw.trim() ? [raw.trim()] : null;
 }
 
 function parseServices(raw: string) {
