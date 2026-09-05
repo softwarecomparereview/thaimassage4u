@@ -4,8 +4,19 @@
 // fallback (isAssetPath in worker/ssr.tsx) already matches any .json/.js path. This package is
 // only the two POST endpoints that need server logic: events, and (P1, stubbed) parse.
 
+// The real D1Database type comes from @cloudflare/workers-types, which this reference package
+// deliberately doesn't depend on — it's never imported/deployed from here (see worker/concierge.ts's
+// header comment: that's the actual mirror wired into production, which gets those globals from
+// the main app's Cloudflare Worker build). This local, minimal structural type covers exactly the
+// one call shape this file uses, so the call site below still typechecks without a fake dependency.
+interface MinimalD1Statement {
+  bind(...values: unknown[]): { run(): Promise<unknown> };
+}
+interface MinimalD1Database {
+  prepare(sql: string): MinimalD1Statement;
+}
 export interface ConciergeEnv {
-  DB: D1Database;
+  DB: MinimalD1Database;
 }
 
 interface EventPayload {
