@@ -9,7 +9,11 @@ const siteName = "Quiet Hour";
 const defaultDescription = "A considered guide to wellness places, rituals, and city intelligence.";
 const clean = (value: string, length: number) => Array.from(value.replace(/\s+/g, " ").trim()).slice(0, length).join("");
 const escape = (value: string) => value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
-const markdown = (value: string) => escape(value).replace(/^### (.*)$/gm, "<h3>$1</h3>").replace(/^## (.*)$/gm, "<h2>$1</h2>").replace(/^# (.*)$/gm, "<h1>$1</h1>").split(/\n{2,}/).map(block => block.startsWith("<h") ? block : `<p>${block.replace(/\n/g, "<br />")}</p>`).join("");
+// [text](url) links are the one bit of real markdown article bodies use — mainly to link a
+// country/massage-guide article back to the relevant /city/{slug} or /listing/{slug} page for
+// internal linking. Applied after escape() so the brackets/parens in the source are still plain
+// characters to match against; the resulting <a> is real, crawlable HTML, not escaped text.
+const markdown = (value: string) => escape(value).replace(/^### (.*)$/gm, "<h3>$1</h3>").replace(/^## (.*)$/gm, "<h2>$1</h2>").replace(/^# (.*)$/gm, "<h1>$1</h1>").replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>').split(/\n{2,}/).map(block => block.startsWith("<h") ? block : `<p>${block.replace(/\n/g, "<br />")}</p>`).join("");
 
 function renderHead(head: HeadMeta, origin: string) {
   const title = escape(clean(head.title || siteName, 70));
