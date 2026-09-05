@@ -282,7 +282,7 @@ app.get("/api/admin/publish", async c => {
   const status = isPublishStatus(query.status) ? query.status : query.status === "all" ? "all" : "all";
   const page = Math.max(1, Number(query.page) || 1);
   const pageSize = Math.min(200, Math.max(1, Number(query.pageSize) || 50));
-  return c.json(await listPublishQueue(c.env, { status, citySlug: query.city || undefined, q: query.q || undefined, thinOnly: query.thinOnly === "1" }, page, pageSize));
+  return c.json(await listPublishQueue(c.env, { status, citySlug: query.city || undefined, q: query.q || undefined, thinOnly: query.thinOnly === "1", missingRichnessOnly: query.missingRichnessOnly === "1" }, page, pageSize));
 });
 app.post("/api/admin/publish/status", async c => {
   const user = await requireAdmin(c);

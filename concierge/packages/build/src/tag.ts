@@ -75,7 +75,7 @@ export function computeTier(listing: RawListing): Tier {
   return listing.premium ? "featured" : "standard";
 }
 
-/** §5 step 7: fraction of {descriptor, image, phone, bookingUrl, rating, >=1 service} present. (hours omitted — not in this schema yet.) */
+/** §5 step 7: fraction of {descriptor, image, phone, bookingUrl, rating, >=1 service, hours} present. */
 export function computeCompleteness(listing: RawListing): number {
   let servicesCount = 0;
   if (listing.services) {
@@ -93,6 +93,7 @@ export function computeCompleteness(listing: RawListing): number {
     Boolean(listing.website),
     listing.rating !== null,
     servicesCount > 0,
+    Boolean(listing.hours),
   ];
   return checks.filter(Boolean).length / checks.length;
 }

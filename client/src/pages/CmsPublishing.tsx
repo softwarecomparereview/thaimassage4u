@@ -12,7 +12,7 @@ import { toast } from "sonner";
  * sync, so it has no effect on visibility here.
  */
 
-type Row = { slug: string; name: string; city_slug: string; country_code: string; status: string; premium: number; claimed: number; address: string | null; phone: string | null; website: string | null; description: string | null; image_url: string | null };
+type Row = { slug: string; name: string; city_slug: string; country_code: string; status: string; premium: number; claimed: number; address: string | null; phone: string | null; website: string | null; description: string | null; image_url: string | null; hours: string | null };
 type Page = { rows: Row[]; total: number; page: number; pageSize: number; totals: Record<string, number> };
 
 const STATUS_LABEL: Record<string, string> = { published: "Published", pending: "Pending", unpublished: "Unpublished" };
@@ -29,14 +29,16 @@ export default function CmsPublishing() {
   const [status, setStatus] = useState<string>("all");
   const [q, setQ] = useState("");
   const [thinOnly, setThinOnly] = useState(false);
+  const [missingRichnessOnly, setMissingRichnessOnly] = useState(false);
   const [page, setPage] = useState(1);
   const pageSize = 50;
 
   const params = new URLSearchParams({ status, page: String(page), pageSize: String(pageSize) });
   if (q) params.set("q", q);
   if (thinOnly) params.set("thinOnly", "1");
+  if (missingRichnessOnly) params.set("missingRichnessOnly", "1");
 
-  const data = useQuery<Page>({ queryKey: ["publish", status, q, thinOnly, page], queryFn: () => fetch(`/api/admin/publish?${params}`).then(response => response.json()) });
+  const data = useQuery<Page>({ queryKey: ["publish", status, q, thinOnly, missingRichnessOnly, page], queryFn: () => fetch(`/api/admin/publish?${params}`).then(response => response.json()) });
   const refresh = () => queryClient.invalidateQueries({ queryKey: ["publish"] });
 
   const setOne = useMutation({
@@ -85,6 +87,11 @@ export default function CmsPublishing() {
           <span>Thin descriptions only</span>
           <small>Under 240 characters — the importer's stub text.</small>
         </label>
+        <label className="cms-field-grid__toggle">
+          <input type="checkbox" checked={missingRichnessOnly} onChange={event => { setMissingRichnessOnly(event.target.checked); setPage(1); }} />
+          <span>Missing photo, hours or phone</span>
+          <small>What's holding a listing back from feeling complete.</small>
+        </label>
       </div>
 
       <div className="cms-card__actions" style={{ marginTop: "1.2rem" }}>
@@ -97,18 +104,20 @@ export default function CmsPublishing() {
       <p className="eyebrow">{total} listing{total === 1 ? "" : "s"} match this filter</p>
       <div className="cms-table-wrap">
         <table className="cms-table">
-          <thead><tr><th>Name</th><th>City</th><th>Status</th><th>Contact</th><th>Description</th><th></th></tr></thead>
+          <thead><tr><th>Name</th><th>City</th><th>Status</th><th>Contact</th><th>Description</th><th>Richness</th><th></th></tr></thead>
           <tbody>
-            {rows.length === 0 && <tr><td colSpan={6}>Nothing matches this filter.</td></tr>}
+            {rows.length === 0 && <tr><td colSpan={7}>Nothing matches this filter.</td></tr>}
             {rows.map(row => {
               const thin = (row.description ?? "").trim().length < 240;
               const contactable = Boolean(row.phone || row.website || row.address);
+              const missing = [!row.hours && "hours", !row.image_url && "photo", !row.phone && "phone"].filter(Boolean) as string[];
               return <tr key={row.slug}>
                 <td><strong>{row.name}</strong>{row.premium ? <span className="cms-tag cms-tag--premium">Featured</span> : null}{row.claimed ? <span className="cms-tag">Claimed</span> : null}</td>
                 <td>{row.city_slug}</td>
                 <td><span className={`cms-status cms-status--${row.status}`}>{STATUS_LABEL[row.status] ?? row.status}</span></td>
                 <td>{contactable ? "Yes" : <span className="cms-warn">No contact info</span>}</td>
                 <td>{thin ? <span className="cms-warn">{(row.description ?? "").trim().length} chars</span> : "OK"}</td>
+                <td>{missing.length ? <span className="cms-warn">Missing {missing.join(", ")}</span> : "Complete"}</td>
                 <td className="cms-table__actions">
                   {row.status !== "published"
                     ? <Button type="button" size="sm" variant="outline" disabled={setOne.isPending} onClick={() => setOne.mutate({ slug: row.slug, next: "published" })}><Eye size={14} /> Publish</Button>

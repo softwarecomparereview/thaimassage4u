@@ -29,9 +29,11 @@ export type PublishRow = {
   website: string | null;
   description: string | null;
   image_url: string | null;
+  /** JSON array of day-strings (see 0017_listing_hours.sql). Null until a listing has hours on file. */
+  hours: string | null;
 };
 
-export type PublishFilter = { status?: PublishStatus | "all"; citySlug?: string; q?: string; thinOnly?: boolean };
+export type PublishFilter = { status?: PublishStatus | "all"; citySlug?: string; q?: string; thinOnly?: boolean; missingRichnessOnly?: boolean };
 
 const THIN_DESCRIPTION_CHARS = 240;
 
@@ -42,6 +44,9 @@ function whereClause(filter: PublishFilter) {
   if (filter.citySlug) { clauses.push("city_slug = ?"); binds.push(filter.citySlug); }
   if (filter.q) { clauses.push("(name LIKE ? OR slug LIKE ?)"); binds.push(`%${filter.q}%`, `%${filter.q}%`); }
   if (filter.thinOnly) clauses.push(`LENGTH(TRIM(COALESCE(description, ''))) < ${THIN_DESCRIPTION_CHARS}`);
+  // Surfaces the exact gap this session found by hand-running D1 queries — missing photo,
+  // hours, or phone — directly in the CMS instead of only via an ad hoc query.
+  if (filter.missingRichnessOnly) clauses.push(`(hours IS NULL OR image_url IS NULL OR image_url = '' OR phone IS NULL OR phone = '')`);
   return { where: clauses.length ? `WHERE ${clauses.join(" AND ")}` : "", binds };
 }
 
@@ -49,7 +54,7 @@ export async function listPublishQueue(env: Env, filter: PublishFilter, page: nu
   const { where, binds } = whereClause(filter);
   const [rows, total, counts] = await env.DB.batch([
     env.DB.prepare(
-      `SELECT slug, name, city_slug, country_code, status, premium, claimed, address, phone, website, description, image_url
+      `SELECT slug, name, city_slug, country_code, status, premium, claimed, address, phone, website, description, image_url, hours
        FROM listings ${where} ORDER BY id LIMIT ? OFFSET ?`,
     ).bind(...binds, pageSize, (page - 1) * pageSize),
     env.DB.prepare(`SELECT COUNT(*) AS n FROM listings ${where}`).bind(...binds),

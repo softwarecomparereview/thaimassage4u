@@ -28,6 +28,8 @@ export interface RawListing {
   claimed: number | null;
   lat: number | null;
   lon: number | null;
+  /** JSON array of day-strings (see 0017_listing_hours.sql). Null until a listing has hours on file. */
+  hours: string | null;
 }
 
 export interface RawPlace {
@@ -42,7 +44,7 @@ export async function extractQuietHour(config: D1Config): Promise<{ listings: Ra
   const listings = await d1Query<RawListing>(
     config,
     `SELECT id, slug, name, descriptor, description, city_slug, country_code, suburb, address, phone, website,
-            image_url, services, price_from, currency, rating, review_count, premium, claimed, lat, lon
+            image_url, services, price_from, currency, rating, review_count, premium, claimed, lat, lon, hours
      FROM listings WHERE status = 'published'`,
   );
   const places = await d1Query<RawPlace>(config, `SELECT slug, name, country_code, lat, lng FROM cities`);
