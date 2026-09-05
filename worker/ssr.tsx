@@ -107,6 +107,26 @@ export async function serveWorkerPage(request: Request, env: Env) {
     const clean = quotedArticle[1].replace(/^['"]+|['"]+$/g, "");
     return Response.redirect(`${url.origin}/journal/${clean}${url.search}`, 301);
   }
+  // Two now-retired URL schemes (a static-HTML era, then a /country/city/slug era before this
+  // app's flat /listing/{slug} + /city/{slug} routes) left real, still-indexed pages 404ing —
+  // confirmed via a Google Search Console coverage export, 2026-09-05: 219 URLs, 49 of which are
+  // still-live published listings and cities, just parked under a path this app never serves.
+  // Recover that indexed equity generically (does the URL's last segment match a live slug?)
+  // rather than hand-mapping one export's URLs — the same retired scheme will keep resurfacing
+  // in future crawls, and this catches all of it, not just what's in today's report.
+  const segments = url.pathname.split("/").filter(Boolean);
+  // Excludes every real route prefix this app serves so a coincidental slug collision (e.g. a
+  // journal article and a listing sharing a slug) can never redirect a real page to the wrong one.
+  const KNOWN_PREFIXES = new Set(["city", "listing", "journal", "cms", "supplies"]);
+  const lastSegment = segments[segments.length - 1];
+  if (segments.length >= 2 && !KNOWN_PREFIXES.has(segments[0]) && !KNOWN_PREFIXES.has(lastSegment)) {
+    const listing = await env.DB.prepare("SELECT slug FROM listings WHERE slug = ? AND status = 'published' LIMIT 1").bind(lastSegment).first<{ slug: string }>();
+    if (listing) return Response.redirect(`${url.origin}/listing/${listing.slug}${url.search}`, 301);
+  }
+  if (segments.length === 2 && !KNOWN_PREFIXES.has(segments[0]) && !KNOWN_PREFIXES.has(lastSegment)) {
+    const city = await env.DB.prepare("SELECT slug FROM cities WHERE slug = ? LIMIT 1").bind(lastSegment).first<{ slug: string }>();
+    if (city) return Response.redirect(`${url.origin}/city/${city.slug}${url.search}`, 301);
+  }
   // This used to render HTML only for requests whose Accept header contained
   // "text/html", or whose user-agent contained the lowercase string "bot".
   // facebookexternalhit, LinkedInBot and Slurp match neither, so every link
