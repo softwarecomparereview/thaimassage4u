@@ -132,6 +132,34 @@ export async function serveWorkerPage(request: Request, env: Env) {
     const clean = quotedArticle[1].replace(/^['"]+|['"]+$/g, "");
     return Response.redirect(`${url.origin}/journal/${clean}${url.search}`, 301);
   }
+  // 14 groups of duplicate listings (18 rows, the same real business scraped more than once —
+  // same name, same city) found and unpublished 2026-09-10; this maps each retired duplicate
+  // slug to the one canonical listing kept published, so any indexed or bookmarked link to a
+  // duplicate still lands on the real listing instead of 404ing.
+  const DUPLICATE_LISTING_REDIRECTS: Record<string, string> = {
+    "ila-only-spa-new-york": "ila-only-spa-new-york-2",
+    "massage-in-la-los-angeles": "massage-in-la-los-angeles-2",
+    "massage-evolved-chicago": "massage-evolved-chicago-2",
+    "lincoln-park-massage-spa-chicago": "lincoln-park-massage-spa-chicago-2",
+    "miami-massage-therapy-miami": "miami-massage-therapy-miami-2",
+    "my-massage-haven-miami": "my-massage-haven-miami-2",
+    "relax-thai-massage-studio-las-vegas": "relax-thai-massage-studio-las-vegas-2",
+    "bua-siam-thai-massage-spa-munich-2": "bua-siam-thai-massage-spa-munich-5",
+    "bua-siam-thai-massage-spa-munich-3": "bua-siam-thai-massage-spa-munich-5",
+    "bua-siam-thai-massage-spa-munich-4": "bua-siam-thai-massage-spa-munich-5",
+    "bua-siam-thai-massage-spa-munich-6": "bua-siam-thai-massage-spa-munich-5",
+    "bua-siam-thai-massage-spa-munich-7": "bua-siam-thai-massage-spa-munich-5",
+    "temple-day-spa-adelaide": "temple-day-spa-adelaide-2",
+    "zz-day-spa-new-york-2": "zz-day-spa-new-york",
+    "massage-1-thai-spa-las-vegas": "massage-1-thai-spa-las-vegas-2",
+    "iyara-traditional-thai-massage-san-francisco-2": "iyara-traditional-thai-massage-san-francisco",
+    "hand-stone-massage-and-facial-spa-chicago-2": "hand-stone-massage-and-facial-spa-chicago",
+    "suchada-thai-massage-san-francisco-2": "suchada-thai-massage-san-francisco",
+  };
+  const duplicateListing = url.pathname.match(/^\/listing\/([^/]+)$/);
+  if (duplicateListing && DUPLICATE_LISTING_REDIRECTS[duplicateListing[1]]) {
+    return Response.redirect(`${url.origin}/listing/${DUPLICATE_LISTING_REDIRECTS[duplicateListing[1]]}${url.search}`, 301);
+  }
   // Two now-retired URL schemes (a static-HTML era, then a /country/city/slug era before this
   // app's flat /listing/{slug} + /city/{slug} routes) left real, still-indexed pages 404ing —
   // confirmed via a Google Search Console coverage export, 2026-09-05: 219 URLs, 49 of which are
