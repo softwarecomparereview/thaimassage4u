@@ -1,8 +1,10 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import About from "@/pages/About";
 import ArticleDetail from "@/pages/ArticleDetail";
 import CityGuide from "@/pages/CityGuide";
 import ClaimSearch from "@/pages/ClaimSearch";
+import Contact from "@/pages/Contact";
 import CountryGuide from "@/pages/CountryGuide";
 import Cms from "@/pages/Cms";
 import ComingSoon from "@/pages/ComingSoon";
@@ -11,7 +13,9 @@ import Journal from "@/pages/Journal";
 import ListingDetail from "@/pages/ListingDetail";
 import ListYourPlace from "@/pages/ListYourPlace";
 import MyListing from "@/pages/MyListing";
+import Privacy from "@/pages/Privacy";
 import Supplies from "@/pages/Supplies";
+import Terms from "@/pages/Terms";
 import NotFound from "@/pages/NotFound";
 import { useEffect } from "react";
 import { Route, Switch, useLocation } from "wouter";
@@ -60,6 +64,10 @@ function Router() {
       <Route path={"/:code/supplies"} component={Supplies} />
       <Route path={"/cms"} component={Cms} />
       <Route path={"/cms/:section"} component={Cms} />
+      <Route path={"/about"} component={About} />
+      <Route path={"/contact"} component={Contact} />
+      <Route path={"/privacy"} component={Privacy} />
+      <Route path={"/terms"} component={Terms} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

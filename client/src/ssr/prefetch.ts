@@ -144,7 +144,7 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
     const ratingSuffix = extra.rating ? ` Rated ${extra.rating}/5${extra.reviewCount ? ` from ${extra.reviewCount} reviews` : ""}.` : "";
     return {
       title: `${data.listing.name} — Massage in ${data.city.name}`,
-      description: `${data.listing.description || data.listing.descriptor || `Find ${data.listing.name} in the Quiet Hour directory.`}${ratingSuffix}`,
+      description: `${data.listing.description || data.listing.descriptor || `Find ${data.listing.name} in the ${SITE} directory.`}${ratingSuffix}`,
       canonicalPath: path,
       alternates: [{ locale: data.city.primaryLocale, path }],
       ogImage: data.listing.imageUrl || undefined,
@@ -158,15 +158,19 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
     seeded(queryClient, getQueryKey(trpc.directory.articleBySlug, { slug: article[1] }, "query"), data);
     return { title: `${data.title} — ${SITE}`, description: data.excerpt || DEFAULT_DESCRIPTION, canonicalPath: path, alternates: [{ locale: "en", path }], ogType: "article", ogImage: data.coverImageUrl || undefined, jsonLd: { "@context": "https://schema.org", "@type": "Article", headline: data.title, description: data.excerpt || DEFAULT_DESCRIPTION, image: data.coverImageUrl || undefined, mainEntityOfPage: `https://thaimassageforu.com${path}`, publisher: { "@type": "Organization", name: SITE } } };
   }
-  if (path === "/cms" || path.startsWith("/cms/")) return { title: "Quiet Hour CMS", description: "Quiet Hour management workspace.", noindex: true };
-  if (path === "/my-listing") return { title: "Manage your listing — Quiet Hour", description: "Claim and update your listing on Quiet Hour.", canonicalPath: path, noindex: true };
-  if (path === "/claim") return { title: "Claim your listing — Quiet Hour", description: "Find your business and claim it — a one-time code, no account to set up.", canonicalPath: path, noindex: true };
-  if (path === "/supplies") return { title: "Massage supplies, cheapest today — Quiet Hour", description: "Daily-refreshed cheapest massage table sheets, oils, towels and equipment with local delivery — for the studios in the directory.", canonicalPath: path, noindex: true };
+  if (path === "/about") return { title: `About — ${SITE}`, description: "A city-by-city Thai massage directory — what it is, how listings work, and how to claim yours.", canonicalPath: path, alternates: [{ locale: "en", path }] };
+  if (path === "/contact") return { title: `Contact — ${SITE}`, description: "Get in touch — general questions, business owners and press.", canonicalPath: path, alternates: [{ locale: "en", path }] };
+  if (path === "/privacy") return { title: `Privacy Policy — ${SITE}`, description: "What Thai Massage For U collects, why, and who it's shared with.", canonicalPath: path, alternates: [{ locale: "en", path }] };
+  if (path === "/terms") return { title: `Terms of Service — ${SITE}`, description: "The terms for using Thai Massage For U as a visitor, and for listing or claiming a business here.", canonicalPath: path, alternates: [{ locale: "en", path }] };
+  if (path === "/cms" || path.startsWith("/cms/")) return { title: `${SITE} CMS`, description: `${SITE} management workspace.`, noindex: true };
+  if (path === "/my-listing") return { title: `Manage your listing — ${SITE}`, description: `Claim and update your listing on ${SITE}.`, canonicalPath: path, noindex: true };
+  if (path === "/claim") return { title: `Claim your listing — ${SITE}`, description: "Find your business and claim it — a one-time code, no account to set up.", canonicalPath: path, noindex: true };
+  if (path === "/supplies") return { title: `Massage supplies, cheapest today — ${SITE}`, description: "Daily-refreshed cheapest massage table sheets, oils, towels and equipment with local delivery — for the studios in the directory.", canonicalPath: path, noindex: true };
   const countrySupplies = path.match(/^\/(us|uk|au|de|ca|nz|ie|ae)\/supplies$/);
   if (countrySupplies) {
     const names: Record<string, string> = { us: "the United States", uk: "the United Kingdom", au: "Australia", de: "Germany", ca: "Canada", nz: "New Zealand", ie: "Ireland", ae: "the UAE" };
     const name = names[countrySupplies[1]];
-    return { title: `Massage supplies in ${name} — cheapest today — Quiet Hour`, description: `Daily-refreshed cheapest massage table sheets, oils, towels and equipment delivered in ${name} — for massage studios and clinics.`, canonicalPath: path, alternates: [{ locale: "en", path }] };
+    return { title: `Massage supplies in ${name} — cheapest today — ${SITE}`, description: `Daily-refreshed cheapest massage table sheets, oils, towels and equipment delivered in ${name} — for massage studios and clinics.`, canonicalPath: path, alternates: [{ locale: "en", path }] };
   }
   return { title: SITE, description: DEFAULT_DESCRIPTION, notFound: true };
 }
