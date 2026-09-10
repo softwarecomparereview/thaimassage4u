@@ -6,7 +6,7 @@ import type { Env } from "./index";
  * URL type via ?type= so a single request never has to hold all of them in memory at once; the
  * index file just points to each. Well under Google's 50,000-URLs-per-file limit either way. */
 
-const STATIC_PATHS = ["/", "/directory", "/journal", "/list-your-place"];
+const STATIC_PATHS = ["/", "/directory", "/journal", "/list-your-place", "/about", "/contact", "/privacy", "/terms"];
 const COUNTRY_CODES = ["us", "uk", "au", "de", "ca", "nz", "ie", "ae"];
 
 function urlEntry(loc: string, lastmod?: string | null) {
