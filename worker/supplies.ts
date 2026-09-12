@@ -17,10 +17,16 @@ import type { Env } from "./index";
  * publisher/advertiser ids are public in every affiliate URL by design —
  * they are not secrets. eBay links are left bare until an eBay Partner
  * Network account exists.
+ *
+ * AWIN_PUBLISHER_ID is the dedicated thaimassageforu.com Awin account
+ * (3086587, created 2026-09-11) — not shared with any other product. If the
+ * AliExpress FR programme (advertiser 26009) hasn't been re-joined under
+ * this account yet, DE compare-link clicks won't earn commission until it
+ * is; confirm programme status in the Awin dashboard.
  */
 
 const SUPPLY_ACTOR_ID = "89nw2kX8J6buTllaK";
-const AWIN_PUBLISHER_ID = "2850613";
+const AWIN_PUBLISHER_ID = "3086587";
 const AWIN_ALIEXPRESS_ADVERTISER_ID = "26009";
 /** Countries the joined Awin AliExpress programme actually pays commission on. */
 const AWIN_PAYING_COUNTRIES = new Set(["de"]);
