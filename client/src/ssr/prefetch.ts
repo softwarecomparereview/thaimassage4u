@@ -142,8 +142,13 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
       ],
     };
     const ratingSuffix = extra.rating ? ` Rated ${extra.rating}/5${extra.reviewCount ? ` from ${extra.reviewCount} reviews` : ""}.` : "";
+    // Rating in the title itself, not just the description — real listings ranking well
+    // (e.g. position ~7 with 1,700+ impressions/90d) were still getting 0 clicks with the old
+    // "{name} — Massage in {city}" title, which repeats "Massage" and drops the one signal
+    // (a real Google rating) that reliably lifts click-through on a search snippet.
+    const titleRating = extra.rating ? ` (${extra.rating}★${extra.reviewCount ? `, ${extra.reviewCount} reviews` : ""})` : "";
     return {
-      title: `${data.listing.name} — Massage in ${data.city.name}`,
+      title: `${data.listing.name}${titleRating} — ${data.city.name} | ${SITE}`,
       description: `${data.listing.description || data.listing.descriptor || `Find ${data.listing.name} in the ${SITE} directory.`}${ratingSuffix}`,
       canonicalPath: path,
       alternates: [{ locale: data.city.primaryLocale, path }],

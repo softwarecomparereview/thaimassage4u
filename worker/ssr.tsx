@@ -160,6 +160,21 @@ export async function serveWorkerPage(request: Request, env: Env) {
   if (duplicateListing && DUPLICATE_LISTING_REDIRECTS[duplicateListing[1]]) {
     return Response.redirect(`${url.origin}/listing/${DUPLICATE_LISTING_REDIRECTS[duplicateListing[1]]}${url.search}`, 301);
   }
+  // Root-level *.html URLs from the pre-SSR static-HTML era of this site. Confirmed via a live
+  // Search Console query (2026-09-13): still indexed and getting real impressions (300+ for
+  // sydney-cbd.html alone) but 404ing on the current app for years, ranking terribly (pos 40-70+)
+  // as a result -- a 404 competing for a city/topic query instead of the real, better page. These
+  // are single root-level segments so the generic retired-scheme redirect below (2+ segments)
+  // never catches them; map them explicitly to the live equivalent.
+  const STATIC_HTML_REDIRECTS: Record<string, string> = {
+    "sydney-cbd.html": "/city/sydney",
+    "melbourne-cbd.html": "/city/melbourne",
+    "article-best-massage-sydney.html": "/journal/thai-massage-guide-australia",
+  };
+  const staticHtmlTarget = STATIC_HTML_REDIRECTS[url.pathname.replace(/^\//, "")];
+  if (staticHtmlTarget) {
+    return Response.redirect(`${url.origin}${staticHtmlTarget}${url.search}`, 301);
+  }
   // Two now-retired URL schemes (a static-HTML era, then a /country/city/slug era before this
   // app's flat /listing/{slug} + /city/{slug} routes) left real, still-indexed pages 404ing —
   // confirmed via a Google Search Console coverage export, 2026-09-05: 219 URLs, 49 of which are
