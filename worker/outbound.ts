@@ -15,7 +15,7 @@ import type { Env } from "./index";
  * link that's either not tracked (silently loses the referral) or, worse, visibly broken. Once a
  * real program is joined, wire its real deeplink format into `wrap()` for that one platform,
  * gated on the matching env secret being set — same pattern AWIN_PUBLISHER_ID/
- * AWIN_ALIEXPRESS_ADVERTISER_ID already use in worker/supplies.ts for AliExpress. Until then this
+ * AWIN_ALIEXPRESS_ADVERTISER already use in worker/supplies.ts for AliExpress. Until then this
  * still earns its keep: every click is logged with which platform it went to, which is exactly
  * the data needed to know which program is worth applying to first.
  */
