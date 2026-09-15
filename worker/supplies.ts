@@ -12,24 +12,28 @@ import type { Env } from "./index";
  * sync — a self-sustaining daily loop with no scheduler on the Apify side.
  *
  * Monetization: outbound AliExpress "compare" links are wrapped in an Awin
- * deeplink for countries the owner's Awin programme pays on (AliExpress FR,
- * advertiser 26009 — pays on FR/DE/NL/BE domains, so DE today). Awin
- * publisher/advertiser ids are public in every affiliate URL by design —
- * they are not secrets. eBay links are left bare until an eBay Partner
+ * deeplink for countries with a joined AliExpress-country Awin programme —
+ * each country's own programme has its own advertiser id (AliExpress is not
+ * one global Awin programme; FR/DE/NL/BE route through advertiser 26009, AU
+ * has its own separate advertiser, etc.) — see AWIN_ALIEXPRESS_ADVERTISER.
+ * Awin publisher/advertiser ids are public in every affiliate URL by design
+ * — they are not secrets. eBay links are left bare until an eBay Partner
  * Network account exists.
  *
  * AWIN_PUBLISHER_ID is the dedicated thaimassageforu.com Awin account
- * (3086587, created 2026-09-11) — not shared with any other product. If the
- * AliExpress FR programme (advertiser 26009) hasn't been re-joined under
- * this account yet, DE compare-link clicks won't earn commission until it
- * is; confirm programme status in the Awin dashboard.
+ * (3086587, created 2026-09-11) — not shared with any other product.
  */
 
 const SUPPLY_ACTOR_ID = "89nw2kX8J6buTllaK";
 const AWIN_PUBLISHER_ID = "3086587";
-const AWIN_ALIEXPRESS_ADVERTISER_ID = "26009";
-/** Countries the joined Awin AliExpress programme actually pays commission on. */
-const AWIN_PAYING_COUNTRIES = new Set(["de"]);
+/** Country -> AliExpress-country Awin advertiser id, for countries actually joined under
+ * AWIN_PUBLISHER_ID. AliExpress DE routes through the FR programme (advertiser 26009, pays on
+ * FR/DE/NL/BE domains) — pending confirmation that programme is (re)joined under the new
+ * publisher id. AU joined 2026-09-15 (advertiser 102799, AliExpress AU's own direct programme). */
+const AWIN_ALIEXPRESS_ADVERTISER: Record<string, string> = {
+  de: "26009",
+  au: "102799",
+};
 
 /** Wave 1 + wave 2 markets. ship_to + currency drive the AliExpress affiliate queries. */
 const SUPPLY_COUNTRIES = new Set(["us", "au", "uk", "de", "ca", "nz", "ie", "ae"]);
@@ -51,8 +55,9 @@ function aliexpressCompareUrl(country: string, key: string): string | null {
   if (!category) return null;
   const lang = country === "de" ? "de" : "en";
   const destination = `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(category.query[lang])}`;
-  if (AWIN_PAYING_COUNTRIES.has(country)) {
-    return `https://www.awin1.com/cread.php?awinmid=${AWIN_ALIEXPRESS_ADVERTISER_ID}&awinaffid=${AWIN_PUBLISHER_ID}&ued=${encodeURIComponent(destination)}`;
+  const advertiser = AWIN_ALIEXPRESS_ADVERTISER[country];
+  if (advertiser) {
+    return `https://www.awin1.com/cread.php?awinmid=${advertiser}&awinaffid=${AWIN_PUBLISHER_ID}&ued=${encodeURIComponent(destination)}`;
   }
   return destination;
 }
