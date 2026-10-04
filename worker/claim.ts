@@ -2,6 +2,7 @@ import { SignJWT } from "jose";
 import type { Env } from "./index";
 import { sendTransactionalEmail } from "./email";
 import { sendSms } from "./sms";
+import { refererPath, sendLeadToPml, type WaitUntil } from "./pml-lead";
 
 /**
  * Self-service ownership claim — free for any unclaimed listing, not just
@@ -92,7 +93,7 @@ export async function handleClaimStart(request: Request, env: Env) {
   return Response.json({ sent: true, channel, maskedAddress: maskAddress(channel, address) });
 }
 
-export async function handleClaimVerify(request: Request, env: Env) {
+export async function handleClaimVerify(request: Request, env: Env, ctx?: WaitUntil) {
   const body = await request.json<{ listingSlug?: string; channel?: string; code?: string }>().catch(() => ({}) as { listingSlug?: string; channel?: string; code?: string });
   const channel = body.channel === "sms" ? "sms" : body.channel === "email" ? "email" : null;
   if (!body.listingSlug || !channel || !body.code) return Response.json({ error: "listingSlug, channel and code are required." }, { status: 400 });
@@ -125,6 +126,22 @@ export async function handleClaimVerify(request: Request, env: Env) {
   // Guarded by owner_id IS NULL so two concurrent verifies on the same listing can't both win.
   const claimed = await env.DB.prepare("UPDATE qh_listings SET owner_id = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ? AND owner_id IS NULL").bind(user.id, listing.id).run();
   if (!claimed.meta.changes) return Response.json({ error: "This listing was just claimed by someone else." }, { status: 409 });
+
+  // The claim is accepted: tell Pilot My Life a listing owner just signed up (worker/pml-lead.ts).
+  // An email claim's address is proven by the code; an SMS claim falls back to the listing's
+  // on-file email, and with neither nothing is sent (PML requires an email).
+  // Not a contact request, so consent: false.
+  const leadEmail = channel === "email" ? otp.address : listing.contact_email;
+  if (leadEmail) {
+    sendLeadToPml(env, ctx, {
+      name: listing.name,
+      email: leadEmail,
+      phone: channel === "sms" ? otp.address : undefined,
+      message: `Claimed listing "${listing.name}" (${listing.slug}) via ${channel} code.`,
+      page: refererPath(request),
+      consent: false,
+    });
+  }
 
   const session = await new SignJWT({ openId, appId: env.APP_ID ?? "local", name: listing.name })
     .setProtectedHeader({ alg: "HS256", typ: "JWT" })

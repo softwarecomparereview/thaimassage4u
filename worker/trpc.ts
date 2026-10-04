@@ -6,8 +6,9 @@ import { getWorkerUser, type WorkerUser } from "./auth";
 import { checkoutPremium, cmsSchemas, getCmsSummary, queueMessage, saveArticle, saveCity, saveListing, savePractitioner, saveService, saveTemplate, updateInquiryStatus } from "./cms";
 import { createInquiry, getArticle, getCityGuide, getCountryGuide, getDirectoryHome, getListing } from "./directory";
 import type { Env } from "./index";
+import { refererPath, type WaitUntil } from "./pml-lead";
 
-type Context = { env: Env; request: Request; user: WorkerUser | null };
+type Context = { env: Env; request: Request; user: WorkerUser | null; executionCtx?: WaitUntil };
 const t = initTRPC.context<Context>().create({ transformer: superjson });
 
 const directory = t.router({
@@ -40,7 +41,7 @@ const directory = t.router({
     message: z.string().trim().min(12).max(5000),
     consentEmail: z.boolean(),
     consentSms: z.boolean(),
-  })).mutation(({ ctx, input }) => createInquiry(ctx.env, input)),
+  })).mutation(({ ctx, input }) => createInquiry(ctx.env, input, { ctx: ctx.executionCtx, page: refererPath(ctx.request) })),
 });
 
 const auth = t.router({
@@ -73,12 +74,12 @@ const cms = t.router({
 
 export const workerRouter = t.router({ directory, auth, cms });
 
-export function handleTrpc(request: Request, env: Env) {
+export function handleTrpc(request: Request, env: Env, executionCtx?: WaitUntil) {
   return fetchRequestHandler({
     endpoint: "/api/trpc",
     req: request,
     router: workerRouter,
-    createContext: async () => ({ env, request, user: await getWorkerUser(request, env) }),
+    createContext: async () => ({ env, request, executionCtx, user: await getWorkerUser(request, env) }),
     onError({ error, path }) {
       console.error(`[Worker tRPC] ${path ?? "unknown"}: ${error.message}`);
     },

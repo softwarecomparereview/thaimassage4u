@@ -1,5 +1,6 @@
 import type { Env } from "./index";
 import { COUNTRY_NAMES, isDirectoryCountry } from "./geo";
+import { sendLeadToPml, type WaitUntil } from "./pml-lead";
 
 type LegacyCity = {
   id: number;
@@ -204,7 +205,11 @@ export async function getArticle(env: Env, slug: string) {
     .first();
 }
 
-export async function createInquiry(env: Env, input: { listingId?: number; name: string; email: string; phone?: string; message: string; consentEmail: boolean; consentSms: boolean }) {
+/**
+ * Stores a public directory inquiry. Once it is stored (the submission is accepted), a signed copy
+ * goes to Pilot My Life after the response via `lead.ctx.waitUntil` — see worker/pml-lead.ts.
+ */
+export async function createInquiry(env: Env, input: { listingId?: number; name: string; email: string; phone?: string; message: string; consentEmail: boolean; consentSms: boolean }, lead?: { ctx?: WaitUntil; page?: string }) {
   const result = await env.DB.prepare("INSERT INTO qh_inquiries (listing_id, name, email, phone, message, consent_email, consent_sms) VALUES (?, ?, ?, ?, ?, ?, ?)")
     .bind(input.listingId ?? null, input.name, input.email, input.phone ?? null, input.message, input.consentEmail ? 1 : 0, input.consentSms ? 1 : 0)
     .run();
@@ -214,5 +219,7 @@ export async function createInquiry(env: Env, input: { listingId?: number; name:
   if (input.consentEmail) consentWrites.push(env.DB.prepare("INSERT INTO qh_contact_consents (inquiry_id, channel, topic, consent_source, consented_at) VALUES (?, 'email', ?, ?, ?)").bind(inquiryId, "Quiet Hour introductions", "directory inquiry form", now));
   if (input.consentSms) consentWrites.push(env.DB.prepare("INSERT INTO qh_contact_consents (inquiry_id, channel, topic, consent_source, consented_at) VALUES (?, 'sms', ?, ?, ?)").bind(inquiryId, "Quiet Hour introductions", "directory inquiry form", now));
   if (consentWrites.length) await env.DB.batch(consentWrites);
+  // The visitor wrote to the desk asking to hear back, so this is a contact request (consent: true).
+  sendLeadToPml(env, lead?.ctx, { name: input.name, email: input.email, phone: input.phone || undefined, message: input.message, page: lead?.page, consent: true });
   return { inquiryId };
 }
