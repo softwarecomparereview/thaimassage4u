@@ -16,6 +16,7 @@ import { handleSupplies, handleSuppliesSync, handleSupplyClick, handleSupplyClic
 import { handleListingClick, handleListingClickStats } from "./outbound";
 import { approveAllProposals, getEnrichmentStatus, reviewProposal, runEnrichmentBatch, updateEnrichmentSettings, type EnrichmentTarget } from "./enrichment";
 import { isPublishStatus, listPublishQueue, setListingStatus, setStatusForFilter, type PublishStatus } from "./publish";
+import { refererPath, type WaitUntil } from "./pml-lead";
 
 export interface Env {
   ASSETS: Fetcher;
@@ -59,6 +60,10 @@ export interface Env {
   /** Analytics Engine (dataset: directory_events) — supply-click datapoints among others. */
   ANALYTICS?: AnalyticsEngineDataset;
   FORM_LIMITER: DurableObjectNamespace<FormLimiter>;
+  /** Pilot My Life lead intake (Worker secret). Unset = leads are not forwarded. See worker/pml-lead.ts. */
+  PML_LEAD_WEBHOOK_SECRET?: string;
+  /** Optional override of the PML lead intake URL (defaults to https://pilotmylife.com/hooks/thaimassageforu/lead-form). */
+  PML_LEAD_WEBHOOK_URL?: string;
 }
 
 type LimiterWindow = { count: number; resetsAt: number };
@@ -105,6 +110,15 @@ export class SaleOfferWorkflow extends WorkflowEntrypoint<Env, OfferPayload> {
 
 const app = new Hono<{ Bindings: Env }>();
 
+/** Hono's executionCtx getter throws when there is none (e.g. some test harnesses); lead forwarding just skips then. */
+function executionCtx(c: { readonly executionCtx: WaitUntil }): WaitUntil | undefined {
+  try {
+    return c.executionCtx;
+  } catch {
+    return undefined;
+  }
+}
+
 function hardened(response: Response) {
   const headers = new Headers(response.headers);
   headers.set("X-Content-Type-Options", "nosniff");
@@ -132,7 +146,7 @@ app.post("/api/premium/checkout", c => handlePublicPremiumCheckout(c.req.raw, c.
 
 app.get("/api/directory/home", async c => c.json(await getDirectoryHome(c.env)));
 
-app.all("/api/trpc/*", c => handleTrpc(c.req.raw, c.env));
+app.all("/api/trpc/*", c => handleTrpc(c.req.raw, c.env, executionCtx(c)));
 
 app.get("/api/directory/city/:slug", async c => {
   const guide = await getCityGuide(c.env, c.req.param("slug"));
@@ -151,7 +165,7 @@ app.post("/api/directory/inquiry", async c => {
   const limiter = c.env.FORM_LIMITER.get(id);
   const allowance = await limiter.allow();
   if (!allowance.ok) return c.json({ error: "Please wait before sending another inquiry." }, 429, { "Retry-After": allowance.retryAfter.toString() });
-  return c.json(await createInquiry(c.env, { listingId: input.listingId, name: input.name.trim(), email: input.email.trim(), phone: input.phone?.trim(), message: input.message.trim(), consentEmail: Boolean(input.consentEmail), consentSms: Boolean(input.consentSms) }), 201);
+  return c.json(await createInquiry(c.env, { listingId: input.listingId, name: input.name.trim(), email: input.email.trim(), phone: input.phone?.trim(), message: input.message.trim(), consentEmail: Boolean(input.consentEmail), consentSms: Boolean(input.consentSms) }, { ctx: executionCtx(c), page: refererPath(c.req.raw) }), 201);
 });
 
 /** Same admin gate as the tRPC cms.* procedures, for the plain HTTP campaign routes. */
@@ -228,7 +242,7 @@ app.get("/api/admin/supplies/clicks", async c => {
   return handleSupplyClickStats(c.env);
 });
 app.post("/api/claim/start", c => handleClaimStart(c.req.raw, c.env));
-app.post("/api/claim/verify", c => handleClaimVerify(c.req.raw, c.env));
+app.post("/api/claim/verify", c => handleClaimVerify(c.req.raw, c.env, executionCtx(c)));
 app.get("/api/owner/listing", async c => {
   const user = await getWorkerUser(c.req.raw, c.env);
   if (!user) return c.json({ error: "Unauthorized" }, 401);
