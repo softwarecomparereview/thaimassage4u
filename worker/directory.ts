@@ -1,5 +1,6 @@
 import type { Env } from "./index";
 import { COUNTRY_NAMES, isDirectoryCountry } from "./geo";
+import { getLiveOffer, liveOfferTitles } from "./offers";
 import { sendLeadToPml, type WaitUntil } from "./pml-lead";
 
 type LegacyCity = {
@@ -100,7 +101,7 @@ function parseServices(raw: string) {
     .map((title, index) => ({ id: index + 1, title, durationMinutes: null, priceFromCents: null, description: "" }));
 }
 
-function toPlaceCard(row: LegacyListing, cityName?: string) {
+function toPlaceCard(row: LegacyListing, cityName?: string, offers?: Map<string, string>) {
   return {
     id: row.id,
     name: row.name,
@@ -118,6 +119,8 @@ function toPlaceCard(row: LegacyListing, cityName?: string) {
     /** Paid placement, and labelled as such wherever it is shown. */
     isFeatured: Boolean(row.premium),
     isClaimed: Boolean(row.claimed),
+    /** Headline of the owner's live voucher (worker/offers.ts), if they run one. */
+    offerTitle: offers?.get(row.slug) ?? null,
     cityName: cityName ?? row.city_slug,
     citySlug: row.city_slug,
     countryCode: row.country_code,
@@ -128,18 +131,19 @@ function toPlaceCard(row: LegacyListing, cityName?: string) {
 
 export async function getDirectoryHome(env: Env) {
   try {
-    const [cities, listings, articles] = await Promise.all([
+    const [cities, listings, articles, offers] = await Promise.all([
       env.DB.prepare("SELECT id, country_code, slug, name, intro FROM cities ORDER BY name LIMIT 250").all<LegacyCity>(),
       env.DB.prepare(`SELECT ${LISTING_COLUMNS} FROM listings WHERE ${PUBLISHED} ORDER BY premium DESC, created_at DESC LIMIT 180`).all<LegacyListing>(),
       env.DB.prepare(`SELECT id, title, slug, excerpt, body, topic, cover_image_url AS coverImageUrl, status, published_at AS publishedAt, created_at AS createdAt, updated_at AS updatedAt FROM qh_articles WHERE status IN (${PUBLIC_ARTICLE_STATUSES}) ORDER BY created_at DESC`).all(),
+      liveOfferTitles(env),
     ]);
     const cityNames = new Map(cities.results.map(city => [city.slug, city.name]));
     return {
-      listings: listings.results.map(row => toPlaceCard(row, cityNames.get(row.city_slug))),
+      listings: listings.results.map(row => toPlaceCard(row, cityNames.get(row.city_slug), offers)),
       articles: articles.results,
       cities: cities.results.map(city => ({ id: city.id, name: city.name, slug: city.slug, country: city.country_code, countryCode: city.country_code, primaryLocale: "en", introduction: city.intro, isActive: true })),
       categories: [category],
-      premiumListings: listings.results.filter(row => Boolean(row.premium)).map(row => toPlaceCard(row, cityNames.get(row.city_slug))),
+      premiumListings: listings.results.filter(row => Boolean(row.premium)).map(row => toPlaceCard(row, cityNames.get(row.city_slug), offers)),
       verifiedEvents: [],
       cityMetrics: [],
     };
@@ -154,8 +158,11 @@ export async function getCityGuide(env: Env, slug: string) {
   try {
     const city = await env.DB.prepare("SELECT id, country_code, slug, name, intro FROM cities WHERE slug = ? LIMIT 1").bind(slug).first<LegacyCity>();
     if (!city) return null;
-    const listings = await env.DB.prepare(`SELECT ${LISTING_COLUMNS} FROM listings WHERE city_slug = ? AND ${PUBLISHED} ORDER BY premium DESC, created_at DESC LIMIT 100`).bind(slug).all<LegacyListing>();
-    const cards = listings.results.map(row => toPlaceCard(row, city.name));
+    const [listings, offers] = await Promise.all([
+      env.DB.prepare(`SELECT ${LISTING_COLUMNS} FROM listings WHERE city_slug = ? AND ${PUBLISHED} ORDER BY premium DESC, created_at DESC LIMIT 100`).bind(slug).all<LegacyListing>(),
+      liveOfferTitles(env),
+    ]);
+    const cards = listings.results.map(row => toPlaceCard(row, city.name, offers));
     return { city: { id: city.id, name: city.name, slug: city.slug, country: city.country_code, countryCode: city.country_code, primaryLocale: "en", introduction: city.intro, isActive: true }, listings: cards, premiumListings: cards.filter(card => card.isFeatured), events: [], metrics: [] };
   } catch {
     return null;
@@ -165,16 +172,17 @@ export async function getCityGuide(env: Env, slug: string) {
 export async function getCountryGuide(env: Env, code: string) {
   if (!isDirectoryCountry(code)) return null;
   try {
-    const [cities, listings] = await Promise.all([
+    const [cities, listings, offers] = await Promise.all([
       env.DB.prepare("SELECT id, country_code, slug, name, intro FROM cities WHERE country_code = ? ORDER BY name").bind(code).all<LegacyCity>(),
       env.DB.prepare(`SELECT ${LISTING_COLUMNS} FROM listings WHERE country_code = ? AND ${PUBLISHED} ORDER BY premium DESC, created_at DESC`).bind(code).all<LegacyListing>(),
+      liveOfferTitles(env),
     ]);
     if (!cities.results.length && !listings.results.length) return null;
     const cityNames = new Map(cities.results.map(city => [city.slug, city.name]));
     return {
       country: { code, name: COUNTRY_NAMES[code] ?? code.toUpperCase(), listingCount: listings.results.length },
       cities: cities.results.map(city => ({ id: city.id, name: city.name, slug: city.slug, country: city.country_code, countryCode: city.country_code, primaryLocale: "en", introduction: city.intro, isActive: true })),
-      listings: listings.results.map(row => toPlaceCard(row, cityNames.get(row.city_slug))),
+      listings: listings.results.map(row => toPlaceCard(row, cityNames.get(row.city_slug), offers)),
     };
   } catch {
     return null;
@@ -193,7 +201,8 @@ export async function getListing(env: Env, slug: string) {
     // `listings.premium` is what every public ORDER BY reads, so it is the column
     // that decides placement; the subscription row is the billing record behind it.
     const isPremium = Boolean(listing.premium) || subscribed;
-    return { listing: { id: listing.id, name: listing.name, slug: listing.slug, descriptor: listing.descriptor || "Independently listed wellness place", description: listing.description, neighbourhood: listing.suburb, address: listing.address, phone: listing.phone, bookingUrl: listing.website, contactEmail: listing.email, imageUrl: listing.image_url, rating: listing.rating, reviewCount: listing.review_count, hours: parseHours(listing.hours), priceFrom: listing.price_from, currency: listing.currency ?? "USD", lat: listing.lat, lon: listing.lon, isPremium, isClaimed: Boolean(listing.claimed) || Boolean(qhListing?.ownerId) }, city: { id: city?.id ?? 0, name: city?.name ?? listing.city_slug, slug: listing.city_slug, country: city?.country_code ?? listing.country_code, countryCode: city?.country_code ?? listing.country_code, primaryLocale: "en", introduction: city?.intro ?? null, isActive: true }, category, services: parseServices(listing.services) };
+    const offer = await getLiveOffer(env, slug);
+    return { offer, listing: { id: listing.id, name: listing.name, slug: listing.slug, descriptor: listing.descriptor || "Independently listed wellness place", description: listing.description, neighbourhood: listing.suburb, address: listing.address, phone: listing.phone, bookingUrl: listing.website, contactEmail: listing.email, imageUrl: listing.image_url, rating: listing.rating, reviewCount: listing.review_count, hours: parseHours(listing.hours), priceFrom: listing.price_from, currency: listing.currency ?? "USD", lat: listing.lat, lon: listing.lon, isPremium, isClaimed: Boolean(listing.claimed) || Boolean(qhListing?.ownerId) }, city: { id: city?.id ?? 0, name: city?.name ?? listing.city_slug, slug: listing.city_slug, country: city?.country_code ?? listing.country_code, countryCode: city?.country_code ?? listing.country_code, primaryLocale: "en", introduction: city?.intro ?? null, isActive: true }, category, services: parseServices(listing.services) };
   } catch {
     return null;
   }

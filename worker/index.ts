@@ -9,6 +9,7 @@ import { serveWorkerPage } from "./ssr";
 import { geoHomeLocation, internationalCookie, isDirectoryCountry, countryChoiceCookie } from "./geo";
 import { handleCreateCampaign, handleSendCampaign, handleListCampaigns, handleListInbox, handleMarkInboxRead, handleUnsubscribe, handleCampaignOpen, handleCampaignClick, handleTwilioStatusWebhook, handleTwilioInboundWebhook } from "./admin-campaigns";
 import { processCampaignSend } from "./campaigns";
+import { handleGetOwnerOffer, handleOwnerLink, handleRevealOffer, handleSaveOwnerOffer } from "./offers";
 import { handleClaimStart, handleClaimVerify, handleGetOwnerListing, handleUpdateOwnerListing, handleClaimSearch } from "./claim";
 import { handleSitemapIndex, handleSitemapStatic, handleSitemapCities, handleSitemapListings, handleSitemapJournal, handleRobotsTxt } from "./sitemap";
 import { handleConciergeEvent, handleConciergeParse } from "./concierge";
@@ -253,6 +254,19 @@ app.post("/api/owner/listing", async c => {
   if (!user) return c.json({ error: "Unauthorized" }, 401);
   return handleUpdateOwnerListing(c.req.raw, c.env, user.id);
 });
+
+app.post("/api/owner/link", c => handleOwnerLink(c.req.raw, c.env));
+app.get("/api/owner/offer", async c => {
+  const user = await getWorkerUser(c.req.raw, c.env);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleGetOwnerOffer(c.env, user.id);
+});
+app.post("/api/owner/offer", async c => {
+  const user = await getWorkerUser(c.req.raw, c.env);
+  if (!user) return c.json({ error: "Unauthorized" }, 401);
+  return handleSaveOwnerOffer(c.req.raw, c.env, user.id);
+});
+app.post("/api/offers/reveal", c => handleRevealOffer(c.req.raw, c.env));
 
 app.get("/api/campaigns/unsubscribe", c => handleUnsubscribe(c.req.raw, c.env));
 app.get("/api/campaigns/open", c => handleCampaignOpen(c.env, Number(c.req.query("r"))));

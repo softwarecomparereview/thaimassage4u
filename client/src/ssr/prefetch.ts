@@ -168,6 +168,7 @@ export async function prefetchForPath(url: string, queryClient: QueryClient, pre
   if (path === "/privacy") return { title: `Privacy Policy — ${SITE}`, description: "What Thai Massage For U collects, why, and who it's shared with.", canonicalPath: path, alternates: [{ locale: "en", path }] };
   if (path === "/terms") return { title: `Terms of Service — ${SITE}`, description: "The terms for using Thai Massage For U as a visitor, and for listing or claiming a business here.", canonicalPath: path, alternates: [{ locale: "en", path }] };
   if (path === "/cms" || path.startsWith("/cms/")) return { title: `${SITE} CMS`, description: `${SITE} management workspace.`, noindex: true };
+  if (path === "/my-listing/start") return { title: `Set up your voucher — ${SITE}`, description: `Sign in to your listing on ${SITE}.`, noindex: true };
   if (path === "/my-listing") return { title: `Manage your listing — ${SITE}`, description: `Claim and update your listing on ${SITE}.`, canonicalPath: path, noindex: true };
   if (path === "/claim") return { title: `Claim your listing — ${SITE}`, description: "Find your business and claim it — a one-time code, no account to set up.", canonicalPath: path, noindex: true };
   if (path === "/supplies") return { title: `Massage supplies, cheapest today — ${SITE}`, description: "Daily-refreshed cheapest massage table sheets, oils, towels and equipment with local delivery — for the studios in the directory.", canonicalPath: path, noindex: true };

@@ -4,7 +4,7 @@ import { trackEvent } from "@/lib/analytics";
 import { langForCountry, STRINGS, type Lang } from "@/lib/i18n";
 import { trpc } from "@/lib/trpc";
 import { formatPremiumPrice } from "@shared/pricing";
-import { ArrowUpRight, CalendarCheck2, KeyRound, Mail, MapPin, Phone, Send, Sparkles, Star } from "lucide-react";
+import { ArrowUpRight, CalendarCheck2, KeyRound, Mail, MapPin, Phone, Send, Sparkles, Star, TicketPercent } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Link, useLocation, useRoute, useSearch } from "wouter";
@@ -156,6 +156,57 @@ function ClaimListingBox({ slug, lang }: { slug: string; lang: Lang }) {
   );
 }
 
+type LiveOffer = { title: string; details: string | null; terms: string | null; startsOn: string | null; endsOn: string | null };
+
+function formatOfferDate(value: string) {
+  return new Date(`${value}T00:00:00`).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+}
+
+/**
+ * The owner's live discount voucher (worker/offers.ts), first in the sidebar because it's the
+ * strongest reason a searcher has to book this place over the next one. The code is only handed
+ * out on "Get voucher" (POST /api/offers/reveal) so the owner sees how many people took it.
+ */
+function OfferBox({ slug, offer }: { slug: string; offer: LiveOffer }) {
+  const [code, setCode] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  async function reveal() {
+    setBusy(true);
+    try {
+      const response = await fetch("/api/offers/reveal", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ slug }) });
+      const body: { code?: string; error?: string } = await response.json().catch(() => ({}));
+      if (!response.ok || !body.code) { toast.error(body.error ?? "Couldn't load the voucher. Please try again."); return; }
+      setCode(body.code);
+      trackEvent("offer_revealed", { listing_slug: slug });
+    } catch {
+      toast.error("Couldn't load the voucher. Please try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <aside className="premium-box offer-box">
+      <p className="eyebrow"><TicketPercent size={14} /> Voucher from this studio</p>
+      <h2>{offer.title}</h2>
+      {offer.details && <p>{offer.details}</p>}
+      {code ? (
+        <div className="offer-box__code">
+          <span>Your code</span>
+          <strong>{code}</strong>
+          <small>Show this code or quote it when you book.</small>
+        </div>
+      ) : (
+        <div className="premium-box__tiers"><button type="button" className="premium-box__tier" disabled={busy} onClick={reveal}><span>{busy ? "Loading…" : "Get voucher"}</span><strong>Free</strong></button></div>
+      )}
+      <span className="premium-box__note">
+        {offer.endsOn ? `Valid until ${formatOfferDate(offer.endsOn)}. ` : ""}{offer.terms ?? ""}
+      </span>
+    </aside>
+  );
+}
+
 export default function ListingDetail() {
   const [, params] = useRoute("/listing/:slug");
   const slug = params?.slug ?? "";
@@ -202,8 +253,10 @@ export default function ListingDetail() {
   // when unclaimed, ahead of the enquiry box, since an owner arriving here is the audience most
   // worth catching before anything else competes for the click.
   const isClaimed = Boolean(extra.isClaimed);
+  // `offer` is likewise Worker-only (worker/offers.ts getLiveOffer).
+  const offer = (data as unknown as { offer?: LiveOffer | null }).offer ?? null;
   return <><Concierge /><SiteHeader /><main>
     <section className="listing-hero"><div className="listing-hero__image" style={listing.imageUrl ? { backgroundImage: `url(${listing.imageUrl})` } : undefined}><span>{category.name}</span></div><div className="listing-hero__copy"><p className="eyebrow">{city.name} / {category.name}</p><h1>{listing.name}</h1>{isPremium && <p className="listing-featured-flag">Featured — this studio pays for placement</p>}<p className="listing-descriptor">{listing.descriptor || "An independently listed wellness place."}</p><p>{listing.description || "This profile is being thoughtfully completed by its owner."}</p><div className="listing-meta">{listing.neighbourhood && <span><MapPin size={16} />{listing.neighbourhood}</span>}{extra.rating ? <span><Star size={16} />{extra.rating.toFixed(1)}{extra.reviewCount ? ` · ${extra.reviewCount} Google reviews` : ""}</span> : null}{extra.phone && <a href={`tel:${extra.phone.replace(/[^+\d]/g, "")}`} onClick={() => trackEvent("call_click", { listing_slug: slug })}><Phone size={16} /> {extra.phone}</a>}{listing.bookingUrl && <a href={`/api/directory/go?slug=${encodeURIComponent(slug)}`} target="_blank" rel="noreferrer" onClick={() => trackEvent("outbound_click", { listing_slug: slug })}><CalendarCheck2 size={16} /> Book direct <ArrowUpRight size={15} /></a>}</div></div></section>
-    <section className="listing-content-grid"><div><p className="eyebrow">The treatment list</p><h2>What you can book</h2><div className="service-list">{services.length ? services.map((service: any) => <article key={service.id}><div><h3>{service.title}</h3><p>{service.description}</p></div><div><span>{service.durationMinutes ? `${service.durationMinutes} min` : "By consultation"}</span>{service.priceFromCents ? <strong>from ${(service.priceFromCents / 100).toFixed(0)}</strong> : null}</div></article>) : <p className="subtle-copy">The studio’s service list is being added.</p>}</div></div><div className="listing-sidebar">{!isClaimed && <ClaimListingBox slug={listing.slug} lang={lang} />}<aside className="inquiry-box"><p className="eyebrow">Ask the desk</p><h2>A human introduction is a good place to start.</h2><form onSubmit={submit}><input required placeholder="Your name" value={form.name} onChange={event => setForm({ ...form, name: event.target.value })} /><input required type="email" placeholder="Email address" value={form.email} onChange={event => setForm({ ...form, email: event.target.value })} /><input placeholder="Phone, if you prefer" value={form.phone} onChange={event => setForm({ ...form, phone: event.target.value })} /><textarea required minLength={12} placeholder="Tell us what you are looking for" value={form.message} onChange={event => setForm({ ...form, message: event.target.value })} /><label className="consent-row"><input type="checkbox" checked={form.consentEmail} onChange={event => setForm({ ...form, consentEmail: event.target.checked })} /> I’m happy to hear from Thai Massage For U by email.</label><label className="consent-row"><input type="checkbox" checked={form.consentSms} onChange={event => setForm({ ...form, consentSms: event.target.checked })} /> I’m happy to hear from Thai Massage For U by SMS.</label><button className="dark-button" disabled={inquiry.isPending}>{inquiry.isPending ? "Sending…" : <><Send size={16} /> Send inquiry</>}</button></form><span className="inquiry-note"><Mail size={14} /> Consent is optional and recorded separately for each channel.</span></aside>{!isPremium && <PremiumPlacementBox slug={listing.slug} lang={lang} />}</div></section>
+    <section className="listing-content-grid"><div><p className="eyebrow">The treatment list</p><h2>What you can book</h2><div className="service-list">{services.length ? services.map((service: any) => <article key={service.id}><div><h3>{service.title}</h3><p>{service.description}</p></div><div><span>{service.durationMinutes ? `${service.durationMinutes} min` : "By consultation"}</span>{service.priceFromCents ? <strong>from ${(service.priceFromCents / 100).toFixed(0)}</strong> : null}</div></article>) : <p className="subtle-copy">The studio’s service list is being added.</p>}</div></div><div className="listing-sidebar">{offer && <OfferBox slug={listing.slug} offer={offer} />}{!isClaimed && <ClaimListingBox slug={listing.slug} lang={lang} />}<aside className="inquiry-box"><p className="eyebrow">Ask the desk</p><h2>A human introduction is a good place to start.</h2><form onSubmit={submit}><input required placeholder="Your name" value={form.name} onChange={event => setForm({ ...form, name: event.target.value })} /><input required type="email" placeholder="Email address" value={form.email} onChange={event => setForm({ ...form, email: event.target.value })} /><input placeholder="Phone, if you prefer" value={form.phone} onChange={event => setForm({ ...form, phone: event.target.value })} /><textarea required minLength={12} placeholder="Tell us what you are looking for" value={form.message} onChange={event => setForm({ ...form, message: event.target.value })} /><label className="consent-row"><input type="checkbox" checked={form.consentEmail} onChange={event => setForm({ ...form, consentEmail: event.target.checked })} /> I’m happy to hear from Thai Massage For U by email.</label><label className="consent-row"><input type="checkbox" checked={form.consentSms} onChange={event => setForm({ ...form, consentSms: event.target.checked })} /> I’m happy to hear from Thai Massage For U by SMS.</label><button className="dark-button" disabled={inquiry.isPending}>{inquiry.isPending ? "Sending…" : <><Send size={16} /> Send inquiry</>}</button></form><span className="inquiry-note"><Mail size={14} /> Consent is optional and recorded separately for each channel.</span></aside>{!isPremium && <PremiumPlacementBox slug={listing.slug} lang={lang} />}</div></section>
   </main><SiteFooter /></>;
 }

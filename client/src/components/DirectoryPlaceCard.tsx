@@ -1,4 +1,4 @@
-import { ArrowUpRight, MapPin, Phone, Star } from "lucide-react";
+import { ArrowUpRight, MapPin, Phone, Star, TicketPercent } from "lucide-react";
 import { Link } from "wouter";
 
 const fallbacks = [
@@ -30,6 +30,7 @@ export function DirectoryPlaceCard({ place, index = 0 }: { place: any; index?: n
       </div>
       <div className="place-card__copy">
         <div><p className="eyebrow">{place.categoryName || "Wellness"}</p><h3>{place.name}</h3></div>
+        {place.offerTitle && <p className="place-card__offer"><TicketPercent size={13} /> {place.offerTitle}</p>}
         <p>{place.descriptor || "A considered wellness place."}</p>
         <div className="place-card__meta">
           {place.neighbourhood && <span className="place-card__location"><MapPin size={14} />{place.neighbourhood}</span>}

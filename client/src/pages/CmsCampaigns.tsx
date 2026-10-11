@@ -44,6 +44,52 @@ const INTRO_EMAIL_BODY = `<div style="font-family:-apple-system,Segoe UI,Helveti
   </div>
 </div>`;
 
+/**
+ * Voucher outreach: the button is {{offer_url}}, a signed one-click owner link (worker/offers.ts)
+ * that claims the listing for the address this email went to and opens the voucher form — no code
+ * to type, no account to make. Signed "Jack" as the outreach persona.
+ */
+const VOUCHER_EMAIL_SUBJECT = "A free way to fill more appointments at {{name}}";
+const VOUCHER_EMAIL_BODY = `<div style="display:none;max-height:0;overflow:hidden;opacity:0">List a discount voucher on Thai Massage For U — no fees, no commission, no contract.</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f6f1ea;padding:24px 12px">
+  <tr><td align="center">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden;font-family:Arial,Helvetica,sans-serif;color:#2b2420">
+      <tr><td style="background:#7a4a2b;padding:28px 32px">
+        <p style="margin:0;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#f3d9b8">Thai Massage For U · {{city}}</p>
+        <h1 style="margin:8px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:26px;line-height:1.25;color:#ffffff;font-weight:normal">More bookings for {{name}}, at no cost to you</h1>
+      </td></tr>
+      <tr><td style="padding:32px;font-size:16px;line-height:1.6">
+        <p style="margin:0 0 16px">Hi {{name}} team,</p>
+        <p style="margin:0 0 16px">I'm Jack from <a href="https://thaimassageforu.com" style="color:#7a4a2b">Thai Massage For U</a>, a city-by-city directory that helps people find a proper Thai massage near them. You're already listed with us in {{city}}, and we send people looking for a massage in the city to studios like yours.</p>
+        <p style="margin:0 0 16px">We'd like to help more of those visitors become your customers. The idea is simple:</p>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 24px;background:#fbf6ef;border:1px solid #ead9c3;border-radius:10px">
+          <tr><td style="padding:20px 24px">
+            <p style="margin:0 0 12px;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:#7a4a2b;font-weight:bold">How it works</p>
+            <p style="margin:0 0 10px"><strong>1. You set your offer.</strong> For example, "15% off your first visit" or "$15 off a 90-minute massage". You choose the discount, the start and end dates, and any conditions.</p>
+            <p style="margin:0 0 10px"><strong>2. We feature it.</strong> Your voucher appears on your listing and is tagged in the {{city}} directory.</p>
+            <p style="margin:0"><strong>3. They book with you.</strong> Customers show their voucher code when they book. You keep 100% of the payment.</p>
+          </td></tr>
+        </table>
+        <p style="margin:0 0 8px;font-weight:bold">What you get</p>
+        <ul style="margin:0 0 24px;padding-left:20px">
+          <li style="margin-bottom:6px"><strong>No cost:</strong> no listing fee, no commission and no contract.</li>
+          <li style="margin-bottom:6px"><strong>Customers ready to book:</strong> people searching for a massage now, with a reason to choose you.</li>
+          <li style="margin-bottom:6px"><strong>You stay in control:</strong> pause, change or end your offer any time, and see how many people have taken it.</li>
+        </ul>
+        <p style="margin:0 0 24px">It works for both of us. You get new customers, and we get to give people a great deal that brings them back to us.</p>
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px"><tr>
+          <td style="border-radius:8px;background:#7a4a2b"><a href="{{offer_url}}" style="display:inline-block;padding:14px 28px;font-size:16px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:8px">Set up my free voucher</a></td>
+        </tr></table>
+        <p style="margin:0 0 24px;font-size:14px;color:#6b5d52">Takes about two minutes. The button signs you straight in to your listing, with no password or sign-up. This link is just for {{name}}, so please don't forward it.</p>
+        <p style="margin:0 0 16px">Prefer email? Just <strong>reply</strong> with the offer you'd like to run and I'll set it up for you.</p>
+        <p style="margin:0 0 4px">Warm regards,</p>
+        <p style="margin:0 0 4px"><strong>Jack</strong></p>
+        <p style="margin:0;color:#6b5d52;font-size:14px">Thai Massage For U · <a href="mailto:hello@thaimassageforu.com" style="color:#6b5d52">hello@thaimassageforu.com</a></p>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>`;
+
 const INTRO_SMS_BODY = `Hi {{name}}, your studio is now listed on Thai Massage For U (thaimassageforu.com) — a wellness directory across the US/UK/AU/DE. Claiming it is free, takes 2 min: {{listing_url}}. Reply STOP to opt out.`;
 
 function parseCsv(text: string): { name?: string; email?: string; phone?: string }[] {
@@ -116,10 +162,14 @@ export default function CmsCampaigns({ cities }: { cities: any[] }) {
           <button type="button" className={channel === "email" ? "is-active" : ""} onClick={() => switchChannel("email")}><Mail size={15} /> Email</button>
           <button type="button" className={channel === "sms" ? "is-active" : ""} onClick={() => switchChannel("sms")}><MessageSquare size={15} /> SMS</button>
         </div>
+        {channel === "email" && <div className="cms-channel-toggle">
+          <button type="button" className={body === INTRO_EMAIL_BODY ? "is-active" : ""} onClick={() => { setName("Launch announcement"); setSubject(INTRO_EMAIL_SUBJECT); setBody(INTRO_EMAIL_BODY); }}>Intro template</button>
+          <button type="button" className={body === VOUCHER_EMAIL_BODY ? "is-active" : ""} onClick={() => { setName("Voucher offer"); setSubject(VOUCHER_EMAIL_SUBJECT); setBody(VOUCHER_EMAIL_BODY); }}>Voucher template</button>
+        </div>}
         <Input placeholder="Campaign name" value={name} onChange={e => setName(e.target.value)} required />
         {channel === "email" && <Input placeholder="Subject" value={subject} onChange={e => setSubject(e.target.value)} required />}
         <Textarea placeholder="Message body" value={body} onChange={e => setBody(e.target.value)} rows={channel === "email" ? 12 : 4} required />
-        <p className="cms-hint">Placeholders: <code>{"{{name}}"}</code> <code>{"{{city}}"}</code> <code>{"{{country}}"}</code> <code>{"{{city_blurb}}"}</code></p>
+        <p className="cms-hint">Placeholders: <code>{"{{name}}"}</code> <code>{"{{city}}"}</code> <code>{"{{country}}"}</code> <code>{"{{city_blurb}}"}</code> <code>{"{{listing_url}}"}</code> <code>{"{{offer_url}}"}</code> (one-click owner sign-in + voucher setup)</p>
         {channel === "email" && <p className="cms-hint">Every send always CCs aniruddhp@gmail.com and hello@thaimassageforu.com as a live check.</p>}
 
         <div className="cms-audience-picker">

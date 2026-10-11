@@ -13,6 +13,7 @@ import Journal from "@/pages/Journal";
 import ListingDetail from "@/pages/ListingDetail";
 import ListYourPlace from "@/pages/ListYourPlace";
 import MyListing from "@/pages/MyListing";
+import OwnerLinkStart from "@/pages/OwnerLinkStart";
 import Privacy from "@/pages/Privacy";
 import Supplies from "@/pages/Supplies";
 import Terms from "@/pages/Terms";
@@ -59,6 +60,7 @@ function Router() {
       <Route path={"/list-your-place"} component={ListYourPlace} />
       <Route path={"/coming-soon"} component={ComingSoon} />
       <Route path={"/my-listing"} component={MyListing} />
+      <Route path={"/my-listing/start"} component={OwnerLinkStart} />
       <Route path={"/claim"} component={ClaimSearch} />
       <Route path={"/supplies"} component={Supplies} />
       <Route path={"/:code/supplies"} component={Supplies} />
