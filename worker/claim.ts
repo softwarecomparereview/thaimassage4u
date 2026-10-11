@@ -50,7 +50,7 @@ async function legacyPhone(env: Env, slug: string): Promise<string | null> {
   return row?.phone ?? null;
 }
 
-async function rateLimit(env: Env, key: string, limit: number, windowMs: number) {
+export async function rateLimit(env: Env, key: string, limit: number, windowMs: number) {
   const id = env.FORM_LIMITER.idFromName(key);
   return env.FORM_LIMITER.get(id).allow(limit, windowMs);
 }
@@ -112,15 +112,7 @@ export async function handleClaimVerify(request: Request, env: Env, ctx?: WaitUn
 
   await env.DB.prepare("UPDATE qh_otp_codes SET consumed_at = CURRENT_TIMESTAMP WHERE id = ?").bind(otp.id).run();
 
-  const openId = `otp:${channel}:${otp.address}`;
-  await env.DB.prepare(
-    `INSERT INTO qh_users (open_id, name, email, login_method, role, last_signed_in)
-     VALUES (?, ?, ?, ?, 'user', CURRENT_TIMESTAMP)
-     ON CONFLICT(open_id) DO UPDATE SET last_signed_in = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP`,
-  )
-    .bind(openId, listing.name, channel === "email" ? otp.address : null, `otp-${channel}`)
-    .run();
-  const user = await env.DB.prepare("SELECT id FROM qh_users WHERE open_id = ? LIMIT 1").bind(openId).first<{ id: number }>();
+  const user = await upsertContactUser(env, channel, otp.address, listing.name);
   if (!user) return Response.json({ error: "Something went wrong creating your account." }, { status: 500 });
 
   // Guarded by owner_id IS NULL so two concurrent verifies on the same listing can't both win.
@@ -143,14 +135,37 @@ export async function handleClaimVerify(request: Request, env: Env, ctx?: WaitUn
     });
   }
 
-  const session = await new SignJWT({ openId, appId: env.APP_ID ?? "local", name: listing.name })
+  return signedInResponse(env, user.openId, listing.name, { success: true, listingSlug: listing.slug });
+}
+
+/**
+ * The account behind a code or link login is the contact address itself (`otp:<channel>:<address>`),
+ * so a later login proven by the same address — another code, or an emailed owner link
+ * (worker/offers.ts) — lands on the same user and the listing it already owns.
+ */
+export async function upsertContactUser(env: Env, channel: "email" | "sms", address: string, name: string) {
+  const openId = `otp:${channel}:${address}`;
+  await env.DB.prepare(
+    `INSERT INTO qh_users (open_id, name, email, login_method, role, last_signed_in)
+     VALUES (?, ?, ?, ?, 'user', CURRENT_TIMESTAMP)
+     ON CONFLICT(open_id) DO UPDATE SET last_signed_in = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP`,
+  )
+    .bind(openId, name, channel === "email" ? address : null, `otp-${channel}`)
+    .run();
+  const user = await env.DB.prepare("SELECT id FROM qh_users WHERE open_id = ? LIMIT 1").bind(openId).first<{ id: number }>();
+  return user ? { id: user.id, openId } : null;
+}
+
+/** JSON response that also sets the year-long app_session_id cookie getWorkerUser reads. */
+export async function signedInResponse(env: Env, openId: string, name: string, body: Record<string, unknown>) {
+  const session = await new SignJWT({ openId, appId: env.APP_ID ?? "local", name })
     .setProtectedHeader({ alg: "HS256", typ: "JWT" })
     .setExpirationTime(Math.floor(Date.now() / 1000) + ONE_YEAR_SECONDS)
     .sign(secret(env));
 
   const headers = new Headers({ "content-type": "application/json" });
   headers.append("Set-Cookie", `${COOKIE_NAME}=${session}; Path=/; Max-Age=${ONE_YEAR_SECONDS}; Secure; HttpOnly; SameSite=Lax`);
-  return new Response(JSON.stringify({ success: true, listingSlug: listing.slug }), { status: 200, headers });
+  return new Response(JSON.stringify(body), { status: 200, headers });
 }
 
 export type OwnerListing = {

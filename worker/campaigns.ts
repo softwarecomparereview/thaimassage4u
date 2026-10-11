@@ -1,5 +1,6 @@
 import type { Env } from "./index";
 import { renderTemplate, sendEmail } from "./email";
+import { ownerLinkUrl } from "./offers";
 import { sendSms } from "./sms";
 
 export type CampaignRecipientRow = { name: string | null; email: string | null; phone: string | null; city_slug: string | null; country_code: string | null; listing_id: number | null };
@@ -95,11 +96,18 @@ export async function processCampaignSend(env: Env, message: QueueMessage) {
   // page instead, leaving each owner to scroll and find themselves before they could act.
   // Falls back to the country page for recipients with no listing on file (e.g. ALWAYS_CC).
   let listingUrl = `${env.SITE_URL}/${(recipient.country_code ?? "").toLowerCase()}`;
+  // {{offer_url}}: one-click owner link (worker/offers.ts) — claims the listing for this email
+  // address, or signs its owner back in, and opens the voucher form. Only minted for an email
+  // send to a recipient with a listing; everyone else gets the listing/country page instead.
+  let offerUrl = listingUrl;
   if (recipient.listing_id) {
     const listingRow = await env.DB.prepare("SELECT slug FROM listings WHERE id = ? LIMIT 1").bind(recipient.listing_id).first<{ slug: string }>();
-    if (listingRow) listingUrl = `${env.SITE_URL}/listing/${listingRow.slug}`;
+    if (listingRow) {
+      listingUrl = `${env.SITE_URL}/listing/${listingRow.slug}`;
+      offerUrl = recipient.channel === "email" ? await ownerLinkUrl(env, listingRow.slug, address) : listingUrl;
+    }
   }
-  const vars = { name: recipient.name ?? "there", city: cityName, country: (recipient.country_code ?? "").toUpperCase(), country_code: (recipient.country_code ?? "").toLowerCase(), listing_url: listingUrl, city_blurb: recipient.city_slug ? (CITY_BLURBS[recipient.city_slug] ?? DEFAULT_CITY_BLURB) : DEFAULT_CITY_BLURB };
+  const vars = { offer_url: offerUrl, name: recipient.name ?? "there", city: cityName, country: (recipient.country_code ?? "").toUpperCase(), country_code: (recipient.country_code ?? "").toLowerCase(), listing_url: listingUrl, city_blurb: recipient.city_slug ? (CITY_BLURBS[recipient.city_slug] ?? DEFAULT_CITY_BLURB) : DEFAULT_CITY_BLURB };
   try {
     if (recipient.channel === "email") {
       const unsubscribeUrl = `${env.SITE_URL}/api/campaigns/unsubscribe?email=${encodeURIComponent(address)}&token=${await unsubToken(env, address)}`;
