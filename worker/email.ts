@@ -98,16 +98,19 @@ export async function sendEmail(env: Env, input: { to: string; subject: string; 
 
 /**
  * Plain transactional send — no tracking pixel, no click-rewriting, no
- * unsubscribe footer. Used for one-off account mail (OTP login codes) where
- * none of that campaign machinery makes sense.
+ * unsubscribe footer. Used for one-off account mail (OTP login codes) and
+ * directory enquiries (worker/enquiry-email.ts) where none of that campaign
+ * machinery makes sense. `replyTo` lets the recipient answer someone other
+ * than the sending address — e.g. a shop replying straight to its customer.
  */
-export async function sendTransactionalEmail(env: Env, input: { to: string; subject: string; html: string; text?: string }) {
+export async function sendTransactionalEmail(env: Env, input: { to: string; subject: string; html: string; text?: string; replyTo?: string }) {
   const result = await env.EMAIL.send({
     from: `${FROM_NAME} <${FROM_ADDRESS}>`,
     to: input.to,
     subject: input.subject,
     html: input.html,
     text: input.text ?? input.html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(),
+    ...(input.replyTo ? { replyTo: input.replyTo } : {}),
   });
   const bounced = result.permanent_bounces?.includes(input.to);
   return { delivered: !bounced, bounced: Boolean(bounced) };
