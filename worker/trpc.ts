@@ -41,7 +41,14 @@ const directory = t.router({
     message: z.string().trim().min(12).max(5000),
     consentEmail: z.boolean(),
     consentSms: z.boolean(),
-  })).mutation(({ ctx, input }) => createInquiry(ctx.env, input, { ctx: ctx.executionCtx, page: refererPath(ctx.request) })),
+  })).mutation(async ({ ctx, input }) => {
+    // Same per-IP budget as POST /api/directory/inquiry. An enquiry now emails a third party from our
+    // domain, so this path must not be the unlimited one.
+    const limiter = ctx.env.FORM_LIMITER.get(ctx.env.FORM_LIMITER.idFromName(`inquiry:${ctx.request.headers.get("CF-Connecting-IP") ?? "anonymous"}`));
+    const allowance = await limiter.allow();
+    if (!allowance.ok) throw new TRPCError({ code: "TOO_MANY_REQUESTS", message: "Please wait before sending another inquiry." });
+    return createInquiry(ctx.env, input, { ctx: ctx.executionCtx, page: refererPath(ctx.request) });
+  }),
 });
 
 const auth = t.router({
