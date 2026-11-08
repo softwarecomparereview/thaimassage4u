@@ -38,6 +38,16 @@ The React application needs these public build variables in the Cloudflare dashb
 
 The Worker already has the encrypted `JWT_SECRET`, `OAUTH_SERVER_URL`, `APP_ID`, `OWNER_OPEN_ID`, `STRIPE_SECRET_KEY`, and `STRIPE_WEBHOOK_SECRET` bindings set through Wrangler. They must remain encrypted Worker secrets and must not be placed in Git or Cloudflare build variables.
 
+### Directory enquiry emails
+
+An enquiry on a listing page is emailed to **the shop**, from `hello@thaimassageforu.com` through the Cloudflare `EMAIL` binding, with Reply-To set to the visitor so the shop can answer them directly. We get a **separate copy** at `CONTACT_EMAIL` whose subject says what happened to the shop's email: `Sent to shop`, `SHOP EMAIL BOUNCED`, `SHOP EMAIL FAILED` or `NO SHOP EMAIL ON FILE`. The last three mean the shop has not seen the enquiry and someone needs to follow up. Code: `worker/enquiry-email.ts` (emails) and `findEnquiryListing` / `createInquiry` in `worker/directory.ts` (who to send to), test `worker/enquiry-email.test.ts`. No new variables or secrets: it uses the existing `EMAIL` binding, `SITE_URL` and `CONTACT_EMAIL`.
+
+- **Shop address:** a claimed listing uses the owner's `qh_listings.contact_email`; an unclaimed one uses the imported `listings.email`. The first valid address in the field is used. Unpublished listings are never emailed.
+- **Timing:** sent after the response through `ctx.waitUntil`, so a slow or failing send never fails the visitor's request. The enquiry is saved in D1 first. Failures are logged as `[enquiry-email]` in Workers Logs.
+- **Where our copy goes:** `CONTACT_EMAIL` in `wrangler.jsonc`. Change it there to send copies elsewhere.
+- **Abuse limit:** both entry points share one per-IP limit (8 per hour). The tRPC route previously had none.
+- **Known gap:** these sends use Cloudflare's daily quota only. If the quota is hit, the shop email fails and the copy says so; the overflow providers in `worker/email.ts` are not used for enquiries.
+
 ### Pilot My Life lead forwarding (optional)
 
 Every accepted lead is also sent, signed, to Pilot My Life's lead intake so it can be qualified there. The site's own handling (D1 `qh_inquiries`, the CMS inbox, the claim flow) is unchanged; the copy is sent after the response through `ctx.waitUntil`, with an 8 s timeout, and failures are only logged (`[pml-lead]` in Workers Logs). It never blocks or fails the visitor's request. Code: `worker/pml-lead.ts`, test `worker/pml-lead.test.ts`.

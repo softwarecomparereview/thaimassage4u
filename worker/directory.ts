@@ -1,6 +1,7 @@
 import type { Env } from "./index";
 import { COUNTRY_NAMES, isDirectoryCountry } from "./geo";
 import { sendLeadToPml, type WaitUntil } from "./pml-lead";
+import { pickEmail, queueEnquiryEmails, type Enquiry } from "./enquiry-email";
 
 type LegacyCity = {
   id: number;
@@ -206,8 +207,35 @@ export async function getArticle(env: Env, slug: string) {
 }
 
 /**
- * Stores a public directory inquiry. Once it is stored (the submission is accepted), a signed copy
- * goes to Pilot My Life after the response via `lead.ctx.waitUntil` — see worker/pml-lead.ts.
+ * The listing an enquiry is about, and the address its shop should be emailed at.
+ * `listingId` is the public `listings.id` the listing page sends. A claimed listing's owner can
+ * edit their address (qh_listings.contact_email), so that wins for claimed listings; otherwise the
+ * imported `listings.email` is used, with the qh copy as a last resort. Unpublished listings are
+ * never emailed. Never throws — a lookup failure just means the shop is not emailed.
+ */
+async function findEnquiryListing(env: Env, listingId?: number): Promise<Enquiry["listing"]> {
+  if (!listingId) return null;
+  try {
+    const row = await env.DB.prepare(
+      `SELECT l.name, l.slug, l.email, l.claimed, q.owner_id AS ownerId, q.contact_email AS ownerEmail
+       FROM listings l LEFT JOIN qh_listings q ON q.slug = l.slug
+       WHERE l.id = ? AND l.${PUBLISHED} LIMIT 1`,
+    ).bind(listingId).first<{ name: string; slug: string; email: string | null; claimed: number | null; ownerId: number | null; ownerEmail: string | null }>();
+    if (!row) return null;
+    const claimed = Boolean(row.ownerId) || Boolean(row.claimed);
+    const shopEmail = pickEmail(claimed ? row.ownerEmail : row.email) ?? pickEmail(claimed ? row.email : row.ownerEmail);
+    return { name: row.name, slug: row.slug, claimed, shopEmail };
+  } catch (error) {
+    console.warn(`[enquiry-email] listing lookup failed: ${error instanceof Error ? error.message : String(error)}`);
+    return null;
+  }
+}
+
+/**
+ * Stores a public directory inquiry. Once it is stored (the submission is accepted), after the
+ * response via `lead.ctx.waitUntil`: the shop is emailed the enquiry and we get a copy
+ * (worker/enquiry-email.ts), and a signed copy goes to Pilot My Life (worker/pml-lead.ts).
+ * `sentToShop` says the shop has an address on file and the email is on its way.
  */
 export async function createInquiry(env: Env, input: { listingId?: number; name: string; email: string; phone?: string; message: string; consentEmail: boolean; consentSms: boolean }, lead?: { ctx?: WaitUntil; page?: string }) {
   const result = await env.DB.prepare("INSERT INTO qh_inquiries (listing_id, name, email, phone, message, consent_email, consent_sms) VALUES (?, ?, ?, ?, ?, ?, ?)")
@@ -219,7 +247,9 @@ export async function createInquiry(env: Env, input: { listingId?: number; name:
   if (input.consentEmail) consentWrites.push(env.DB.prepare("INSERT INTO qh_contact_consents (inquiry_id, channel, topic, consent_source, consented_at) VALUES (?, 'email', ?, ?, ?)").bind(inquiryId, "Quiet Hour introductions", "directory inquiry form", now));
   if (input.consentSms) consentWrites.push(env.DB.prepare("INSERT INTO qh_contact_consents (inquiry_id, channel, topic, consent_source, consented_at) VALUES (?, 'sms', ?, ?, ?)").bind(inquiryId, "Quiet Hour introductions", "directory inquiry form", now));
   if (consentWrites.length) await env.DB.batch(consentWrites);
+  const listing = await findEnquiryListing(env, input.listingId);
+  queueEnquiryEmails(env, lead?.ctx, { inquiryId, name: input.name, email: input.email, phone: input.phone || undefined, message: input.message, listing });
   // The visitor wrote to the desk asking to hear back, so this is a contact request (consent: true).
   sendLeadToPml(env, lead?.ctx, { name: input.name, email: input.email, phone: input.phone || undefined, message: input.message, page: lead?.page, consent: true });
-  return { inquiryId };
+  return { inquiryId, sentToShop: Boolean(listing?.shopEmail) };
 }
