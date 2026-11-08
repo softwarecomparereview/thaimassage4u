@@ -339,7 +339,23 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .owner-listing-form textarea { min-height: 130px; resize: vertical; }
 .owner-listing-form .dark-button { justify-self: start; padding: .8rem 1.6rem; }
 .owner-listing-form > .text-link { display: inline-block; margin-top: 1.2rem; }
-@media (max-width: 600px) { .owner-listing-form { padding: 0 1.25rem 4rem; } }
+.owner-voucher { padding-top: 3rem; border-top: 1px solid var(--border); }
+.owner-voucher h2 { margin: .3rem 0 .6rem; font: 500 2rem/1.05 var(--font-display); letter-spacing: -.04em; }
+.owner-voucher__intro { margin: 0 0 1.2rem; color: #54675d; font-size: .88rem; line-height: 1.6; }
+.owner-voucher__status { margin: 0 0 1.4rem; padding: .7rem .9rem; background: #edf1dd; color: #4a5e40; font-size: .8rem; }
+.owner-voucher__dates { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.owner-listing-form .owner-voucher__toggle { display: flex; align-items: center; gap: .5rem; }
+.owner-listing-form .owner-voucher__toggle input { width: auto; }
+.owner-link-error { margin-top: 1.2rem; color: #954d36; }
+.offer-box { background: var(--clay, #b4623f); }
+.offer-box .eyebrow { color: #fbe3d3; }
+.offer-box > p { color: #fdf1e8; }
+.offer-box__code { display: grid; gap: .3rem; padding: 1rem; border: 1px dashed rgba(255,255,255,.6); border-radius: 3px; text-align: center; }
+.offer-box__code span, .offer-box__code small { color: #fbe3d3; font-size: .7rem; }
+.offer-box__code strong { font: 600 1.5rem/1.2 var(--font-mono); letter-spacing: .08em; user-select: all; }
+.offer-box .premium-box__note { color: #fbe3d3; }
+.place-card__offer { display: inline-flex; align-items: center; gap: .35rem; max-width: 100%; margin: 0 0 .5rem; padding: .3rem .6rem; border-radius: 999px; background: var(--clay, #b4623f); color: #fffdf8 !important; font-size: .72rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 600px) { .owner-listing-form { padding: 0 1.25rem 4rem; } .owner-voucher__dates { grid-template-columns: 1fr; } }
 .claim-cta { max-width: 1120px; margin: 0 auto 5rem; padding: 1.8rem 2rem; display: flex; align-items: center; gap: 1.2rem; background: #1f3527; color: #f7f2e9; border-radius: 8px; }
 .claim-cta > svg { flex: 0 0 auto; color: #c7d1a3; }
 .claim-cta div { flex: 1; }
